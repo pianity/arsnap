@@ -1,7 +1,7 @@
 {
     "name": "@pianity/metamask-arweave",
     "description": "Allow interacting with Arweave from Metamask",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "author": {
         "name": "Eyal Chojnowski",
         "email": "eyal@pianity.com"
