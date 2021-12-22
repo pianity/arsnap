@@ -1,0 +1,32 @@
+{
+  "name": "metamask-arweave",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Eyal Chojnowski",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -x 'mm-snap build && mm-snap serve' -w public/ -w src/"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "snaps-cli": "^0.4.2"
+  },
+  "web3Wallet": {
+    "bundle": {
+      "local": "dist/bundle.js",
+      "url": "http://localhost:8081/dist/bundle.js"
+    },
+    "initialPermissions": {
+      "alert": {},
+      "snap_confirm": {},
+      "snap_invokeSnap": {}
+    }
+  }
+}
