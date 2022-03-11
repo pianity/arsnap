@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es2021",
+        "lib": ["es2021", "dom"],
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "build/",
+        "baseUrl": "src/",
+        "paths": {
+            "@/*": ["*"]
+        }
+    }
+}

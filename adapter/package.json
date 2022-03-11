@@ -1,0 +1,46 @@
+{
+    "name": "@pianity/arsnap-adapter",
+    "version": "0.1.0",
+    "description": "The 'Hello, world!' of MetaMask Snaps.",
+    "author": "Eyal Chojnowski <eyal@pianity.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MetaMask/snap-template.git"
+    },
+    "files": [
+        "dist/"
+    ],
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "rm -r dist/ && tsc && tsc-alias",
+        "typecheck": "tsc --noEmit",
+        "lint": "prettier --check src/ ; eslint src/",
+        "lint:fix": "prettier --write src/ ; eslint --fix src/"
+    },
+    "devDependencies": {
+        "@types/base-64": "^1.0.0",
+        "@types/node-forge": "^1.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.4.0",
+        "@typescript-eslint/parser": "^5.4.0",
+        "eslint": "^8.3.0",
+        "eslint-config-airbnb": "^19.0.1",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-airbnb-typescript": "^16.0.0",
+        "eslint-config-prettier": "^8.1.0",
+        "eslint-plugin-import": "^2.25.3",
+        "prettier": "^2.5.0",
+        "ts-node": "^10.6.0",
+        "tsc-alias": "^1.6.3",
+        "typescript": "^4.6"
+    },
+    "dependencies": {
+        "@metamask/key-tree": "^3.0.1",
+        "arweave": "^1.10.23",
+        "base-64": "^1.0.0",
+        "bignumber.js": "^9.0.2",
+        "js-base64": "^3.7.2",
+        "node-forge": "^1.2.1"
+    }
+}

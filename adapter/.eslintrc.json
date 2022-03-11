@@ -1,9 +1,8 @@
 {
     "env": {
         "commonjs": false,
-        "node": true,
-        "es6": true,
-        "jest": true
+        "browser": true,
+        "es6": true
     },
     "extends": [
         "airbnb-base",
@@ -15,12 +14,7 @@
         "prettier"
     ],
     "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module",
-        "project": "tsconfig.json"
-    },
-    "ignorePatterns": ["src/graphql/pianity.ts", "src/graphql/arweave.ts"],
+    "ignorePatterns": [],
     "rules": {
         "no-constant-condition": "warn",
         "no-else-return": "off",
@@ -37,6 +31,7 @@
         "import/prefer-default-export": "off",
         "import/extensions": ["error", { "ts": "never" }],
 
+        "no-use-before-define": "off",
         "no-unused-vars": "off",
         "no-restricted-imports": [
             "error",

@@ -1,7 +1,0 @@
-{
-    "watch": [
-        "src/",
-        "public/"
-    ],
-    "ext": "js json html"
-}

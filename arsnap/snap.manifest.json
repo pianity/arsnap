@@ -1,0 +1,25 @@
+{
+  "version": "0.7.0",
+  "proposedName": "ArSnap",
+  "description": "A MetaMask Snap allowing interaction with Arweave dapps.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MetaMask/snap-template.git"
+  },
+  "source": {
+    "shasum": "8Z/x2oInyi0tOjILZKMeTqN0AZLnER31qDSW/yrQ2cA=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "iconPath": "images/icon.svg",
+        "packageName": "@pianity/arsnap",
+        "registry": "https://registry.npmjs.org/"
+      }
+    }
+  },
+  "initialPermissions": {
+    "snap_confirm": {},
+    "snap_getBip44Entropy_472": {}
+  },
+  "manifestVersion": "0.1"
+}
