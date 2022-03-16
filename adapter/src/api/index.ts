@@ -2,7 +2,7 @@ import Transaction from "arweave/node/lib/transaction";
 import { JWKPublicInterface } from "arweave/node/lib/wallet";
 
 import { Base64 } from "js-base64";
-import { RpcRequest, SNAP_ID } from "@/api/types";
+import { RpcRequest, SignBytes, SNAP_ID } from "@/api/types";
 
 export function request(method: string, params: unknown[]): Promise<any> {
     return window.ethereum.request({
@@ -27,17 +27,17 @@ export function generateWallet(): Promise<void> {
     return requestSnap({ method: "generate_wallet" });
 }
 
-export function signBytes(bytes: Uint8Array): Promise<Uint8Array> {
+export function signBytes(bytes: Uint8Array, saltLength = 32): Promise<Uint8Array> {
     return requestSnap({
         method: "sign_bytes",
-        params: [bytes],
+        params: [bytes, saltLength],
     });
 }
 
 /**
  * Helper function to sign a transaction. Makes two request to obtain the public key and to sign
  * the transaction.
- * @params tx - The transaction to sign
+ * @param tx - The transaction to sign
  */
 export async function signTx(tx: Transaction): Promise<void> {
     const { n: owner } = await getPubKey();

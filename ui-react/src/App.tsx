@@ -1,11 +1,12 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Base64 } from "js-base64";
+import { JWKPublicInterface } from "arweave/node/lib/wallet";
 import Arweave from "arweave";
 
 import * as adapter from "@pianity/arsnap-adapter";
+import "@pianity/arsnap-compat";
 
 import "./App.css";
-import { JWKPublicInterface } from "arweave/node/lib/wallet";
 
 async function connect(setSnapConnected: Dispatch<SetStateAction<boolean>>) {
     try {
@@ -27,8 +28,6 @@ async function generateWallet(setWalletState: Dispatch<SetStateAction<WalletStat
         setWalletState("no-wallet");
     }
 }
-
-async function signTx() {}
 
 type WalletState = "no-wallet" | "generating" | "generated";
 

@@ -1,3 +1,5 @@
+import { SignBytes } from "@pianity/arsnap-adapter";
+
 import { getState } from "@/metamask";
 import { JWKInterface } from "@/utils";
 
@@ -16,7 +18,7 @@ async function jwkToCryptoKey(jwk: JWKInterface) {
     return key;
 }
 
-export async function signBytes(data: Uint8Array): Promise<Uint8Array> {
+export async function signBytes([data, saltLength]: SignBytes["params"]): Promise<Uint8Array> {
     data = new Uint8Array(Object.values(data));
 
     const { wallet } = await getState();
@@ -30,7 +32,7 @@ export async function signBytes(data: Uint8Array): Promise<Uint8Array> {
     const signature = await crypto.subtle.sign(
         {
             name: "RSA-PSS",
-            saltLength: 32,
+            saltLength,
         },
         cryptoKey,
         data,

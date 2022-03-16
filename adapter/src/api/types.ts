@@ -23,9 +23,13 @@ export type GenerateWallet = {
     method: "generate_wallet";
 };
 
+/**
+ * params[0] - bytes to sign
+ * params[1] - saltLength
+ */
 export type SignBytes = {
     method: "sign_bytes";
-    params: [Uint8Array];
+    params: [Uint8Array, number];
 };
 
 export type GetPubKey = {
