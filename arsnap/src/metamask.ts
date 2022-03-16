@@ -6,9 +6,13 @@ import { JWKInterface } from "@/utils";
 
 export type MethodCallback = (originString: string, requestObject: RpcRequest) => Promise<unknown>;
 
-export type State = {
+export type Wallet = {
     key: JWKInterface;
     address: string;
+};
+
+export type State = {
+    wallet: Wallet | undefined;
 
     // filecoin: {
     //     config: SnapConfig;
@@ -16,12 +20,12 @@ export type State = {
     // };
 };
 
-interface Wallet {
+interface MetamaskWallet {
     registerRpcMessageHandler: (fn: MethodCallback) => unknown;
     request(options: { method: string; params?: unknown[] }): unknown;
 }
 
-declare const wallet: Wallet;
+declare const wallet: MetamaskWallet;
 
 export async function registerRpcMessageHandler(callback: MethodCallback) {
     wallet.registerRpcMessageHandler(callback);
@@ -49,11 +53,11 @@ export async function getSecret() {
 }
 
 export async function getState(): Promise<State> {
-    const snapState = await wallet.request({ method: "snap_manageState", params: ["get"] });
+    const snapState = (await wallet.request({ method: "snap_manageState", params: ["get"] })) ?? {};
 
     return snapState as State;
 }
 
 export async function setState(state: State): Promise<void> {
-    await wallet.request({ method: "snap_manageState", params: ["update", state] });
+    await wallet.request({ method: "snap_manageState", params: ["update", state ?? {}] });
 }

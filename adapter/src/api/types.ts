@@ -25,9 +25,7 @@ export type GenerateWallet = {
 
 export type SignBytes = {
     method: "sign_bytes";
-    params: {
-        bytes: Uint8Array;
-    };
+    params: [Uint8Array];
 };
 
 export type GetPubKey = {

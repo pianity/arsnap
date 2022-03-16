@@ -1,46 +1,64 @@
 import Transaction from "arweave/node/lib/transaction";
 import { JWKPublicInterface } from "arweave/node/lib/wallet";
 
+import { Base64 } from "js-base64";
 import { RpcRequest, SNAP_ID } from "@/api/types";
 
-export async function request(method: string, params: unknown[]): Promise<any> {
-    const response = await window.ethereum.request({
+export function request(method: string, params: unknown[]): Promise<any> {
+    return window.ethereum.request({
         method,
         params,
     });
-
-    return response;
 }
 
-export async function requestSnap<T>(invoke: RpcRequest): Promise<T> {
-    return await request("wallet_invokeSnap", [SNAP_ID, invoke]);
+export function requestSnap<T>(invoke: RpcRequest): Promise<T> {
+    return request("wallet_invokeSnap", [SNAP_ID, invoke]);
 }
 
 export async function enable() {
     await request("wallet_enable", [{ wallet_snap: { [SNAP_ID]: {} } }]);
 }
 
-export async function isEnabled(): Promise<boolean> {
-    return await requestSnap({ method: "is_enabled" });
+export function isEnabled(): Promise<boolean> {
+    return requestSnap({ method: "is_enabled" });
 }
 
-export async function generateWallet(): Promise<void> {
-    return await requestSnap({ method: "generate_wallet" });
+export function generateWallet(): Promise<void> {
+    return requestSnap({ method: "generate_wallet" });
 }
 
-export async function signBytes(bytes: Uint8Array): Promise<string> {
-    return await requestSnap({
+export function signBytes(bytes: Uint8Array): Promise<Uint8Array> {
+    return requestSnap({
         method: "sign_bytes",
-        params: {
-            bytes,
-        },
+        params: [bytes],
     });
 }
 
-export async function getPubKey(): Promise<JWKPublicInterface> {
-    return await requestSnap({ method: "get_pub_key" });
+/**
+ * Helper function to sign a transaction. Makes two request to obtain the public key and to sign
+ * the transaction.
+ * @params tx - The transaction to sign
+ */
+export async function signTx(tx: Transaction): Promise<void> {
+    const { n: owner } = await getPubKey();
+
+    tx.setOwner(owner);
+
+    const dataToSign = await tx.getSignatureData();
+    const dataSigned = new Uint8Array(Object.values(await signBytes(dataToSign)));
+    const id = await crypto.subtle.digest("SHA-256", dataSigned);
+
+    tx.setSignature({
+        id: Base64.fromUint8Array(new Uint8Array(id), true),
+        owner,
+        signature: Base64.fromUint8Array(dataSigned, true),
+    });
 }
 
-export async function getAddress(): Promise<string> {
-    return await requestSnap({ method: "get_address" });
+export function getPubKey(): Promise<JWKPublicInterface> {
+    return requestSnap({ method: "get_pub_key" });
+}
+
+export function getAddress(): Promise<string> {
+    return requestSnap({ method: "get_address" });
 }

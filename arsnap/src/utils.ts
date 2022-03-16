@@ -33,6 +33,10 @@ export async function generateJWK(): Promise<JWKInterface> {
         ["sign"],
     );
 
+    if (!cryptoKey.privateKey) {
+        throw new Error("Failed to generate private key");
+    }
+
     const jwk = await crypto.subtle.exportKey("jwk", cryptoKey.privateKey);
 
     if (!jwk.e || !jwk.n) {

@@ -19,7 +19,7 @@ registerRpcMessageHandler(async (originString, request) => {
             return await handlers.generateWallet();
 
         case "sign_bytes":
-            return false;
+            return await handlers.signBytes(request.params[0]);
 
         case "get_pub_key":
             return await handlers.getPubKey();

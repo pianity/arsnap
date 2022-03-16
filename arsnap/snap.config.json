@@ -2,6 +2,6 @@
     "dist": "dist",
     "outfileName": "bundle.js",
     "port": 4000,
-    "src": "build/index.js"
+    "src": "build/index.js",
+    "stripCommment": true
 }
-

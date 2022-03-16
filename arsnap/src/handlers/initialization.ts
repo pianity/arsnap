@@ -8,7 +8,7 @@ export function isEnabled(): boolean {
 export async function generateWallet(): Promise<boolean> {
     const state = await getState();
 
-    if (state.key) {
+    if (state.wallet) {
         return false;
     }
 
@@ -17,29 +17,35 @@ export async function generateWallet(): Promise<boolean> {
 
     setState({
         ...state,
-        key: wallet,
-        address,
+        wallet: {
+            key: wallet,
+            address,
+        },
     });
 
     return true;
 }
 
 export async function getPubKey(): Promise<JWKPublicInterface> {
-    const { key } = await getState();
+    const { wallet } = await getState();
 
-    if (!key) {
-        throw new Error("No key found");
+    if (!wallet) {
+        throw new Error("No wallout found");
     }
 
     return {
         kty: "RSA",
-        e: key.e,
-        n: key.n,
+        e: wallet.key.e,
+        n: wallet.key.n,
     };
 }
 
 export async function getAddress(): Promise<string> {
-    const { address } = await getState();
+    const { wallet } = await getState();
 
-    return address;
+    if (!wallet) {
+        throw new Error("No wallet found");
+    }
+
+    return wallet.address;
 }

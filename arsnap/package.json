@@ -17,16 +17,16 @@
     "scripts": {
         "build": "yarn build:tsc && yarn build:snap",
         "build:clean": "yarn clean && yarn build",
-        "build:snap": "mm-snap build --stripComments",
+        "build:snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
         "build:tsc": "tsc && tsc-alias",
         "typecheck": "tsc --noEmit",
-        "serve": "mm-snap serve",
+        "serve": "mm-snap serve --port 4000",
         "clean": "rm -rf dist/ build/",
         "lint": "prettier --check src/ ; eslint src/",
         "lint:fix": "prettier --write src/ ; eslint --fix src/"
     },
     "devDependencies": {
-        "@metamask/snaps-cli": "^0.9.0",
+        "@metamask/snaps-cli": "^0.10.2",
         "@types/base-64": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
