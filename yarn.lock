@@ -2905,6 +2905,13 @@ arconnect@^0.2.8:
   dependencies:
     arweave "^1.10.13"
 
+arconnect@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/arconnect/-/arconnect-0.4.1.tgz#802c18c0b3181b5bf4bde1e080e52d29d8bfb9b2"
+  integrity sha512-de6NYh5G8ALWwviQNiwTTQ3k7VhwSxWlbG9llBR894xFuhCdOwxrF5MYqUAxs6OOm5mb1qwUHf+bRiS+TkZJnQ==
+  dependencies:
+    arweave "^1.10.13"
+
 are-we-there-yet@~1.1.2:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/are-we-there-yet/-/are-we-there-yet-1.1.7.tgz#b15474a932adab4ff8a50d9adfa7e4e926f21146"
