@@ -1,28 +1,17 @@
 {
-    "name": "@pianity/arsnap-compat",
+    "name": "@pianity/eslint-config",
     "version": "0.1.0",
-    "description": "A compatibility layer for ArSnap",
+    "description": "Eslint shared config",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/MetaMask/snap-template.git"
     },
-    "files": [
-        "dist/"
-    ],
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "src/index.js",
     "scripts": {
-        "build": "yarn clean && yarn tsc && yarn tsc-alias",
-        "clean": "rm -r dist/",
-        "typecheck": "yarn tsc --noEmit",
-        "lint": "yarn prettier --check src/ ; yarn eslint src/",
-        "lint:fix": "yarn prettier --write src/ ; yarn eslint --fix src/"
-    },
-    "dependencies": {
-        "@pianity/arsnap-adapter": "*",
-        "arweave": "^1.10.23"
+        "lint": "prettier --loglevel warn --check src/ && eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.4.0",
@@ -34,8 +23,6 @@
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-import": "^2.25.3",
         "eslint-plugin-tsdoc": "^0.2.14",
-        "prettier": "^2.5.0",
-        "tsc-alias": "^1.6.3",
-        "typescript": "^4.6"
+        "@pianity/prettier-config": "*"
     }
 }

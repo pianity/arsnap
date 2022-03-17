@@ -5,7 +5,11 @@
         "packages/*"
     ],
     "scripts": {
-        "build": "yarn lerna run build"
+        "build": "lerna run build",
+        "typecheck": "lerna run typecheck",
+        "lint": "lerna run lint",
+        "lint:errors": "lerna run lint -- --quiet",
+        "lint:fix": "lerna run lint:fix"
     },
     "devDependencies": {
         "lerna": "^4.0.0"

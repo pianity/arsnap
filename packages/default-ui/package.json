@@ -1,12 +1,14 @@
 {
-    "name": "arsnap-default-ui",
+    "name": "@pianity/arsnap-default-ui",
     "private": true,
     "version": "0.0.0",
     "scripts": {
-        "dev": "yarn vite",
-        "build:static": "yarn tsc && vite build",
-        "preview": "yarn vite preview",
-        "typecheck": "yarn tsc --noEmit"
+        "dev": "vite",
+        "build:static": "tsc && vite build",
+        "preview": "vite preview",
+        "typecheck": "tsc --noEmit",
+        "lint": "prettier --loglevel warn --check src/ && eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
@@ -28,6 +30,8 @@
         "ts-node": "^10.7.0",
         "typescript": "^4.5.4",
         "vite": "^2.8.0",
-        "vite-tsconfig-paths": "^3.4.1"
+        "vite-tsconfig-paths": "^3.4.1",
+        "@pianity/eslint-config": "*",
+        "@pianity/prettier-config": "*"
     }
 }

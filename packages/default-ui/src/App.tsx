@@ -6,7 +6,7 @@ import Arweave from "arweave";
 import * as adapter from "@pianity/arsnap-adapter";
 import "@pianity/arsnap-compat";
 
-import "./App.css";
+import "@/App.css";
 
 async function connect(setSnapConnected: Dispatch<SetStateAction<boolean>>) {
     try {

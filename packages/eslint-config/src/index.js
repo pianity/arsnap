@@ -1,51 +1,52 @@
-{
-    "env": {
-        "commonjs": false,
-        "browser": true,
-        "es6": true
+module.exports = {
+    env: {
+        commonjs: false,
+        es6: true,
     },
-    "extends": [
+    extends: [
         "airbnb-base",
         "eslint:recommended",
 
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
 
-        "prettier"
+        "prettier",
     ],
-    "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
-    "ignorePatterns": [],
-    "rules": {
+    plugins: ["@typescript-eslint", "eslint-plugin-tsdoc"],
+    parser: "@typescript-eslint/parser",
+    ignorePatterns: [],
+    rules: {
         "no-constant-condition": "warn",
         "no-else-return": "off",
         "@typescript-eslint/explicit-module-boundary-types": ["off"],
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {
-                "varsIgnorePattern": "^_.*",
-                "argsIgnorePattern": "^_.*"
-            }
+                varsIgnorePattern: "^_.*",
+                argsIgnorePattern: "^_.*",
+            },
         ],
+        "@typescript-eslint/prefer-namespace-keyword": "off",
 
         "tsdoc/syntax": "warn",
 
         "import/no-unresolved": "off",
         "import/prefer-default-export": "off",
-        "import/extensions": ["error", { "ts": "never" }],
+        "import/extensions": "off",
+        "import/no-extraneous-dependencies": "off",
 
         "no-use-before-define": "off",
         "no-unused-vars": "off",
         "no-restricted-imports": [
             "error",
             {
-                "patterns": ["../*", "./*"]
-            }
+                patterns: ["../*", "./*"],
+            },
         ],
         "no-underscore-dangle": ["off"],
         "class-methods-use-this": ["off"],
         "linebreak-style": ["error", "unix"],
-        "camelcase": ["error"],
+        camelcase: ["error"],
         "require-jsdoc": ["off"],
         "no-invalid-this": ["off"],
         "arrow-body-style": ["off"],
@@ -56,7 +57,7 @@
         "no-useless-return": ["off"],
         "no-undef": ["error"],
         "no-plusplus": ["off"],
-        "radix": ["off"],
+        radix: ["off"],
         "eslinttguard-for-in": ["off"],
         "no-restricted-syntax": ["off"],
         "no-alert": ["off"],
@@ -64,6 +65,6 @@
         "max-classes-per-file": ["off"],
         "no-await-in-loop": ["off"],
         "no-continue": ["off"],
-        "no-console": ["off"]
-    }
-}
+        "no-console": ["off"],
+    },
+};

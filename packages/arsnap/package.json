@@ -23,13 +23,13 @@
     },
     "scripts": {
         "build": "yarn clean && yarn build:tsc && yarn build:snap",
-        "build:snap": "yarn mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
-        "build:tsc": "yarn tsc && tsc-alias",
+        "build:snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
+        "build:tsc": "tsc && tsc-alias",
         "clean": "rm -rf dist/ build/",
-        "serve": "yarn mm-snap serve --port 4000",
-        "typecheck": "yarn tsc --noEmit",
-        "lint": "yarn prettier --check src/ ; yarn eslint src/",
-        "lint:fix": "yarn prettier --write src/ ; yarn eslint --fix src/"
+        "serve": "mm-snap serve --port 4000",
+        "typecheck": "tsc --noEmit",
+        "lint": "prettier --loglevel warn --check src/ && eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
@@ -39,18 +39,11 @@
     "devDependencies": {
         "@metamask/snaps-cli": "^0.10.2",
         "@types/base-64": "^1.0.0",
-        "@typescript-eslint/eslint-plugin": "^5.4.0",
-        "@typescript-eslint/parser": "^5.4.0",
-        "eslint": "^8.3.0",
-        "eslint-config-airbnb": "^19.0.1",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-config-airbnb-typescript": "^16.0.0",
-        "eslint-config-prettier": "^8.1.0",
-        "eslint-plugin-import": "^2.25.3",
         "mkdirp": "^1.0.4",
-        "prettier": "^2.5.0",
         "ts-node": "^10.6.0",
         "tsc-alias": "^1.6.3",
-        "typescript": "^4.5.2"
+        "typescript": "^4.5.2",
+        "@pianity/eslint-config": "*",
+        "@pianity/prettier-config": "*"
     }
 }
