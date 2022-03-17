@@ -14,6 +14,7 @@
         "prettier"
     ],
     "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
     "ignorePatterns": [],
     "rules": {
         "no-constant-condition": "warn",
@@ -26,6 +27,8 @@
                 "argsIgnorePattern": "^_.*"
             }
         ],
+
+        "tsdoc/syntax": "warn",
 
         "import/no-unresolved": "off",
         "import/prefer-default-export": "off",

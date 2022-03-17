@@ -5,8 +5,20 @@ import * as adapter from "@pianity/arsnap-adapter";
 declare global {
     interface Window {
         arweaveWallet: {
-            connect: (...args: unknown[]) => void;
-            disconnect: () => void;
+            /**
+             * Enable ArSnap. Both parameters are ignored for now as no permission system has been
+             * implemented yet.
+             *
+             * @param permissions - Permissions to request
+             * @param appInfo - Name and logo of the dApp
+             */
+            connect: (permissions: Permission[], appInfo?: AppInfo) => Promise<void>;
+
+            /**
+             * Doesn't do anything for now.
+             */
+            disconnect: () => Promise<void>;
+
             getActiveAddress: () => Promise<string>;
             getActivePublicKey: () => Promise<string>;
             sign: (transaction: Transaction) => Promise<Transaction>;
@@ -15,15 +27,46 @@ declare global {
     }
 }
 
-async function connect() {
-    await adapter.enable();
-}
+type Permission =
+    | "ACCESS_ADDRESS"
+    | "ACCESS_PUBLIC_KEY"
+    | "ACCESS_ALL_ADDRESSES"
+    | "SIGN_TRANSACTION"
+    | "DISPATCH"
+    | "ENCRYPT"
+    | "DECRYPT"
+    | "SIGNATURE"
+    | "ACCESS_ARWEAVE_CONFIG";
 
-function disconnect() {
+type AppInfo = { name?: string; logo?: string };
+
+async function getArweaveConfig() {
     // TODO: implement me
 }
 
-function getActiveAddress(): Promise<string> {
+async function connect(_permissions?: Permission[], _appInfo?: AppInfo) {
+    await adapter.enable();
+}
+
+async function disconnect() {
+    // TODO: implement me
+}
+
+async function getPermissions(): Promise<Permission[]> {
+    return [
+        "ACCESS_ADDRESS",
+        "ACCESS_PUBLIC_KEY",
+        "ACCESS_ALL_ADDRESSES",
+        "SIGN_TRANSACTION",
+        "DISPATCH",
+        "ENCRYPT",
+        "DECRYPT",
+        "SIGNATURE",
+        "ACCESS_ARWEAVE_CONFIG",
+    ];
+}
+
+async function getActiveAddress(): Promise<string> {
     return adapter.getAddress();
 }
 
