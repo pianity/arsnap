@@ -8,22 +8,33 @@
         "type": "git",
         "url": "https://github.com/MetaMask/snap-template.git"
     },
-    "main": "src/index.js",
     "files": [
         "dist/",
         "images/",
         "snap.manifest.json"
     ],
+    "main": "src/index.js",
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "engines": {
+        "node": ">=12.11.0"
+    },
     "scripts": {
-        "build": "yarn build:tsc && yarn build:snap",
-        "build:clean": "yarn clean && yarn build",
-        "build:snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
-        "build:tsc": "tsc && tsc-alias",
-        "typecheck": "tsc --noEmit",
-        "serve": "mm-snap serve --port 4000",
+        "build": "yarn clean && yarn build:tsc && yarn build:snap",
+        "build:snap": "yarn mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
+        "build:tsc": "yarn tsc && tsc-alias",
         "clean": "rm -rf dist/ build/",
-        "lint": "prettier --check src/ ; eslint src/",
-        "lint:fix": "prettier --write src/ ; eslint --fix src/"
+        "serve": "yarn mm-snap serve --port 4000",
+        "typecheck": "yarn tsc --noEmit",
+        "lint": "yarn prettier --check src/ ; yarn eslint src/",
+        "lint:fix": "yarn prettier --write src/ ; yarn eslint --fix src/"
+    },
+    "dependencies": {
+        "@metamask/key-tree": "^3.0.1",
+        "@pianity/arsnap-adapter": "*",
+        "base64-js": "^1.5.1"
     },
     "devDependencies": {
         "@metamask/snaps-cli": "^0.10.2",
@@ -41,17 +52,5 @@
         "ts-node": "^10.6.0",
         "tsc-alias": "^1.6.3",
         "typescript": "^4.5.2"
-    },
-    "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org/"
-    },
-    "engines": {
-        "node": ">=12.11.0"
-    },
-    "dependencies": {
-        "@metamask/key-tree": "^3.0.1",
-        "@pianity/arsnap-adapter": "file:../adapter",
-        "base64-js": "^1.5.1"
     }
 }

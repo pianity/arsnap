@@ -3,15 +3,15 @@
     "private": true,
     "version": "0.0.0",
     "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "typecheck": "tsc --noEmit"
+        "dev": "yarn vite",
+        "build:static": "yarn tsc && vite build",
+        "preview": "yarn vite preview",
+        "typecheck": "yarn tsc --noEmit"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
-        "@pianity/arsnap-adapter": "file:../adapter",
-        "@pianity/arsnap-compat": "file:../arsnap-compat",
+        "@pianity/arsnap-adapter": "*",
+        "@pianity/arsnap-compat": "*",
         "arweave": "^1.10.23",
         "base64-js": "^1.5.1",
         "bignumber.js": "^9.0.2",

@@ -1,7 +1,7 @@
 {
-    "name": "@pianity/arsnap-compat",
+    "name": "@pianity/arsnap-adapter",
     "version": "0.1.0",
-    "description": "A compatibility layer for ArSnap",
+    "description": "The 'Hello, world!' of MetaMask Snaps.",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
     "repository": {
@@ -14,16 +14,23 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "rm -r dist/ && tsc && tsc-alias",
-        "typecheck": "tsc --noEmit",
-        "lint": "prettier --check src/ ; eslint src/",
-        "lint:fix": "prettier --write src/ ; eslint --fix src/"
+        "build": "yarn clean && yarn tsc && yarn tsc-alias",
+        "clean": "rm -r dist/",
+        "typecheck": "yarn tsc --noEmit",
+        "lint": "yarn prettier --check src/ ; yarn eslint src/",
+        "lint:fix": "yarn prettier --write src/ ; yarn eslint --fix src/"
     },
     "dependencies": {
-        "@pianity/arsnap-adapter": "file:../adapter",
-        "arweave": "^1.10.23"
+        "@metamask/key-tree": "^3.0.1",
+        "arweave": "^1.10.23",
+        "base-64": "^1.0.0",
+        "bignumber.js": "^9.0.2",
+        "js-base64": "^3.7.2",
+        "node-forge": "^1.2.1"
     },
     "devDependencies": {
+        "@types/base-64": "^1.0.0",
+        "@types/node-forge": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
         "eslint": "^8.3.0",
@@ -34,6 +41,7 @@
         "eslint-plugin-import": "^2.25.3",
         "eslint-plugin-tsdoc": "^0.2.14",
         "prettier": "^2.5.0",
+        "ts-node": "^10.6.0",
         "tsc-alias": "^1.6.3",
         "typescript": "^4.6"
     }
