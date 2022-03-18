@@ -56,6 +56,18 @@ export async function generateJWK(): Promise<JWKInterface> {
     };
 }
 
+export function binToB64(data: Uint8Array): string {
+    return btoa(String.fromCharCode.apply(null, [...data]));
+}
+
+export function b64ToBin(data: string): Uint8Array {
+    return new Uint8Array(
+        atob(data)
+            .split("")
+            .map((char) => char.charCodeAt(0)),
+    );
+}
+
 function b64UrlToBuffer(b64UrlString: string): Uint8Array {
     return new Uint8Array(Base64.toByteArray(b64UrlDecode(b64UrlString)));
 }

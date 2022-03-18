@@ -27,6 +27,10 @@ export function generateWallet(): Promise<void> {
     return requestSnap({ method: "generate_wallet" });
 }
 
+export function generateEncryptedWallet(): Promise<void> {
+    return requestSnap({ method: "generate_encr_wallet" });
+}
+
 export function signBytes(bytes: Uint8Array, saltLength = 32): Promise<Uint8Array> {
     return requestSnap({
         method: "sign_bytes",

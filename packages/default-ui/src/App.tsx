@@ -58,6 +58,50 @@ async function createSignTx(owner: string) {
     console.log("VERIFY", verify);
 }
 
+export async function getAESKey() {
+    console.log("TEST STARTED");
+
+    const secret = new Uint8Array(32);
+
+    const keyBase = await window.crypto.subtle.importKey("raw", secret, "PBKDF2", false, [
+        "deriveBits",
+        "deriveKey",
+    ]);
+
+    const salt = window.crypto.getRandomValues(new Uint8Array(8));
+
+    const key = await window.crypto.subtle.deriveKey(
+        {
+            name: "PBKDF2",
+            salt,
+            // NOTE: for `iterations` and `hash` see
+            // <https://security.stackexchange.com/questions/3959/recommended-of-iterations-when-using-pbkdf2-sha256>
+            iterations: 200000,
+            hash: "SHA-512",
+        },
+        keyBase,
+        { name: "AES-GCM", length: 256 },
+        true,
+        ["encrypt", "decrypt"],
+    );
+
+    const iv1 = window.crypto.getRandomValues(new Uint8Array(12));
+
+    const encryptedData = await window.crypto.subtle.encrypt(
+        { name: "AES-GCM", iv: iv1 },
+        key,
+        new TextEncoder().encode("hello world"),
+    );
+
+    const decryptedData = await window.crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: iv1 },
+        key,
+        encryptedData,
+    );
+
+    console.log(new TextDecoder().decode(decryptedData));
+}
+
 export default function App() {
     const [snapConnected, setSnapConnected] = useState<boolean>(false);
     const [walletState, setWalletState] = useState<WalletState>("no-wallet");
@@ -94,6 +138,10 @@ export default function App() {
 
                         <button onClick={() => generateWallet(setWalletState)}>
                             Generate a new wallet
+                        </button>
+
+                        <button onClick={() => adapter.generateEncryptedWallet()}>
+                            Generate a new encryped wallet
                         </button>
 
                         {pubKey && (

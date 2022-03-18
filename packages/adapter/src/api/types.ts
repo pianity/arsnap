@@ -23,6 +23,10 @@ export type GenerateWallet = {
     method: "generate_wallet";
 };
 
+export type GenerateEncryptedWallet = {
+    method: "generate_encr_wallet";
+};
+
 /**
  * params[0] - bytes to sign
  * params[1] - saltLength
@@ -40,4 +44,10 @@ export type GetAddress = {
     method: "get_address";
 };
 
-export type RpcRequest = IsEnabled | GenerateWallet | SignBytes | GetPubKey | GetAddress;
+export type RpcRequest =
+    | IsEnabled
+    | GenerateWallet
+    | GenerateEncryptedWallet
+    | SignBytes
+    | GetPubKey
+    | GetAddress;

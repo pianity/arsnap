@@ -1,4 +1,5 @@
-import { getState, setState } from "@/metamask";
+import { decrypt, encrypt } from "@/crypto";
+import { getState, updateState } from "@/metamask";
 import { generateJWK, JWKPublicInterface, ownerToAddress } from "@/utils";
 
 export function isEnabled(): boolean {
@@ -15,8 +16,7 @@ export async function generateWallet(): Promise<boolean> {
     const wallet = await generateJWK();
     const address = await ownerToAddress(wallet.n);
 
-    setState({
-        ...state,
+    await updateState({
         wallet: {
             key: wallet,
             address,
@@ -26,11 +26,30 @@ export async function generateWallet(): Promise<boolean> {
     return true;
 }
 
+export async function generateEncryptedWallet(): Promise<boolean> {
+    const { wallet: walletState } = await getState();
+
+    if (walletState) {
+        return false;
+    }
+
+    const wallet = await generateJWK();
+    const address = await ownerToAddress(wallet.n);
+
+    const encryptedData = await encrypt(new TextEncoder().encode(JSON.stringify(wallet)));
+
+    await updateState({
+        encryptedWallet: { encryptedData, address },
+    });
+
+    return true;
+}
+
 export async function getPubKey(): Promise<JWKPublicInterface> {
     const { wallet } = await getState();
 
     if (!wallet) {
-        throw new Error("No wallout found");
+        throw new Error("No wallet found");
     }
 
     return {
