@@ -1,7 +1,6 @@
 import { SignBytes } from "@pianity/arsnap-adapter";
 
-import { signWithJwk } from "@/crypto";
-import { JWKPublicInterface } from "@/utils";
+import { JWKPublicInterface, signWithJwk } from "@/crypto";
 import { getActiveWallet } from "@/wallets";
 
 export function isEnabled(): boolean {

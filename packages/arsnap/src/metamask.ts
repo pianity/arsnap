@@ -2,8 +2,8 @@ import { deriveBIP44AddressKey, JsonBIP44CoinTypeNode } from "@metamask/key-tree
 
 import { RpcRequest } from "@pianity/arsnap-adapter";
 
-import { binToB64, JWKInterface } from "@/utils";
-import { EncryptedData } from "@/crypto";
+import { binToB64 } from "@/utils";
+import { EncryptedData, JWKInterface } from "@/crypto";
 import { generateWallet, importWallet } from "@/wallets";
 
 export type MethodCallback = (originString: string, requestObject: RpcRequest) => Promise<unknown>;

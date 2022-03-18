@@ -1,6 +1,6 @@
 import { getState, updateState, Wallet } from "@/metamask";
-import { generateJWK, ownerToAddress } from "@/utils";
-import { decryptWallet, encryptWallet } from "@/crypto";
+import { ownerToAddress } from "@/utils";
+import { decryptWallet, encryptWallet, generateJWK } from "@/crypto";
 
 export async function getWallet(index: number) {
     const { wallets } = await getState();

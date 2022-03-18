@@ -1,5 +1,5 @@
 import { EncryptedWallet, getSecret, getState, Wallet } from "@/metamask";
-import { b64ToBin, binToB64, JWKInterface } from "@/utils";
+import { b64ToBin, binToB64 } from "@/utils";
 
 export type EncryptedData = {
     /**
@@ -12,6 +12,58 @@ export type EncryptedData = {
      */
     data: string;
 };
+
+export interface JWKPublicInterface {
+    kty: string;
+    e: string;
+    n: string;
+}
+
+export interface JWKInterface extends JWKPublicInterface {
+    d?: string;
+    p?: string;
+    q?: string;
+    dp?: string;
+    dq?: string;
+    qi?: string;
+}
+
+export async function generateJWK(): Promise<JWKInterface> {
+    const cryptoKey = await crypto.subtle.generateKey(
+        {
+            name: "RSA-PSS",
+            modulusLength: 4096,
+            publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+            hash: {
+                name: "SHA-256",
+            },
+        },
+        true,
+        ["sign"],
+    );
+
+    if (!cryptoKey.privateKey) {
+        throw new Error("Failed to generate private key");
+    }
+
+    const jwk = await crypto.subtle.exportKey("jwk", cryptoKey.privateKey);
+
+    if (!jwk.e || !jwk.n) {
+        throw new Error("JWK missing e and n");
+    }
+
+    return {
+        kty: "RSA",
+        e: jwk.e,
+        n: jwk.n,
+        d: jwk.d,
+        p: jwk.p,
+        q: jwk.q,
+        dp: jwk.dp,
+        dq: jwk.dq,
+        qi: jwk.qi,
+    };
+}
 
 async function jwkToCryptoKey(jwk: JWKInterface) {
     const key = await crypto.subtle.importKey(
