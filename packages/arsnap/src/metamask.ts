@@ -19,14 +19,19 @@ declare global {
     }
 }
 
+export type WalletMetadata = {
+    address: string;
+    name?: string;
+};
+
 export type Wallet = {
     key: JWKInterface;
-    address: string;
+    metadata: WalletMetadata;
 };
 
 export type EncryptedWallet = {
     encryptedData: EncryptedData;
-    address: string;
+    metadata: WalletMetadata;
 };
 
 export type State = {

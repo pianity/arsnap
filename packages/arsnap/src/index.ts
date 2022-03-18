@@ -19,6 +19,15 @@ registerRpcMessageHandler(async (originString, request) => {
         case "get_active_public_key":
             return await handlers.getActivePublicKey();
 
+        case "get_all_addresses":
+            return await handlers.getAllAddresses();
+
+        case "get_wallet_names":
+            return await handlers.getWalletNames();
+
+        case "import_wallet":
+            return await handlers.importWallet(request.params);
+
         case "sign_bytes":
             return await handlers.signBytes(request.params);
 

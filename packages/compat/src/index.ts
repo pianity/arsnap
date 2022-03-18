@@ -15,6 +15,14 @@ async function getActivePublicKey(): Promise<string> {
     return (await adapter.getActivePublicKey()).n;
 }
 
+async function getAllAddresses(): Promise<string[]> {
+    return adapter.getAllAddresses();
+}
+
+async function getWalletNames(): Promise<Record<string, string | undefined>> {
+    return adapter.getWalletNames();
+}
+
 async function sign(transaction: Transaction): Promise<Transaction> {
     await adapter.signTx(transaction);
 
@@ -44,8 +52,8 @@ if (typeof window !== "undefined") {
             getArweaveConfig: unimplemented,
             getActiveAddress: adapter.getActiveAddress,
             getActivePublicKey,
-            getWalletNames: unimplemented,
-            getAllAddresses: unimplemented,
+            getAllAddresses,
+            getWalletNames,
             sign,
             signature,
             dispatch: unimplemented,

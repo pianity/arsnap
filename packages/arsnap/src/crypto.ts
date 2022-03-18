@@ -165,7 +165,7 @@ export async function encryptWallet(wallet: Wallet): Promise<EncryptedWallet> {
 
     return {
         encryptedData,
-        address: wallet.address,
+        metadata: wallet.metadata,
     };
 }
 
@@ -176,6 +176,6 @@ export async function decryptWallet(wallet: EncryptedWallet): Promise<Wallet> {
 
     return {
         key: decryptedData,
-        address: wallet.address,
+        metadata: wallet.metadata,
     };
 }

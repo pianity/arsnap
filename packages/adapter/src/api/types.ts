@@ -43,6 +43,23 @@ export type GetActivePublicKey = {
     method: "get_active_public_key";
 };
 
+export type GetAllAddresses = {
+    method: "get_all_addresses";
+};
+
+export type GetWalletNames = {
+    method: "get_wallet_names";
+};
+
+/**
+ * params[0] - wallet to import
+ * params[1] - (optional) name of wallet
+ */
+export type ImportWallet = {
+    method: "import_wallet";
+    params: [JWKInterface, string | undefined];
+};
+
 /**
  * params[0] - bytes to sign
  * params[1] - saltLength
@@ -52,4 +69,11 @@ export type SignBytes = {
     params: [Uint8Array, number];
 };
 
-export type RpcRequest = IsEnabled | GetActiveAddress | GetActivePublicKey | SignBytes;
+export type RpcRequest =
+    | IsEnabled
+    | GetActiveAddress
+    | GetActivePublicKey
+    | GetAllAddresses
+    | GetWalletNames
+    | ImportWallet
+    | SignBytes;

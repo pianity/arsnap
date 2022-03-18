@@ -1,5 +1,5 @@
 import Transaction from "arweave/node/lib/transaction";
-import { JWKPublicInterface } from "arweave/node/lib/wallet";
+import { JWKInterface, JWKPublicInterface } from "arweave/node/lib/wallet";
 
 import { Base64 } from "js-base64";
 import { RpcRequest, SNAP_ID } from "@/api/types";
@@ -21,6 +21,26 @@ export async function enable() {
 
 export function isEnabled(): Promise<boolean> {
     return requestSnap({ method: "is_enabled" });
+}
+
+export function getActiveAddress(): Promise<string> {
+    return requestSnap({ method: "get_active_address" });
+}
+
+export function getActivePublicKey(): Promise<JWKPublicInterface> {
+    return requestSnap({ method: "get_active_public_key" });
+}
+
+export function getAllAddresses(): Promise<string[]> {
+    return requestSnap({ method: "get_all_addresses" });
+}
+
+export function getWalletNames(): Promise<Record<string, string | undefined>> {
+    return requestSnap({ method: "get_wallet_names" });
+}
+
+export function importWallet(jwk: JWKInterface, name?: string): Promise<void> {
+    return request("wallet_import", [jwk, name]);
 }
 
 export function signBytes(bytes: Uint8Array, saltLength = 32): Promise<Uint8Array> {
@@ -49,12 +69,4 @@ export async function signTx(tx: Transaction): Promise<void> {
         owner,
         signature: Base64.fromUint8Array(dataSigned, true),
     });
-}
-
-export function getActiveAddress(): Promise<string> {
-    return requestSnap({ method: "get_active_address" });
-}
-
-export function getActivePublicKey(): Promise<JWKPublicInterface> {
-    return requestSnap({ method: "get_active_public_key" });
 }
