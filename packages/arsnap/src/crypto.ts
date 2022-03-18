@@ -1,5 +1,5 @@
-import { getSecret, getState, updateState } from "@/metamask";
-import { b64ToBin, binToB64 } from "@/utils";
+import { EncryptedWallet, getSecret, getState, Wallet } from "@/metamask";
+import { b64ToBin, binToB64, JWKInterface } from "@/utils";
 
 export type EncryptedData = {
     /**
@@ -13,22 +13,51 @@ export type EncryptedData = {
     data: string;
 };
 
-export async function initializeSalt(): Promise<string> {
-    const state = await getState();
+async function jwkToCryptoKey(jwk: JWKInterface) {
+    const key = await crypto.subtle.importKey(
+        "jwk",
+        jwk,
+        {
+            name: "RSA-PSS",
+            hash: "SHA-256",
+        },
+        false,
+        ["sign"],
+    );
 
-    const keySalt = binToB64(window.crypto.getRandomValues(new Uint8Array(8)));
-
-    await updateState({ keySalt });
-
-    return keySalt;
+    return key;
 }
 
-export async function getAESKey() {
+export async function signWithCryptoKey(
+    key: CryptoKey,
+    data: Uint8Array,
+    saltLength?: number,
+): Promise<Uint8Array> {
+    const signature = await crypto.subtle.sign(
+        {
+            name: "RSA-PSS",
+            saltLength,
+        },
+        key,
+        data,
+    );
+
+    return new Uint8Array(signature);
+}
+
+export async function signWithJwk(
+    jwk: JWKInterface,
+    data: Uint8Array,
+    saltLength?: number,
+): Promise<Uint8Array> {
+    const cryptoKey = await jwkToCryptoKey(jwk);
+    return await signWithCryptoKey(cryptoKey, data, saltLength);
+}
+
+async function getAESKey() {
     const secret = new Uint8Array(await getSecret());
 
-    const saltState = (await getState()).keySalt;
-
-    const salt = b64ToBin(saltState ?? (await initializeSalt()));
+    const salt = b64ToBin((await getState()).keySalt);
 
     const keyBase = await window.crypto.subtle.importKey("raw", secret, "PBKDF2", false, [
         "deriveBits",
@@ -77,4 +106,24 @@ export async function decrypt(data: EncryptedData): Promise<Uint8Array> {
     );
 
     return new Uint8Array(decryptedData);
+}
+
+export async function encryptWallet(wallet: Wallet): Promise<EncryptedWallet> {
+    const encryptedData = await encrypt(new TextEncoder().encode(JSON.stringify(wallet.key)));
+
+    return {
+        encryptedData,
+        address: wallet.address,
+    };
+}
+
+export async function decryptWallet(wallet: EncryptedWallet): Promise<Wallet> {
+    const decryptedData: JWKInterface = JSON.parse(
+        new TextDecoder().decode(await decrypt(wallet.encryptedData)),
+    );
+
+    return {
+        key: decryptedData,
+        address: wallet.address,
+    };
 }

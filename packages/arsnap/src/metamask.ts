@@ -2,8 +2,9 @@ import { deriveBIP44AddressKey, JsonBIP44CoinTypeNode } from "@metamask/key-tree
 
 import { RpcRequest } from "@pianity/arsnap-adapter";
 
-import { JWKInterface } from "@/utils";
+import { binToB64, JWKInterface } from "@/utils";
 import { EncryptedData } from "@/crypto";
+import { generateWallet, importWallet } from "@/wallets";
 
 export type MethodCallback = (originString: string, requestObject: RpcRequest) => Promise<unknown>;
 
@@ -29,21 +30,42 @@ export type EncryptedWallet = {
 };
 
 export type State = {
-    wallet: Wallet | undefined;
-
-    encryptedWallet: EncryptedWallet | undefined;
+    /**
+     * List of wallets managed by ArSnap.
+     */
+    wallets: EncryptedWallet[];
 
     /**
-     * The base 64 encoded salt parameter used to derive the AES-GCM key used to encrypts wallets
+     * Index of active wallet. Defaults to 0.
      */
-    keySalt: string | undefined;
+    activeWallet: number;
+
+    /**
+     * The base 64 encoded salt parameter used to derive the AES-GCM key used to encrypts wallets.
+     */
+    keySalt: string;
 };
 
 export async function registerRpcMessageHandler(callback: MethodCallback) {
     window.wallet.registerRpcMessageHandler(callback);
 }
 
+export async function initializeState() {
+    const keySalt = binToB64(window.crypto.getRandomValues(new Uint8Array(8)));
+
+    await replaceState({
+        wallets: [],
+        activeWallet: 0,
+        keySalt,
+    });
+
+    const defaultWallet = await generateWallet();
+    await importWallet(defaultWallet);
+}
+
 export async function getSecret(): Promise<Buffer> {
+    // m / purpose' / coin_type' / account' / change / address_index
+    // m / 44' / 472' / 0' / 0 / 0
     // const [, , coinType, account, change, addressIndex] = derivationPath.split('/');
     const account = 0;
     const change = 0;
@@ -65,8 +87,7 @@ export async function getSecret(): Promise<Buffer> {
 }
 
 export async function getState(): Promise<State> {
-    const snapState =
-        (await window.wallet.request({ method: "snap_manageState", params: ["get"] })) ?? {};
+    const snapState = await window.wallet.request({ method: "snap_manageState", params: ["get"] });
     return snapState as State;
 }
 

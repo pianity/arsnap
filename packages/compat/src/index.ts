@@ -11,12 +11,8 @@ async function getPermissions(): Promise<PermissionType[]> {
     return ["ACCESS_ADDRESS", "ACCESS_PUBLIC_KEY", "SIGN_TRANSACTION", "SIGNATURE"];
 }
 
-async function getActiveAddress(): Promise<string> {
-    return adapter.getAddress();
-}
-
 async function getActivePublicKey(): Promise<string> {
-    return (await adapter.getPubKey()).n;
+    return (await adapter.getActivePublicKey()).n;
 }
 
 async function sign(transaction: Transaction): Promise<Transaction> {
@@ -46,7 +42,7 @@ if (typeof window !== "undefined") {
             disconnect: unimplemented,
             getPermissions,
             getArweaveConfig: unimplemented,
-            getActiveAddress,
+            getActiveAddress: adapter.getActiveAddress,
             getActivePublicKey,
             getWalletNames: unimplemented,
             getAllAddresses: unimplemented,

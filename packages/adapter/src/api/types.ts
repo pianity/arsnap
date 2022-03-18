@@ -15,16 +15,32 @@ export const SNAP_ID = `local:http://localhost:4000/`;
 
 export type SnapId = typeof SNAP_ID;
 
+// walletName: "ArSnap",
+// connect,
+// disconnect: unimplemented,
+// getPermissions,
+// getArweaveConfig: unimplemented,
+// getActiveAddress,
+// getActivePublicKey,
+// getWalletNames: unimplemented,
+// getAllAddresses: unimplemented,
+// sign,
+// signature,
+// dispatch: unimplemented,
+// encrypt: unimplemented,
+// decrypt: unimplemented,
+// addToken: unimplemented,
+
 export type IsEnabled = {
     method: "is_enabled";
 };
 
-export type GenerateWallet = {
-    method: "generate_wallet";
+export type GetActiveAddress = {
+    method: "get_active_address";
 };
 
-export type GenerateEncryptedWallet = {
-    method: "generate_encr_wallet";
+export type GetActivePublicKey = {
+    method: "get_active_public_key";
 };
 
 /**
@@ -36,18 +52,4 @@ export type SignBytes = {
     params: [Uint8Array, number];
 };
 
-export type GetPubKey = {
-    method: "get_pub_key";
-};
-
-export type GetAddress = {
-    method: "get_address";
-};
-
-export type RpcRequest =
-    | IsEnabled
-    | GenerateWallet
-    | GenerateEncryptedWallet
-    | SignBytes
-    | GetPubKey
-    | GetAddress;
+export type RpcRequest = IsEnabled | GetActiveAddress | GetActivePublicKey | SignBytes;

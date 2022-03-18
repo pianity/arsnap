@@ -18,36 +18,36 @@ async function connect(setSnapConnected: Dispatch<SetStateAction<boolean>>) {
         setSnapConnected(false);
     }
 }
-
-async function generateWallet(setWalletState: Dispatch<SetStateAction<WalletState>>) {
-    setWalletState("generating");
-    try {
-        await adapter.generateWallet();
-        setWalletState("generated");
-    } catch (e) {
-        setWalletState("no-wallet");
-    }
-}
+//
+// async function generateWallet(setWalletState: Dispatch<SetStateAction<WalletState>>) {
+//     setWalletState("generating");
+//     try {
+//         await adapter.generateWallet();
+//         setWalletState("generated");
+//     } catch (e) {
+//         setWalletState("no-wallet");
+//     }
+// }
 
 type WalletState = "no-wallet" | "generating" | "generated";
 
-async function getPubKey(
-    setPubKey: Dispatch<SetStateAction<JWKPublicInterface | undefined>>,
-    setAddress: Dispatch<SetStateAction<string | undefined>>,
-) {
-    try {
-        const pubKey = await adapter.getPubKey();
-        const address = await adapter.getAddress();
+// async function getPubKey(
+//     setPubKey: Dispatch<SetStateAction<JWKPublicInterface | undefined>>,
+//     setAddress: Dispatch<SetStateAction<string | undefined>>,
+// ) {
+//     try {
+//         const pubKey = await adapter.getPubKey();
+//         const address = await adapter.getAddress();
+//
+//         setPubKey(pubKey);
+//         setAddress(address);
+//     } catch (e) {
+//         setPubKey(undefined);
+//         setAddress(undefined);
+//     }
+// }
 
-        setPubKey(pubKey);
-        setAddress(address);
-    } catch (e) {
-        setPubKey(undefined);
-        setAddress(undefined);
-    }
-}
-
-async function createSignTx(owner: string) {
+async function createSignTx() {
     const arweave = Arweave.init({});
 
     const tx = await arweave.createTransaction({ data: Math.random().toString().slice(-4) });
@@ -102,9 +102,21 @@ export async function getAESKey() {
     console.log(new TextDecoder().decode(decryptedData));
 }
 
+async function getActiveWalletInfo(
+    setAddress: Dispatch<SetStateAction<string | undefined>>,
+    setPubKey: Dispatch<SetStateAction<JWKPublicInterface | undefined>>,
+) {
+    try {
+        setAddress(await adapter.getActiveAddress());
+        setPubKey(await adapter.getActivePublicKey());
+    } catch (e) {
+        setAddress(undefined);
+        setPubKey(undefined);
+    }
+}
+
 export default function App() {
     const [snapConnected, setSnapConnected] = useState<boolean>(false);
-    const [walletState, setWalletState] = useState<WalletState>("no-wallet");
     const [address, setAddress] = useState<string | undefined>();
     const [pubKey, setPubKey] = useState<JWKPublicInterface | undefined>();
 
@@ -112,43 +124,29 @@ export default function App() {
         adapter
             .isEnabled()
             .then(setSnapConnected)
+            .then(() => getActiveWalletInfo(setAddress, setPubKey))
             .catch(() => setSnapConnected(false));
     });
-
-    useEffect(() => {
-        if (walletState === "generated") {
-            adapter.getPubKey().then(setPubKey);
-            adapter.getAddress().then(setAddress);
-        } else {
-            setPubKey(undefined);
-            setAddress(undefined);
-        }
-    }, [walletState]);
 
     return (
         <div className="App">
             <header className="App-header">
-                <p>Are you connected? {snapConnected && "yes"}</p>
+                <p>{snapConnected ? "Connected to ArSnap" : "Click below to connect to ArSnap!"}</p>
                 <button onClick={() => connect(setSnapConnected)}>connect</button>
 
                 {snapConnected && (
                     <>
-                        <p>Wallet state: {walletState}</p>
-                        <p>Wallet address: {address ?? ""}</p>
+                        <p>Active wallet address: {address ?? "loading..."}</p>
 
+                        {/*
                         <button onClick={() => generateWallet(setWalletState)}>
                             Generate a new wallet
                         </button>
+                            */}
 
-                        <button onClick={() => adapter.generateEncryptedWallet()}>
-                            Generate a new encryped wallet
+                        <button onClick={() => createSignTx()}>
+                            Create and sign a random new transaction
                         </button>
-
-                        {pubKey && (
-                            <button onClick={() => createSignTx(pubKey.n)}>
-                                Create and sign a new transaction
-                            </button>
-                        )}
                     </>
                 )}
             </header>
