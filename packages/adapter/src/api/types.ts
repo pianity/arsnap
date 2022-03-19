@@ -57,7 +57,7 @@ export type GetWalletNames = {
  */
 export type ImportWallet = {
     method: "import_wallet";
-    params: [JWKInterface, string | undefined];
+    params: [JWKInterface, string];
 };
 
 /**

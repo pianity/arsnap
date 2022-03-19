@@ -19,7 +19,7 @@ async function getAllAddresses(): Promise<string[]> {
     return adapter.getAllAddresses();
 }
 
-async function getWalletNames(): Promise<Record<string, string | undefined>> {
+async function getWalletNames(): Promise<Record<string, string>> {
     return adapter.getWalletNames();
 }
 

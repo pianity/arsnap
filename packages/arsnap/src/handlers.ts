@@ -28,19 +28,15 @@ export async function getActivePublicKey(): Promise<JWKPublicInterface> {
 export async function getAllAddresses(): Promise<string[]> {
     const { wallets } = await getState();
 
-    const addresses = [];
-
-    for (const wallet of wallets.values()) {
-        addresses.push(wallet.metadata.address);
-    }
+    const addresses = wallets.map((wallet) => wallet.metadata.address);
 
     return addresses;
 }
 
-export async function getWalletNames(): Promise<Record<string, string | undefined>> {
+export async function getWalletNames(): Promise<Record<string, string>> {
     const { wallets } = await getState();
 
-    const walletNames: Record<string, string | undefined> = {};
+    const walletNames: Record<string, string> = {};
 
     for (const { metadata } of wallets.values()) {
         walletNames[metadata.address] = metadata.name;

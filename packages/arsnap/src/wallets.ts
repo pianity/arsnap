@@ -30,7 +30,7 @@ export async function generateWallet(): Promise<Wallet> {
     const wallet = await generateJWK();
     const address = await ownerToAddress(wallet.n);
 
-    return { key: wallet, metadata: { address } };
+    return { key: wallet, metadata: { address, name: "" } };
 }
 
 export async function importWallet(wallet: Wallet): Promise<void> {

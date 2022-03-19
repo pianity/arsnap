@@ -35,7 +35,7 @@ export function getAllAddresses(): Promise<string[]> {
     return requestSnap({ method: "get_all_addresses" });
 }
 
-export function getWalletNames(): Promise<Record<string, string | undefined>> {
+export function getWalletNames(): Promise<Record<string, string>> {
     return requestSnap({ method: "get_wallet_names" });
 }
 

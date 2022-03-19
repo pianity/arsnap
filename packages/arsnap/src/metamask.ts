@@ -21,7 +21,7 @@ declare global {
 
 export type WalletMetadata = {
     address: string;
-    name?: string;
+    name: string;
 };
 
 export type Wallet = {
