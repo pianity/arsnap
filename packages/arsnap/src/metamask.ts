@@ -36,14 +36,14 @@ export type EncryptedWallet = {
 
 export type State = {
     /**
-     * List of wallets managed by ArSnap.
+     * List of wallets managed by ArSnap indexed by their address.
      */
-    wallets: EncryptedWallet[];
+    wallets: Record<string, EncryptedWallet>;
 
     /**
-     * Index of active wallet. Defaults to 0.
+     * Address of active wallet.
      */
-    activeWallet: number;
+    activeWallet: string;
 
     /**
      * The base 64 encoded salt parameter used to derive the AES-GCM key used to encrypts wallets.
@@ -59,8 +59,8 @@ export async function initializeState() {
     const keySalt = binToB64(window.crypto.getRandomValues(new Uint8Array(8)));
 
     await replaceState({
-        wallets: [],
-        activeWallet: 0,
+        wallets: {},
+        activeWallet: "",
         keySalt,
     });
 

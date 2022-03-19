@@ -28,7 +28,7 @@ export async function getActivePublicKey(): Promise<JWKPublicInterface> {
 export async function getAllAddresses(): Promise<string[]> {
     const { wallets } = await getState();
 
-    const addresses = wallets.map((wallet) => wallet.metadata.address);
+    const addresses = Object.keys(wallets);
 
     return addresses;
 }
@@ -38,7 +38,7 @@ export async function getWalletNames(): Promise<Record<string, string>> {
 
     const walletNames: Record<string, string> = {};
 
-    for (const { metadata } of wallets.values()) {
+    for (const [address, { metadata }] of Object.entries(wallets)) {
         walletNames[metadata.address] = metadata.name;
     }
 

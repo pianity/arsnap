@@ -2,13 +2,13 @@ import { getState, updateState, Wallet } from "@/metamask";
 import { ownerToAddress } from "@/utils";
 import { decryptWallet, encryptWallet, generateJWK } from "@/crypto";
 
-export async function getWallet(index: number) {
+export async function getWallet(address: string) {
     const { wallets } = await getState();
 
-    const encryptedWallet = wallets[index];
+    const encryptedWallet = wallets[address];
 
     if (!encryptedWallet) {
-        throw new Error(`No wallet found at index "${index}"`);
+        throw new Error(`No wallet found for address "${address}"`);
     }
 
     return await decryptWallet(encryptedWallet);
@@ -20,9 +20,9 @@ export async function getActiveWallet() {
     return getWallet(activeWallet);
 }
 
-export async function setActiveWallet(index: number) {
+export async function setActiveWallet(address: string) {
     await updateState({
-        activeWallet: index,
+        activeWallet: address,
     });
 }
 
@@ -39,6 +39,9 @@ export async function importWallet(wallet: Wallet): Promise<void> {
     const { wallets } = await getState();
 
     await updateState({
-        wallets: [...wallets, encryptedWallet],
+        wallets: {
+            ...wallets,
+            [wallet.metadata.address]: encryptedWallet,
+        },
     });
 }
