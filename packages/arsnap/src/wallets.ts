@@ -1,4 +1,4 @@
-import { getState, updateState, Wallet } from "@/metamask";
+import { getState, replaceState, updateState, Wallet } from "@/metamask";
 import { ownerToAddress } from "@/utils";
 import { decryptWallet, encryptWallet, generateJWK } from "@/crypto";
 
@@ -20,12 +20,6 @@ export async function getActiveWallet() {
     return getWallet(activeWallet);
 }
 
-export async function setActiveWallet(address: string) {
-    await updateState({
-        activeWallet: address,
-    });
-}
-
 export async function generateWallet(): Promise<Wallet> {
     const wallet = await generateJWK();
     const address = await ownerToAddress(wallet.n);
@@ -33,15 +27,36 @@ export async function generateWallet(): Promise<Wallet> {
     return { key: wallet, metadata: { address, name: "" } };
 }
 
+export async function setActiveAddress(address: string) {
+    const state = await getState();
+
+    if (!state.wallets[address]) {
+        throw new Error(`No wallet found for address "${address}"`);
+    }
+
+    state.activeWallet = address;
+
+    await replaceState(state);
+}
+
 export async function importWallet(wallet: Wallet): Promise<void> {
     const encryptedWallet = await encryptWallet(wallet);
 
-    const { wallets } = await getState();
+    const state = await getState();
 
-    await updateState({
-        wallets: {
-            ...wallets,
-            [wallet.metadata.address]: encryptedWallet,
-        },
-    });
+    state.wallets[wallet.metadata.address] = encryptedWallet;
+
+    await replaceState(state);
+}
+
+export async function renameWallet(address: string, name: string) {
+    const state = await getState();
+
+    if (!state.wallets[address]) {
+        throw new Error(`No wallet found for address "${address}"`);
+    }
+
+    state.wallets[address].metadata.name = name;
+
+    await replaceState(state);
 }

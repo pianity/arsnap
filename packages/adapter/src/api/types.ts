@@ -52,6 +52,23 @@ export type GetWalletNames = {
 };
 
 /**
+ * params[0] - bytes to sign
+ * params[1] - saltLength
+ */
+export type SignBytes = {
+    method: "sign_bytes";
+    params: [Uint8Array, number];
+};
+
+/**
+ * params[0] - address of the wallet to set active
+ */
+export type SetActiveAddress = {
+    method: "set_active_address";
+    params: [string];
+};
+
+/**
  * params[0] - wallet to import
  * params[1] - (optional) name of wallet
  */
@@ -61,12 +78,12 @@ export type ImportWallet = {
 };
 
 /**
- * params[0] - bytes to sign
- * params[1] - saltLength
+ * params[0] - address of the wallet to rename
+ * params[1] - new name
  */
-export type SignBytes = {
-    method: "sign_bytes";
-    params: [Uint8Array, number];
+export type RenameWallet = {
+    method: "rename_wallet";
+    params: [string, string];
 };
 
 export type RpcRequest =
@@ -75,5 +92,7 @@ export type RpcRequest =
     | GetActivePublicKey
     | GetAllAddresses
     | GetWalletNames
+    | SignBytes
+    | SetActiveAddress
     | ImportWallet
-    | SignBytes;
+    | RenameWallet;

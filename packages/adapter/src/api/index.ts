@@ -39,15 +39,23 @@ export function getWalletNames(): Promise<Record<string, string>> {
     return requestSnap({ method: "get_wallet_names" });
 }
 
-export function importWallet(jwk: JWKInterface, name?: string): Promise<void> {
-    return request("wallet_import", [jwk, name]);
-}
-
 export function signBytes(bytes: Uint8Array, saltLength = 32): Promise<Uint8Array> {
     return requestSnap({
         method: "sign_bytes",
         params: [bytes, saltLength],
     });
+}
+
+export function setActiveAddress(address: string): Promise<void> {
+    return request("wallet_setActive", [address]);
+}
+
+export function importWallet(jwk: JWKInterface, name?: string): Promise<void> {
+    return request("wallet_import", [jwk, name]);
+}
+
+export function renameWallet(address: string, newName: string): Promise<void> {
+    return request("wallet_rename", [address, newName]);
 }
 
 /**

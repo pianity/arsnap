@@ -25,11 +25,17 @@ registerRpcMessageHandler(async (originString, request) => {
         case "get_wallet_names":
             return await handlers.getWalletNames();
 
+        case "sign_bytes":
+            return await handlers.signBytes(request.params);
+
+        case "set_active_address":
+            return await handlers.setActiveAddress(request.params);
+
         case "import_wallet":
             return await handlers.importWallet(request.params);
 
-        case "sign_bytes":
-            return await handlers.signBytes(request.params);
+        case "rename_wallet":
+            return await handlers.renameWallet(request.params);
 
         default:
             exhaustive(method);

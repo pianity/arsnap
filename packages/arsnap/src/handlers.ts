@@ -1,7 +1,7 @@
-import { ImportWallet, SignBytes } from "@pianity/arsnap-adapter";
+import { ImportWallet, RenameWallet, SetActiveAddress, SignBytes } from "@pianity/arsnap-adapter";
 
 import { JWKPublicInterface, signWithJwk } from "@/crypto";
-import { getActiveWallet, importWallet as actuallyImportWallet } from "@/wallets";
+import * as walletUtils from "@/wallets";
 import { ownerToAddress } from "@/utils";
 import { getState } from "@/metamask";
 
@@ -10,13 +10,13 @@ export function isEnabled(): boolean {
 }
 
 export async function getActiveAddress(): Promise<string> {
-    const { metadata } = await getActiveWallet();
+    const { metadata } = await walletUtils.getActiveWallet();
 
     return metadata.address;
 }
 
 export async function getActivePublicKey(): Promise<JWKPublicInterface> {
-    const wallet = await getActiveWallet();
+    const wallet = await walletUtils.getActiveWallet();
 
     return {
         kty: "RSA",
@@ -38,15 +38,29 @@ export async function getWalletNames(): Promise<Record<string, string>> {
 
     const walletNames: Record<string, string> = {};
 
-    for (const [address, { metadata }] of Object.entries(wallets)) {
+    for (const { metadata } of Object.values(wallets)) {
         walletNames[metadata.address] = metadata.name;
     }
 
     return walletNames;
 }
 
+export async function signBytes([data, saltLength]: SignBytes["params"]): Promise<Uint8Array> {
+    data = new Uint8Array(Object.values(data));
+
+    const wallet = await walletUtils.getActiveWallet();
+
+    return await signWithJwk(wallet.key, data, saltLength);
+}
+
+export async function setActiveAddress([address]: SetActiveAddress["params"]): Promise<boolean> {
+    await walletUtils.setActiveAddress(address);
+
+    return true;
+}
+
 export async function importWallet([jwk, name]: ImportWallet["params"]): Promise<boolean> {
-    actuallyImportWallet({
+    await walletUtils.importWallet({
         key: jwk,
         metadata: {
             address: await ownerToAddress(jwk.n),
@@ -57,10 +71,8 @@ export async function importWallet([jwk, name]: ImportWallet["params"]): Promise
     return true;
 }
 
-export async function signBytes([data, saltLength]: SignBytes["params"]): Promise<Uint8Array> {
-    data = new Uint8Array(Object.values(data));
+export async function renameWallet([address, name]: RenameWallet["params"]): Promise<boolean> {
+    await walletUtils.renameWallet(address, name);
 
-    const wallet = await getActiveWallet();
-
-    return await signWithJwk(wallet.key, data, saltLength);
+    return true;
 }
