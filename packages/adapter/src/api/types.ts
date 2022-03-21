@@ -1,5 +1,9 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
 
+export const SNAP_ID = `local:http://localhost:4000/`;
+
+export type SnapId = typeof SNAP_ID;
+
 declare global {
     interface Window {
         ethereum: {
@@ -11,88 +15,42 @@ declare global {
     }
 }
 
-export const SNAP_ID = `local:http://localhost:4000/`;
+export type ArconnectPermission =
+    | "ACCESS_ADDRESS"
+    | "ACCESS_PUBLIC_KEY"
+    | "ACCESS_ALL_ADDRESSES"
+    | "SIGN_TRANSACTION"
+    | "ENCRYPT"
+    | "DECRYPT"
+    | "SIGNATURE"
+    | "ACCESS_ARWEAVE_CONFIG"
+    | "DISPATCH";
 
-export type SnapId = typeof SNAP_ID;
+export type ArsnapPermission = "RENAME_WALLETS";
 
-// walletName: "ArSnap",
-// connect,
-// disconnect: unimplemented,
-// getPermissions,
-// getArweaveConfig: unimplemented,
-// getActiveAddress,
-// getActivePublicKey,
-// getWalletNames: unimplemented,
-// getAllAddresses: unimplemented,
-// sign,
-// signature,
-// dispatch: unimplemented,
-// encrypt: unimplemented,
-// decrypt: unimplemented,
-// addToken: unimplemented,
+export type Permission = ArconnectPermission | ArsnapPermission;
 
-export type IsEnabled = {
-    method: "is_enabled";
+type ObjectToUnion<T extends Record<string, (...args: any) => any>> = {
+    [K in keyof T]: { method: K; params: Parameters<T[K]> };
+}[keyof T];
+
+export type RpcApi = {
+    is_enabled: () => Promise<boolean>;
+    get_permissions: () => Promise<string[]>;
+    get_active_address: () => Promise<string>;
+    get_active_public_key: () => Promise<string>;
+    get_all_addresses: () => Promise<string[]>;
+    get_wallet_names: () => Promise<Record<string, string>>;
+    sign_bytes: (bytes: Uint8Array, saltLength: number) => Promise<Uint8Array>;
+    set_active_address: (address: string) => Promise<void>;
+    import_wallet: (wallet: JWKInterface, name: string) => Promise<void>;
+    rename_wallet: (address: string, name: string) => Promise<void>;
 };
 
-export type GetActiveAddress = {
-    method: "get_active_address";
-};
+export type RpcRequest = ObjectToUnion<RpcApi>;
 
-export type GetActivePublicKey = {
-    method: "get_active_public_key";
+export type RpcMethod<T extends string, U extends (...args: unknown[]) => unknown> = {
+    method: T;
+    signature: U;
+    params: Parameters<U>;
 };
-
-export type GetAllAddresses = {
-    method: "get_all_addresses";
-};
-
-export type GetWalletNames = {
-    method: "get_wallet_names";
-};
-
-/**
- * params[0] - bytes to sign
- * params[1] - saltLength
- */
-export type SignBytes = {
-    method: "sign_bytes";
-    params: [Uint8Array, number];
-};
-
-/**
- * params[0] - address of the wallet to set active
- */
-export type SetActiveAddress = {
-    method: "set_active_address";
-    params: [string];
-};
-
-/**
- * params[0] - wallet to import
- * params[1] - (optional) name of wallet
- */
-export type ImportWallet = {
-    method: "import_wallet";
-    params: [JWKInterface, string];
-};
-
-/**
- * params[0] - address of the wallet to rename
- * params[1] - new name
- */
-export type RenameWallet = {
-    method: "rename_wallet";
-    params: [string, string];
-};
-
-export type RpcRequest =
-    | IsEnabled
-    | GetActiveAddress
-    | GetActivePublicKey
-    | GetAllAddresses
-    | GetWalletNames
-    | SignBytes
-    | SetActiveAddress
-    | ImportWallet
-    | RenameWallet;

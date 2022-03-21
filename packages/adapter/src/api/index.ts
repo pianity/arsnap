@@ -1,8 +1,8 @@
 import Transaction from "arweave/node/lib/transaction";
 import { JWKInterface, JWKPublicInterface } from "arweave/node/lib/wallet";
-
 import { Base64 } from "js-base64";
-import { RpcRequest, SNAP_ID } from "@/api/types";
+
+import { Permission, RpcApi, RpcRequest, SNAP_ID } from "@/api/types";
 
 export function request(method: string, params: unknown[]): Promise<any> {
     return window.ethereum.request({
@@ -11,52 +11,60 @@ export function request(method: string, params: unknown[]): Promise<any> {
     });
 }
 
-export function requestSnap<T>(invoke: RpcRequest): Promise<T> {
-    return request("wallet_invokeSnap", [SNAP_ID, invoke]);
+// export function requestSnap<T>(invoke: Omit<RpcApi, "signature">): Promise<T> {
+//     return request("wallet_invokeSnap", [SNAP_ID, invoke]);
+// }
+
+export function requestSnap<T extends RpcRequest, U>(
+    method: T["method"],
+    params: T["params"],
+): Promise<U> {
+    return request("wallet_invokeSnap", [SNAP_ID, { method, params }]);
 }
 
 export async function enable() {
     await request("wallet_enable", [{ wallet_snap: { [SNAP_ID]: {} } }]);
 }
 
-export function isEnabled(): Promise<boolean> {
-    return requestSnap({ method: "is_enabled" });
-}
+export const isEnabled: RpcApi["is_enabled"] = (...params) => {
+    return requestSnap("is_enabled", params);
+};
 
-export function getActiveAddress(): Promise<string> {
-    return requestSnap({ method: "get_active_address" });
-}
+export const getPermissions: RpcApi["get_permissions"] = (...params) => {
+    return requestSnap("get_permissions", params);
+};
 
-export function getActivePublicKey(): Promise<JWKPublicInterface> {
-    return requestSnap({ method: "get_active_public_key" });
-}
+export const getActiveAddress: RpcApi["get_active_address"] = (...params) => {
+    return requestSnap("get_active_address", params);
+};
 
-export function getAllAddresses(): Promise<string[]> {
-    return requestSnap({ method: "get_all_addresses" });
-}
+export const getActivePublicKey: RpcApi["get_active_public_key"] = (...params) => {
+    return requestSnap("get_active_public_key", params);
+};
 
-export function getWalletNames(): Promise<Record<string, string>> {
-    return requestSnap({ method: "get_wallet_names" });
-}
+export const getAllAddresses: RpcApi["get_all_addresses"] = (...params) => {
+    return requestSnap("get_all_addresses", params);
+};
 
-export function signBytes(bytes: Uint8Array, saltLength = 32): Promise<Uint8Array> {
-    return requestSnap({
-        method: "sign_bytes",
-        params: [bytes, saltLength],
-    });
-}
+export const getWalletNames: RpcApi["get_wallet_names"] = (...params) => {
+    return requestSnap("get_wallet_names", params);
+};
 
-export function setActiveAddress(address: string): Promise<void> {
-    return request("wallet_setActive", [address]);
-}
+export const signBytes: RpcApi["sign_bytes"] = (...params) => {
+    return requestSnap("sign_bytes", params);
+};
 
-export function importWallet(jwk: JWKInterface, name?: string): Promise<void> {
-    return request("wallet_import", [jwk, name]);
-}
+export const setActiveAddress: RpcApi["set_active_address"] = (...params) => {
+    return requestSnap("set_active_address", params);
+};
 
-export function renameWallet(address: string, newName: string): Promise<void> {
-    return request("wallet_rename", [address, newName]);
-}
+export const importWallet: RpcApi["import_wallet"] = (...params) => {
+    return requestSnap("import_wallet", params);
+};
+
+export const renameWallet: RpcApi["rename_wallet"] = (...params) => {
+    return requestSnap("rename_wallet", params);
+};
 
 /**
  * Helper function to sign a transaction. Makes two request to obtain the public key and to sign
@@ -64,12 +72,12 @@ export function renameWallet(address: string, newName: string): Promise<void> {
  * @param tx - The transaction to sign
  */
 export async function signTx(tx: Transaction): Promise<void> {
-    const { n: owner } = await getActivePublicKey();
+    const owner = await getActivePublicKey();
 
     tx.setOwner(owner);
 
     const dataToSign = await tx.getSignatureData();
-    const dataSigned = new Uint8Array(Object.values(await signBytes(dataToSign)));
+    const dataSigned = new Uint8Array(Object.values(await signBytes(dataToSign, 32)));
     const id = await crypto.subtle.digest("SHA-256", dataSigned);
 
     tx.setSignature({

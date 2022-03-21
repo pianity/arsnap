@@ -1,39 +1,39 @@
-import { ImportWallet, RenameWallet, SetActiveAddress, SignBytes } from "@pianity/arsnap-adapter";
+import { RpcApi } from "@pianity/arsnap-adapter";
 
-import { JWKPublicInterface, signWithJwk } from "@/crypto";
+import { signWithJwk } from "@/crypto";
 import * as walletUtils from "@/wallets";
 import { ownerToAddress } from "@/utils";
 import { getState } from "@/metamask";
 
-export function isEnabled(): boolean {
+export const isEnabled: RpcApi["is_enabled"] = async () => {
     return true;
-}
+};
 
-export async function getActiveAddress(): Promise<string> {
+export const getPermissions: RpcApi["get_permissions"] = async () => {
+    return [];
+};
+
+export const getActiveAddress: RpcApi["get_active_address"] = async () => {
     const { metadata } = await walletUtils.getActiveWallet();
 
     return metadata.address;
-}
+};
 
-export async function getActivePublicKey(): Promise<JWKPublicInterface> {
+export const getActivePublicKey: RpcApi["get_active_public_key"] = async () => {
     const wallet = await walletUtils.getActiveWallet();
 
-    return {
-        kty: "RSA",
-        e: wallet.key.e,
-        n: wallet.key.n,
-    };
-}
+    return wallet.key.n;
+};
 
-export async function getAllAddresses(): Promise<string[]> {
+export const getAllAddresses: RpcApi["get_all_addresses"] = async () => {
     const { wallets } = await getState();
 
     const addresses = Object.keys(wallets);
 
     return addresses;
-}
+};
 
-export async function getWalletNames(): Promise<Record<string, string>> {
+export const getWalletNames: RpcApi["get_wallet_names"] = async () => {
     const { wallets } = await getState();
 
     const walletNames: Record<string, string> = {};
@@ -43,23 +43,21 @@ export async function getWalletNames(): Promise<Record<string, string>> {
     }
 
     return walletNames;
-}
+};
 
-export async function signBytes([data, saltLength]: SignBytes["params"]): Promise<Uint8Array> {
+export const signBytes: RpcApi["sign_bytes"] = async (data, saltLength) => {
     data = new Uint8Array(Object.values(data));
 
     const wallet = await walletUtils.getActiveWallet();
 
     return await signWithJwk(wallet.key, data, saltLength);
-}
+};
 
-export async function setActiveAddress([address]: SetActiveAddress["params"]): Promise<boolean> {
+export const setActiveAddress: RpcApi["set_active_address"] = async (address) => {
     await walletUtils.setActiveAddress(address);
+};
 
-    return true;
-}
-
-export async function importWallet([jwk, name]: ImportWallet["params"]): Promise<boolean> {
+export const importWallet: RpcApi["import_wallet"] = async (jwk, name) => {
     await walletUtils.importWallet({
         key: jwk,
         metadata: {
@@ -67,12 +65,8 @@ export async function importWallet([jwk, name]: ImportWallet["params"]): Promise
             name,
         },
     });
+};
 
-    return true;
-}
-
-export async function renameWallet([address, name]: RenameWallet["params"]): Promise<boolean> {
+export const renameWallet: RpcApi["rename_wallet"] = async (address, name) => {
     await walletUtils.renameWallet(address, name);
-
-    return true;
-}
+};

@@ -1,6 +1,6 @@
 import { deriveBIP44AddressKey, JsonBIP44CoinTypeNode } from "@metamask/key-tree";
 
-import { RpcRequest } from "@pianity/arsnap-adapter";
+import { RpcRequest, Permission } from "@pianity/arsnap-adapter";
 
 import { binToB64 } from "@/utils";
 import { EncryptedData, JWKInterface } from "@/crypto";
@@ -36,6 +36,11 @@ export type EncryptedWallet = {
 
 export type State = {
     /**
+     * The base 64 encoded salt parameter used to derive the AES-GCM key used to encrypts wallets.
+     */
+    keySalt: string;
+
+    /**
      * List of wallets managed by ArSnap indexed by their address.
      */
     wallets: Record<string, EncryptedWallet>;
@@ -46,9 +51,9 @@ export type State = {
     activeWallet: string;
 
     /**
-     * The base 64 encoded salt parameter used to derive the AES-GCM key used to encrypts wallets.
+     * List of permissions. Indexed by `originString` and ,
      */
-    keySalt: string;
+    permissions: Record<string, Permission[]>;
 };
 
 export async function registerRpcMessageHandler(callback: MethodCallback) {
@@ -62,6 +67,7 @@ export async function initializeState() {
         wallets: {},
         activeWallet: "",
         keySalt,
+        permissions: {},
     });
 
     const defaultWallet = await generateWallet();
