@@ -1,4 +1,4 @@
-import { PermissionType, AppInfo } from "arconnect";
+import { AppInfo, PermissionType } from "arconnect";
 import Transaction from "arweave/node/lib/transaction";
 
 import * as adapter from "@pianity/arsnap-adapter";
@@ -9,7 +9,25 @@ async function connect(permissions: adapter.Permission[], _appInfo?: AppInfo) {
 }
 
 async function getPermissions(): Promise<PermissionType[]> {
-    return ["ACCESS_ADDRESS", "ACCESS_PUBLIC_KEY", "SIGN_TRANSACTION", "SIGNATURE"];
+    const permissions = await adapter.getPermissions();
+
+    const arconnectPermissions: PermissionType[] = [
+        "ACCESS_ADDRESS",
+        "ACCESS_PUBLIC_KEY",
+        "ACCESS_ALL_ADDRESSES",
+        "SIGN_TRANSACTION",
+        "ENCRYPT",
+        "DECRYPT",
+        "SIGNATURE",
+        "ACCESS_ARWEAVE_CONFIG",
+        "DISPATCH",
+    ];
+
+    const filteredPermissions = permissions.filter((permission) =>
+        (arconnectPermissions as string[]).includes(permission),
+    );
+
+    return filteredPermissions as PermissionType[];
 }
 
 async function getActivePublicKey(): Promise<string> {

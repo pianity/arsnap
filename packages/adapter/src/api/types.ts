@@ -36,7 +36,7 @@ type ObjectToUnion<T extends Record<string, (...args: any[]) => any>> = {
 
 export type RpcApi = {
     is_enabled: () => Promise<boolean>;
-    get_permissions: () => Promise<string[]>;
+    get_permissions: () => Promise<Permission[]>;
     get_active_address: () => Promise<string>;
     get_active_public_key: () => Promise<string>;
     get_all_addresses: () => Promise<string[]>;
