@@ -1,11 +1,11 @@
 import * as handlers from "@/handlers";
-import { getState, initializeState, registerRpcMessageHandler } from "@/metamask";
+import { getStateRaw, initializeState, registerRpcMessageHandler } from "@/metamask";
 import { exhaustive } from "@/utils";
 
-registerRpcMessageHandler(async (originString, request) => {
+registerRpcMessageHandler(async (origin, request) => {
     const { method, params } = request;
 
-    if (!(await getState())) {
+    if (!(await getStateRaw())) {
         await initializeState();
     }
 
@@ -14,7 +14,7 @@ registerRpcMessageHandler(async (originString, request) => {
             return handlers.isEnabled();
 
         case "get_permissions":
-            return handlers.getPermissions();
+            return handlers.getPermissions(origin);
 
         case "get_active_address":
             return await handlers.getActiveAddress();
@@ -39,6 +39,9 @@ registerRpcMessageHandler(async (originString, request) => {
 
         case "rename_wallet":
             return await handlers.renameWallet(...params);
+
+        case "request_permissions":
+            return await handlers.requestPermissions(origin, ...params);
 
         default:
             exhaustive(method);

@@ -104,7 +104,7 @@ export async function getAESKey() {
 
 async function getActiveWalletInfo(
     setAddress: Dispatch<SetStateAction<string | undefined>>,
-    setPubKey: Dispatch<SetStateAction<JWKPublicInterface | undefined>>,
+    setPubKey: Dispatch<SetStateAction<string | undefined>>,
 ) {
     try {
         setAddress(await adapter.getActiveAddress());
@@ -118,7 +118,7 @@ async function getActiveWalletInfo(
 export default function App() {
     const [snapConnected, setSnapConnected] = useState<boolean>(false);
     const [address, setAddress] = useState<string | undefined>();
-    const [pubKey, setPubKey] = useState<JWKPublicInterface | undefined>();
+    const [pubKey, setPubKey] = useState<string | undefined>();
 
     useEffect(() => {
         adapter
@@ -143,6 +143,10 @@ export default function App() {
                             Generate a new wallet
                         </button>
                             */}
+
+                        <button onClick={() => adapter.requestPermissions(["ACCESS_ADDRESS"])}>
+                            Request some permissions
+                        </button>
 
                         <button onClick={() => createSignTx()}>
                             Create and sign a random new transaction

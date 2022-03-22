@@ -22,6 +22,7 @@
         "node": ">=12.11.0"
     },
     "scripts": {
+        "dev": "nodemon --watch src/ --ext ts --exec 'yarn build && yarn serve'",
         "build": "yarn clean && yarn build:tsc && yarn build:snap",
         "build:snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
         "build:tsc": "tsc && tsc-alias",
@@ -38,12 +39,13 @@
     },
     "devDependencies": {
         "@metamask/snaps-cli": "^0.10.2",
+        "@pianity/eslint-config": "*",
+        "@pianity/prettier-config": "*",
         "@types/base-64": "^1.0.0",
         "mkdirp": "^1.0.4",
+        "nodemon": "^2.0.15",
         "ts-node": "^10.6.0",
         "tsc-alias": "^1.6.3",
-        "typescript": "^4.5.2",
-        "@pianity/eslint-config": "*",
-        "@pianity/prettier-config": "*"
+        "typescript": "^4.5.2"
     }
 }

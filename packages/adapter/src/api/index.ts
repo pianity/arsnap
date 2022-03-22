@@ -66,6 +66,10 @@ export const renameWallet: RpcApi["rename_wallet"] = (...params) => {
     return requestSnap("rename_wallet", params);
 };
 
+export const requestPermissions: RpcApi["request_permissions"] = (...params) => {
+    return requestSnap("request_permissions", params);
+};
+
 /**
  * Helper function to sign a transaction. Makes two request to obtain the public key and to sign
  * the transaction.

@@ -2,9 +2,9 @@ import { deriveBIP44AddressKey, JsonBIP44CoinTypeNode } from "@metamask/key-tree
 
 import { RpcRequest, Permission } from "@pianity/arsnap-adapter";
 
-import { binToB64 } from "@/utils";
+import { binToB64, mapToRecord, recordToMap } from "@/utils";
 import { EncryptedData, JWKInterface } from "@/crypto";
-import { generateWallet, importWallet } from "@/wallets";
+import { generateWallet, importWallet, setActiveAddress } from "@/wallets";
 
 export type MethodCallback = (originString: string, requestObject: RpcRequest) => Promise<unknown>;
 
@@ -17,6 +17,39 @@ declare global {
     interface Window {
         wallet: MetamaskWallet;
     }
+}
+
+export async function registerRpcMessageHandler(callback: MethodCallback) {
+    window.wallet.registerRpcMessageHandler(callback);
+}
+
+export function confirmPopup(
+    prompt: string,
+    description: string,
+    textAreaContent: string,
+): Promise<boolean> {
+    return window.wallet.request({
+        method: "snap_confirm",
+        params: [
+            {
+                prompt,
+                description,
+                textAreaContent,
+            },
+        ],
+    }) as Promise<boolean>;
+}
+
+export function notify(message: string, type = "native"): Promise<void> {
+    return window.wallet.request({
+        method: "snap_notify",
+        params: [
+            {
+                type,
+                message,
+            },
+        ],
+    }) as Promise<void>;
 }
 
 export type WalletMetadata = {
@@ -43,7 +76,7 @@ export type State = {
     /**
      * List of wallets managed by ArSnap indexed by their address.
      */
-    wallets: Record<string, EncryptedWallet>;
+    wallets: Map<string, EncryptedWallet>;
 
     /**
      * Address of active wallet.
@@ -51,27 +84,69 @@ export type State = {
     activeWallet: string;
 
     /**
-     * List of permissions. Indexed by `originString` and ,
+     * List of permissions indexed by `originString`.
      */
-    permissions: Record<string, Permission[]>;
+    permissions: Map<string, Permission[]>;
 };
 
-export async function registerRpcMessageHandler(callback: MethodCallback) {
-    window.wallet.registerRpcMessageHandler(callback);
-}
+type SerializableState = Omit<State, "wallets" | "permissions"> & {
+    wallets: Record<string, EncryptedWallet>;
+    permissions: Record<string, Permission[]>;
+};
 
 export async function initializeState() {
     const keySalt = binToB64(window.crypto.getRandomValues(new Uint8Array(8)));
 
     await replaceState({
-        wallets: {},
+        wallets: new Map(),
         activeWallet: "",
         keySalt,
-        permissions: {},
+        permissions: new Map(),
     });
 
     const defaultWallet = await generateWallet();
     await importWallet(defaultWallet);
+    await setActiveAddress(defaultWallet.metadata.address);
+}
+
+export async function getStateRaw(): Promise<SerializableState> {
+    const state = (await window.wallet.request({
+        method: "snap_manageState",
+        params: ["get"],
+    })) as SerializableState;
+
+    return state;
+}
+
+export async function getState(): Promise<State> {
+    const serialState = await getStateRaw();
+
+    const state: State = {
+        ...serialState,
+        wallets: recordToMap(serialState.wallets),
+        permissions: recordToMap(serialState.permissions),
+    };
+
+    return state;
+}
+
+export async function replaceState(state: State): Promise<void> {
+    const serialState = {
+        ...state,
+        wallets: mapToRecord(state.wallets),
+        permissions: mapToRecord(state.permissions),
+    };
+
+    await window.wallet.request({ method: "snap_manageState", params: ["update", serialState] });
+}
+
+export async function updateState(update: Partial<State>): Promise<void> {
+    const state = await getState();
+
+    await replaceState({
+        ...state,
+        ...update,
+    });
 }
 
 export async function getSecret(): Promise<Buffer> {
@@ -95,21 +170,4 @@ export async function getSecret(): Promise<Buffer> {
     });
 
     return secret;
-}
-
-export async function getState(): Promise<State> {
-    const snapState = await window.wallet.request({ method: "snap_manageState", params: ["get"] });
-    return snapState as State;
-}
-
-export async function replaceState(state: State): Promise<void> {
-    await window.wallet.request({ method: "snap_manageState", params: ["update", state] });
-}
-
-export async function updateState(update: Partial<State>): Promise<void> {
-    const state = await getState();
-    await window.wallet.request({
-        method: "snap_manageState",
-        params: ["update", { ...state, ...update }],
-    });
 }

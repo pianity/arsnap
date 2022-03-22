@@ -30,7 +30,7 @@ export type ArsnapPermission = "RENAME_WALLETS";
 
 export type Permission = ArconnectPermission | ArsnapPermission;
 
-type ObjectToUnion<T extends Record<string, (...args: any) => any>> = {
+type ObjectToUnion<T extends Record<string, (...args: any[]) => any>> = {
     [K in keyof T]: { method: K; params: Parameters<T[K]> };
 }[keyof T];
 
@@ -42,15 +42,11 @@ export type RpcApi = {
     get_all_addresses: () => Promise<string[]>;
     get_wallet_names: () => Promise<Record<string, string>>;
     sign_bytes: (bytes: Uint8Array, saltLength: number) => Promise<Uint8Array>;
-    set_active_address: (address: string) => Promise<void>;
-    import_wallet: (wallet: JWKInterface, name: string) => Promise<void>;
-    rename_wallet: (address: string, name: string) => Promise<void>;
+
+    set_active_address: (address: string) => Promise<null>;
+    import_wallet: (wallet: JWKInterface, name: string) => Promise<null>;
+    rename_wallet: (address: string, name: string) => Promise<null>;
+    request_permissions: (permissions: Permission[]) => Promise<boolean>;
 };
 
 export type RpcRequest = ObjectToUnion<RpcApi>;
-
-export type RpcMethod<T extends string, U extends (...args: unknown[]) => unknown> = {
-    method: T;
-    signature: U;
-    params: Parameters<U>;
-};

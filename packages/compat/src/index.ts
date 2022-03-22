@@ -3,8 +3,9 @@ import Transaction from "arweave/node/lib/transaction";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
-async function connect(_permissions: PermissionType[], _appInfo?: AppInfo) {
+async function connect(permissions: adapter.Permission[], _appInfo?: AppInfo) {
     await adapter.enable();
+    await adapter.requestPermissions(permissions);
 }
 
 async function getPermissions(): Promise<PermissionType[]> {
@@ -12,7 +13,7 @@ async function getPermissions(): Promise<PermissionType[]> {
 }
 
 async function getActivePublicKey(): Promise<string> {
-    return (await adapter.getActivePublicKey()).n;
+    return await adapter.getActivePublicKey();
 }
 
 async function getAllAddresses(): Promise<string[]> {
@@ -29,8 +30,8 @@ async function sign(transaction: Transaction): Promise<Transaction> {
     return transaction;
 }
 
-function signature(data: Uint8Array, options?: { saltLength: number }): Promise<Uint8Array> {
-    return adapter.signBytes(data, options?.saltLength);
+function signature(data: Uint8Array, options = { saltLength: 32 }): Promise<Uint8Array> {
+    return adapter.signBytes(data, options.saltLength);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any
