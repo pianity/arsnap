@@ -26,7 +26,7 @@ export type ArconnectPermission =
     | "ACCESS_ARWEAVE_CONFIG"
     | "DISPATCH";
 
-export type ArsnapPermission = "RENAME_WALLETS";
+export type ArsnapPermission = "ORGANIZE_WALLETS";
 
 export type Permission = ArconnectPermission | ArsnapPermission;
 

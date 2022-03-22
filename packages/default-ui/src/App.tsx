@@ -8,44 +8,30 @@ import "@pianity/arsnap-compat";
 
 import "@/App.css";
 
+const REQUIRED_PERMS = ["ACCESS_ADDRESS", "ACCESS_PUBLIC_KEY", "SIGNATURE", "ORGANIZE_WALLETS"];
+
 async function connect(setSnapConnected: Dispatch<SetStateAction<boolean>>) {
     try {
         console.log("connecting...");
-        const enabled = await adapter.enable();
-        console.log("connected");
+
+        await adapter.enable();
+
         setSnapConnected(true);
+
+        console.log("connected");
+        console.log("requesting permissions...");
+
+        if (
+            await adapter.requestPermissions(["ACCESS_PUBLIC_KEY", "SIGNATURE", "ORGANIZE_WALLETS"])
+        ) {
+            console.log("permissions granted");
+        } else {
+            console.log("permissions denied");
+        }
     } catch (e) {
         setSnapConnected(false);
     }
 }
-//
-// async function generateWallet(setWalletState: Dispatch<SetStateAction<WalletState>>) {
-//     setWalletState("generating");
-//     try {
-//         await adapter.generateWallet();
-//         setWalletState("generated");
-//     } catch (e) {
-//         setWalletState("no-wallet");
-//     }
-// }
-
-type WalletState = "no-wallet" | "generating" | "generated";
-
-// async function getPubKey(
-//     setPubKey: Dispatch<SetStateAction<JWKPublicInterface | undefined>>,
-//     setAddress: Dispatch<SetStateAction<string | undefined>>,
-// ) {
-//     try {
-//         const pubKey = await adapter.getPubKey();
-//         const address = await adapter.getAddress();
-//
-//         setPubKey(pubKey);
-//         setAddress(address);
-//     } catch (e) {
-//         setPubKey(undefined);
-//         setAddress(undefined);
-//     }
-// }
 
 async function createSignTx() {
     const arweave = Arweave.init({});
@@ -117,16 +103,31 @@ async function getActiveWalletInfo(
 
 export default function App() {
     const [snapConnected, setSnapConnected] = useState<boolean>(false);
+    const [permissionsGranted, setPermissionsGranted] = useState<boolean>(false);
     const [address, setAddress] = useState<string | undefined>();
     const [pubKey, setPubKey] = useState<string | undefined>();
 
     useEffect(() => {
         adapter
-            .isEnabled()
-            .then(setSnapConnected)
-            .then(() => getActiveWalletInfo(setAddress, setPubKey))
+            .getPermissions()
+            .then((perms) => {
+                setSnapConnected(true);
+
+                for (const perm of REQUIRED_PERMS) {
+                    if (!perms.includes(perm)) {
+                        setPermissionsGranted(false);
+                        return;
+                    }
+                }
+
+                setPermissionsGranted(true);
+            })
             .catch(() => setSnapConnected(false));
     });
+
+    useEffect(() => {
+        getActiveWalletInfo(setAddress, setPubKey);
+    }, [permissionsGranted]);
 
     return (
         <div className="App">
