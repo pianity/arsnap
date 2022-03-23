@@ -34,7 +34,7 @@ export const getActivePublicKey: RpcApi["get_active_public_key"] = async () => {
 export const getAllAddresses: RpcApi["get_all_addresses"] = async () => {
     const { wallets } = await getState();
 
-    const addresses = Object.keys(wallets);
+    const addresses = Array.from(wallets.keys());
 
     return addresses;
 };
@@ -44,7 +44,7 @@ export const getWalletNames: RpcApi["get_wallet_names"] = async () => {
 
     const walletNames: Record<string, string> = {};
 
-    for (const { metadata } of Object.values(wallets)) {
+    for (const { metadata } of wallets.values()) {
         walletNames[metadata.address] = metadata.name;
     }
 
@@ -66,13 +66,7 @@ export const setActiveAddress: RpcApi["set_active_address"] = async (address) =>
 };
 
 export const importWallet: RpcApi["import_wallet"] = async (jwk, name) => {
-    await walletsUtils.importWallet({
-        key: jwk,
-        metadata: {
-            address: await ownerToAddress(jwk.n),
-            name,
-        },
-    });
+    await walletsUtils.importJwk(jwk, name);
 
     return null;
 };

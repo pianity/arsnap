@@ -1,6 +1,6 @@
 import { getState, replaceState, updateState, Wallet } from "@/metamask";
 import { ownerToAddress } from "@/utils";
-import { decryptWallet, encryptWallet, generateJWK } from "@/crypto";
+import { decryptWallet, encryptWallet, generateJWK, JWKInterface } from "@/crypto";
 
 export async function getWallet(address: string) {
     const { wallets } = await getState();
@@ -20,11 +20,13 @@ export async function getActiveWallet() {
     return getWallet(activeWallet);
 }
 
-export async function generateWallet(): Promise<Wallet> {
+export async function generateWallet(name?: string): Promise<Wallet> {
     const wallet = await generateJWK();
     const address = await ownerToAddress(wallet.n);
 
-    return { key: wallet, metadata: { address, name: "" } };
+    name = await getProperWalletName(address, name);
+
+    return { key: wallet, metadata: { address, name } };
 }
 
 export async function setActiveAddress(address: string) {
@@ -49,6 +51,21 @@ export async function importWallet(wallet: Wallet): Promise<void> {
     await replaceState(state);
 }
 
+export async function importJwk(jwk: JWKInterface, name?: string): Promise<void> {
+    const address = await ownerToAddress(jwk.n);
+    name = await getProperWalletName(address, name);
+
+    const wallet = {
+        key: jwk,
+        metadata: {
+            address,
+            name,
+        },
+    };
+
+    await importWallet(wallet);
+}
+
 export async function renameWallet(address: string, name: string) {
     const state = await getState();
 
@@ -61,4 +78,31 @@ export async function renameWallet(address: string, name: string) {
     wallet.metadata.name = name;
 
     await replaceState(state);
+}
+
+async function getProperWalletName(address: string, name?: string): Promise<string> {
+    const { wallets } = await getState();
+
+    name = name ? name?.trim() : undefined;
+
+    if (name) {
+        const nameAlreadyTaken =
+            [...wallets.entries()].filter(([_, { metadata }]) => metadata.name === name).length > 0;
+
+        if (nameAlreadyTaken) {
+            const splitted = name.split(" ");
+            const lastWord = parseInt(splitted.at(-1) ?? "");
+
+            if (splitted.length > 1 && !Number.isNaN(lastWord)) {
+                splitted.pop();
+                name = `${name} ${lastWord + 1}`;
+            } else {
+                name = `${name} 2`;
+            }
+        }
+    }
+
+    name = name ?? `Unnamed ${address.slice(0, 3)}...${address.slice(-3)}`;
+
+    return name;
 }

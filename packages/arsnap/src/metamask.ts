@@ -104,7 +104,7 @@ export async function initializeState() {
         permissions: new Map(),
     });
 
-    const defaultWallet = await generateWallet();
+    const defaultWallet = await generateWallet("Default Wallet");
     await importWallet(defaultWallet);
     await setActiveAddress(defaultWallet.metadata.address);
 }

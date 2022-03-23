@@ -5,6 +5,10 @@ import { Base64 } from "js-base64";
 import { Permission, RpcApi, RpcRequest, SNAP_ID } from "@/api/types";
 
 export function request(method: string, params: unknown[]): Promise<any> {
+    if (!window.ethereum || !window.ethereum.isMetaMask) {
+        throw new Error("MetaMask is not installed");
+    }
+
     return window.ethereum.request({
         method,
         params,
@@ -28,6 +32,22 @@ export async function enable() {
 
 export const isEnabled: RpcApi["is_enabled"] = (...params) => {
     return requestSnap("is_enabled", params);
+};
+
+export const isInitialized: RpcApi["is_initialized"] = (...params) => {
+    return requestSnap("is_initialized", params);
+};
+
+/**
+ * Initializes ArSnap's state. It is mendatory to call this method before using any other ArSnap
+ * methods. When Metamask will provide a way to initialize Snaps this will be handled automatically
+ * and this method will be removed.
+ *
+ * Returns true if ArSnap has successfully been initialized. Returns false when ArSnap has already
+ * been initialized.
+ */
+export const initialize: RpcApi["initialize"] = (...params) => {
+    return requestSnap("initialize", params);
 };
 
 export const getPermissions: RpcApi["get_permissions"] = (...params) => {
@@ -77,6 +97,9 @@ export const requestPermissions: RpcApi["request_permissions"] = (...params) => 
  */
 export async function signTx(tx: Transaction): Promise<void> {
     const owner = await getActivePublicKey();
+
+    // TODO: Add ArSnap tags to the transaction
+    // tx.addTag(
 
     tx.setOwner(owner);
 

@@ -14,7 +14,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "yarn clean && tsc && tsc-alias",
+        "build": "tsc && tsc-alias",
         "clean": "rm -r dist/",
         "typecheck": "tsc --noEmit",
         "lint": "prettier --loglevel warn --check src/ && eslint src/",
