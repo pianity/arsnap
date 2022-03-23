@@ -1,6 +1,6 @@
 import { RpcApi } from "@pianity/arsnap-adapter";
 
-import { signWithJwk } from "@/crypto";
+import { decryptWallet, signWithJwk } from "@/crypto";
 import * as walletsUtils from "@/wallets";
 import * as permissions from "@/permissions";
 import { ownerToAddress } from "@/utils";
@@ -28,7 +28,7 @@ export const getActiveAddress: RpcApi["get_active_address"] = async () => {
 export const getActivePublicKey: RpcApi["get_active_public_key"] = async () => {
     const wallet = await walletsUtils.getActiveWallet();
 
-    return wallet.key.n;
+    return wallet.metadata.keyOwnerField;
 };
 
 export const getAllAddresses: RpcApi["get_all_addresses"] = async () => {
@@ -54,7 +54,7 @@ export const getWalletNames: RpcApi["get_wallet_names"] = async () => {
 export const signBytes: RpcApi["sign_bytes"] = async (data, saltLength) => {
     data = new Uint8Array(Object.values(data));
 
-    const wallet = await walletsUtils.getActiveWallet();
+    const wallet = await decryptWallet(await walletsUtils.getActiveWallet());
 
     return await signWithJwk(wallet.key, data, saltLength);
 };

@@ -53,6 +53,7 @@ export function notify(message: string, type = "native"): Promise<void> {
 }
 
 export type WalletMetadata = {
+    keyOwnerField: string;
     address: string;
     name: string;
 };

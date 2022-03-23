@@ -1,8 +1,8 @@
-import { getState, replaceState, updateState, Wallet } from "@/metamask";
+import { EncryptedWallet, getState, replaceState, Wallet } from "@/metamask";
 import { ownerToAddress } from "@/utils";
-import { decryptWallet, encryptWallet, generateJWK, JWKInterface } from "@/crypto";
+import { encryptWallet, generateJWK, JWKInterface } from "@/crypto";
 
-export async function getWallet(address: string) {
+export async function getWallet(address: string): Promise<EncryptedWallet> {
     const { wallets } = await getState();
 
     const encryptedWallet = wallets.get(address);
@@ -11,10 +11,10 @@ export async function getWallet(address: string) {
         throw new Error(`No wallet found for address "${address}"`);
     }
 
-    return await decryptWallet(encryptedWallet);
+    return encryptedWallet;
 }
 
-export async function getActiveWallet() {
+export async function getActiveWallet(): Promise<EncryptedWallet> {
     const { activeWallet } = await getState();
 
     return getWallet(activeWallet);
@@ -26,7 +26,7 @@ export async function generateWallet(name?: string): Promise<Wallet> {
 
     name = await getProperWalletName(address, name);
 
-    return { key: wallet, metadata: { address, name } };
+    return { key: wallet, metadata: { name, address, keyOwnerField: wallet.n } };
 }
 
 export async function setActiveAddress(address: string) {
@@ -58,8 +58,9 @@ export async function importJwk(jwk: JWKInterface, name?: string): Promise<void>
     const wallet = {
         key: jwk,
         metadata: {
-            address,
             name,
+            address,
+            keyOwnerField: jwk.n,
         },
     };
 
