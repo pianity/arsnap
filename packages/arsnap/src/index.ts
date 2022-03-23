@@ -30,55 +30,55 @@ registerRpcMessageHandler(async (origin, request) => {
 
     const state = await getState();
 
-    let value;
+    let response;
 
     switch (method) {
         case "get_permissions":
-            value = await handlers.getPermissions(origin);
+            response = await handlers.getPermissions(origin);
             break;
 
         case "get_active_address":
             await guard(origin, "ACCESS_ADDRESS", state);
-            value = await handlers.getActiveAddress();
+            response = await handlers.getActiveAddress();
             break;
 
         case "get_active_public_key":
             await guard(origin, "ACCESS_PUBLIC_KEY", state);
-            value = await handlers.getActivePublicKey();
+            response = await handlers.getActivePublicKey();
             break;
 
         case "get_all_addresses":
             await guard(origin, "ACCESS_ALL_ADDRESSES", state);
-            value = await handlers.getAllAddresses();
+            response = await handlers.getAllAddresses();
             break;
 
         case "get_wallet_names":
             await guard(origin, "ACCESS_ALL_ADDRESSES", state);
-            value = await handlers.getWalletNames();
+            response = await handlers.getWalletNames();
             break;
 
         case "sign_bytes":
             await guard(origin, "SIGNATURE", state);
-            value = await handlers.signBytes(...params);
+            response = await handlers.signBytes(...params);
             break;
 
         case "set_active_address":
             await guard(origin, "ORGANIZE_WALLETS", state);
-            value = await handlers.setActiveAddress(...params);
+            response = await handlers.setActiveAddress(...params);
             break;
 
         case "import_wallet":
             await guard(origin, "ORGANIZE_WALLETS", state);
-            value = await handlers.importWallet(...params);
+            response = await handlers.importWallet(...params);
             break;
 
         case "rename_wallet":
             await guard(origin, "ORGANIZE_WALLETS", state);
-            value = await handlers.renameWallet(...params);
+            response = await handlers.renameWallet(...params);
             break;
 
         case "request_permissions":
-            value = await handlers.requestPermissions(origin, ...params);
+            response = await handlers.requestPermissions(origin, ...params);
             break;
 
         default:
@@ -86,5 +86,5 @@ registerRpcMessageHandler(async (origin, request) => {
             throw new Error("Method not found.");
     }
 
-    return value;
+    return response;
 });
