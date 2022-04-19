@@ -35,6 +35,7 @@
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
         "@pianity/arsnap-adapter": "*",
+        "async-mutex": "^0.3.2",
         "base64-js": "^1.5.1"
     },
     "devDependencies": {
