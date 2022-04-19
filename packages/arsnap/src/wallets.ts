@@ -1,57 +1,31 @@
-import { EncryptedWallet, getState, replaceState, Wallet } from "@/metamask";
+import { State, Wallet } from "@/state";
 import { ownerToAddress } from "@/utils";
 import { generateJWK, JWKInterface } from "@/crypto";
 
-export async function getWallet(address: string): Promise<Wallet> {
-    const { wallets } = await getState();
-
-    const encryptedWallet = wallets.get(address);
-
-    if (!encryptedWallet) {
-        throw new Error(`No wallet found for address "${address}"`);
-    }
-
-    return encryptedWallet;
-}
-
-export async function getActiveWallet(): Promise<Wallet> {
-    const { activeWallet } = await getState();
-
-    return getWallet(activeWallet);
-}
-
-export async function generateWallet(name?: string): Promise<Wallet> {
+export async function generateWallet(
+    existingWalletsNames: string[],
+    name?: string,
+): Promise<Wallet> {
     const wallet = await generateJWK();
     const address = await ownerToAddress(wallet.n);
 
-    name = await getProperWalletName(address, name);
-
-    return { key: wallet, metadata: { name, address, keyOwnerField: wallet.n } };
+    return {
+        key: wallet,
+        metadata: {
+            name: getProperWalletName(existingWalletsNames, address, name),
+            address,
+            keyOwnerField: wallet.n,
+        },
+    };
 }
 
-export async function setActiveAddress(address: string) {
-    const state = await getState();
-
-    if (!state.wallets.get(address)) {
-        throw new Error(`No wallet found for address "${address}"`);
-    }
-
-    state.activeWallet = address;
-
-    await replaceState(state);
-}
-
-export async function importWallet(wallet: Wallet): Promise<void> {
-    const state = await getState();
-
-    state.wallets.set(wallet.metadata.address, wallet);
-
-    await replaceState(state);
-}
-
-export async function importJwk(jwk: JWKInterface, name?: string): Promise<void> {
+export async function jwkToWallet(
+    existingWalletsNames: string[],
+    jwk: JWKInterface,
+    name?: string,
+): Promise<Wallet> {
     const address = await ownerToAddress(jwk.n);
-    name = await getProperWalletName(address, name);
+    name = getProperWalletName(existingWalletsNames, address, name);
 
     const wallet = {
         key: jwk,
@@ -62,31 +36,21 @@ export async function importJwk(jwk: JWKInterface, name?: string): Promise<void>
         },
     };
 
-    await importWallet(wallet);
+    return wallet;
 }
 
-export async function renameWallet(address: string, name: string) {
-    const state = await getState();
-
-    const wallet = state.wallets.get(address);
-
-    if (!wallet) {
-        throw new Error(`No wallet found for address "${address}"`);
-    }
-
-    wallet.metadata.name = name;
-
-    await replaceState(state);
+/**
+ * Returns an array of `wallets` names.
+ */
+export function walletsToNames(wallets: State["wallets"]): string[] {
+    return Array.from(wallets.values()).map((wallet) => wallet.metadata.name);
 }
 
-async function getProperWalletName(address: string, name?: string): Promise<string> {
-    const { wallets } = await getState();
-
+function getProperWalletName(wallets: string[], address: string, name?: string): string {
     name = name ? name?.trim() : undefined;
 
     if (name) {
-        const nameAlreadyTaken =
-            [...wallets.entries()].filter(([_, { metadata }]) => metadata.name === name).length > 0;
+        const nameAlreadyTaken = wallets.filter((takenName) => takenName === name).length > 0;
 
         if (nameAlreadyTaken) {
             const splitted = name.split(" ");

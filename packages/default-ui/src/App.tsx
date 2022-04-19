@@ -38,8 +38,6 @@ async function connect(
 
         await adapter.enable();
 
-        await adapter.initialize();
-
         setSnapConnected(true);
 
         console.log("connected");
@@ -50,7 +48,10 @@ async function connect(
         } else {
             setPermissionsGranted(false);
         }
+
+        console.log("done :)");
     } catch (e) {
+        console.error("an error occured while connecting to the snap", e);
         setSnapConnected(false);
     }
 }
@@ -180,7 +181,14 @@ export default function App() {
                 <Stack direction="row">
                     <Typography variant="body1">ArSnap's status:</Typography>
                     {snapConnected ? (
-                        <Chip label="Connected" color="success" />
+                        <>
+                            <Chip label="Connected" color="success" />
+                            <Button
+                                onClick={() => connect(setSnapConnected, setPermissionsGranted)}
+                            >
+                                connect
+                            </Button>
+                        </>
                     ) : (
                         <Button onClick={() => connect(setSnapConnected, setPermissionsGranted)}>
                             connect

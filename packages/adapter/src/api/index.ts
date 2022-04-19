@@ -1,8 +1,7 @@
 import Transaction from "arweave/node/lib/transaction";
-import { JWKInterface, JWKPublicInterface } from "arweave/node/lib/wallet";
 import { Base64 } from "js-base64";
 
-import { Permission, RpcApi, RpcRequest, SNAP_ID } from "@/api/types";
+import { RpcApi, RpcRequest, SNAP_ID } from "@/api/types";
 
 export function request(method: string, params: unknown[]): Promise<any> {
     if (!window.ethereum || !window.ethereum.isMetaMask) {
@@ -14,10 +13,6 @@ export function request(method: string, params: unknown[]): Promise<any> {
         params,
     });
 }
-
-// export function requestSnap<T>(invoke: Omit<RpcApi, "signature">): Promise<T> {
-//     return request("wallet_invokeSnap", [SNAP_ID, invoke]);
-// }
 
 export function requestSnap<T extends RpcRequest, U>(
     method: T["method"],
@@ -32,22 +27,6 @@ export async function enable() {
 
 export const isEnabled: RpcApi["is_enabled"] = (...params) => {
     return requestSnap("is_enabled", params);
-};
-
-export const isInitialized: RpcApi["is_initialized"] = (...params) => {
-    return requestSnap("is_initialized", params);
-};
-
-/**
- * Initializes ArSnap's state. It is mendatory to call this method before using any other ArSnap
- * methods. When Metamask will provide a way to initialize Snaps this will be handled automatically
- * and this method will be removed.
- *
- * Returns true if ArSnap has successfully been initialized. Returns false when ArSnap has already
- * been initialized.
- */
-export const initialize: RpcApi["initialize"] = (...params) => {
-    return requestSnap("initialize", params);
 };
 
 export const getPermissions: RpcApi["get_permissions"] = (...params) => {

@@ -4,6 +4,16 @@ export function exhaustive(_: never): never {
     throw new Error("Check wasn't exhaustive");
 }
 
+export function getOrThrow<T>(map: Map<string, T>, key: string): T {
+    const value = map.get(key);
+
+    if (value === undefined) {
+        throw new Error(`Couldn't find key "${key}"`);
+    }
+
+    return value;
+}
+
 export function mapToRecord<V>(map: Map<string, V>): Record<string, V> {
     const record: Record<string, V> = {};
 

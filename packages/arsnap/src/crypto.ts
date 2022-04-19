@@ -1,4 +1,5 @@
-import { EncryptedWallet, getSecret, getState, Wallet } from "@/metamask";
+import { getSecret } from "@/metamask";
+import { EncryptedWallet, Wallet } from "@/state";
 import { b64ToBin, binToB64 } from "@/utils";
 
 /**
@@ -112,10 +113,10 @@ export async function signWithJwk(
 /**
  * @deprecated state will be automatically encrypted by Metamask itself
  */
-async function getAESKey() {
+async function getAESKey(rawSalt: string) {
     const secret = new Uint8Array(await getSecret());
 
-    const salt = b64ToBin((await getState()).keySalt);
+    const salt = b64ToBin(rawSalt);
 
     const keyBase = await window.crypto.subtle.importKey("raw", secret, "PBKDF2", false, [
         "deriveBits",
@@ -141,8 +142,8 @@ async function getAESKey() {
 /**
  * @deprecated state will be automatically encrypted by Metamask itself
  */
-export async function encrypt(data: Uint8Array): Promise<EncryptedData> {
-    const key = await getAESKey();
+export async function encrypt(salt: string, data: Uint8Array): Promise<EncryptedData> {
+    const key = await getAESKey(salt);
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
     const encryptedData: ArrayBuffer = await window.crypto.subtle.encrypt(
@@ -160,8 +161,8 @@ export async function encrypt(data: Uint8Array): Promise<EncryptedData> {
 /**
  * @deprecated state will be automatically encrypted by Metamask itself
  */
-export async function decrypt(data: EncryptedData): Promise<Uint8Array> {
-    const key = await getAESKey();
+export async function decrypt(salt: string, data: EncryptedData): Promise<Uint8Array> {
+    const key = await getAESKey(salt);
 
     const decryptedData: ArrayBuffer = await window.crypto.subtle.decrypt(
         { name: "AES-GCM", iv: b64ToBin(data.iv) },
@@ -175,8 +176,8 @@ export async function decrypt(data: EncryptedData): Promise<Uint8Array> {
 /**
  * @deprecated state will be automatically encrypted by Metamask itself
  */
-export async function encryptWallet(wallet: Wallet): Promise<EncryptedWallet> {
-    const encryptedData = await encrypt(new TextEncoder().encode(JSON.stringify(wallet.key)));
+export async function encryptWallet(salt: string, wallet: Wallet): Promise<EncryptedWallet> {
+    const encryptedData = await encrypt(salt, new TextEncoder().encode(JSON.stringify(wallet.key)));
 
     return {
         encryptedData,
@@ -187,9 +188,9 @@ export async function encryptWallet(wallet: Wallet): Promise<EncryptedWallet> {
 /**
  * @deprecated state will be automatically encrypted by Metamask itself
  */
-export async function decryptWallet(wallet: EncryptedWallet): Promise<Wallet> {
+export async function decryptWallet(salt: string, wallet: EncryptedWallet): Promise<Wallet> {
     const decryptedData: JWKInterface = JSON.parse(
-        new TextDecoder().decode(await decrypt(wallet.encryptedData)),
+        new TextDecoder().decode(await decrypt(salt, wallet.encryptedData)),
     );
 
     return {

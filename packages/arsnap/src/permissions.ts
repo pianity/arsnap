@@ -1,29 +1,26 @@
 import { Permission } from "@pianity/arsnap-adapter";
 
-import { confirmPopup, getState, State, updateState } from "@/metamask";
+import { confirmPopup } from "@/metamask";
 
-export async function getPermissions(origin: string): Promise<Permission[]> {
-    const { permissions: allPermissions } = await getState();
-
-    const currentPermissions = allPermissions.get(origin);
-
-    return currentPermissions || [];
-}
-
-export async function guard(origin: string, permission: Permission, state?: State): Promise<void> {
-    const { permissions: allPermissions } = state ?? (await getState());
-
-    const grantedPerms = allPermissions.get(origin) ?? [];
-
+/**
+ * Throws if `permission` isn't included in `allowedPermission`.
+ */
+export async function guard(
+    allowedPermissions: Permission[],
+    permission: Permission,
+): Promise<void> {
     let allowed = false;
 
     if (permission === "SIGNATURE" || permission === "SIGN_TRANSACTION") {
-        allowed = grantedPerms.includes("SIGNATURE") || grantedPerms.includes("SIGN_TRANSACTION");
+        allowed =
+            allowedPermissions.includes("SIGNATURE") ||
+            allowedPermissions.includes("SIGN_TRANSACTION");
     } else if (permission === "ACCESS_ADDRESS") {
         allowed =
-            grantedPerms.includes("ACCESS_ADDRESS") || grantedPerms.includes("ACCESS_PUBLIC_KEY");
+            allowedPermissions.includes("ACCESS_ADDRESS") ||
+            allowedPermissions.includes("ACCESS_PUBLIC_KEY");
     } else {
-        allowed = grantedPerms.includes(permission);
+        allowed = allowedPermissions.includes(permission);
     }
 
     if (!allowed) {
@@ -31,14 +28,13 @@ export async function guard(origin: string, permission: Permission, state?: Stat
     }
 }
 
+/**
+ * Request `requestedPermissions` to the user. Returns an updated Permission[] with the new permissions.
+ */
 export async function requestPermissions(
-    origin: string,
+    currentPermissions: Permission[],
     requestedPermissions: Permission[],
-): Promise<boolean> {
-    const { permissions: allPermissions } = await getState();
-
-    const currentPermissions = allPermissions.get(origin) ?? [];
-
+): Promise<Permission[]> {
     const newPermissions = currentPermissions
         ? [
               ...new Set(
@@ -50,7 +46,7 @@ export async function requestPermissions(
         : requestedPermissions;
 
     if (newPermissions.length === 0) {
-        return true;
+        return currentPermissions;
     }
 
     const newPermissionsString = newPermissions
@@ -64,10 +60,8 @@ export async function requestPermissions(
     );
 
     if (granted) {
-        allPermissions.set(origin, [...currentPermissions, ...newPermissions]);
-
-        await updateState({ permissions: allPermissions });
+        return currentPermissions.concat(...newPermissions);
+    } else {
+        return currentPermissions;
     }
-
-    return granted;
 }

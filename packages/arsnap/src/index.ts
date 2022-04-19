@@ -1,90 +1,82 @@
+import { RpcRequest, RpcResult } from "@pianity/arsnap-adapter";
+
 import * as handlers from "@/handlers";
-import { getState, getStateRaw, initializeState, registerRpcMessageHandler } from "@/metamask";
+import { registerRpcMessageHandler } from "@/metamask";
+import { getState, initializeState, replaceState, State } from "@/state";
 import { exhaustive } from "@/utils";
 import { guard } from "@/permissions";
 
-registerRpcMessageHandler(async (origin, request) => {
-    const { method, params } = request;
+registerRpcMessageHandler(async (origin, request): Promise<RpcResult> => {
+    const [maybeState, releaseState] = await getState();
 
-    if (method === "is_enabled") {
-        return true;
-    }
-
-    const isInitialized = !!(await getStateRaw());
-
-    if (method === "is_initialized") {
-        return isInitialized;
-    } else if (method === "initialize") {
-        if (isInitialized) {
-            return false;
-        }
-
-        await initializeState();
-
-        return true;
-    }
-
-    if (!isInitialized) {
-        throw new Error("ArSnap hasn't been initialized yet. Run `adapter.initialize()` first.");
-    }
-
-    const state = await getState();
+    const state = maybeState || (await initializeState());
 
     let response;
 
+    try {
+        response = await handleRequest(state, origin, request);
+        // eslint-disable-next-line no-useless-catch
+    } catch (e) {
+        throw e;
+    } finally {
+        try {
+            await replaceState(state);
+        } finally {
+            releaseState();
+        }
+    }
+
+    return response;
+});
+
+async function handleRequest(state: State, origin: string, request: RpcRequest) {
+    const permissions = state.permissions.get(origin) || [];
+    const { method, params } = request;
+
     switch (method) {
+        case "is_enabled":
+            return await handlers.isEnabled();
+
         case "get_permissions":
-            response = await handlers.getPermissions(origin);
-            break;
+            return await handlers.getPermissions(state, origin);
 
         case "get_active_address":
-            await guard(origin, "ACCESS_ADDRESS", state);
-            response = await handlers.getActiveAddress();
-            break;
+            await guard(permissions, "ACCESS_ADDRESS");
+            return await handlers.getActiveAddress(state);
 
         case "get_active_public_key":
-            await guard(origin, "ACCESS_PUBLIC_KEY", state);
-            response = await handlers.getActivePublicKey();
-            break;
+            await guard(permissions, "ACCESS_PUBLIC_KEY");
+            return await handlers.getActivePublicKey(state);
 
         case "get_all_addresses":
-            await guard(origin, "ACCESS_ALL_ADDRESSES", state);
-            response = await handlers.getAllAddresses();
-            break;
+            await guard(permissions, "ACCESS_ALL_ADDRESSES");
+            return await handlers.getAllAddresses(state);
 
         case "get_wallet_names":
-            await guard(origin, "ACCESS_ALL_ADDRESSES", state);
-            response = await handlers.getWalletNames();
-            break;
+            await guard(permissions, "ACCESS_ALL_ADDRESSES");
+            return await handlers.getWalletNames(state);
 
         case "sign_bytes":
-            await guard(origin, "SIGNATURE", state);
-            response = await handlers.signBytes(...params);
-            break;
+            await guard(permissions, "SIGNATURE");
+            return await handlers.signBytes(state, ...params);
 
         case "set_active_address":
-            await guard(origin, "ORGANIZE_WALLETS", state);
-            response = await handlers.setActiveAddress(...params);
-            break;
+            await guard(permissions, "ORGANIZE_WALLETS");
+            return await handlers.setActiveAddress(state, ...params);
 
         case "import_wallet":
-            await guard(origin, "ORGANIZE_WALLETS", state);
-            response = await handlers.importWallet(...params);
-            break;
+            await guard(permissions, "ORGANIZE_WALLETS");
+            return await handlers.importWallet(state, ...params);
 
         case "rename_wallet":
-            await guard(origin, "ORGANIZE_WALLETS", state);
-            response = await handlers.renameWallet(...params);
-            break;
+            await guard(permissions, "ORGANIZE_WALLETS");
+            return await handlers.renameWallet(state, ...params);
 
         case "request_permissions":
-            response = await handlers.requestPermissions(origin, ...params);
-            break;
+            return await handlers.requestPermissions(state, origin, ...params);
 
         default:
             exhaustive(method);
             throw new Error("Method not found.");
     }
-
-    return response;
-});
+}

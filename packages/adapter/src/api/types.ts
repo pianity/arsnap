@@ -30,14 +30,8 @@ export type ArsnapPermission = "ORGANIZE_WALLETS";
 
 export type Permission = ArconnectPermission | ArsnapPermission;
 
-type ObjectToUnion<T extends Record<string, (...args: any[]) => any>> = {
-    [K in keyof T]: { method: K; params: Parameters<T[K]> };
-}[keyof T];
-
 export type RpcApi = {
     is_enabled: () => Promise<boolean>;
-    is_initialized: () => Promise<boolean>;
-    initialize: () => Promise<void>;
 
     get_permissions: () => Promise<Permission[]>;
     get_active_address: () => Promise<string>;
@@ -52,4 +46,10 @@ export type RpcApi = {
     request_permissions: (permissions: Permission[]) => Promise<boolean>;
 };
 
-export type RpcRequest = ObjectToUnion<RpcApi>;
+export type RpcRequest = {
+    [K in keyof RpcApi]: { method: K; params: Parameters<RpcApi[K]> };
+}[keyof RpcApi];
+
+export type RpcResult = {
+    [K in keyof RpcApi]: ReturnType<RpcApi[K]>;
+}[keyof RpcApi];
