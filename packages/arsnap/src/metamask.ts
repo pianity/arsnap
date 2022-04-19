@@ -63,6 +63,9 @@ export type Wallet = {
     metadata: WalletMetadata;
 };
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 export type EncryptedWallet = {
     encryptedData: EncryptedData;
     metadata: WalletMetadata;
@@ -77,7 +80,7 @@ export type State = {
     /**
      * List of wallets managed by ArSnap indexed by their address.
      */
-    wallets: Map<string, EncryptedWallet>;
+    wallets: Map<string, Wallet>;
 
     /**
      * Address of active wallet.
@@ -91,7 +94,7 @@ export type State = {
 };
 
 type SerializableState = Omit<State, "wallets" | "permissions"> & {
-    wallets: Record<string, EncryptedWallet>;
+    wallets: Record<string, Wallet>;
     permissions: Record<string, Permission[]>;
 };
 

@@ -1,6 +1,9 @@
 import { EncryptedWallet, getSecret, getState, Wallet } from "@/metamask";
 import { b64ToBin, binToB64 } from "@/utils";
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 export type EncryptedData = {
     /**
      * The base 64 encoded IV parameter used to encrypt the data
@@ -106,6 +109,9 @@ export async function signWithJwk(
     return await signWithCryptoKey(cryptoKey, data, saltLength);
 }
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 async function getAESKey() {
     const secret = new Uint8Array(await getSecret());
 
@@ -132,6 +138,9 @@ async function getAESKey() {
     return key;
 }
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 export async function encrypt(data: Uint8Array): Promise<EncryptedData> {
     const key = await getAESKey();
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
@@ -148,6 +157,9 @@ export async function encrypt(data: Uint8Array): Promise<EncryptedData> {
     };
 }
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 export async function decrypt(data: EncryptedData): Promise<Uint8Array> {
     const key = await getAESKey();
 
@@ -160,6 +172,9 @@ export async function decrypt(data: EncryptedData): Promise<Uint8Array> {
     return new Uint8Array(decryptedData);
 }
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 export async function encryptWallet(wallet: Wallet): Promise<EncryptedWallet> {
     const encryptedData = await encrypt(new TextEncoder().encode(JSON.stringify(wallet.key)));
 
@@ -169,6 +184,9 @@ export async function encryptWallet(wallet: Wallet): Promise<EncryptedWallet> {
     };
 }
 
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
 export async function decryptWallet(wallet: EncryptedWallet): Promise<Wallet> {
     const decryptedData: JWKInterface = JSON.parse(
         new TextDecoder().decode(await decrypt(wallet.encryptedData)),

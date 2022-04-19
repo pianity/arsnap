@@ -1,8 +1,8 @@
 import { EncryptedWallet, getState, replaceState, Wallet } from "@/metamask";
 import { ownerToAddress } from "@/utils";
-import { encryptWallet, generateJWK, JWKInterface } from "@/crypto";
+import { generateJWK, JWKInterface } from "@/crypto";
 
-export async function getWallet(address: string): Promise<EncryptedWallet> {
+export async function getWallet(address: string): Promise<Wallet> {
     const { wallets } = await getState();
 
     const encryptedWallet = wallets.get(address);
@@ -14,7 +14,7 @@ export async function getWallet(address: string): Promise<EncryptedWallet> {
     return encryptedWallet;
 }
 
-export async function getActiveWallet(): Promise<EncryptedWallet> {
+export async function getActiveWallet(): Promise<Wallet> {
     const { activeWallet } = await getState();
 
     return getWallet(activeWallet);
@@ -42,11 +42,9 @@ export async function setActiveAddress(address: string) {
 }
 
 export async function importWallet(wallet: Wallet): Promise<void> {
-    const encryptedWallet = await encryptWallet(wallet);
-
     const state = await getState();
 
-    state.wallets.set(wallet.metadata.address, encryptedWallet);
+    state.wallets.set(wallet.metadata.address, wallet);
 
     await replaceState(state);
 }
