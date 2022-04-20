@@ -5,13 +5,10 @@
         "packages/*"
     ],
     "scripts": {
-        "build": "lerna run build",
-        "typecheck": "lerna run typecheck",
-        "lint": "lerna run lint",
-        "lint:errors": "lerna run lint -- --quiet",
-        "lint:fix": "lerna run lint:fix"
+        "typecheck": "yarn workspaces foreach -vi run typecheck",
+        "lint": "yarn workspaces foreach -vi run lint",
+        "lint:errors": "yarn workspaces foreach -vi run lint -- --quiet",
+        "lint:fix": "yarn workspaces foreach -vi run lint:fix"
     },
-    "devDependencies": {
-        "lerna": "^4.0.0"
-    }
+    "packageManager": "yarn@3.2.0"
 }
