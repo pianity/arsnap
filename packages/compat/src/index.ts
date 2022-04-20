@@ -4,7 +4,7 @@ import Transaction from "arweave/node/lib/transaction";
 import * as adapter from "@pianity/arsnap-adapter";
 
 async function connect(permissions: adapter.Permission[], _appInfo?: AppInfo) {
-    await adapter.enable();
+    await adapter.installSnap();
     await adapter.requestPermissions(permissions);
 }
 

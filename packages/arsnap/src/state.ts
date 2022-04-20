@@ -2,7 +2,6 @@ import { Mutex, MutexInterface } from "async-mutex";
 
 import { Permission } from "@pianity/arsnap-adapter";
 
-import { mapToRecord, recordToMap } from "@/utils";
 import { EncryptedData, JWKInterface } from "@/crypto";
 import { generateWallet } from "@/wallets";
 
@@ -45,8 +44,8 @@ export type State = {
 };
 
 type SerializableState = Omit<State, "wallets" | "permissions"> & {
-    wallets: Record<string, Wallet>;
-    permissions: Record<string, Permission[]>;
+    wallets: [string, Wallet][];
+    permissions: [string, Permission[]][];
 };
 
 export async function initializeState(): Promise<State> {
@@ -78,8 +77,8 @@ export async function getState(): Promise<[State | undefined, MutexInterface.Rel
     if (serialState) {
         const state: State = {
             ...serialState,
-            wallets: recordToMap(serialState.wallets),
-            permissions: recordToMap(serialState.permissions),
+            wallets: new Map(serialState.wallets),
+            permissions: new Map(serialState.permissions),
         };
 
         return [state, releaseState];
@@ -91,11 +90,11 @@ export async function getState(): Promise<[State | undefined, MutexInterface.Rel
 /**
  * Override ArSnap's state with `state`
  */
-export async function replaceState(state: State): Promise<void> {
-    const serialState = {
+export async function replaceState(state: State) {
+    const serialState: SerializableState = {
         ...state,
-        wallets: mapToRecord(state.wallets),
-        permissions: mapToRecord(state.permissions),
+        wallets: Array.from(state.wallets.entries()),
+        permissions: Array.from(state.permissions.entries()),
     };
 
     await window.wallet.request({ method: "snap_manageState", params: ["update", serialState] });

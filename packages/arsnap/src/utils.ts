@@ -14,20 +14,6 @@ export function getOrThrow<T>(map: Map<string, T>, key: string): T {
     return value;
 }
 
-export function mapToRecord<V>(map: Map<string, V>): Record<string, V> {
-    const record: Record<string, V> = {};
-
-    for (const [key, value] of map) {
-        record[key] = value;
-    }
-
-    return record;
-}
-
-export function recordToMap<V>(record: Record<string, V>): Map<string, V> {
-    return new Map(Object.entries(record));
-}
-
 export function binToB64(data: Uint8Array): string {
     return btoa(String.fromCharCode.apply(null, [...data]));
 }

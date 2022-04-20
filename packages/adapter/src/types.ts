@@ -1,33 +1,21 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
 
-export const SNAP_ID = `local:http://localhost:4000/`;
+export const SNAP_ID = "local:http://localhost:4000/";
 
-export type SnapId = typeof SNAP_ID;
+export const ArconnectPermissions = [
+    "ACCESS_ADDRESS",
+    "ACCESS_PUBLIC_KEY",
+    "ACCESS_ALL_ADDRESSES",
+    "SIGN_TRANSACTION",
+    "ENCRYPT",
+    "DECRYPT",
+    "SIGNATURE",
+    "ACCESS_ARWEAVE_CONFIG",
+    "DISPATCH",
+] as const;
 
-declare global {
-    interface Window {
-        ethereum: {
-            isMetaMask: boolean;
-            isUnlocked: Promise<boolean>;
-            request: (request: unknown | { method: string; params?: any[] }) => Promise<any>;
-            on: (eventName: unknown, callback: unknown) => unknown;
-        };
-    }
-}
-
-export type ArconnectPermission =
-    | "ACCESS_ADDRESS"
-    | "ACCESS_PUBLIC_KEY"
-    | "ACCESS_ALL_ADDRESSES"
-    | "SIGN_TRANSACTION"
-    | "ENCRYPT"
-    | "DECRYPT"
-    | "SIGNATURE"
-    | "ACCESS_ARWEAVE_CONFIG"
-    | "DISPATCH";
-
+export type ArconnectPermission = typeof ArconnectPermissions[number];
 export type ArsnapPermission = "ORGANIZE_WALLETS";
-
 export type Permission = ArconnectPermission | ArsnapPermission;
 
 export type RpcApi = {
@@ -50,6 +38,6 @@ export type RpcRequest = {
     [K in keyof RpcApi]: { method: K; params: Parameters<RpcApi[K]> };
 }[keyof RpcApi];
 
-export type RpcResult = {
+export type RpcResponse = {
     [K in keyof RpcApi]: ReturnType<RpcApi[K]>;
 }[keyof RpcApi];
