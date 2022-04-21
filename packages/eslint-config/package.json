@@ -1,6 +1,6 @@
 {
     "name": "@pianity/eslint-config",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "description": "Eslint shared config",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
@@ -14,7 +14,7 @@
         "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
     },
     "devDependencies": {
-        "@pianity/prettier-config": "*",
+        "@pianity/prettier-config": "workspace:*",
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
         "eslint": "^8.13.0",

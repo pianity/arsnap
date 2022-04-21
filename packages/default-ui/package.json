@@ -1,7 +1,9 @@
 {
     "name": "@pianity/arsnap-default-ui",
-    "private": true,
     "version": "0.0.0",
+    "description": "Eslint shared config",
+    "author": "Eyal Chojnowski <eyal@pianity.com>",
+    "license": "MIT",
     "scripts": {
         "dev": "vite",
         "build:static": "tsc && vite build",
@@ -16,8 +18,8 @@
         "@metamask/key-tree": "^3.0.1",
         "@mui/icons-material": "^5.5.1",
         "@mui/material": "^5.5.2",
-        "@pianity/arsnap-adapter": "*",
-        "@pianity/arsnap-compat": "*",
+        "@pianity/arsnap-adapter": "workspace:*",
+        "@pianity/arsnap-compat": "workspace:*",
         "arweave": "^1.10.23",
         "base64-js": "^1.5.1",
         "bignumber.js": "^9.0.2",
@@ -27,8 +29,8 @@
         "react-dom": "^17.0.2"
     },
     "devDependencies": {
-        "@pianity/eslint-config": "*",
-        "@pianity/prettier-config": "*",
+        "@pianity/eslint-config": "workspace:*",
+        "@pianity/prettier-config": "workspace:*",
         "@types/node-forge": "^1.0.0",
         "@types/react": "^17.0.33",
         "@types/react-dom": "^17.0.10",

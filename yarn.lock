@@ -2471,13 +2471,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pianity/arsnap-adapter@*, @pianity/arsnap-adapter@workspace:packages/adapter":
+"@pianity/arsnap-adapter@workspace:*, @pianity/arsnap-adapter@workspace:packages/adapter":
   version: 0.0.0-use.local
   resolution: "@pianity/arsnap-adapter@workspace:packages/adapter"
   dependencies:
     "@metamask/key-tree": ^3.0.1
-    "@pianity/eslint-config": "*"
-    "@pianity/prettier-config": "*"
+    "@pianity/eslint-config": "workspace:*"
+    "@pianity/prettier-config": "workspace:*"
     "@types/base-64": ^1.0.0
     "@types/node-forge": ^1.0.0
     arweave: ^1.10.23
@@ -2490,13 +2490,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pianity/arsnap-compat@*, @pianity/arsnap-compat@workspace:packages/compat":
+"@pianity/arsnap-compat@workspace:*, @pianity/arsnap-compat@workspace:packages/compat":
   version: 0.0.0-use.local
   resolution: "@pianity/arsnap-compat@workspace:packages/compat"
   dependencies:
-    "@pianity/arsnap-adapter": "*"
-    "@pianity/eslint-config": "*"
-    "@pianity/prettier-config": "*"
+    "@pianity/arsnap-adapter": "workspace:*"
+    "@pianity/eslint-config": "workspace:*"
+    "@pianity/prettier-config": "workspace:*"
     arconnect: ^0.4.1
     arweave: ^1.10.23
     tsc-alias: ^1.6.3
@@ -2513,10 +2513,10 @@ __metadata:
     "@metamask/key-tree": ^3.0.1
     "@mui/icons-material": ^5.5.1
     "@mui/material": ^5.5.2
-    "@pianity/arsnap-adapter": "*"
-    "@pianity/arsnap-compat": "*"
-    "@pianity/eslint-config": "*"
-    "@pianity/prettier-config": "*"
+    "@pianity/arsnap-adapter": "workspace:*"
+    "@pianity/arsnap-compat": "workspace:*"
+    "@pianity/eslint-config": "workspace:*"
+    "@pianity/prettier-config": "workspace:*"
     "@types/node-forge": ^1.0.0
     "@types/react": ^17.0.33
     "@types/react-dom": ^17.0.10
@@ -2540,9 +2540,9 @@ __metadata:
   dependencies:
     "@metamask/key-tree": ^3.0.1
     "@metamask/snaps-cli": ^0.10.2
-    "@pianity/arsnap-adapter": "*"
-    "@pianity/eslint-config": "*"
-    "@pianity/prettier-config": "*"
+    "@pianity/arsnap-adapter": "workspace:*"
+    "@pianity/eslint-config": "workspace:*"
+    "@pianity/prettier-config": "workspace:*"
     "@types/base-64": ^1.0.0
     async-mutex: ^0.3.2
     base64-js: ^1.5.1
@@ -2555,11 +2555,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pianity/eslint-config@*, @pianity/eslint-config@workspace:packages/eslint-config":
+"@pianity/eslint-config@workspace:*, @pianity/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@pianity/eslint-config@workspace:packages/eslint-config"
   dependencies:
-    "@pianity/prettier-config": "*"
+    "@pianity/prettier-config": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^5.4.0
     "@typescript-eslint/parser": ^5.4.0
     eslint: ^8.13.0
@@ -2575,11 +2575,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pianity/prettier-config@*, @pianity/prettier-config@workspace:packages/prettier-config":
+"@pianity/prettier-config@workspace:*, @pianity/prettier-config@workspace:packages/prettier-config":
   version: 0.0.0-use.local
   resolution: "@pianity/prettier-config@workspace:packages/prettier-config"
   dependencies:
-    "@pianity/eslint-config": "*"
+    "@pianity/eslint-config": "workspace:*"
     prettier: ^2.6.2
   languageName: unknown
   linkType: soft
@@ -3273,6 +3273,12 @@ __metadata:
   checksum: 818538f39409c4045d874be85df0dbd195e1446b14d22f95bdcfefea44ae77db44e42dcd89a559254ec5a7c8b338cfc986cc6d641e3472f9a5326b21eb2976a2
   languageName: node
   linkType: hard
+
+"arsnap-workspace@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "arsnap-workspace@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "arweave@npm:^1.10.13, arweave@npm:^1.10.23":
   version: 1.10.23
@@ -9630,12 +9636,6 @@ __metadata:
   checksum: 06c62933e6e81a1c8c684d7d576e507081aabdb63cc0c91bca86b7348b66df03b77827068e4990b8b6c738bd3ef66dcc8c7ed7e0ea40b736068e7618f693133e
   languageName: node
   linkType: hard
-
-"root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root@workspace:."
-  languageName: unknown
-  linkType: soft
 
 "run-parallel@npm:^1.1.9":
   version: 1.2.0

@@ -1,6 +1,6 @@
 {
     "name": "@pianity/arsnap-compat",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "description": "A compatibility layer for ArSnap",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
@@ -21,13 +21,13 @@
         "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
     },
     "dependencies": {
-        "@pianity/arsnap-adapter": "*",
+        "@pianity/arsnap-adapter": "workspace:*",
         "arconnect": "^0.4.1",
         "arweave": "^1.10.23"
     },
     "devDependencies": {
-        "@pianity/eslint-config": "*",
-        "@pianity/prettier-config": "*",
+        "@pianity/eslint-config": "workspace:*",
+        "@pianity/prettier-config": "workspace:*",
         "tsc-alias": "^1.6.3",
         "typescript": "^4.6.3"
     }

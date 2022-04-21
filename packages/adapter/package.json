@@ -1,6 +1,6 @@
 {
     "name": "@pianity/arsnap-adapter",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "description": "The 'Hello, world!' of MetaMask Snaps.",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
@@ -29,8 +29,8 @@
         "node-forge": "^1.2.1"
     },
     "devDependencies": {
-        "@pianity/eslint-config": "*",
-        "@pianity/prettier-config": "*",
+        "@pianity/eslint-config": "workspace:*",
+        "@pianity/prettier-config": "workspace:*",
         "@types/base-64": "^1.0.0",
         "@types/node-forge": "^1.0.0",
         "tsc-alias": "^1.6.3",
