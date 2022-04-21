@@ -5,6 +5,7 @@
         "packages/*"
     ],
     "scripts": {
+        "build": "yarn workspaces foreach -vi run build",
         "typecheck": "yarn workspaces foreach -vi run typecheck",
         "lint": "yarn workspaces foreach -vi run lint",
         "lint:errors": "yarn workspaces foreach -vi run lint -- --quiet",

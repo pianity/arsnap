@@ -114,7 +114,7 @@ export async function signWithJwk(
  * @deprecated state will be automatically encrypted by Metamask itself
  */
 async function getAESKey(rawSalt: string) {
-    const secret = new Uint8Array(await getSecret());
+    const secret = await getSecret();
 
     const salt = b64ToBin(rawSalt);
 

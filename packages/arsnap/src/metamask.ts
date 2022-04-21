@@ -51,7 +51,7 @@ export function notify(message: string, type = "native"): Promise<void> {
     }) as Promise<void>;
 }
 
-export async function getSecret(): Promise<Buffer> {
+export async function getSecret(): Promise<Uint8Array> {
     // m / purpose' / coin_type' / account' / change / address_index
     // m / 44' / 472' / 0' / 0 / 0
     // const [, , coinType, account, change, addressIndex] = derivationPath.split('/');
@@ -71,5 +71,5 @@ export async function getSecret(): Promise<Buffer> {
         address_index: addressIndex,
     });
 
-    return secret;
+    return new Uint8Array(secret);
 }

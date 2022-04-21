@@ -15,6 +15,6 @@
     },
     "devDependencies": {
         "@pianity/eslint-config": "*",
-        "prettier": "^2.5.0"
+        "prettier": "^2.6.2"
     }
 }
