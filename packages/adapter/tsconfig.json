@@ -4,6 +4,7 @@
         "lib": ["es2021", "dom"],
         "module": "es2022",
         "moduleResolution": "node",
+        "resolveJsonModule": true,
         "strict": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
@@ -15,7 +16,8 @@
         "outDir": "dist/",
         "baseUrl": "src/",
         "paths": {
-            "@/*": ["*"]
+            "@/*": ["*"],
+            "package.json": ["../package.json"]
         }
     }
 }
