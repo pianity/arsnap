@@ -1,0 +1,30 @@
+fragment Transaction on TransactionConnection {
+    edges {
+        cursor
+        node {
+            id
+            owner {
+                address
+            }
+            recipient
+            quantity {
+                ar
+            }
+            block {
+                timestamp
+            }
+        }
+    }
+}
+
+query incomingTransactions($address: String!, $limit: Int, $after: String) {
+    transactions(recipients: [$address], first: $limit, after: $after) {
+        ...Transaction
+    }
+}
+
+query outgoingTransactions($address: String!, $limit: Int, $after: String) {
+    transactions(owners: [$address], first: $limit, after: $after) {
+        ...Transaction
+    }
+}

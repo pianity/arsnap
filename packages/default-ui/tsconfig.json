@@ -4,7 +4,7 @@
         "useDefineForClassFields": true,
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": false,
-        "skipLibCheck": false,
+        "skipLibCheck": true,
         "esModuleInterop": false,
         "allowSyntheticDefaultImports": true,
         "strict": true,
@@ -15,6 +15,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
+        "types": ["vite/client"],
         "paths": {
             "@/*": ["./src/*"]
         }

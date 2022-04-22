@@ -1,0 +1,5 @@
+query getCurrentHeight {
+    block {
+        height
+    }
+}

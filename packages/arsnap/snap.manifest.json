@@ -1,5 +1,5 @@
 {
-  "version": "0.7.0",
+  "version": "0.0.0",
   "proposedName": "ArSnap",
   "description": "A MetaMask Snap allowing interaction with Arweave dapps.",
   "repository": {
