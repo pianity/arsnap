@@ -1,14 +1,18 @@
-import * as adapter from "@pianity/arsnap-adapter";
-
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
+import { Transactions as TransactionsData } from "@/state/fetchers/transactions";
+import { Balance as BalanceData } from "@/state/fetchers/balance";
 
-export default function Wallet() {
-    const address = "kX4Z5hj5znsyxwAIG9yvOf40u3EXTnGv-jL9ALTqPSg";
+export type WalletProps = {
+    balance: BalanceData;
+    transactions: TransactionsData;
+};
+
+export default function Wallet({ balance, transactions }: WalletProps) {
     return (
         <>
-            <Balance address={address} />
-            <Transactions address={address} />
+            <Balance balance={balance} />
+            <Transactions transactions={transactions} />
         </>
     );
 }
