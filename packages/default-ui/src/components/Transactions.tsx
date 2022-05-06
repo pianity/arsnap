@@ -1,10 +1,10 @@
-import { Transaction } from "@/state/fetchers/transactions";
+import { Transactions as TransactionsData } from "@/state/wallet/getTransactions";
 
 export type TransactionProps = {
-    transactions: Transaction[];
+    transactions: TransactionsData | null;
 };
 
-function transactionsList(transactions: Transaction[]) {
+function transactionsList(transactions: TransactionsData) {
     return transactions.map(({ id, direction, amount, timestamp }) => (
         <li key={id}>
             <span>{direction}</span>

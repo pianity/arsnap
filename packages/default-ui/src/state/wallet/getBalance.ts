@@ -1,9 +1,12 @@
+import { Dispatch } from "react";
 import BigNumber from "bignumber.js";
+
 import { arweave } from "@/utils/blockchain";
+import { WalletAction } from "@/state/wallet";
 
 export type Balance = {
-    ar?: string;
-    fiat?: string;
+    ar: string;
+    fiat: string;
 };
 
 async function getArBalance(address: string) {
@@ -14,8 +17,6 @@ async function getArBalance(address: string) {
 }
 
 async function getFiatBalance(ar: string) {
-    // const balance = new BigNumber(ar).decimalPlaces(6);
-    // const balanceFiat = await arweave.ar.winstonToFiat(balance.toString());
     const res = await (
         await fetch("https://api.coingecko.com/api/v3/simple/price?ids=arweave&vs_currencies=usd")
     ).json();
@@ -26,9 +27,18 @@ async function getFiatBalance(ar: string) {
     return fiat.toString();
 }
 
-export default async function getBalance(address: string): Promise<Balance> {
+async function getBalance(address: string): Promise<Balance> {
     const ar = await getArBalance(address);
     const fiat = await getFiatBalance(ar);
 
     return { ar, fiat };
+}
+
+export async function updateBalance(address: string, dispatch: Dispatch<WalletAction>) {
+    const balance = await getBalance(address);
+
+    dispatch({
+        type: "setBalance",
+        balance,
+    });
 }
