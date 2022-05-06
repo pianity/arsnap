@@ -1,13 +1,12 @@
-import { version } from "package.json";
-
 import Transaction from "arweave/node/lib/transaction";
 import { Base64 } from "js-base64";
 
 import * as api from "@/api";
+import { VERSION } from "@/consts";
 
 const arsnapTags = [
     { name: "Signing-Client", value: "ArSnap" },
-    { name: "Signing-Client-Version", value: version },
+    { name: "Signing-Client-Version", value: VERSION },
 ];
 
 /**
