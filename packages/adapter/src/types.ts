@@ -25,7 +25,7 @@ export type RpcApi = {
     get_active_address: () => Promise<string>;
     get_active_public_key: () => Promise<string>;
     get_all_addresses: () => Promise<string[]>;
-    get_wallet_names: () => Promise<Record<string, string>>;
+    get_wallet_names: () => Promise<[string, string][]>;
     sign_bytes: (bytes: Uint8Array, saltLength: number) => Promise<Uint8Array>;
 
     set_active_address: (address: string) => Promise<null>;
