@@ -1,7 +1,7 @@
-import { Balance as BalanceData } from "@/state/fetchers/balance";
+import { Balance as BalanceData } from "@/state/wallet";
 
 type BalanceProps = {
-    balance: BalanceData | null;
+    balance?: BalanceData;
 };
 
 export default function Balance({ balance }: BalanceProps) {

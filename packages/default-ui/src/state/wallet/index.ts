@@ -18,14 +18,8 @@ export type Transaction = {
 export type Transactions = Transaction[];
 
 export type WalletState = {
-    address: string;
-    balance: Balance | null;
-    transactions: Transactions | null;
-};
-
-type SwitchWallet = {
-    type: "switchWallet";
-    address: string;
+    balance?: Balance;
+    transactions?: Transactions;
 };
 
 type SetBalance = {
@@ -38,17 +32,10 @@ type SetTransactions = {
     transactions: Transactions;
 };
 
-export type WalletAction = SwitchWallet | SetBalance | SetTransactions;
+export type WalletAction = SetBalance | SetTransactions;
 
 const reducer: Reducer<WalletState, WalletAction> = (state, action): WalletState => {
     switch (action.type) {
-        case "switchWallet":
-            return {
-                address: action.address,
-                balance: null,
-                transactions: null,
-            };
-
         case "setBalance":
             return {
                 ...state,
@@ -67,8 +54,8 @@ const reducer: Reducer<WalletState, WalletAction> = (state, action): WalletState
     }
 };
 
-export function useWalletReducer(address: string) {
+export function useWalletReducer() {
     // TODO: grab initial state from sessionStorage
 
-    return useReducer(reducer, { address, balance: null, transactions: null });
+    return useReducer(reducer, {});
 }

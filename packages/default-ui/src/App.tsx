@@ -1,4 +1,4 @@
-import { useEffect, Dispatch, Reducer, useReducer } from "react";
+import { useEffect, Dispatch, Reducer, useReducer, useState } from "react";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
@@ -7,6 +7,7 @@ import * as adapter from "@pianity/arsnap-adapter";
 import Wallet from "@/views/Wallet";
 import About from "@/views/About";
 import { exhaustive } from "@/utils";
+import { getMissingPermissions } from "@/utils/arsnap";
 import {
     Balance,
     Transactions,
@@ -14,24 +15,24 @@ import {
     updateBalance,
     useWalletReducer,
 } from "@/state/wallet";
+import Welcome from "@/views/Welcome";
+import { REQUIRED_PERMISSIONS } from "@/consts";
+
+async function isArsnapInstalled() {
+    try {
+        const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
+        return missingPermissions.length === 0;
+    } catch (e) {
+        console.log("getMissingPermissions threw:", e);
+        return false;
+    }
+}
 
 export default function App() {
-    const address = "kX4Z5hj5znsyxwAIG9yvOf40u3EXTnGv-jL9ALTqPSg";
-
-    const [state, dispatch] = useWalletReducer(address);
+    const [initialized, setInitialized] = useState(false);
 
     useEffect(() => {
-        updateBalance(address, dispatch);
-        updateTransactions(address, dispatch);
-
-        const updateInterval = setInterval(async () => {
-            updateBalance(address, dispatch);
-            updateTransactions(address, dispatch);
-        }, 2 * 60 * 1000);
-
-        return () => {
-            clearInterval(updateInterval);
-        };
+        isArsnapInstalled().then(setInitialized);
     }, []);
 
     return (
@@ -41,7 +42,17 @@ export default function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={<Wallet balance={state.balance} transactions={state.transactions} />}
+                    element={
+                        initialized ? (
+                            <Wallet />
+                        ) : (
+                            <Welcome
+                                onInitialized={() => {
+                                    setInitialized(true);
+                                }}
+                            />
+                        )
+                    }
                 />
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<Navigate to="/" />} />

@@ -1,7 +1,7 @@
-import { Transactions as TransactionsData } from "@/state/wallet/getTransactions";
+import { Transactions as TransactionsData } from "@/state/wallet";
 
 export type TransactionProps = {
-    transactions: TransactionsData | null;
+    transactions?: TransactionsData;
 };
 
 function transactionsList(transactions: TransactionsData) {

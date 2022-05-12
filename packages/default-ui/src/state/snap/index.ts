@@ -3,8 +3,8 @@ import { Reducer, useReducer } from "react";
 import { exhaustive } from "@/utils";
 
 export type SnapState = {
-    activeWallet: string;
-    wallets: [string, string][];
+    activeWallet?: string;
+    wallets?: [string, string][];
 };
 
 type SetActiveWallet = {
@@ -17,9 +17,9 @@ type SetWallets = {
     wallets: [string, string][];
 };
 
-type Action = SetActiveWallet | SetWallets;
+export type SnapAction = SetActiveWallet | SetWallets;
 
-const reducer: Reducer<SnapState, Action> = (state, action): SnapState => {
+const reducer: Reducer<SnapState, SnapAction> = (state, action): SnapState => {
     switch (action.type) {
         case "setActiveWallet":
             return {
@@ -39,7 +39,7 @@ const reducer: Reducer<SnapState, Action> = (state, action): SnapState => {
     }
 };
 
-export function useSnapReducer(activeWallet: string, wallets: [string, string][]) {
+export function useSnapReducer(activeWallet?: string, wallets?: [string, string][]) {
     // TODO: grab initial state from sessionStorage
 
     return useReducer(reducer, { activeWallet, wallets });
