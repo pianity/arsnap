@@ -47,8 +47,8 @@ export const getAllAddresses: WithState<RpcApi["get_all_addresses"]> = async (st
 
 export const getWalletNames: WithState<RpcApi["get_wallet_names"]> = async (state) => {
     const walletNames: [string, string][] = [...state.wallets.values()].map((wallet) => [
-        wallet.metadata.name,
         wallet.metadata.address,
+        wallet.metadata.name,
     ]);
 
     return walletNames;
@@ -81,7 +81,7 @@ export const importWallet: WithState<RpcApi["import_wallet"]> = async (state, jw
 
     state.wallets.set(wallet.metadata.address, wallet);
 
-    return null;
+    return { name: wallet.metadata.name, address: wallet.metadata.address };
 };
 
 export const renameWallet: WithState<RpcApi["rename_wallet"]> = async (state, address, name) => {

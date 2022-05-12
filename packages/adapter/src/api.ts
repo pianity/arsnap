@@ -22,6 +22,10 @@ export const getAllAddresses: RpcApi["get_all_addresses"] = (...params) => {
     return requestSnap("get_all_addresses", params);
 };
 
+/**
+ * Returns an array of all wallets addresses and their attached name in the following form:
+ * `[address: string, name: string][]`
+ */
 export const getWalletNames: RpcApi["get_wallet_names"] = (...params) => {
     return requestSnap("get_wallet_names", params);
 };

@@ -29,7 +29,10 @@ export type RpcApi = {
     sign_bytes: (bytes: Uint8Array, saltLength: number) => Promise<Uint8Array>;
 
     set_active_address: (address: string) => Promise<null>;
-    import_wallet: (wallet: JWKInterface, name?: string) => Promise<null>;
+    import_wallet: (
+        wallet: JWKInterface,
+        name?: string,
+    ) => Promise<{ name: string; address: string }>;
     rename_wallet: (address: string, name: string) => Promise<null>;
     request_permissions: (permissions: Permission[]) => Promise<boolean>;
 };
