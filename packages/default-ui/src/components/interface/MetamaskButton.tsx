@@ -50,7 +50,7 @@ export default function MetamaskButton({ label, small, dark, onClick }: Metamask
                 <LoadingIndicator
                     height={20}
                     width={20}
-                    className={"absolute z-10 " + (dark ? "text-white" : "text-grey-dark")}
+                    className={"absolute z-10 " + (dark ? "text-white" : "text-gray-dark")}
                 />
             )}
         </button>
