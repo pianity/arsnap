@@ -3,6 +3,8 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 
 import { NamedAddress } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
+import LoadingIndicator from "../interface/svg/LoadingIndicator";
+import Chevron from "../interface/svg/Chevron";
 
 export type SelectWallet = {
     event: "selectWallet";
@@ -67,39 +69,45 @@ export default function WalletMenu({
     }
 
     return (
-        <>
-            <div
-                tabIndex={0}
+        <div
+            className="relative"
+            tabIndex={0}
+            onBlur={(e) => {
+                if (
+                    !e.currentTarget.contains(e.relatedTarget) &&
+                    fileBrowserState === "notOpened"
+                ) {
+                    setMenuOpened(false);
+                }
+
+                if (fileBrowserState === "closed") {
+                    setFileBrowserState("notOpened");
+                }
+            }}
+        >
+            <button
+                className="h-10 px-3 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out"
                 onClick={() => setMenuOpened(!menuOpened)}
-                onBlur={(e) => {
-                    if (
-                        !e.currentTarget.contains(e.relatedTarget) &&
-                        fileBrowserState === "notOpened"
-                    ) {
-                        setMenuOpened(false);
-                    }
-
-                    if (fileBrowserState === "closed") {
-                        setFileBrowserState("notOpened");
-                    }
-                }}
             >
-                <label>wallet</label>
-                <span>
-                    {activeWallet && availableWallets
-                        ? findAddressName(availableWallets, activeWallet)
-                        : "loading wallets..."}
+                <label className="text-[11px] leading-[100%] font-semibold text-purple-light opacity-50 mr-2 uppercase">
+                    Wallet
+                </label>
+                <span className="text-white text-sm leading-[100%] font-semibold mr-2 min-w-[80px] transition-size duration-300 ease-quart-out">
+                    {findAddressName(availableWallets, activeWallet)}
                 </span>
+                <Chevron width={10} height={6.6} />
+            </button>
 
-                {menuOpened && (
+            {menuOpened && (
+                <div className="absolute right-0 top-12 bg-white rounded-xl p-4 text-gray-dark">
                     <WalletOpenedMenu
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}
                         onEvent={onEvent}
                         onFileBrowserEvent={setFileBrowserState}
                     />
-                )}
-            </div>
-        </>
+                </div>
+            )}
+        </div>
     );
 }

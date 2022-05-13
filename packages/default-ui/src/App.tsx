@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
@@ -12,7 +12,7 @@ import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
 import Header from "@/components/Header";
 import About from "@/views/About";
-import WalletMenu, { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
+import { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 
 async function isArsnapInstalled() {
     try {
@@ -25,10 +25,17 @@ async function isArsnapInstalled() {
 }
 
 export default function App() {
+    // Indicates whether Arsnap is being loaded and wallets updated.
+    const [initializing, setInitializing] = useState(true);
     const [snapState, snapDispatch] = useSnapReducer();
 
     useEffect(() => {
-        isArsnapInstalled().then(() => updateWallets(snapDispatch));
+        isArsnapInstalled()
+            .then(async () => {
+                await updateWallets(snapDispatch);
+                setInitializing(false);
+            })
+            .catch(() => setInitializing(false));
     }, []);
 
     async function onWalletMenuEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
@@ -68,17 +75,12 @@ export default function App() {
 
     return (
         <>
-            <Header />
-
-            {snapState.activeWallet && snapState.wallets ? (
-                <WalletMenu
-                    activeWallet={snapState.activeWallet}
-                    availableWallets={snapState.wallets}
-                    onEvent={onWalletMenuEvent}
-                />
-            ) : (
-                <p>Connect with Metamask</p>
-            )}
+            <Header
+                initializing={initializing}
+                activeWallet={snapState.activeWallet}
+                availableWallets={snapState.wallets}
+                onWalletEvent={onWalletMenuEvent}
+            />
 
             <Routes>
                 <Route
