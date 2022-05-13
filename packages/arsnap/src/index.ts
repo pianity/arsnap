@@ -68,6 +68,10 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
             await guard(permissions, "ORGANIZE_WALLETS");
             return await handlers.importWallet(state, ...params);
 
+        case "export_wallet":
+            await guard(permissions, "EXPORT_WALLETS");
+            return await handlers.exportWallet(state, origin, ...params);
+
         case "rename_wallet":
             await guard(permissions, "ORGANIZE_WALLETS");
             return await handlers.renameWallet(state, ...params);

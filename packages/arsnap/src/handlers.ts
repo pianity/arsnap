@@ -5,6 +5,7 @@ import * as walletsUtils from "@/wallets";
 import * as permissions from "@/permissions";
 import { getOrThrow } from "@/utils";
 import { State } from "@/state";
+import { confirmPopup } from "@/metamask";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type WithOrigin<T extends (...params: any[]) => any> = (
@@ -79,9 +80,42 @@ export const importWallet: WithState<RpcApi["import_wallet"]> = async (state, jw
         name,
     );
 
+    const alreadyImportedWallet = state.wallets.get(wallet.metadata.address);
+
+    if (alreadyImportedWallet) {
+        throw new Error(
+            `Wallet already imported under name ${alreadyImportedWallet.metadata.name}`,
+        );
+    }
+
     state.wallets.set(wallet.metadata.address, wallet);
 
     return { name: wallet.metadata.name, address: wallet.metadata.address };
+};
+
+export const exportWallet: WithState<WithOrigin<RpcApi["export_wallet"]>> = async (
+    state,
+    origin,
+    address,
+) => {
+    const wallet = state.wallets.get(address);
+
+    if (!wallet) {
+        throw new Error(`Wallet not found for address: ${address}`);
+    }
+
+    const granted = await confirmPopup(
+        "Wallet Export Request",
+        "Attention! A dApp is trying to export one of your wallets, proceed carefully.",
+        `The dApp at ${origin} is requesting the exportation of your wallet: ${wallet.metadata.name} (${wallet.metadata.address}).` +
+            "If the request doesn't originate for you, please decline.",
+    );
+
+    if (!granted) {
+        throw new Error("Wallet exportation not granted");
+    }
+
+    return { jwk: wallet.key, address: wallet.metadata.address, name: wallet.metadata.name };
 };
 
 export const renameWallet: WithState<RpcApi["rename_wallet"]> = async (state, address, name) => {

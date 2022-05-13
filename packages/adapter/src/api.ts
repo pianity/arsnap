@@ -42,6 +42,10 @@ export const importWallet: RpcApi["import_wallet"] = (...params) => {
     return requestSnap("import_wallet", params);
 };
 
+export const exportWallet: RpcApi["export_wallet"] = (...params) => {
+    return requestSnap("export_wallet", params);
+};
+
 export const renameWallet: RpcApi["rename_wallet"] = (...params) => {
     return requestSnap("rename_wallet", params);
 };
