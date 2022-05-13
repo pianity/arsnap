@@ -23,6 +23,9 @@ module.exports = {
                     light: "#888888",
                 },
             },
+            transitionTimingFunction: {
+                "quart-out": "cubic-bezier(0.25, 1, 0.5, 1)",
+            },
         },
     },
     plugins: [],

@@ -17,6 +17,7 @@ import {
 } from "@/state/wallet";
 import Welcome from "@/views/Welcome";
 import { REQUIRED_PERMISSIONS } from "@/consts";
+import Header from "@/components/Header";
 
 async function isArsnapInstalled() {
     try {
@@ -37,7 +38,7 @@ export default function App() {
 
     return (
         <>
-            <Link to="/about">Abouuuuut</Link>
+            <Header />
 
             <Routes>
                 <Route
