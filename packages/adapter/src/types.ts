@@ -15,7 +15,12 @@ export const ArconnectPermissions = [
 ] as const;
 
 export type ArconnectPermission = typeof ArconnectPermissions[number];
-export type ArsnapPermission = "EXPORT_WALLETS" | "DELETE_WALLET" | "ORGANIZE_WALLETS";
+export type ArsnapPermission =
+    | "SET_ACTIVE_WALLET"
+    | "IMPORT_WALLET"
+    | "EXPORT_WALLET"
+    | "RENAME_WALLET"
+    | "DELETE_WALLET";
 export type Permission = ArconnectPermission | ArsnapPermission;
 
 export type RpcApi = {

@@ -61,19 +61,19 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
             return await handlers.signBytes(state, ...params);
 
         case "set_active_address":
-            await guard(origin, permissions, "ORGANIZE_WALLETS");
+            await guard(origin, permissions, "SET_ACTIVE_WALLET");
             return await handlers.setActiveAddress(state, ...params);
 
         case "import_wallet":
-            await guard(origin, permissions, "ORGANIZE_WALLETS");
+            await guard(origin, permissions, "IMPORT_WALLET");
             return await handlers.importWallet(state, ...params);
 
         case "export_wallet":
-            await guard(origin, permissions, "EXPORT_WALLETS");
+            await guard(origin, permissions, "EXPORT_WALLET");
             return await handlers.exportWallet(state, origin, ...params);
 
         case "rename_wallet":
-            await guard(origin, permissions, "ORGANIZE_WALLETS");
+            await guard(origin, permissions, "RENAME_WALLET");
             return await handlers.renameWallet(state, ...params);
 
         case "delete_wallet":
