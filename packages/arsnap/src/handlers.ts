@@ -161,6 +161,7 @@ export const requestPermissions: WithState<WithOrigin<RpcApi["request_permission
     const currentPermissions = state.permissions.get(origin) || [];
 
     const newPermissions = await permissions.requestPermissions(
+        origin,
         currentPermissions,
         requestedPermissions,
     );
