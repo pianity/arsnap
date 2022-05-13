@@ -4,6 +4,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import { NamedAddress } from "@/utils/types";
 import Button from "@/components/Button";
 import { exhaustive } from "@/utils";
+import { arweave } from "@/utils/blockchain";
 
 type SelectWallet = {
     event: "selectWallet";
@@ -23,6 +24,7 @@ type ImportWallet = {
 
 type DownloadWallet = {
     event: "downloadWallet";
+    address: string;
 };
 
 export type WalletMenuEvent = SelectWallet | RenameWallet | ImportWallet | DownloadWallet;
@@ -31,15 +33,15 @@ export type WalletMenuEventResponse = {
     wallet?: NamedAddress;
     jwk?: JWKInterface;
 };
-export type WalletMenuOnEvent<T = WalletMenuEvent> = (event: T) => Promise<WalletMenuEventResponse>;
+export type OnWalletMenuEvent<T = WalletMenuEvent> = (event: T) => Promise<WalletMenuEventResponse>;
 
-type FileBrowserEvent = (state: "opened" | "closed") => void;
+type OnFileBrowserEvent = (state: "opened" | "closed") => void;
 
 type WalletItemProps = {
     active?: boolean;
     name: string;
     address: string;
-    onEvent: WalletMenuOnEvent;
+    onEvent: OnWalletMenuEvent;
 };
 
 function WalletItem({ active, name, address, onEvent }: WalletItemProps) {
@@ -88,9 +90,16 @@ type NameNewWalletProps = {
     origin: "imported" | "created";
     wallet: NamedAddress;
     onGoBack: () => void;
-    onEvent: WalletMenuOnEvent<RenameWallet | DownloadWallet>;
+    onEvent: OnWalletMenuEvent<RenameWallet | DownloadWallet>;
+    onFileBrowserEvent: OnFileBrowserEvent;
 };
-function NameNewWallet({ origin, wallet, onGoBack, onEvent }: NameNewWalletProps) {
+function NameNewWallet({
+    origin,
+    wallet,
+    onGoBack,
+    onEvent,
+    onFileBrowserEvent,
+}: NameNewWalletProps) {
     return (
         <div onClick={(e) => e.stopPropagation()}>
             <label>Name your wallet</label>
@@ -109,7 +118,15 @@ function NameNewWallet({ origin, wallet, onGoBack, onEvent }: NameNewWalletProps
             />
 
             {origin === "created" && (
-                <Button onClick={() => console.log("TODO")}>Download Wallet</Button>
+                <Button
+                    onClick={async () => {
+                        onFileBrowserEvent("opened");
+                        await onEvent({ event: "downloadWallet", address: wallet.address });
+                        onFileBrowserEvent("closed");
+                    }}
+                >
+                    Download Wallet
+                </Button>
             )}
 
             <Button
@@ -128,7 +145,7 @@ type NewWalletChoice = "importExisting" | "createNew" | "cancel";
 
 type NewWalletProps = {
     onChoice: (choice: NewWalletChoice, walletFile?: FileList) => Promise<void>;
-    onFileBrowserEvent: FileBrowserEvent;
+    onFileBrowserEvent: OnFileBrowserEvent;
 };
 function NewWallet({ onChoice, onFileBrowserEvent }: NewWalletProps) {
     const inputFile = useRef<HTMLInputElement>(null);
@@ -176,7 +193,7 @@ function NewWallet({ onChoice, onFileBrowserEvent }: NewWalletProps) {
     );
 }
 
-type WalletOpenedMenuProps = WalletMenuProps & { onFileBrowserEvent: FileBrowserEvent };
+type WalletOpenedMenuProps = WalletMenuProps & { onFileBrowserEvent: OnFileBrowserEvent };
 function WalletOpenedMenu({
     activeWallet,
     availableWallets,
@@ -210,9 +227,22 @@ function WalletOpenedMenu({
                 break;
             }
 
-            case "createNew":
-                setView("createNew");
+            case "createNew": {
+                const jwk = await arweave.wallets.generate();
+
+                const response = await onEvent({
+                    event: "importWallet",
+                    jwk,
+                });
+                if (response) {
+                    setWallet(response.wallet);
+                } else {
+                    // TODO: do something
+                }
+
+                setView("created");
                 break;
+            }
 
             case "cancel":
                 setView("walletsList");
@@ -258,20 +288,22 @@ function WalletOpenedMenu({
                 <NewWallet onChoice={onNewWalletChoice} onFileBrowserEvent={onFileBrowserEvent} />
             )}
 
-            {view === "imported" && (
-                <NameNewWallet
-                    origin="imported"
-                    // I am using a godforsaken non-null assertion here as
-                    // Typescript doesn't allow to set a return type depending
-                    // on the type of the arguments given to a function. This
-                    // would allow me to assert that when calling `onEvent({
-                    // event: "importWallet", ... })` we'd always get a
-                    // `NamedAddress` in return.
-                    wallet={wallet!}
-                    onGoBack={() => setView("walletsList")}
-                    onEvent={onEvent}
-                />
-            )}
+            {view === "imported" ||
+                (view === "created" && (
+                    <NameNewWallet
+                        origin={view}
+                        // I am using a godforsaken non-null assertion here as
+                        // Typescript doesn't allow to set a return type depending
+                        // on the type of the arguments given to a function. This
+                        // would allow me to assert that when calling `onEvent({
+                        // event: "importWallet", ... })` we'd always get a
+                        // `NamedAddress` in return.
+                        wallet={wallet!}
+                        onGoBack={() => setView("walletsList")}
+                        onEvent={onEvent}
+                        onFileBrowserEvent={onFileBrowserEvent}
+                    />
+                ))}
         </>
     );
 }
@@ -279,7 +311,7 @@ function WalletOpenedMenu({
 export type WalletMenuProps = {
     activeWallet?: string;
     availableWallets?: [string, string][];
-    onEvent: WalletMenuOnEvent;
+    onEvent: OnWalletMenuEvent;
 };
 
 export default function WalletMenu({

@@ -10,4 +10,5 @@ export const REQUIRED_PERMISSIONS: Permission[] = [
     "ACCESS_ALL_ADDRESSES",
     "SIGNATURE",
     "ORGANIZE_WALLETS",
+    "EXPORT_WALLETS",
 ];

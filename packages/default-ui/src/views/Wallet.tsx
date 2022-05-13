@@ -15,7 +15,7 @@ import WalletMenu, { WalletMenuEvent, WalletMenuEventResponse } from "@/componen
 import { useSnapReducer } from "@/state/snap";
 import { updateWallets } from "@/state/snap/getWallets";
 import { NamedAddress } from "@/utils/types";
-import { exhaustive } from "@/utils";
+import { downloadFile, exhaustive } from "@/utils";
 
 export default function Wallet() {
     const [snapState, snapDispatch] = useSnapReducer();
@@ -60,8 +60,17 @@ export default function Wallet() {
                 return { wallet };
             }
 
-            case "downloadWallet":
+            case "downloadWallet": {
+                console.log("downloading wallet");
+
+                const wallet = await adapter.exportWallet(e.address);
+
+                // TODO: Make sure that `wallet.metadata.name` contains only safe characters (this
+                // should also be enforced in ArSnap).
+                downloadFile(JSON.stringify(wallet.jwk), "application/json", `${wallet.name}.json`);
+
                 return {};
+            }
 
             default:
                 exhaustive(e);
