@@ -8,6 +8,7 @@ import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
 import { useSnapReducer } from "@/state/snap";
 import { updateWallets } from "@/state/snap/getWallets";
+import githubIconUrl from "@/assets/github.png";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
 import Header from "@/components/Header";
@@ -74,7 +75,7 @@ export default function App() {
     }
 
     return (
-        <>
+        <div className="min-h-screen">
             <Header
                 initializing={initializing}
                 activeWallet={snapState.activeWallet}
@@ -96,6 +97,19 @@ export default function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
-        </>
+
+            <footer className="fixed inset-x-0 bottom-0 h-16 flex items-center justify-between px-6">
+                <div className="text-sm leading-[15px] font-semibold">ArSnap v0.1</div>
+                <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://github.com"
+                    className="flex items-center"
+                >
+                    <img src={githubIconUrl} alt="GitHub" />
+                    <span className="text-base leading-[17px] font-semibold ml-2">GitHub</span>
+                </a>
+            </footer>
+        </div>
     );
 }
