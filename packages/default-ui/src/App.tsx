@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
@@ -81,6 +81,7 @@ export default function App() {
                 activeWallet={snapState.activeWallet}
                 availableWallets={snapState.wallets}
                 onWalletEvent={onWalletMenuEvent}
+                onInitialized={() => updateWallets(snapDispatch)}
             />
 
             <Routes>

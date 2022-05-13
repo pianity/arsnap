@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
-import metamaskLogoUrl from "@/assets/metamask.png";
 import arsnapLogoUrl from "@/assets/arsnap.png";
 import WalletMenu, { OnWalletMenuEvent } from "@/components/WalletMenu";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
+import MetamaskButton from "@/components/interface/MetamaskButton";
+import { initializeArsnap } from "@/utils/arsnap";
 
 type HeaderProps = {
     initializing: boolean;
     activeWallet: string | undefined;
     availableWallets: [string, string][] | undefined;
     onWalletEvent: OnWalletMenuEvent;
+    onInitialized: () => void;
 };
 
 export default function Header({
@@ -16,7 +18,14 @@ export default function Header({
     activeWallet,
     availableWallets,
     onWalletEvent,
+    onInitialized,
 }: HeaderProps) {
+    async function onMetamaskClick() {
+        if (await initializeArsnap()) {
+            onInitialized();
+        }
+    }
+
     return (
         <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25">
             {/* MARK: Navbar items */}
@@ -42,12 +51,7 @@ export default function Header({
                         onEvent={onWalletEvent}
                     />
                 ) : (
-                    <button className="h-10 px-4 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out">
-                        <span className="text-sm leading-[15px] font-semibold mr-2">
-                            Connect with
-                        </span>
-                        <img src={metamaskLogoUrl} width={126} height={24} alt="Metamask" />
-                    </button>
+                    <MetamaskButton label="Connect with" onClick={async () => {}} small dark />
                 ))}
 
             {/* MARK: ArSnap logo */}
