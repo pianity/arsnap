@@ -41,8 +41,8 @@ function findAddressName(wallets: [string, string][], needle: string): string {
 }
 
 export type WalletMenuProps = {
-    activeWallet?: string;
-    availableWallets?: [string, string][];
+    activeWallet: string;
+    availableWallets: [string, string][];
     onEvent: OnWalletMenuEvent;
 };
 export default function WalletMenu({

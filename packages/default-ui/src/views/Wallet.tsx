@@ -1,90 +1,36 @@
 import { useEffect } from "react";
 
-import * as adapter from "@pianity/arsnap-adapter";
-
-import {
-    Transactions as TransactionsData,
-    Balance as BalanceData,
-    useWalletReducer,
-    updateBalance,
-    updateTransactions,
-} from "@/state/wallet";
+import { useWalletReducer, updateBalance, updateTransactions } from "@/state/wallet";
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
-import WalletMenu, { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
-import { useSnapReducer } from "@/state/snap";
-import { updateWallets } from "@/state/snap/getWallets";
-import { NamedAddress } from "@/utils/types";
-import { downloadFile, exhaustive } from "@/utils";
 
-export default function Wallet() {
-    const [snapState, snapDispatch] = useSnapReducer();
+export type WalletProps = {
+    address: string;
+};
+
+export default function Wallet({ address }: WalletProps) {
     const [walletState, walletDispatch] = useWalletReducer();
 
     useEffect(() => {
-        updateWallets(snapDispatch);
-    }, []);
-
-    useEffect(() => {
-        if (snapState.activeWallet) {
-            updateBalance(snapState.activeWallet, walletDispatch);
-            updateTransactions(snapState.activeWallet, walletDispatch);
+        if (address) {
+            updateBalance(address, walletDispatch);
+            updateTransactions(address, walletDispatch);
         }
 
         const updateInterval = setInterval(async () => {
-            if (snapState.activeWallet) {
-                updateBalance(snapState.activeWallet, walletDispatch);
-                updateTransactions(snapState.activeWallet, walletDispatch);
+            if (address) {
+                updateBalance(address, walletDispatch);
+                updateTransactions(address, walletDispatch);
             }
         }, 2 * 60 * 1000);
 
         return () => {
             clearInterval(updateInterval);
         };
-    }, [snapState.activeWallet]);
-
-    async function onWalletMenuEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
-        switch (e.event) {
-            case "renameWallet":
-                await adapter.renameWallet(e.address, e.name);
-                await updateWallets(snapDispatch);
-                return {};
-
-            case "selectWallet":
-                await adapter.setActiveAddress(e.address);
-                return {};
-
-            case "importWallet": {
-                const wallet = await adapter.importWallet(e.jwk);
-                await updateWallets(snapDispatch);
-                return { wallet };
-            }
-
-            case "downloadWallet": {
-                console.log("downloading wallet");
-
-                const wallet = await adapter.exportWallet(e.address);
-
-                // TODO: Make sure that `wallet.metadata.name` contains only safe characters (this
-                // should also be enforced in ArSnap).
-                downloadFile(JSON.stringify(wallet.jwk), "application/json", `${wallet.name}.json`);
-
-                return {};
-            }
-
-            default:
-                exhaustive(e);
-                throw new Error();
-        }
-    }
+    }, []);
 
     return (
         <>
-            <WalletMenu
-                activeWallet={snapState.activeWallet}
-                availableWallets={snapState.wallets}
-                onEvent={onWalletMenuEvent}
-            />
             <Balance balance={walletState.balance} />
             <Transactions transactions={walletState.transactions} />
         </>
