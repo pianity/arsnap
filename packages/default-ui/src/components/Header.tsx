@@ -20,14 +20,12 @@ export default function Header() {
             {/* MARK: Metamask connect */}
             <button className="h-10 px-4 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out">
                 <span className="text-sm leading-[15px] font-semibold mr-2">Connect with</span>
-                <img src={metamaskLogoUrl} alt="Metamask" />
+                <img src={metamaskLogoUrl} width={126} height={24} alt="Metamask" />
             </button>
             {/* MARK: ArSnap logo */}
-            <img
-                src={arsnapLogoUrl}
-                alt="ArSnap for MetaMask"
-                className="absolute px-10 left-1/2 -bottom-14 -translate-x-1/2 z-10 bg-purple-dark"
-            />
+            <div className="absolute px-10 left-1/2 -bottom-14 -translate-x-1/2 z-10 bg-purple-dark">
+                <img src={arsnapLogoUrl} width={172} height={84} alt="ArSnap for MetaMask" />
+            </div>
         </header>
     );
 }
