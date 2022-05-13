@@ -18,7 +18,7 @@ export default function Header({
     onWalletEvent,
 }: HeaderProps) {
     return (
-        <header className="w-screen h-[72px] pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25">
+        <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25">
             {/* MARK: Navbar items */}
             <ul className="flex">
                 <li className="text-white text-base leading-[17px] font-semibold mr-4 lg:hover:text-purple-text">

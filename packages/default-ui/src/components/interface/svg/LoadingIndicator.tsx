@@ -1,7 +1,7 @@
 import { SVGProps } from "react";
 
 export default function LoadingIndicator(props: SVGProps<SVGSVGElement>) {
-    const { width = "24", height = "24", ...rest } = props;
+    const { width = "24", height = "24", className = "", ...rest } = props;
     return (
         <svg
             {...rest}
@@ -9,7 +9,7 @@ export default function LoadingIndicator(props: SVGProps<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            className="animate-spin"
+            className={className + " animate-spin"}
         >
             <circle
                 className="opacity-25 stroke-current"

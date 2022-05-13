@@ -75,7 +75,7 @@ export default function App() {
     }
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen flex flex-col">
             <Header
                 initializing={initializing}
                 activeWallet={snapState.activeWallet}
@@ -90,7 +90,10 @@ export default function App() {
                         snapState.activeWallet ? (
                             <Wallet address={snapState.activeWallet} />
                         ) : (
-                            <Welcome onInitialized={() => updateWallets(snapDispatch)} />
+                            <Welcome
+                                loading={initializing}
+                                onInitialized={() => updateWallets(snapDispatch)}
+                            />
                         )
                     }
                 />
