@@ -126,6 +126,33 @@ export const renameWallet: WithState<RpcApi["rename_wallet"]> = async (state, ad
     return null;
 };
 
+export const deleteWallet: WithState<WithOrigin<RpcApi["delete_wallet"]>> = async (
+    state,
+    origin,
+    address,
+) => {
+    const wallet = state.wallets.get(address);
+
+    if (!wallet) {
+        throw new Error(`Wallet not found for address: ${address}`);
+    }
+
+    const granted = await confirmPopup(
+        "Wallet Export Request",
+        "Attention! A dApp is trying to remove one of your wallets, proceed carefully.",
+        `The dApp at ${origin} is requesting the DELETION of your wallet: ${wallet.metadata.name} (${wallet.metadata.address}).` +
+            "If the request doesn't originate for you, please decline.",
+    );
+
+    if (!granted) {
+        throw new Error("Wallet deletion not granted");
+    }
+
+    state.wallets.delete(address);
+
+    return null;
+};
+
 export const requestPermissions: WithState<WithOrigin<RpcApi["request_permissions"]>> = async (
     state,
     origin,

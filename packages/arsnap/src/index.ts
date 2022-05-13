@@ -76,6 +76,10 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
             await guard(permissions, "ORGANIZE_WALLETS");
             return await handlers.renameWallet(state, ...params);
 
+        case "delete_wallet":
+            await guard(permissions, "DELETE_WALLET");
+            return await handlers.deleteWallet(state, origin, ...params);
+
         case "request_permissions":
             return await handlers.requestPermissions(state, origin, ...params);
 
