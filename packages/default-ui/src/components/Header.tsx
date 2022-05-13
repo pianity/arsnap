@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import metamaskLogoUrl from "@/assets/metamask.png";
 import arsnapLogoUrl from "@/assets/arsnap.png";
-import WalletMenu, { OnWalletMenuEvent } from "./WalletMenu";
-import LoadingIndicator from "./interface/svg/LoadingIndicator";
+import WalletMenu, { OnWalletMenuEvent } from "@/components/WalletMenu";
+import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 
 type HeaderProps = {
     initializing: boolean;
@@ -33,20 +33,22 @@ export default function Header({
             </ul>
 
             {/* MARK: Metamask connect */}
-            {activeWallet && availableWallets ? (
-                <WalletMenu
-                    activeWallet={activeWallet}
-                    availableWallets={availableWallets}
-                    onEvent={onWalletEvent}
-                />
-            ) : !initializing ? (
-                <button className="h-10 px-4 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out">
-                    <span className="text-sm leading-[15px] font-semibold mr-2">Connect with</span>
-                    <img src={metamaskLogoUrl} width={126} height={24} alt="Metamask" />
-                </button>
-            ) : (
-                <LoadingIndicator height={16} width={16} />
-            )}
+            {initializing && <LoadingIndicator height={16} width={16} />}
+            {!initializing &&
+                (activeWallet && availableWallets ? (
+                    <WalletMenu
+                        activeWallet={activeWallet}
+                        availableWallets={availableWallets}
+                        onEvent={onWalletEvent}
+                    />
+                ) : (
+                    <button className="h-10 px-4 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out">
+                        <span className="text-sm leading-[15px] font-semibold mr-2">
+                            Connect with
+                        </span>
+                        <img src={metamaskLogoUrl} width={126} height={24} alt="Metamask" />
+                    </button>
+                ))}
 
             {/* MARK: ArSnap logo */}
             <div className="absolute px-10 left-1/2 -bottom-14 -translate-x-1/2 z-10 bg-purple-dark">
