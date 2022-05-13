@@ -47,7 +47,7 @@ export default function App() {
                 return { wallet };
             }
 
-            case "downloadWallet": {
+            case "exportWallet": {
                 console.log("downloading wallet");
 
                 const wallet = await adapter.exportWallet(e.address);
@@ -58,6 +58,11 @@ export default function App() {
 
                 return {};
             }
+
+            case "deleteWallet":
+                await adapter.deleteWallet(e.address);
+                await updateWallets(snapDispatch);
+                return {};
 
             default:
                 exhaustive(e);

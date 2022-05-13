@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import {
-    DownloadWallet,
+    ExportWallet,
     OnFileBrowserEvent,
     OnWalletMenuEvent,
     RenameWallet,
@@ -11,7 +11,7 @@ type NameNewWalletProps = {
     origin: "imported" | "created";
     wallet: NamedAddress;
     onGoBack: () => void;
-    onEvent: OnWalletMenuEvent<RenameWallet | DownloadWallet>;
+    onEvent: OnWalletMenuEvent<RenameWallet | ExportWallet>;
     onFileBrowserEvent: OnFileBrowserEvent;
 };
 
@@ -43,7 +43,7 @@ export default function NameNewWallet({
                 <Button
                     onClick={async () => {
                         onFileBrowserEvent("opened");
-                        await onEvent({ event: "downloadWallet", address: wallet.address });
+                        await onEvent({ event: "exportWallet", address: wallet.address });
                         onFileBrowserEvent("closed");
                     }}
                 >

@@ -1,32 +1,43 @@
 import { useState, FocusEvent } from "react";
 
-import { OnWalletMenuEvent, WalletMenuProps } from "@/components/WalletMenu/WalletMenu";
+import {
+    ExportWallet,
+    OnWalletMenuEvent,
+    RenameWallet,
+    SelectWallet,
+    WalletMenuProps,
+} from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/Button";
+import { NamedAddress } from "@/utils/types";
 
 export type WalletItemProps = {
     active?: boolean;
     name: string;
     address: string;
-    onEvent: OnWalletMenuEvent;
+    onEvent: OnWalletMenuEvent<RenameWallet | SelectWallet | ExportWallet>;
+    onDeleteWallet: (address: NamedAddress) => void;
 };
-function WalletItem({ active, name, address, onEvent }: WalletItemProps) {
-    const [renaming, setRenaming] = useState<string | undefined>();
+function WalletItem({ active, name, address, onEvent, onDeleteWallet }: WalletItemProps) {
+    const [hovering, setHovering] = useState<boolean>(false);
 
     function onBlur(e: FocusEvent<HTMLInputElement>) {
-        onEvent({ event: "renameWallet", name: e.target.value, address });
-
-        setRenaming(undefined);
+        if (e.target.value !== name) {
+            onEvent({ event: "renameWallet", name: e.target.value, address });
+            e.stopPropagation();
+        }
     }
 
     return (
-        <li onClick={() => onEvent({ event: "selectWallet", address })}>
+        <li
+            onClick={() => onEvent({ event: "selectWallet", address })}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+        >
             {active && <p>(logo)</p>}
 
             <input
-                onBlur={renaming === address ? onBlur : undefined}
+                onBlur={onBlur}
                 onClick={(e) => {
-                    setRenaming(address);
-
                     e.stopPropagation();
                 }}
                 onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
@@ -43,12 +54,33 @@ function WalletItem({ active, name, address, onEvent }: WalletItemProps) {
             >
                 {address}
             </span>
+
+            {hovering && (
+                <>
+                    <Button onClick={() => onEvent({ event: "exportWallet", address })}>
+                        export
+                    </Button>
+
+                    <Button
+                        onClick={(e) => {
+                            onDeleteWallet({ name, address });
+                            e.stopPropagation();
+                        }}
+                    >
+                        delete
+                    </Button>
+                </>
+            )}
         </li>
     );
 }
 
-export type WalletOpenedMenuProps = WalletMenuProps & {
+export type WalletOpenedMenuProps = {
+    activeWallet: string;
+    availableWallets: [string, string][];
+    onEvent: OnWalletMenuEvent;
     onAddWallet: () => void;
+    onDeleteWallet: (wallet: NamedAddress) => void;
 };
 
 export default function WalletList({
@@ -56,6 +88,7 @@ export default function WalletList({
     availableWallets,
     onEvent,
     onAddWallet,
+    onDeleteWallet,
 }: WalletOpenedMenuProps) {
     return (
         <div>
@@ -68,6 +101,7 @@ export default function WalletList({
                               name={name}
                               address={address}
                               onEvent={onEvent}
+                              onDeleteWallet={onDeleteWallet}
                           />
                       ))
                     : "loading wallets..."}

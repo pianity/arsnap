@@ -20,12 +20,22 @@ export type ImportWallet = {
     jwk: JWKInterface;
 };
 
-export type DownloadWallet = {
-    event: "downloadWallet";
+export type ExportWallet = {
+    event: "exportWallet";
     address: string;
 };
 
-export type WalletMenuEvent = SelectWallet | RenameWallet | ImportWallet | DownloadWallet;
+export type DeleteWallet = {
+    event: "deleteWallet";
+    address: string;
+};
+
+export type WalletMenuEvent =
+    | SelectWallet
+    | RenameWallet
+    | ImportWallet
+    | ExportWallet
+    | DeleteWallet;
 
 export type WalletMenuEventResponse = {
     wallet?: NamedAddress;
