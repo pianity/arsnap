@@ -21,7 +21,7 @@ export default function Balance({ shrink, balance, onSendClick }: BalanceProps) 
             opaque
             centerAll
             className={
-                "relative transition-size duration-300 ease-quart-out " +
+                "relative shrink-0 transition-size duration-300 ease-quart-out " +
                 (shrink ? "h-[104px]" : "h-[200px]")
             }
         >

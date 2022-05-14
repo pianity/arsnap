@@ -17,7 +17,7 @@ export default function ViewContainer({
     return (
         <div
             className={
-                "mx-auto w-[90vw] max-w-[768px] grow flex flex-col items-center" +
+                "mx-auto w-[90vw] max-w-[768px] grow flex flex-col items-center mb-10" +
                 (className ? " " + className : "")
             }
         >

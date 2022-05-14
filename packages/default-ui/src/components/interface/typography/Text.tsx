@@ -26,6 +26,8 @@ type TextProps = {
     opacity?: Opacity;
     /** Font size of the text (in px) */
     size?: TextSize;
+    /** Makes text all uppercase */
+    uppercase?: boolean;
     /** Makes the text pulse */
     pulse?: boolean;
     /** Extra classes added to the element */
@@ -118,6 +120,7 @@ function getTextClassName({
     opacity,
     taller,
     wider,
+    uppercase,
     pulse,
     className,
 }: TextProps) {
@@ -150,6 +153,9 @@ function getTextClassName({
     }
     if (pulse) {
         classNames.push("animate-pulse");
+    }
+    if (uppercase) {
+        classNames.push("uppercase");
     }
 
     return classNames.join(" ");

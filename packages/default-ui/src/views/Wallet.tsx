@@ -34,7 +34,7 @@ export default function Wallet({ address }: WalletProps) {
 
     return (
         <ViewContainer>
-            <div className="grid grid-cols-1 gap-4 w-full">
+            <div className="grow flex flex-col gap-4 w-full">
                 <Balance balance={walletState.balance} onSendClick={onSendClick} />
                 <Transactions transactions={walletState.transactions} />
             </div>
