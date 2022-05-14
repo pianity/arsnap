@@ -51,7 +51,7 @@ export default function Header({
                         onEvent={onWalletEvent}
                     />
                 ) : (
-                    <MetamaskButton label="Connect with" onClick={async () => {}} small dark />
+                    <MetamaskButton label="Connect with" onClick={onMetamaskClick} small dark />
                 ))}
 
             {/* MARK: ArSnap logo */}
