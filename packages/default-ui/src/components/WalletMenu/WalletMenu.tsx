@@ -3,8 +3,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 
 import { NamedAddress } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
-import LoadingIndicator from "../interface/svg/LoadingIndicator";
-import Chevron from "../interface/svg/Chevron";
+import Chevron from "@/components/interface/svg/Chevron";
 
 export type SelectWallet = {
     event: "selectWallet";
@@ -99,7 +98,7 @@ export default function WalletMenu({
             </button>
 
             {menuOpened && (
-                <div className="absolute right-0 top-12 bg-white rounded-xl p-4 text-gray-dark">
+                <div className="absolute right-0 top-12 z-50">
                     <WalletOpenedMenu
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}

@@ -1,5 +1,6 @@
 import { Balance as BalanceData } from "@/state/wallet";
 import Text from "@/components/interface/typography/Text";
+import Container from "@/components/interface/layout/Container";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */
@@ -16,9 +17,11 @@ type BalanceProps = {
  */
 export default function Balance({ shrink, balance, onSendClick }: BalanceProps) {
     return (
-        <div
+        <Container
+            opaque
+            centerAll
             className={
-                "w-full rounded-xl bg-white flex flex-col items-center justify-center text-center relative transition-size duration-300 ease-quart-out " +
+                "relative transition-size duration-300 ease-quart-out " +
                 (shrink ? "h-[104px]" : "h-[200px]")
             }
         >
@@ -56,6 +59,6 @@ export default function Balance({ shrink, balance, onSendClick }: BalanceProps) 
                     />
                 </svg>
             </button>
-        </div>
+        </Container>
     );
 }

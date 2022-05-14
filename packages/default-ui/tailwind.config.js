@@ -31,6 +31,10 @@ module.exports = {
             transitionTimingFunction: {
                 "quart-out": "cubic-bezier(0.25, 1, 0.5, 1)",
             },
+            boxShadow: {
+                container:
+                    "0px 4px 4px rgba(0, 0, 0, 0.04), 0px 24px 28px rgba(0, 0, 0, 0.04), 0px 20px 24px rgba(0, 0, 0, 0.04)",
+            },
         },
     },
     plugins: [],

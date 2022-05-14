@@ -7,6 +7,7 @@ import NameNewWallet from "@/components/WalletMenu/NameNewWallet";
 import { NamedAddress } from "@/utils/types";
 import { arweave } from "@/utils/blockchain";
 import { exhaustive } from "@/utils";
+import Container from "@/components/interface/layout/Container";
 
 export type WalletOpenedMenuProps = WalletMenuProps & { onFileBrowserEvent: OnFileBrowserEvent };
 export default function WalletOpenedMenu({
@@ -69,7 +70,7 @@ export default function WalletOpenedMenu({
     }
 
     return (
-        <>
+        <Container opaque shadow className="p-4 text-gray-dark">
             {view === "walletsList" && (
                 <WalletList
                     activeWallet={activeWallet}
@@ -99,6 +100,6 @@ export default function WalletOpenedMenu({
                         onFileBrowserEvent={onFileBrowserEvent}
                     />
                 ))}
-        </>
+        </Container>
     );
 }
