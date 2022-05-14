@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useWalletReducer, updateBalance, updateTransactions } from "@/state/wallet";
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
+import ViewContainer from "@/components/interface/layout/ViewContainer";
 
 export type WalletProps = {
     address: string;
@@ -32,11 +33,11 @@ export default function Wallet({ address }: WalletProps) {
     function onSendClick() {}
 
     return (
-        <div className="w-full grow flex flex-col items-center mt-20">
-            <div className="flex flex-col items-center justify-center w-[90vw] max-w-[768px]">
+        <ViewContainer>
+            <div className="grid grid-cols-1 gap-4 w-full">
                 <Balance balance={walletState.balance} onSendClick={onSendClick} />
                 <Transactions transactions={walletState.transactions} />
             </div>
-        </div>
+        </ViewContainer>
     );
 }

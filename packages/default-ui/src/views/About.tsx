@@ -1,3 +1,5 @@
+import ViewContainer from "@/components/interface/layout/ViewContainer";
+
 export default function About() {
-    return <p>That's about it!</p>;
+    return <ViewContainer>That's about it!</ViewContainer>;
 }

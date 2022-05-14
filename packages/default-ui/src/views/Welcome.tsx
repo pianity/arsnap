@@ -2,6 +2,7 @@ import { initializeArsnap } from "@/utils/arsnap";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import Text from "@/components/interface/typography/Text";
+import ViewContainer from "@/components/interface/layout/ViewContainer";
 
 export type WelcomeProps = {
     loading: boolean;
@@ -16,11 +17,11 @@ export default function Welcome({ loading, onInitialized }: WelcomeProps) {
     }
 
     return (
-        <div className="w-full grow flex flex-col justify-center items-center">
+        <ViewContainer className="justify-center">
             {loading ? (
-                <LoadingIndicator width={40} height={40} className="opacity-40" />
+                <LoadingIndicator width={40} height={40} className="opacity-40 " />
             ) : (
-                <div className="bg-white bg-opacity-25 rounded-xl text-center flex flex-col items-center justify-center h-[50vh] min-h-[280px] max-h-[395px] w-[90vw] max-w-[768px]">
+                <div className="bg-white bg-opacity-25 rounded-xl text-center flex flex-col items-center justify-center h-[50vh] min-h-[280px] max-h-[395px] w-full">
                     <Text.h1 size="24" taller weight="semibold">
                         Welcome!
                     </Text.h1>
@@ -30,6 +31,6 @@ export default function Welcome({ loading, onInitialized }: WelcomeProps) {
                     <MetamaskButton label="Connect with" onClick={onMetamaskClick} />
                 </div>
             )}
-        </div>
+        </ViewContainer>
     );
 }
