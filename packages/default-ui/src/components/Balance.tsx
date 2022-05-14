@@ -27,7 +27,7 @@ export default function Balance({ shrink, balance, onSendClick }: BalanceProps) 
         >
             {/* MARK: AR Balance */}
             <Text.span
-                color="gray-dark"
+                color={balance ? "gray-dark" : "orange"}
                 size={shrink ? "32" : "56"}
                 weight="bold"
                 pulse={!balance}
@@ -35,9 +35,11 @@ export default function Balance({ shrink, balance, onSendClick }: BalanceProps) 
             >{`${balance?.ar || "0"} AR`}</Text.span>
 
             {/* MARK: FIAT Balance */}
-            <Text.span color="gray-light" size={shrink ? "18" : "20"} pulse={!balance}>{`$${
-                balance?.fiat || "0"
-            } USD`}</Text.span>
+            <Text.span
+                color={balance ? "gray-light" : "orange"}
+                size={shrink ? "18" : "20"}
+                pulse={!balance}
+            >{`$${balance?.fiat || "0"} USD`}</Text.span>
 
             {/* MARK: Send button */}
             <button
