@@ -29,10 +29,14 @@ export default function Wallet({ address }: WalletProps) {
         };
     }, []);
 
+    function onSendClick() {}
+
     return (
-        <>
-            <Balance balance={walletState.balance} />
-            <Transactions transactions={walletState.transactions} />
-        </>
+        <div className="w-full grow flex flex-col items-center mt-20">
+            <div className="flex flex-col items-center justify-center w-[90vw] max-w-[768px]">
+                <Balance balance={walletState.balance} onSendClick={onSendClick} />
+                <Transactions transactions={walletState.transactions} />
+            </div>
+        </div>
     );
 }
