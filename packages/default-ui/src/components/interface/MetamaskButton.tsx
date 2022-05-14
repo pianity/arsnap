@@ -2,6 +2,7 @@ import { useState } from "react";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import metamaskLogoUrlDark from "@/assets/metamask-dark.svg";
 import metamaskLogoUrlLight from "@/assets/metamask-light.svg";
+import Text from "@/components/interface/typography/Text";
 
 type MetamaskButtonProps = {
     label: string;
@@ -28,16 +29,15 @@ export default function MetamaskButton({ label, small, dark, onClick }: Metamask
                 (small ? " h-10 px-4" : " h-14 px-6")
             }
         >
-            <span
-                className={
-                    "font-semibold mr-2" +
-                    (initializing ? " invisible" : "") +
-                    (dark ? " text-white" : " text-gray-dark") +
-                    (small ? " text-sm leading-[15px]" : " text-base leading-[17px]")
-                }
+            <Text.span
+                color={dark ? "white" : "gray-dark"}
+                size={small ? "14" : "16"}
+                weight="semibold"
+                taller
+                className={"mr-2" + (initializing ? " invisible" : "")}
             >
                 {label}
-            </span>
+            </Text.span>
             <img
                 src={dark ? metamaskLogoUrlLight : metamaskLogoUrlDark}
                 width={small ? 94 : 105}

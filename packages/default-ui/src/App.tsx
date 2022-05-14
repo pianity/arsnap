@@ -14,6 +14,7 @@ import Welcome from "@/views/Welcome";
 import Header from "@/components/Header";
 import About from "@/views/About";
 import { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
+import Text from "@/components/interface/typography/Text";
 
 async function isArsnapInstalled() {
     try {
@@ -103,7 +104,9 @@ export default function App() {
             </Routes>
 
             <footer className="fixed inset-x-0 bottom-0 h-16 flex items-center justify-between px-6">
-                <div className="text-sm leading-[15px] font-semibold">ArSnap v0.1</div>
+                <Text size="14" taller weight="semibold">
+                    ArSnap v0.1
+                </Text>
                 <a
                     target="_blank"
                     rel="noopener noreferrer"
@@ -111,7 +114,9 @@ export default function App() {
                     className="flex items-center"
                 >
                     <img src={githubIconUrl} alt="GitHub" />
-                    <span className="text-base leading-[17px] font-semibold ml-2">GitHub</span>
+                    <Text.span size="16" taller weight="semibold" className="ml-2">
+                        GitHub
+                    </Text.span>
                 </a>
             </footer>
         </div>

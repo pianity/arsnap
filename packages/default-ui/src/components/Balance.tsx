@@ -1,4 +1,5 @@
 import { Balance as BalanceData } from "@/state/wallet";
+import Text from "@/components/interface/typography/Text";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */
@@ -17,27 +18,23 @@ export default function Balance({ shrink, balance, onSendClick }: BalanceProps) 
     return (
         <div
             className={
-                "w-full rounded-xl bg-white flex flex-col items-center justify-center text-center text-gray-dark relative transition-size duration-300 ease-quart-out " +
+                "w-full rounded-xl bg-white flex flex-col items-center justify-center text-center relative transition-size duration-300 ease-quart-out " +
                 (shrink ? "h-[104px]" : "h-[200px]")
             }
         >
             {/* MARK: AR Balance */}
-            <span
-                className={
-                    "leading-[100%] font-bold mb-2" +
-                    (balance ? "" : " animate-pulse") +
-                    (shrink ? " text-[32px]" : " text-[56px]")
-                }
-            >{`${balance?.ar || "0"} AR`}</span>
+            <Text.span
+                color="gray-dark"
+                size={shrink ? "32" : "56"}
+                weight="bold"
+                pulse={!balance}
+                className="mb-2"
+            >{`${balance?.ar || "0"} AR`}</Text.span>
 
             {/* MARK: FIAT Balance */}
-            <span
-                className={
-                    "leading-[100%] text-gray-light" +
-                    (balance ? "" : " animate-pulse") +
-                    (shrink ? " text-lg" : " text-xl ")
-                }
-            >{`$${balance?.fiat || "0"} USD`}</span>
+            <Text.span color="gray-light" size={shrink ? "18" : "20"} pulse={!balance}>{`$${
+                balance?.fiat || "0"
+            } USD`}</Text.span>
 
             {/* MARK: Send button */}
             <button

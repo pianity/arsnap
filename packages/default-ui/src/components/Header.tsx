@@ -4,6 +4,7 @@ import WalletMenu, { OnWalletMenuEvent } from "@/components/WalletMenu";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import { initializeArsnap } from "@/utils/arsnap";
+import Text from "@/components/interface/typography/Text";
 
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */
@@ -39,15 +40,42 @@ export default function Header({
         <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25">
             {/* MARK: Navbar items */}
             <ul className="flex">
-                <li className="text-white text-base leading-[17px] font-semibold mr-4 lg:hover:text-purple-text">
-                    <Link to="/about">About</Link>
-                </li>
-                <li className="text-white text-base leading-[17px] font-semibold mr-4 lg:hover:text-purple-text">
-                    <Link to="/help">Help</Link>
-                </li>
-                <li className="text-white text-base leading-[17px] font-semibold mr-4 lg:hover:text-purple-text">
-                    <Link to="/report">Report a bug</Link>
-                </li>
+                <Link to="/about">
+                    <Text.li
+                        size="16"
+                        color="white"
+                        hoverColor="purple-text"
+                        taller
+                        weight="semibold"
+                        className="mr-4"
+                    >
+                        About
+                    </Text.li>
+                </Link>
+                <Link to="/help">
+                    <Text.li
+                        size="16"
+                        color="white"
+                        hoverColor="purple-text"
+                        taller
+                        weight="semibold"
+                        className="mr-4"
+                    >
+                        Help
+                    </Text.li>
+                </Link>
+                <Link to="/report">
+                    <Text.li
+                        size="16"
+                        color="white"
+                        hoverColor="purple-text"
+                        taller
+                        weight="semibold"
+                        className="mr-4"
+                    >
+                        Report a bug
+                    </Text.li>
+                </Link>
             </ul>
 
             {/* MARK: Metamask connect */}
