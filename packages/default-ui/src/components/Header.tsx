@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import arsnapLogoUrl from "@/assets/arsnap.png";
+import arsnapLogoUrl from "@/assets/arsnap.svg";
 import WalletMenu, { OnWalletMenuEvent } from "@/components/WalletMenu";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
@@ -9,6 +9,8 @@ import Text from "@/components/interface/typography/Text";
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */
     loading: boolean;
+    /** Makes the ArSnap logo smaller */
+    smallLogo?: boolean;
     /** Current active wallet */
     activeWallet: string | undefined;
     /** List of available wallets */
@@ -25,6 +27,7 @@ type HeaderProps = {
  */
 export default function Header({
     loading,
+    smallLogo,
     activeWallet,
     availableWallets,
     onWalletEvent,
@@ -37,7 +40,7 @@ export default function Header({
     }
 
     return (
-        <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25">
+        <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25 mb-[72px]">
             {/* MARK: Navbar items */}
             <ul className="flex">
                 <Link to="/about">
@@ -92,8 +95,19 @@ export default function Header({
                 ))}
 
             {/* MARK: ArSnap logo */}
-            <div className="absolute px-10 left-1/2 -bottom-14 -translate-x-1/2 z-10 bg-purple-dark">
-                <img src={arsnapLogoUrl} width={172} height={84} alt="ArSnap for MetaMask" />
+            <div
+                className={
+                    "absolute left-1/2 -translate-x-1/2 z-10 bg-purple-dark transition-all duration-300 ease-quart-out " +
+                    (smallLogo ? "px-8 -bottom-6" : "px-10 -bottom-14")
+                }
+            >
+                <img
+                    src={arsnapLogoUrl}
+                    width={smallLogo ? 114 : 172}
+                    height={smallLogo ? 61 : 84}
+                    alt="ArSnap for MetaMask"
+                    className="transition-size duration-300 ease-quart-out"
+                />
             </div>
         </header>
     );

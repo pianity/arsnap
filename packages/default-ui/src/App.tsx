@@ -79,6 +79,7 @@ export default function App() {
         <div className="min-h-screen flex flex-col">
             <Header
                 loading={loading}
+                smallLogo={!!snapState.activeWallet}
                 activeWallet={snapState.activeWallet}
                 availableWallets={snapState.wallets}
                 onWalletEvent={onWalletMenuEvent}
