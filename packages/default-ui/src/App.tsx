@@ -27,16 +27,16 @@ async function isArsnapInstalled() {
 
 export default function App() {
     // Indicates whether Arsnap is being loaded and wallets updated.
-    const [initializing, setInitializing] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [snapState, snapDispatch] = useSnapReducer();
 
     useEffect(() => {
         isArsnapInstalled()
             .then(async () => {
                 await updateWallets(snapDispatch);
-                setInitializing(false);
+                setLoading(false);
             })
-            .catch(() => setInitializing(false));
+            .catch(() => setLoading(false));
     }, []);
 
     async function onWalletMenuEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
@@ -77,7 +77,7 @@ export default function App() {
     return (
         <div className="min-h-screen flex flex-col">
             <Header
-                initializing={initializing}
+                loading={loading}
                 activeWallet={snapState.activeWallet}
                 availableWallets={snapState.wallets}
                 onWalletEvent={onWalletMenuEvent}
@@ -92,7 +92,7 @@ export default function App() {
                             <Wallet address={snapState.activeWallet} />
                         ) : (
                             <Welcome
-                                loading={initializing}
+                                loading={loading}
                                 onInitialized={() => updateWallets(snapDispatch)}
                             />
                         )

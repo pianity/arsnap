@@ -6,15 +6,24 @@ import MetamaskButton from "@/components/interface/MetamaskButton";
 import { initializeArsnap } from "@/utils/arsnap";
 
 type HeaderProps = {
-    initializing: boolean;
+    /** Shows a loading indicator instead of the wallet button */
+    loading: boolean;
+    /** Current active wallet */
     activeWallet: string | undefined;
+    /** List of available wallets */
     availableWallets: [string, string][] | undefined;
+    /** Wallet menu callback */
     onWalletEvent: OnWalletMenuEvent;
+    /** ArSnap initialisation callback */
     onInitialized: () => void;
 };
 
+/**
+ * Renders the ArSnap header with nav links on the left,
+ * logo in the center and wallet button on the right.
+ */
 export default function Header({
-    initializing,
+    loading,
     activeWallet,
     availableWallets,
     onWalletEvent,
@@ -42,8 +51,8 @@ export default function Header({
             </ul>
 
             {/* MARK: Metamask connect */}
-            {initializing && <LoadingIndicator height={16} width={16} />}
-            {!initializing &&
+            {loading && <LoadingIndicator height={16} width={16} />}
+            {!loading &&
                 (activeWallet && availableWallets ? (
                     <WalletMenu
                         activeWallet={activeWallet}
