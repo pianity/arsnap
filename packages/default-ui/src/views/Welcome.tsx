@@ -1,6 +1,5 @@
 import * as adapter from "@pianity/arsnap-adapter";
 
-import { Transactions as TransactionsData, Balance as BalanceData } from "@/state/wallet";
 import Button from "@/components/Button";
 import { CustomError } from "@/utils/types";
 import { getMissingPermissions } from "@/utils/arsnap";

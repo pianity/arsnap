@@ -12,9 +12,10 @@ import Welcome from "@/views/Welcome";
 import About from "@/views/About";
 import WalletMenu, { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 
-async function isArsnapInstalled() {
+async function isArsnapConfigured() {
     try {
         const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
+        console.log(missingPermissions);
         return missingPermissions.length === 0;
     } catch (e) {
         console.log("getMissingPermissions threw:", e);
@@ -33,7 +34,11 @@ export default function App() {
     };
 
     useEffect(() => {
-        isArsnapInstalled().then(() => updateWallets(dispatch));
+        isArsnapConfigured().then((configured) => {
+            if (configured) {
+                updateWallets(dispatch);
+            }
+        });
 
         const updateInterval = setInterval(updateWalletData, 2 * 60 * 1000);
 
@@ -55,6 +60,7 @@ export default function App() {
 
             case "selectWallet":
                 await adapter.setActiveAddress(e.address);
+                await updateWallets(dispatch);
                 return {};
 
             case "importWallet": {
