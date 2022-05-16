@@ -1,5 +1,5 @@
 import { OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
-import Button from "@/components/Button";
+import Button from "@/components/interface/Button";
 import { NamedAddress } from "@/utils/types";
 import Text from "@/components/interface/typography/Text";
 import { findAddressName } from "@/utils";

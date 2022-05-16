@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
 import { OnFileBrowserEvent } from "@/components/WalletMenu/WalletMenu";
-import Button from "@/components/Button";
+import Button from "@/components/interface/Button";
 
 export type NewWalletChoice = "importExisting" | "createNew" | "cancel";
 
