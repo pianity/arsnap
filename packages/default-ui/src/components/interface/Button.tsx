@@ -49,7 +49,7 @@ export default function Button(props: PropsWithChildren<ButtonProps>) {
     return (
         <button
             className={[
-                "font-semibold flex items-center justify-center relative rounded-full",
+                "font-semibold flex items-center justify-center relative rounded-full w-max",
                 colorClass,
                 sizeClass,
                 props.className ?? "",
