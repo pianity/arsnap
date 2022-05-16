@@ -6,6 +6,9 @@ import {
     RenameWallet,
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
+import Text from "@/components/interface/typography/Text";
+import Label from "../interface/Label";
+import Input from "../interface/Input";
 
 type NewWalletProps = {
     origin: "imported" | "created";
@@ -23,9 +26,33 @@ export default function NewWallet({
     onFileBrowserEvent,
 }: NewWalletProps) {
     return (
-        <div onClick={(e) => e.stopPropagation()}>
-            <label>Name your wallet</label>
-            <input
+        <div onClick={(e) => e.stopPropagation()} className="flex flex-col px-2">
+            {/* MARK: Title */}
+            <Text
+                color="purple"
+                size="24"
+                weight="semibold"
+                taller
+                align="center"
+                className="mt-4 mb-2"
+            >
+                {origin === "imported" ? "Wallet imported!" : "New Wallet created!"}
+            </Text>
+            {/* MARK: Subtitle */}
+            <Text.span
+                color="gray-dark"
+                size="16"
+                align="center"
+                className="leading-[120%] mb-10 px-3"
+            >
+                {origin === "imported"
+                    ? "You can now give a name to your wallet."
+                    : "You can now give a name to your new wallet and store the seed phrase securely."}
+            </Text.span>
+
+            {/* MARK: Name wallet */}
+            <Label className="mb-3">Name your wallet</Label>
+            <Input
                 onBlur={(e) => {
                     onEvent({
                         event: "renameWallet",
@@ -39,26 +66,30 @@ export default function NewWallet({
                 defaultValue={wallet.name}
             />
 
-            {origin === "created" && (
+            {/* MARK: Buttons */}
+            <div className="flex mt-6 mb-2">
+                {origin === "created" && (
+                    <Button
+                        onClick={async () => {
+                            onFileBrowserEvent("opened");
+                            await onEvent({ event: "exportWallet", address: wallet.address });
+                            onFileBrowserEvent("closed");
+                        }}
+                        className="mr-3"
+                    >
+                        Download Wallet
+                    </Button>
+                )}
                 <Button
-                    onClick={async () => {
-                        onFileBrowserEvent("opened");
-                        await onEvent({ event: "exportWallet", address: wallet.address });
-                        onFileBrowserEvent("closed");
+                    outlined={origin === "created"}
+                    onClick={(e) => {
+                        onGoBack();
+                        e.stopPropagation();
                     }}
                 >
-                    Download Wallet
+                    Done
                 </Button>
-            )}
-
-            <Button
-                onClick={(e) => {
-                    onGoBack();
-                    e.stopPropagation();
-                }}
-            >
-                See Wallets
-            </Button>
+            </div>
         </div>
     );
 }
