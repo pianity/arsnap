@@ -4,6 +4,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import { NamedAddress } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
+import { findAddressName } from "@/utils";
 
 export type SelectWallet = {
     event: "selectWallet";
@@ -46,10 +47,6 @@ export type WalletMenuEventResponse = {
 export type OnWalletMenuEvent<T = WalletMenuEvent> = (event: T) => Promise<WalletMenuEventResponse>;
 
 export type OnFileBrowserEvent = (state: "opened" | "closed") => void;
-
-function findAddressName(wallets: [string, string][], needle: string): string {
-    return wallets[wallets.findIndex(([address]) => address === needle)][1];
-}
 
 export type WalletMenuProps = {
     activeWallet: string;
@@ -108,7 +105,7 @@ export default function WalletMenu({
             </button>
 
             {menuOpened && (
-                <div className="absolute right-0 top-12 z-50">
+                <div className="absolute right-0 top-12 z-50 w-[90vw] max-w-[376px]">
                     <WalletOpenedMenu
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}
