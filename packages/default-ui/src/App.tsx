@@ -10,15 +10,14 @@ import { useArsnapReducer, updateWallets, updateTransactions, updateBalance } fr
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
 import About from "@/views/About";
+import Send from "@/views/Send";
 import WalletMenu, { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 
 async function isArsnapConfigured() {
     try {
         const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
-        console.log(missingPermissions);
         return missingPermissions.length === 0;
     } catch (e) {
-        console.log("getMissingPermissions threw:", e);
         return false;
     }
 }
@@ -70,8 +69,6 @@ export default function App() {
             }
 
             case "exportWallet": {
-                console.log("downloading wallet");
-
                 const wallet = await adapter.exportWallet(e.address);
 
                 // TODO: Make sure that `wallet.metadata.name` contains only safe characters (this
@@ -111,13 +108,28 @@ export default function App() {
                     path="/"
                     element={
                         state.activeWallet ? (
-                            <Wallet balance={state.balance} transactions={state.transactions} />
+                            <Wallet
+                                balance={state.arBalance}
+                                price={state.arPrice}
+                                transactions={state.transactions}
+                            />
                         ) : (
                             <Welcome onInitialized={() => updateWallets(dispatch)} />
                         )
                     }
                 />
                 <Route path="/about" element={<About />} />
+                <Route
+                    path="/send"
+                    element={
+                        <Send
+                            activeAddress={state.activeWallet!}
+                            balance={state.arBalance}
+                            arPrice={state.arPrice}
+                            dispatchBalance={dispatch}
+                        />
+                    }
+                />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </>

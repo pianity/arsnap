@@ -1,17 +1,19 @@
-import { Transactions as TransactionsData, Balance as BalanceData } from "@/state";
+import { Transactions as TransactionsData } from "@/state";
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
 
 export type WalletProps = {
-    balance?: BalanceData;
+    balance?: number;
+    price?: number;
     transactions?: TransactionsData;
 };
 
-export default function Wallet({ balance, transactions }: WalletProps) {
+export default function Wallet({ balance, price, transactions }: WalletProps) {
     return (
         <>
-            <Balance balance={balance} />
+            <Balance balance={balance} price={price} />
             <Transactions transactions={transactions} />
+            <a href="/send">Send</a>
         </>
     );
 }
