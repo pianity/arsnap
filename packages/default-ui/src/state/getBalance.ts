@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import BigNumber from "bignumber.js";
 
 import { arweave } from "@/utils/blockchain";
-import { WalletAction } from "@/state/wallet";
+import { SetBalance } from "@/state";
 
 export type Balance = {
     ar: string;
@@ -34,7 +34,7 @@ async function getBalance(address: string): Promise<Balance> {
     return { ar, fiat };
 }
 
-export async function updateBalance(address: string, dispatch: Dispatch<WalletAction>) {
+export async function updateBalance(address: string, dispatch: Dispatch<SetBalance>) {
     const balance = await getBalance(address);
 
     dispatch({
