@@ -1,20 +1,21 @@
-import { Transactions as TransactionsData, Balance as BalanceData } from "@/state";
+import { Transactions as TransactionsData } from "@/state";
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 
 export type WalletProps = {
-    balance?: BalanceData;
+    balance?: number;
+    price?: number;
     transactions?: TransactionsData;
 };
 
-export default function Wallet({ balance, transactions }: WalletProps) {
+export default function Wallet({ balance, price, transactions }: WalletProps) {
     function onSendClick() {}
 
     return (
         <ViewContainer>
             <div className="grow flex flex-col gap-4 w-full">
-                <Balance balance={balance} onSendClick={onSendClick} />
+                <Balance balance={balance} price={price} onSendClick={onSendClick} />
                 <Transactions transactions={transactions} />
             </div>
         </ViewContainer>

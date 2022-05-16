@@ -1,3 +1,5 @@
+import Arweave from "arweave";
+
 import Transaction from "arweave/node/lib/transaction";
 import { Base64 } from "js-base64";
 
@@ -11,6 +13,7 @@ const arsnapTags = [
 
 /**
  * Sign a transaction with the current active wallet.
+ *
  * @param tx - The transaction to sign
  */
 export async function signTx(tx: Transaction): Promise<void> {
@@ -31,4 +34,26 @@ export async function signTx(tx: Transaction): Promise<void> {
         owner,
         signature: Base64.fromUint8Array(dataSigned, true),
     });
+}
+
+/**
+ * Send `winston` winstons using the current active wallet.
+ *
+ * @param arweave - Arweave client used to send the transaction
+ * @param winston - Amount of winstons to send (1 winston = 0.000000000001 AR)
+ * @param recipient - Address that should receive the winstons
+ */
+export async function sendWinstonTo(arweave: Arweave, winston: string, recipient: string) {
+    const tx = await arweave.createTransaction({
+        quantity: winston,
+        target: recipient,
+    });
+
+    arsnapTags.forEach((tag) => {
+        tx.addTag(tag.name, tag.value);
+    });
+
+    await signTx(tx);
+
+    await arweave.transactions.post(tx);
 }

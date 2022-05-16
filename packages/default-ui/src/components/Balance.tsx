@@ -1,12 +1,13 @@
 import Text from "@/components/interface/typography/Text";
 import Container from "@/components/interface/layout/Container";
-import { Balance as BalanceData } from "@/state";
+import { useEffect, useState } from "react";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */
     shrink?: boolean;
     /** Balance state */
-    balance?: BalanceData;
+    balance?: number;
+    price?: number;
     /** Called when user clicks the send button */
     onSendClick: () => void;
 };
@@ -15,7 +16,15 @@ type BalanceProps = {
  * Renders the wallet's balance in both AR and fiat
  * along with a send button.
  */
-export default function Balance({ shrink, balance, onSendClick }: BalanceProps) {
+export default function Balance({ shrink, balance, price, onSendClick }: BalanceProps) {
+    const [fiatBalance, setFiatBalance] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        if (balance !== undefined && price !== undefined) {
+            setFiatBalance((balance * price).toFixed(2));
+        }
+    }, [balance, price]);
+
     return (
         <Container
             opaque
@@ -27,19 +36,19 @@ export default function Balance({ shrink, balance, onSendClick }: BalanceProps) 
         >
             {/* MARK: AR Balance */}
             <Text.span
-                color={balance ? "gray-dark" : "orange"}
+                color={balance !== undefined ? "gray-dark" : "orange"}
                 size={shrink ? "32" : "56"}
                 weight="bold"
-                pulse={!balance}
+                pulse={balance === undefined}
                 className="mb-2"
-            >{`${balance?.ar || "0"} AR`}</Text.span>
+            >{`${balance?.toFixed(6) || "0"} AR`}</Text.span>
 
             {/* MARK: FIAT Balance */}
             <Text.span
-                color={balance ? "gray-light" : "orange"}
+                color={fiatBalance !== undefined ? "gray-light" : "orange"}
                 size={shrink ? "18" : "20"}
-                pulse={!balance}
-            >{`$${balance?.fiat || "0"} USD`}</Text.span>
+                pulse={fiatBalance === undefined}
+            >{`$${fiatBalance || "0"} USD`}</Text.span>
 
             {/* MARK: Send button */}
             <button

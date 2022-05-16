@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { JWKInterface } from "arweave/node/lib/wallet";
 
-import { NamedAddress } from "@/utils/types";
+import { NamedAddress, Wallets } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
 import { findAddressName } from "@/utils";
@@ -50,7 +50,7 @@ export type OnFileBrowserEvent = (state: "opened" | "closed") => void;
 
 export type WalletMenuProps = {
     activeWallet: string;
-    availableWallets: [string, string][];
+    availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
 };
 export default function WalletMenu({
@@ -99,7 +99,7 @@ export default function WalletMenu({
                     Wallet
                 </label>
                 <span className="text-white text-sm leading-[100%] font-semibold mr-2 min-w-[80px] transition-size duration-300 ease-quart-out">
-                    {findAddressName(availableWallets, activeWallet)}
+                    {availableWallets.get(activeWallet)}
                 </span>
                 <Chevron width={10} height={6.6} />
             </button>

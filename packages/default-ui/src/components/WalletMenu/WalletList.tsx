@@ -1,13 +1,12 @@
 import { OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/interface/Button";
-import { NamedAddress } from "@/utils/types";
-import { findAddressName } from "@/utils";
+import { NamedAddress, Wallets } from "@/utils/types";
 import WalletItem from "@/components/WalletMenu/WalletItem";
 import Label from "@/components/interface/Label";
 
 export type WalletOpenedMenuProps = {
     activeWallet: string;
-    availableWallets: [string, string][];
+    availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
     onAddWallet: () => void;
     onDeleteWallet: (wallet: NamedAddress) => void;
@@ -20,20 +19,23 @@ export default function WalletList({
     onAddWallet,
     onDeleteWallet,
 }: WalletOpenedMenuProps) {
+    const activeWalletName = availableWallets.get(activeWallet);
     return (
         <div className="flex flex-col">
-            <Label className="mb-3">Active wallet</Label>
-            <WalletItem
-                active
-                name={findAddressName(availableWallets, activeWallet)}
-                address={activeWallet}
-                onEvent={onEvent}
-                onDeleteWallet={onDeleteWallet}
-            />
+            {activeWalletName && <Label className="mb-3">Active wallet</Label>}
+            {activeWalletName && (
+                <WalletItem
+                    active
+                    name={activeWalletName}
+                    address={activeWallet}
+                    onEvent={onEvent}
+                    onDeleteWallet={onDeleteWallet}
+                />
+            )}
 
             <Label className="mb-3 mt-6">Available wallets</Label>
             <ul className="flex flex-col max-h-[212px] overflow-y-auto">
-                {availableWallets.map(([address, name]) =>
+                {[...availableWallets.entries()].map(([address, name]) =>
                     address === activeWallet ? null : (
                         <WalletItem
                             key={address}

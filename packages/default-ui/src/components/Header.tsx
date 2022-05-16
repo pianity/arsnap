@@ -5,6 +5,7 @@ import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import { initializeArsnap } from "@/utils/arsnap";
 import Text from "@/components/interface/typography/Text";
+import { Wallets } from "@/utils/types";
 
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */
@@ -14,7 +15,7 @@ type HeaderProps = {
     /** Current active wallet */
     activeWallet: string | undefined;
     /** List of available wallets */
-    availableWallets: [string, string][] | undefined;
+    availableWallets: Wallets | undefined;
     /** Wallet menu callback */
     onWalletEvent: OnWalletMenuEvent;
     /** ArSnap initialisation callback */

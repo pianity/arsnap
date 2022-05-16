@@ -1,8 +1,8 @@
 import { Reducer, useReducer } from "react";
 
 import { exhaustive } from "@/utils";
-import { Balance } from "@/state/getBalance";
 import { Transactions } from "@/state/getTransactions";
+import { Wallets } from "@/utils/types";
 
 export * from "@/state/getTransactions";
 export * from "@/state/getBalance";
@@ -10,8 +10,9 @@ export * from "@/state/getWallets";
 
 export type State = {
     activeWallet?: string;
-    wallets?: [string, string][];
-    balance?: Balance;
+    wallets?: Wallets;
+    arBalance?: number;
+    arPrice?: number;
     transactions?: Transactions;
 };
 
@@ -25,9 +26,14 @@ export type SetWallets = {
     wallets: [string, string][];
 };
 
-export type SetBalance = {
-    type: "setBalance";
-    balance: Balance;
+export type SetArBalance = {
+    type: "setArBalance";
+    balance: number;
+};
+
+export type SetArPrice = {
+    type: "setArPrice";
+    price: number;
 };
 
 export type SetTransactions = {
@@ -41,7 +47,7 @@ export type SetTransactions = {
 //     newName: string;
 // };
 
-export type Action = SetActiveWallet | SetWallets | SetBalance | SetTransactions;
+export type Action = SetActiveWallet | SetWallets | SetArBalance | SetArPrice | SetTransactions;
 // | RenameWallet;
 
 const reducer: Reducer<State, Action> = (state, action): State => {
@@ -55,7 +61,7 @@ const reducer: Reducer<State, Action> = (state, action): State => {
         case "setWallets":
             return {
                 ...state,
-                wallets: action.wallets,
+                wallets: new Map(action.wallets),
             };
 
         // case "renameWallet": {
@@ -76,10 +82,16 @@ const reducer: Reducer<State, Action> = (state, action): State => {
         //     return state;
         // }
 
-        case "setBalance":
+        case "setArBalance":
             return {
                 ...state,
-                balance: action.balance,
+                arBalance: action.balance,
+            };
+
+        case "setArPrice":
+            return {
+                ...state,
+                arPrice: action.price,
             };
 
         case "setTransactions":

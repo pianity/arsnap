@@ -14,14 +14,13 @@ import Header from "@/components/Header";
 import About from "@/views/About";
 import { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 import Text from "@/components/interface/typography/Text";
+import Send from "@/views/Send";
 
 async function isArsnapConfigured() {
     try {
         const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
-        console.log(missingPermissions);
         return missingPermissions.length === 0;
     } catch (e) {
-        console.log("getMissingPermissions threw:", e);
         return false;
     }
 }
@@ -75,8 +74,6 @@ export default function App() {
             }
 
             case "exportWallet": {
-                console.log("downloading wallet");
-
                 const wallet = await adapter.exportWallet(e.address);
 
                 // TODO: Make sure that `wallet.metadata.name` contains only safe characters (this
@@ -113,7 +110,11 @@ export default function App() {
                     path="/"
                     element={
                         state.activeWallet ? (
-                            <Wallet balance={state.balance} transactions={state.transactions} />
+                            <Wallet
+                                balance={state.arBalance}
+                                price={state.arPrice}
+                                transactions={state.transactions}
+                            />
                         ) : (
                             <Welcome
                                 loading={loading}
@@ -123,6 +124,17 @@ export default function App() {
                     }
                 />
                 <Route path="/about" element={<About />} />
+                <Route
+                    path="/send"
+                    element={
+                        <Send
+                            activeAddress={state.activeWallet!}
+                            balance={state.arBalance}
+                            arPrice={state.arPrice}
+                            dispatchBalance={dispatch}
+                        />
+                    }
+                />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
 
