@@ -6,7 +6,7 @@ import * as adapter from "@pianity/arsnap-adapter";
 import { REQUIRED_PERMISSIONS } from "@/consts";
 import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
-import githubIconUrl from "@/assets/github.png";
+import githubIconUrl from "@/assets/icons/github.svg";
 import { useArsnapReducer, updateWallets, updateTransactions, updateBalance } from "@/state";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
