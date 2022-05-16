@@ -1,10 +1,12 @@
 import {
+    getAlignClass,
     getColorClass,
     getHoverColorClass,
     getOpacityClass,
     getSizeClass,
     getWeightClass,
     Opacity,
+    TextAlign,
     TextColor,
     TextSize,
     TextWeight,
@@ -26,6 +28,8 @@ type TextProps = {
     opacity?: Opacity;
     /** Font size of the text (in px) */
     size?: TextSize;
+    /** Alignment of the text */
+    align?: TextAlign;
     /** Makes text all uppercase */
     uppercase?: boolean;
     /** Makes the text pulse */
@@ -122,6 +126,7 @@ function getTextClassName({
     wider,
     uppercase,
     pulse,
+    align,
     className,
 }: TextProps) {
     let classNames: string[] = [];
@@ -156,6 +161,9 @@ function getTextClassName({
     }
     if (uppercase) {
         classNames.push("uppercase");
+    }
+    if (align) {
+        classNames.push(getAlignClass(align));
     }
 
     return classNames.join(" ");

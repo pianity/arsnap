@@ -182,3 +182,24 @@ export function getWeightClass(weight: TextWeight) {
             return "font-bold";
     }
 }
+
+export type TextAlign = "left" | "center" | "right";
+
+/**
+ * Gets the tailwind class for the given text alignment.
+ *
+ * @param align
+ * @returns Tailwind class name
+ */
+export function getAlignClass(align: TextAlign) {
+    switch (align) {
+        case "left":
+            return "text-left";
+
+        case "center":
+            return "text-center";
+
+        case "right":
+            return "text-right";
+    }
+}
