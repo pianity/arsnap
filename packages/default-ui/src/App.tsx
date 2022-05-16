@@ -11,6 +11,7 @@ import { updateWallets } from "@/state/snap/getWallets";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
 import About from "@/views/About";
+import Send from "@/views/Send";
 import WalletMenu, { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 
 async function isArsnapInstalled() {
@@ -48,8 +49,6 @@ export default function App() {
             }
 
             case "exportWallet": {
-                console.log("downloading wallet");
-
                 const wallet = await adapter.exportWallet(e.address);
 
                 // TODO: Make sure that `wallet.metadata.name` contains only safe characters (this
@@ -96,6 +95,7 @@ export default function App() {
                     }
                 />
                 <Route path="/about" element={<About />} />
+                <Route path="/send" element={<Send />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </>

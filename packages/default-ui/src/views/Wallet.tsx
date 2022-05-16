@@ -33,6 +33,7 @@ export default function Wallet({ address }: WalletProps) {
         <>
             <Balance balance={walletState.balance} />
             <Transactions transactions={walletState.transactions} />
+            <a href="/send">Send</a>
         </>
     );
 }
