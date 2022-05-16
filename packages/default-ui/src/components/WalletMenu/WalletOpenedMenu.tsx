@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { OnFileBrowserEvent, OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import WalletList from "@/components/WalletMenu/WalletList";
-import NewWallet, { NewWalletChoice } from "@/components/WalletMenu/NewWallet";
+import AddWallet, { NewWalletChoice } from "@/components/WalletMenu/AddWallet";
 import NameNewWallet from "@/components/WalletMenu/NameNewWallet";
 import DeleteWallet from "@/components/WalletMenu/DeleteWallet";
 import { NamedAddress } from "@/utils/types";
@@ -24,7 +24,7 @@ export default function WalletOpenedMenu({
     onFileBrowserEvent,
 }: WalletOpenedMenuProps) {
     const [view, setView] = useState<
-        "walletsList" | "deleteWallet" | "newWallet" | "createNew" | "imported" | "created"
+        "walletsList" | "deleteWallet" | "addWallet" | "createNew" | "imported" | "created"
     >("walletsList");
 
     // // When `view` is set to `deleteWallet`, `deletingAddress` should be set to the address of the
@@ -86,7 +86,7 @@ export default function WalletOpenedMenu({
                     activeWallet={activeWallet}
                     availableWallets={availableWallets}
                     onEvent={onEvent}
-                    onAddWallet={() => setView("newWallet")}
+                    onAddWallet={() => setView("addWallet")}
                     onDeleteWallet={(wallet) => {
                         setView("deleteWallet");
                         setWallet(wallet);
@@ -108,8 +108,8 @@ export default function WalletOpenedMenu({
                 />
             )}
 
-            {view === "newWallet" && (
-                <NewWallet onChoice={onNewWalletChoice} onFileBrowserEvent={onFileBrowserEvent} />
+            {view === "addWallet" && (
+                <AddWallet onChoice={onNewWalletChoice} onFileBrowserEvent={onFileBrowserEvent} />
             )}
 
             {(view === "imported" || view === "created") && (

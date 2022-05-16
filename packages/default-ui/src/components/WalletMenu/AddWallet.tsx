@@ -11,7 +11,7 @@ export type NewWalletProps = {
     onFileBrowserEvent: OnFileBrowserEvent;
 };
 
-export default function NewWallet({ onChoice, onFileBrowserEvent }: NewWalletProps) {
+export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletProps) {
     const inputFile = useRef<HTMLInputElement>(null);
 
     return (
@@ -61,7 +61,7 @@ export default function NewWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
 
             {/* MARK: Cancel */}
             <button
-                className="text-gray-dark font-semibold text-[11px] leading-none tracking-wider uppercase mt-9"
+                className="text-gray-dark font-semibold text-[11px] leading-none tracking-wider uppercase mt-9 mb-2"
                 onClick={(e) => {
                     e.stopPropagation();
                     onChoice("cancel");
