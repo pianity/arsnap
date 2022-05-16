@@ -1,9 +1,9 @@
 import { OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/interface/Button";
 import { NamedAddress } from "@/utils/types";
-import Text from "@/components/interface/typography/Text";
 import { findAddressName } from "@/utils";
 import WalletItem from "@/components/WalletMenu/WalletItem";
+import Label from "@/components/interface/Label";
 
 export type WalletOpenedMenuProps = {
     activeWallet: string;
@@ -22,9 +22,7 @@ export default function WalletList({
 }: WalletOpenedMenuProps) {
     return (
         <div className="flex flex-col">
-            <Text color="gray-dark" size="11" weight="semibold" uppercase className="mb-3">
-                Active wallet
-            </Text>
+            <Label className="mb-3">Active wallet</Label>
             <WalletItem
                 active
                 name={findAddressName(availableWallets, activeWallet)}
@@ -33,10 +31,8 @@ export default function WalletList({
                 onDeleteWallet={onDeleteWallet}
             />
 
-            <Text color="gray-dark" size="11" weight="semibold" uppercase className="mb-3">
-                Available wallets
-            </Text>
-            <ul>
+            <Label className="mb-3 mt-6">Available wallets</Label>
+            <ul className="flex flex-col max-h-[212px] overflow-y-auto">
                 {availableWallets.map(([address, name]) =>
                     address === activeWallet ? null : (
                         <WalletItem
