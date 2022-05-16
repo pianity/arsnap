@@ -5,13 +5,13 @@ import WalletList from "@/components/WalletMenu/WalletList";
 import NewWallet, { NewWalletChoice } from "@/components/WalletMenu/NewWallet";
 import NameNewWallet from "@/components/WalletMenu/NameNewWallet";
 import DeleteWallet from "@/components/WalletMenu/DeleteWallet";
-import { NamedAddress } from "@/utils/types";
+import { NamedAddress, Wallets } from "@/utils/types";
 import { arweave } from "@/utils/blockchain";
 import { exhaustive } from "@/utils";
 
 export type WalletOpenedMenuProps = {
     activeWallet: string;
-    availableWallets: [string, string][];
+    availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
     onFileBrowserEvent: OnFileBrowserEvent;
 };
@@ -25,10 +25,6 @@ export default function WalletOpenedMenu({
     const [view, setView] = useState<
         "walletsList" | "deleteWallet" | "newWallet" | "createNew" | "imported" | "created"
     >("walletsList");
-
-    // // When `view` is set to `deleteWallet`, `deletingAddress` should be set to the address of the
-    // // wallet the user wants to delete.
-    // const [deletingAddress, setDeletingAddress] = useState<NamedAddress | undefined>();
 
     const [wallet, setWallet] = useState<NamedAddress | undefined>();
 

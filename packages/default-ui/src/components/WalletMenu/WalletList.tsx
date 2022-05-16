@@ -5,10 +5,9 @@ import {
     OnWalletMenuEvent,
     RenameWallet,
     SelectWallet,
-    WalletMenuProps,
 } from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/Button";
-import { NamedAddress } from "@/utils/types";
+import { NamedAddress, Wallets } from "@/utils/types";
 
 export type WalletItemProps = {
     active?: boolean;
@@ -77,7 +76,7 @@ function WalletItem({ active, name, address, onEvent, onDeleteWallet }: WalletIt
 
 export type WalletOpenedMenuProps = {
     activeWallet: string;
-    availableWallets: [string, string][];
+    availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
     onAddWallet: () => void;
     onDeleteWallet: (wallet: NamedAddress) => void;
@@ -94,7 +93,7 @@ export default function WalletList({
         <div>
             <ul>
                 {activeWallet && availableWallets
-                    ? availableWallets.map(([address, name]) => (
+                    ? [...availableWallets.entries()].map(([address, name]) => (
                           <WalletItem
                               key={address}
                               active={address === activeWallet}

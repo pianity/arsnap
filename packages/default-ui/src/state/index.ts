@@ -3,6 +3,7 @@ import { Reducer, useReducer } from "react";
 import { exhaustive } from "@/utils";
 import { Balance } from "@/state/getBalance";
 import { Transactions } from "@/state/getTransactions";
+import { Wallets } from "@/utils/types";
 
 export * from "@/state/getTransactions";
 export * from "@/state/getBalance";
@@ -10,7 +11,7 @@ export * from "@/state/getWallets";
 
 export type State = {
     activeWallet?: string;
-    wallets?: [string, string][];
+    wallets?: Wallets;
     balance?: Balance;
     transactions?: Transactions;
 };
@@ -55,7 +56,7 @@ const reducer: Reducer<State, Action> = (state, action): State => {
         case "setWallets":
             return {
                 ...state,
-                wallets: action.wallets,
+                wallets: new Map(action.wallets),
             };
 
         // case "renameWallet": {
