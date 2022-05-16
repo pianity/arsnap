@@ -3,7 +3,7 @@ import { useState } from "react";
 import { OnFileBrowserEvent, OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import WalletList from "@/components/WalletMenu/WalletList";
 import AddWallet, { NewWalletChoice } from "@/components/WalletMenu/AddWallet";
-import NameNewWallet from "@/components/WalletMenu/NameNewWallet";
+import NewWallet from "@/components/WalletMenu/NewWallet";
 import DeleteWallet from "@/components/WalletMenu/DeleteWallet";
 import { NamedAddress } from "@/utils/types";
 import { arweave } from "@/utils/blockchain";
@@ -113,7 +113,7 @@ export default function WalletOpenedMenu({
             )}
 
             {(view === "imported" || view === "created") && (
-                <NameNewWallet
+                <NewWallet
                     origin={view}
                     // I am using a godforsaken non-null assertion here as
                     // Typescript doesn't allow to set a return type depending

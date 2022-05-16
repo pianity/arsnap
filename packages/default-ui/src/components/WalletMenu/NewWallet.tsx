@@ -7,7 +7,7 @@ import {
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 
-type NameNewWalletProps = {
+type NewWalletProps = {
     origin: "imported" | "created";
     wallet: NamedAddress;
     onGoBack: () => void;
@@ -15,13 +15,13 @@ type NameNewWalletProps = {
     onFileBrowserEvent: OnFileBrowserEvent;
 };
 
-export default function NameNewWallet({
+export default function NewWallet({
     origin,
     wallet,
     onGoBack,
     onEvent,
     onFileBrowserEvent,
-}: NameNewWalletProps) {
+}: NewWalletProps) {
     return (
         <div onClick={(e) => e.stopPropagation()}>
             <label>Name your wallet</label>
