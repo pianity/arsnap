@@ -1,4 +1,4 @@
-import { Transactions as TransactionsData } from "@/state/wallet";
+import { Transactions as TransactionsData } from "@/state";
 
 export type TransactionProps = {
     transactions?: TransactionsData;

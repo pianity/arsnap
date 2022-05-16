@@ -2,7 +2,18 @@ import { Dispatch } from "react";
 
 import Api from "@/graphql/api";
 import { IncomingTransactionsQuery, OutgoingTransactionsQuery } from "@/graphql/arweave";
-import { TransactionDirection, Transactions, WalletAction } from "@/state/wallet";
+import { SetTransactions } from "@/state";
+
+export type TransactionDirection = "in" | "out";
+
+export type Transaction = {
+    id: string;
+    direction: TransactionDirection;
+    amount: string;
+    timestamp: number;
+};
+
+export type Transactions = Transaction[];
 
 function gqlToTransaction(
     gqlTxs: IncomingTransactionsQuery | OutgoingTransactionsQuery,
@@ -33,7 +44,7 @@ async function getTransactions(address: string): Promise<Transactions> {
     return outgoings.concat([...incomings]).sort((a, b) => b.timestamp - a.timestamp);
 }
 
-export async function updateTransactions(address: string, dispatch: Dispatch<WalletAction>) {
+export async function updateTransactions(address: string, dispatch: Dispatch<SetTransactions>) {
     const transactions = await getTransactions(address);
 
     dispatch({

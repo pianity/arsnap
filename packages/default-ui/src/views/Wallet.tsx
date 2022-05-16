@@ -1,38 +1,17 @@
-import { useEffect } from "react";
-
-import { useWalletReducer, updateBalance, updateTransactions } from "@/state/wallet";
+import { Transactions as TransactionsData, Balance as BalanceData } from "@/state";
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
 
 export type WalletProps = {
-    address: string;
+    balance?: BalanceData;
+    transactions?: TransactionsData;
 };
 
-export default function Wallet({ address }: WalletProps) {
-    const [walletState, walletDispatch] = useWalletReducer();
-
-    useEffect(() => {
-        if (address) {
-            updateBalance(address, walletDispatch);
-            updateTransactions(address, walletDispatch);
-        }
-
-        const updateInterval = setInterval(async () => {
-            if (address) {
-                updateBalance(address, walletDispatch);
-                updateTransactions(address, walletDispatch);
-            }
-        }, 2 * 60 * 1000);
-
-        return () => {
-            clearInterval(updateInterval);
-        };
-    }, []);
-
+export default function Wallet({ balance, transactions }: WalletProps) {
     return (
         <>
-            <Balance balance={walletState.balance} />
-            <Transactions transactions={walletState.transactions} />
+            <Balance balance={balance} />
+            <Transactions transactions={transactions} />
             <a href="/send">Send</a>
         </>
     );

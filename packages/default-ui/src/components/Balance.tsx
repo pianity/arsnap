@@ -1,4 +1,4 @@
-import { Balance as BalanceData } from "@/state/wallet";
+import { Balance as BalanceData } from "@/state";
 
 type BalanceProps = {
     balance?: BalanceData;
