@@ -41,40 +41,44 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
             return await handlers.getPermissions(state, origin);
 
         case "get_active_address":
-            await guard(permissions, "ACCESS_ADDRESS");
+            await guard(origin, permissions, "ACCESS_ADDRESS");
             return await handlers.getActiveAddress(state);
 
         case "get_active_public_key":
-            await guard(permissions, "ACCESS_PUBLIC_KEY");
+            await guard(origin, permissions, "ACCESS_PUBLIC_KEY");
             return await handlers.getActivePublicKey(state);
 
         case "get_all_addresses":
-            await guard(permissions, "ACCESS_ALL_ADDRESSES");
+            await guard(origin, permissions, "ACCESS_ALL_ADDRESSES");
             return await handlers.getAllAddresses(state);
 
         case "get_wallet_names":
-            await guard(permissions, "ACCESS_ALL_ADDRESSES");
+            await guard(origin, permissions, "ACCESS_ALL_ADDRESSES");
             return await handlers.getWalletNames(state);
 
         case "sign_bytes":
-            await guard(permissions, "SIGNATURE");
+            await guard(origin, permissions, "SIGNATURE");
             return await handlers.signBytes(state, ...params);
 
         case "set_active_address":
-            await guard(permissions, "ORGANIZE_WALLETS");
+            await guard(origin, permissions, "SET_ACTIVE_WALLET");
             return await handlers.setActiveAddress(state, ...params);
 
         case "import_wallet":
-            await guard(permissions, "ORGANIZE_WALLETS");
+            await guard(origin, permissions, "IMPORT_WALLET");
             return await handlers.importWallet(state, ...params);
 
         case "export_wallet":
-            await guard(permissions, "EXPORT_WALLETS");
+            await guard(origin, permissions, "EXPORT_WALLET");
             return await handlers.exportWallet(state, origin, ...params);
 
         case "rename_wallet":
-            await guard(permissions, "ORGANIZE_WALLETS");
+            await guard(origin, permissions, "RENAME_WALLET");
             return await handlers.renameWallet(state, ...params);
+
+        case "delete_wallet":
+            await guard(origin, permissions, "DELETE_WALLET");
+            return await handlers.deleteWallet(state, origin, ...params);
 
         case "request_permissions":
             return await handlers.requestPermissions(state, origin, ...params);

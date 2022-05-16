@@ -15,7 +15,12 @@ export const ArconnectPermissions = [
 ] as const;
 
 export type ArconnectPermission = typeof ArconnectPermissions[number];
-export type ArsnapPermission = "EXPORT_WALLETS" | "ORGANIZE_WALLETS";
+export type ArsnapPermission =
+    | "SET_ACTIVE_WALLET"
+    | "IMPORT_WALLET"
+    | "EXPORT_WALLET"
+    | "RENAME_WALLET"
+    | "DELETE_WALLET";
 export type Permission = ArconnectPermission | ArsnapPermission;
 
 export type RpcApi = {
@@ -36,7 +41,9 @@ export type RpcApi = {
     export_wallet: (
         address: string,
     ) => Promise<{ jwk: JWKInterface; name: string; address: string }>;
+    delete_wallet: (address: string) => Promise<null>;
     rename_wallet: (address: string, name: string) => Promise<null>;
+
     request_permissions: (permissions: Permission[]) => Promise<boolean>;
 };
 

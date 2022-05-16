@@ -6,9 +6,8 @@ import * as adapter from "@pianity/arsnap-adapter";
 import { REQUIRED_PERMISSIONS } from "@/consts";
 import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
-import { useSnapReducer } from "@/state/snap";
-import { updateWallets } from "@/state/snap/getWallets";
 import githubIconUrl from "@/assets/github.png";
+import { useArsnapReducer, updateWallets, updateTransactions, updateBalance } from "@/state";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
 import Header from "@/components/Header";
@@ -16,9 +15,10 @@ import About from "@/views/About";
 import { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 import Text from "@/components/interface/typography/Text";
 
-async function isArsnapInstalled() {
+async function isArsnapConfigured() {
     try {
         const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
+        console.log(missingPermissions);
         return missingPermissions.length === 0;
     } catch (e) {
         console.log("getMissingPermissions threw:", e);
@@ -27,37 +27,54 @@ async function isArsnapInstalled() {
 }
 
 export default function App() {
-    // Indicates whether Arsnap is being loaded and wallets updated.
-    const [loading, setLoading] = useState(true);
-    const [snapState, snapDispatch] = useSnapReducer();
+    const [loading, setLoading] = useState(false);
+    const [state, dispatch] = useArsnapReducer();
+
+    const updateWalletData = () => {
+        if (state.activeWallet) {
+            updateBalance(state.activeWallet, dispatch);
+            updateTransactions(state.activeWallet, dispatch);
+        }
+    };
 
     useEffect(() => {
-        isArsnapInstalled()
-            .then(async () => {
-                await updateWallets(snapDispatch);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+        isArsnapConfigured().then((configured) => {
+            if (configured) {
+                updateWallets(dispatch);
+            }
+            setLoading(false);
+        });
+
+        const updateInterval = setInterval(updateWalletData, 2 * 60 * 1000);
+
+        return () => {
+            clearInterval(updateInterval);
+        };
     }, []);
+
+    useEffect(() => {
+        updateWalletData();
+    }, [state.activeWallet]);
 
     async function onWalletMenuEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
         switch (e.event) {
             case "renameWallet":
                 await adapter.renameWallet(e.address, e.name);
-                await updateWallets(snapDispatch);
+                await updateWallets(dispatch);
                 return {};
 
             case "selectWallet":
                 await adapter.setActiveAddress(e.address);
+                await updateWallets(dispatch);
                 return {};
 
             case "importWallet": {
                 const wallet = await adapter.importWallet(e.jwk);
-                await updateWallets(snapDispatch);
+                await updateWallets(dispatch);
                 return { wallet };
             }
 
-            case "downloadWallet": {
+            case "exportWallet": {
                 console.log("downloading wallet");
 
                 const wallet = await adapter.exportWallet(e.address);
@@ -69,6 +86,11 @@ export default function App() {
                 return {};
             }
 
+            case "deleteWallet":
+                await adapter.deleteWallet(e.address);
+                await updateWallets(dispatch);
+                return {};
+
             default:
                 exhaustive(e);
                 throw new Error();
@@ -79,23 +101,23 @@ export default function App() {
         <div className="min-h-screen flex flex-col">
             <Header
                 loading={loading}
-                smallLogo={!!snapState.activeWallet}
-                activeWallet={snapState.activeWallet}
-                availableWallets={snapState.wallets}
+                smallLogo={!!state}
+                activeWallet={state.activeWallet}
+                availableWallets={state.wallets}
                 onWalletEvent={onWalletMenuEvent}
-                onInitialized={() => updateWallets(snapDispatch)}
+                onInitialized={() => updateWallets(dispatch)}
             />
 
             <Routes>
                 <Route
                     path="/"
                     element={
-                        snapState.activeWallet ? (
-                            <Wallet address={snapState.activeWallet} />
+                        state.activeWallet ? (
+                            <Wallet balance={state.balance} transactions={state.transactions} />
                         ) : (
                             <Welcome
                                 loading={loading}
-                                onInitialized={() => updateWallets(snapDispatch)}
+                                onInitialized={() => updateWallets(dispatch)}
                             />
                         )
                     }

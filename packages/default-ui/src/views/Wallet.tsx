@@ -1,42 +1,21 @@
-import { useEffect } from "react";
-
-import { useWalletReducer, updateBalance, updateTransactions } from "@/state/wallet";
+import { Transactions as TransactionsData, Balance as BalanceData } from "@/state";
 import Balance from "@/components/Balance";
 import Transactions from "@/components/Transactions";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 
 export type WalletProps = {
-    address: string;
+    balance?: BalanceData;
+    transactions?: TransactionsData;
 };
 
-export default function Wallet({ address }: WalletProps) {
-    const [walletState, walletDispatch] = useWalletReducer();
-
-    useEffect(() => {
-        if (address) {
-            updateBalance(address, walletDispatch);
-            updateTransactions(address, walletDispatch);
-        }
-
-        const updateInterval = setInterval(async () => {
-            if (address) {
-                updateBalance(address, walletDispatch);
-                updateTransactions(address, walletDispatch);
-            }
-        }, 2 * 60 * 1000);
-
-        return () => {
-            clearInterval(updateInterval);
-        };
-    }, []);
-
+export default function Wallet({ balance, transactions }: WalletProps) {
     function onSendClick() {}
 
     return (
         <ViewContainer>
             <div className="grow flex flex-col gap-4 w-full">
-                <Balance balance={walletState.balance} onSendClick={onSendClick} />
-                <Transactions transactions={walletState.transactions} />
+                <Balance balance={balance} onSendClick={onSendClick} />
+                <Transactions transactions={transactions} />
             </div>
         </ViewContainer>
     );

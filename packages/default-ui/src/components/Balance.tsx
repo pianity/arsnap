@@ -1,6 +1,6 @@
-import { Balance as BalanceData } from "@/state/wallet";
 import Text from "@/components/interface/typography/Text";
 import Container from "@/components/interface/layout/Container";
+import { Balance as BalanceData } from "@/state";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */

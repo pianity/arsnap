@@ -1,7 +1,7 @@
-import { Transactions as TransactionsData } from "@/state/wallet";
 import Container from "@/components/interface/layout/Container";
 import Text from "@/components/interface/typography/Text";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
+import { Transactions as TransactionsData } from "@/state";
 
 export type TransactionProps = {
     transactions?: TransactionsData;

@@ -1,15 +1,22 @@
 import { useState } from "react";
 
-import { OnFileBrowserEvent, WalletMenuProps } from "@/components/WalletMenu/WalletMenu";
+import { OnFileBrowserEvent, OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import WalletList from "@/components/WalletMenu/WalletList";
 import NewWallet, { NewWalletChoice } from "@/components/WalletMenu/NewWallet";
 import NameNewWallet from "@/components/WalletMenu/NameNewWallet";
+import DeleteWallet from "@/components/WalletMenu/DeleteWallet";
 import { NamedAddress } from "@/utils/types";
 import { arweave } from "@/utils/blockchain";
 import { exhaustive } from "@/utils";
 import Container from "@/components/interface/layout/Container";
 
-export type WalletOpenedMenuProps = WalletMenuProps & { onFileBrowserEvent: OnFileBrowserEvent };
+export type WalletOpenedMenuProps = {
+    activeWallet: string;
+    availableWallets: [string, string][];
+    onEvent: OnWalletMenuEvent;
+    onFileBrowserEvent: OnFileBrowserEvent;
+};
+
 export default function WalletOpenedMenu({
     activeWallet,
     availableWallets,
@@ -17,8 +24,12 @@ export default function WalletOpenedMenu({
     onFileBrowserEvent,
 }: WalletOpenedMenuProps) {
     const [view, setView] = useState<
-        "walletsList" | "newWallet" | "createNew" | "imported" | "created"
+        "walletsList" | "deleteWallet" | "newWallet" | "createNew" | "imported" | "created"
     >("walletsList");
+
+    // // When `view` is set to `deleteWallet`, `deletingAddress` should be set to the address of the
+    // // wallet the user wants to delete.
+    // const [deletingAddress, setDeletingAddress] = useState<NamedAddress | undefined>();
 
     const [wallet, setWallet] = useState<NamedAddress | undefined>();
 
@@ -39,7 +50,6 @@ export default function WalletOpenedMenu({
 
                     setView("imported");
                 }
-
                 break;
             }
 
@@ -77,6 +87,24 @@ export default function WalletOpenedMenu({
                     availableWallets={availableWallets}
                     onEvent={onEvent}
                     onAddWallet={() => setView("newWallet")}
+                    onDeleteWallet={(wallet) => {
+                        setView("deleteWallet");
+                        setWallet(wallet);
+                    }}
+                />
+            )}
+
+            {view === "deleteWallet" && wallet && (
+                <DeleteWallet
+                    name={wallet.name}
+                    address={wallet.address}
+                    onChoice={(choice) => {
+                        if (choice === "confirm") {
+                            onEvent({ event: "deleteWallet", address: wallet.address });
+                        }
+                        setWallet(undefined);
+                        setView("walletsList");
+                    }}
                 />
             )}
 
@@ -84,22 +112,21 @@ export default function WalletOpenedMenu({
                 <NewWallet onChoice={onNewWalletChoice} onFileBrowserEvent={onFileBrowserEvent} />
             )}
 
-            {view === "imported" ||
-                (view === "created" && (
-                    <NameNewWallet
-                        origin={view}
-                        // I am using a godforsaken non-null assertion here as
-                        // Typescript doesn't allow to set a return type depending
-                        // on the type of the arguments given to a function. This
-                        // would allow me to assert that when calling `onEvent({
-                        // event: "importWallet", ... })` we'd always get a
-                        // `NamedAddress` in return.
-                        wallet={wallet!}
-                        onGoBack={() => setView("walletsList")}
-                        onEvent={onEvent}
-                        onFileBrowserEvent={onFileBrowserEvent}
-                    />
-                ))}
+            {(view === "imported" || view === "created") && (
+                <NameNewWallet
+                    origin={view}
+                    // I am using a godforsaken non-null assertion here as
+                    // Typescript doesn't allow to set a return type depending
+                    // on the type of the arguments given to a function. This
+                    // would allow me to assert that when calling `onEvent({
+                    // event: "importWallet", ... })` we'd always get a
+                    // `NamedAddress` in return.
+                    wallet={wallet!}
+                    onGoBack={() => setView("walletsList")}
+                    onEvent={onEvent}
+                    onFileBrowserEvent={onFileBrowserEvent}
+                />
+            )}
         </Container>
     );
 }

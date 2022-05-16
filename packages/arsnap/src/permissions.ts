@@ -6,6 +6,7 @@ import { confirmPopup } from "@/metamask";
  * Throws if `permission` isn't included in `allowedPermission`.
  */
 export async function guard(
+    origin: string,
     allowedPermissions: Permission[],
     permission: Permission,
 ): Promise<void> {
@@ -32,6 +33,7 @@ export async function guard(
  * Request `requestedPermissions` to the user. Returns an updated Permission[] with the new permissions.
  */
 export async function requestPermissions(
+    origin: string,
     currentPermissions: Permission[],
     requestedPermissions: Permission[],
 ): Promise<Permission[]> {
