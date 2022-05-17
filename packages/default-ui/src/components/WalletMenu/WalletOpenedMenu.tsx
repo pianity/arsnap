@@ -76,8 +76,8 @@ export default function WalletOpenedMenu({
     }
 
     return (
-        <Container opaque shadow className="text-gray-dark">
-            {view === "walletsList" && (
+        <Container opaque shadow className="text-gray-dark relative overflow-hidden">
+            {(view === "walletsList" || view === "deleteWallet") && (
                 <WalletList
                     activeWallet={activeWallet}
                     availableWallets={availableWallets}

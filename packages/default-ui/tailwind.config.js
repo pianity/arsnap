@@ -14,6 +14,7 @@ module.exports = {
                 },
                 red: {
                     error: "#FF4794",
+                    warning: "#CD1F68",
                 },
                 orange: {
                     warning: "#FFA756",
