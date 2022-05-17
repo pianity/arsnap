@@ -26,7 +26,7 @@ async function isArsnapConfigured() {
 }
 
 export default function App() {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [state, dispatch] = useArsnapReducer();
 
     const updateWalletData = () => {
@@ -37,12 +37,14 @@ export default function App() {
     };
 
     useEffect(() => {
-        isArsnapConfigured().then((configured) => {
-            if (configured) {
-                updateWallets(dispatch);
-            }
-            setLoading(false);
-        });
+        isArsnapConfigured()
+            .then((configured) => {
+                if (configured) {
+                    updateWallets(dispatch);
+                }
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
 
         const updateInterval = setInterval(updateWalletData, 2 * 60 * 1000);
 
