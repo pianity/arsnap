@@ -37,10 +37,10 @@ export default function WalletItem({
      * Copies text to clipboard and sets the copied state
      * to true for a 2000ms timeout on success.
      *
-     * @param text text to copy
+     * @param text - text to copy
      */
     function copyToClipboard(text: string) {
-        let timeout: NodeJS.Timeout | undefined;
+        let timeout: ReturnType<typeof setTimeout>;
         navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
             timeout = setTimeout(() => {
@@ -49,14 +49,16 @@ export default function WalletItem({
         });
 
         return () => {
-            timeout && clearTimeout(timeout);
+            if (timeout) {
+                clearTimeout(timeout);
+            }
         };
     }
 
     return (
         <div
             onClick={() => {
-                !active && onEvent({ event: "selectWallet", address });
+                if (!active) onEvent({ event: "selectWallet", address });
             }}
             className={
                 "flex items-center px-3 h-16 min-w-0 group border border-purple-light rounded-md shrink-0" +

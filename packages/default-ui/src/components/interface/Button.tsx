@@ -1,4 +1,5 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, MouseEventHandler } from "react";
+
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 
 export type ButtonProps = {
@@ -15,7 +16,7 @@ export type ButtonProps = {
     /** Extra classes for the html button */
     className?: string;
     /** onClick callback for the html button */
-    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 /**
@@ -23,7 +24,7 @@ export type ButtonProps = {
  */
 export default function Button(props: PropsWithChildren<ButtonProps>) {
     let colorClass = props.outlined ? "box-border border" : "";
-    let sizeClass = props.large
+    const sizeClass = props.large
         ? "h-12 px-5 text-[16px] leading-[17px]"
         : "h-8 px-3 text-[14px] leading-[15px]";
 

@@ -10,8 +10,8 @@
     },
     "main": "src/index.js",
     "scripts": {
-        "lint": "prettier --loglevel warn --check src/ && eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
+        "lint": "prettier --loglevel warn --check src/ ; eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "devDependencies": {
         "@pianity/prettier-config": "workspace:*",

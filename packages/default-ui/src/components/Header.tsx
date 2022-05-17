@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 import arsnapLogoUrl from "@/assets/arsnap.svg";
 import WalletMenu, { OnWalletMenuEvent } from "@/components/WalletMenu";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";

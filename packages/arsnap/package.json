@@ -29,8 +29,8 @@
         "clean": "rm -rf dist/ build/",
         "serve": "mm-snap serve --port 4000",
         "typecheck": "tsc --noEmit",
-        "lint": "prettier --loglevel warn --check src/ && eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
+        "lint": "prettier --loglevel warn --check src/ ; eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
