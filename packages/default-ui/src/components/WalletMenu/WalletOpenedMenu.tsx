@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { OnFileBrowserEvent, OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
+import { OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import WalletList from "@/components/WalletMenu/WalletList";
 import AddWallet, { NewWalletChoice } from "@/components/WalletMenu/AddWallet";
 import NewWallet from "@/components/WalletMenu/NewWallet";
@@ -14,14 +14,12 @@ export type WalletOpenedMenuProps = {
     activeWallet: string;
     availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
-    onFileBrowserEvent: OnFileBrowserEvent;
 };
 
 export default function WalletOpenedMenu({
     activeWallet,
     availableWallets,
     onEvent,
-    onFileBrowserEvent,
 }: WalletOpenedMenuProps) {
     const [view, setView] = useState<
         "walletsList" | "deleteWallet" | "addWallet" | "createNew" | "imported" | "created"
@@ -104,9 +102,7 @@ export default function WalletOpenedMenu({
                 />
             )}
 
-            {view === "addWallet" && (
-                <AddWallet onChoice={onNewWalletChoice} onFileBrowserEvent={onFileBrowserEvent} />
-            )}
+            {view === "addWallet" && <AddWallet onChoice={onNewWalletChoice} />}
 
             {(view === "imported" || view === "created") && (
                 <NewWallet
@@ -120,7 +116,6 @@ export default function WalletOpenedMenu({
                     wallet={wallet!}
                     onGoBack={() => setView("walletsList")}
                     onEvent={onEvent}
-                    onFileBrowserEvent={onFileBrowserEvent}
                 />
             )}
         </Container>

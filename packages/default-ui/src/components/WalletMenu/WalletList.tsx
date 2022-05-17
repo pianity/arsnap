@@ -53,7 +53,6 @@ export default function WalletList({
             <div className="flex items-center gap-2 pl-4 pr-6 h-16 bg-purple-light rounded-b-xl">
                 <Button
                     onClick={(e) => {
-                        e.stopPropagation();
                         onAddWallet();
                     }}
                 >

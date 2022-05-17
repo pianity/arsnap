@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { JWKInterface } from "arweave/node/lib/wallet";
 
 import { NamedAddress, Wallets } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
-import { findAddressName } from "@/utils";
 
 export type SelectWallet = {
     event: "selectWallet";
@@ -46,8 +45,6 @@ export type WalletMenuEventResponse = {
 
 export type OnWalletMenuEvent<T = WalletMenuEvent> = (event: T) => Promise<WalletMenuEventResponse>;
 
-export type OnFileBrowserEvent = (state: "opened" | "closed") => void;
-
 export type WalletMenuProps = {
     activeWallet: string;
     availableWallets: Wallets;
@@ -58,13 +55,9 @@ export default function WalletMenu({
     availableWallets,
     onEvent: onEventRaw,
 }: WalletMenuProps) {
+    // Used to detect click outside of the menu to close it
+    const menuRef = useRef<HTMLDivElement>(null);
     const [menuOpened, setMenuOpened] = useState(false);
-
-    // This is a dirty hack to prevent `onBlur` of the main div here from firing when the file
-    // browser is opened (when user wants to import a wallet).
-    const [fileBrowserState, setFileBrowserState] = useState<"notOpened" | "opened" | "closed">(
-        "notOpened",
-    );
 
     // Hijacking WalletItem's onEvent to close the menu when a new wallet has been selected
     function onEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
@@ -74,23 +67,26 @@ export default function WalletMenu({
         return onEventRaw(e);
     }
 
-    return (
-        <div
-            className="relative"
-            tabIndex={0}
-            onBlur={(e) => {
-                if (
-                    !e.currentTarget.contains(e.relatedTarget) &&
-                    fileBrowserState === "notOpened"
-                ) {
-                    setMenuOpened(false);
-                }
+    useEffect(() => {
+        /**
+         * Alert if clicked on outside of element
+         */
+        function handleClickOutside(event: Event) {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setMenuOpened(false);
+            }
+        }
 
-                if (fileBrowserState === "closed") {
-                    setFileBrowserState("notOpened");
-                }
-            }}
-        >
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    return (
+        <div className="relative" tabIndex={0} ref={menuRef}>
             <button
                 className="h-10 px-3 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out"
                 onClick={() => setMenuOpened(!menuOpened)}
@@ -110,7 +106,6 @@ export default function WalletMenu({
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}
                         onEvent={onEvent}
-                        onFileBrowserEvent={setFileBrowserState}
                     />
                 </div>
             )}

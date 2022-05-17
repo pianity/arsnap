@@ -1,6 +1,6 @@
 import Button from "@/components/interface/Button";
 import truncateStringCenter from "@/utils";
-import Text from "../interface/typography/Text";
+import Text from "@/components/interface/typography/Text";
 
 export type DeleteWalletProps = {
     name: string;

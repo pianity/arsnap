@@ -1,17 +1,15 @@
 import { useRef } from "react";
 
-import { OnFileBrowserEvent } from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/interface/Button";
-import Text from "../interface/typography/Text";
+import Text from "@/components/interface/typography/Text";
 
 export type NewWalletChoice = "importExisting" | "createNew" | "cancel";
 
 export type NewWalletProps = {
     onChoice: (choice: NewWalletChoice, walletFile?: FileList) => Promise<void>;
-    onFileBrowserEvent: OnFileBrowserEvent;
 };
 
-export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletProps) {
+export default function AddWallet({ onChoice }: NewWalletProps) {
     const inputFile = useRef<HTMLInputElement>(null);
 
     return (
@@ -22,10 +20,8 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
                 ref={inputFile}
                 style={{ display: "none" }}
                 onChange={(e) => {
-                    onFileBrowserEvent("closed");
                     onChoice("importExisting", e.target.files || undefined);
                 }}
-                onClick={(e) => e.stopPropagation()}
             />
 
             {/* MARK: Title */}
@@ -37,9 +33,7 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
             <Button
                 color="purple"
                 large
-                onClick={(e) => {
-                    onFileBrowserEvent("opened");
-                    e.stopPropagation();
+                onClick={() => {
                     inputFile.current?.click();
                 }}
                 className="mb-4"
@@ -51,8 +45,7 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
             <Button
                 color="purple"
                 large
-                onClick={(e) => {
-                    e.stopPropagation();
+                onClick={() => {
                     onChoice("createNew");
                 }}
             >
@@ -62,8 +55,7 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
             {/* MARK: Cancel */}
             <button
                 className="text-gray-dark font-semibold text-[11px] leading-none tracking-wider uppercase mt-9"
-                onClick={(e) => {
-                    e.stopPropagation();
+                onClick={() => {
                     onChoice("cancel");
                 }}
             >

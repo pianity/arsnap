@@ -1,32 +1,20 @@
 import Button from "@/components/interface/Button";
-import {
-    ExportWallet,
-    OnFileBrowserEvent,
-    OnWalletMenuEvent,
-    RenameWallet,
-} from "@/components/WalletMenu/WalletMenu";
+import { ExportWallet, OnWalletMenuEvent, RenameWallet } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import Text from "@/components/interface/typography/Text";
-import Label from "../interface/Label";
-import Input from "../interface/Input";
+import Label from "@/components/interface/Label";
+import Input from "@/components/interface/Input";
 
 type NewWalletProps = {
     origin: "imported" | "created";
     wallet: NamedAddress;
     onGoBack: () => void;
     onEvent: OnWalletMenuEvent<RenameWallet | ExportWallet>;
-    onFileBrowserEvent: OnFileBrowserEvent;
 };
 
-export default function NewWallet({
-    origin,
-    wallet,
-    onGoBack,
-    onEvent,
-    onFileBrowserEvent,
-}: NewWalletProps) {
+export default function NewWallet({ origin, wallet, onGoBack, onEvent }: NewWalletProps) {
     return (
-        <div onClick={(e) => e.stopPropagation()} className="flex flex-col">
+        <div className="flex flex-col">
             <div className="flex flex-col bg-purple-light rounded-t-xl p-8 mb-8">
                 {/* MARK: Title */}
                 <Text
@@ -62,9 +50,7 @@ export default function NewWallet({
                             name: e.target.value,
                             address: wallet.address,
                         });
-                        e.stopPropagation();
                     }}
-                    onClick={(e) => e.stopPropagation()}
                     onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
                     defaultValue={wallet.name}
                 />
@@ -73,10 +59,8 @@ export default function NewWallet({
                 <div className="flex mt-6 mb-2">
                     {origin === "created" && (
                         <Button
-                            onClick={async () => {
-                                onFileBrowserEvent("opened");
-                                await onEvent({ event: "exportWallet", address: wallet.address });
-                                onFileBrowserEvent("closed");
+                            onClick={() => {
+                                onEvent({ event: "exportWallet", address: wallet.address });
                             }}
                             className="mr-3"
                         >
@@ -85,9 +69,8 @@ export default function NewWallet({
                     )}
                     <Button
                         outlined={origin === "created"}
-                        onClick={(e) => {
+                        onClick={() => {
                             onGoBack();
-                            e.stopPropagation();
                         }}
                     >
                         Done

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import walletIconUrl from "@/assets/icons/wallet.svg";
 import exportButtonUrl from "@/assets/icons/export-button.svg";
 import closeIconUrl from "@/assets/icons/close.svg";
@@ -10,7 +12,6 @@ import {
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import truncateStringCenter from "@/utils";
-import { useState } from "react";
 
 export type WalletItemProps = {
     active?: boolean;
@@ -75,7 +76,6 @@ export default function WalletItem({
                 <div className="mb-[6px] w-max flex items-center max-w-full">
                     {editing ? (
                         <input
-                            onClick={(e) => e.stopPropagation()}
                             onKeyDown={(e) => {
                                 if (e.key === "Escape") {
                                     setNewName(name);
@@ -110,8 +110,7 @@ export default function WalletItem({
                     {!editing && (
                         <button
                             className="hidden group-hover:block shrink-0 ml-1 leading-none"
-                            onClick={(e) => {
-                                e.stopPropagation();
+                            onClick={() => {
                                 setEditing(true);
                             }}
                         >
@@ -123,8 +122,7 @@ export default function WalletItem({
                 {/* MARK: Wallet address */}
                 <button
                     className="w-max"
-                    onClick={(e) => {
-                        e.stopPropagation();
+                    onClick={() => {
                         copyToClipboard(address);
                     }}
                 >
@@ -145,8 +143,7 @@ export default function WalletItem({
             <div className="hidden group-hover:flex items-center ml-3 shrink-0">
                 {/* MARK: Export button */}
                 <button
-                    onClick={(e) => {
-                        e.stopPropagation();
+                    onClick={() => {
                         onEvent({ event: "exportWallet", address });
                     }}
                 >
@@ -155,8 +152,7 @@ export default function WalletItem({
 
                 {/* MARK: Delete button */}
                 <button
-                    onClick={(e) => {
-                        e.stopPropagation();
+                    onClick={() => {
                         onDeleteWallet({ name, address });
                     }}
                     className="ml-2 flex items-center justify-center w-7 h-7 rounded-full border border-purple-dark box-border text-purple-dark"
