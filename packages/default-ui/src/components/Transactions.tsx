@@ -26,12 +26,9 @@ export default function Transactions({ transactions }: TransactionProps) {
                 (transactions.length > 0 ? (
                     <ul className="px-6 py-5">
                         {transactions.map((tx) => (
-                            <>
-                                <li>
-                                    <TransactionItem transaction={tx} key={tx.id} />
-                                </li>
-                                <div className="w-full h-[1px] bg-purple last:hidden shrink-0" />
-                            </>
+                            <li className="border-b border-purple last:border-none" key={tx.id}>
+                                <TransactionItem transaction={tx} key={tx.id} />
+                            </li>
                         ))}
                     </ul>
                 ) : (

@@ -148,7 +148,8 @@ export default function WalletItem({
             <div className="hidden group-hover:flex items-center ml-3 shrink-0">
                 {/* MARK: Export button */}
                 <button
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         onEvent({ event: "exportWallet", address });
                     }}
                 >
@@ -157,7 +158,8 @@ export default function WalletItem({
 
                 {/* MARK: Delete button */}
                 <button
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         onDeleteWallet({ name, address });
                     }}
                     className="ml-2 flex items-center justify-center w-7 h-7 rounded-full border border-purple-dark box-border text-purple-dark"
