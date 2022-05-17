@@ -85,6 +85,7 @@ export default function WalletItem({
                                     setEditing(false);
                                 }
                             }}
+                            onClick={(e) => e.stopPropagation()}
                             onBlur={() => {
                                 setNewName(name);
                                 setEditing(false);
@@ -110,7 +111,8 @@ export default function WalletItem({
                     {!editing && (
                         <button
                             className="hidden group-hover:block shrink-0 ml-1 leading-none"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 setEditing(true);
                             }}
                         >
@@ -122,7 +124,8 @@ export default function WalletItem({
                 {/* MARK: Wallet address */}
                 <button
                     className="w-max"
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         copyToClipboard(address);
                     }}
                 >
