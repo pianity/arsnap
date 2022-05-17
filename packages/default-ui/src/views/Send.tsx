@@ -6,6 +6,8 @@ import * as adapter from "@pianity/arsnap-adapter";
 import { SetArBalance, SetArPrice, updateBalance } from "@/state";
 import Button from "@/components/interface/Button";
 import { arweave } from "@/utils/blockchain";
+import ViewContainer from "@/components/interface/layout/ViewContainer";
+import Container from "@/components/interface/layout/Container";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
 
@@ -88,53 +90,55 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
     }
 
     return (
-        <>
-            <h1>Send AR</h1>
-            <p>Available: {balance?.toFixed(4)}</p>
+        <ViewContainer>
+            <Container className="p-8">
+                <h1>Send AR</h1>
+                <p>Available: {balance?.toFixed(4)}</p>
 
-            <form onSubmit={handleSubmit(postTx)}>
-                <label>amount:</label>
-                <input
-                    type="number"
-                    {...register("amount", {
-                        required: true,
-                        validate: (amount) => {
-                            if (!(!balance || amount <= Number(balance))) {
-                                return false;
-                            }
+                <form onSubmit={handleSubmit(postTx)}>
+                    <label>amount:</label>
+                    <input
+                        type="number"
+                        {...register("amount", {
+                            required: true,
+                            validate: (amount) => {
+                                if (!(!balance || amount <= Number(balance))) {
+                                    return false;
+                                }
 
-                            return true;
-                        },
-                    })}
-                />
+                                return true;
+                            },
+                        })}
+                    />
 
-                <label>recipient:</label>
-                <input
-                    {...register("recipient", {
-                        required: true,
-                        pattern: ARWEAVE_ADDRESS_PATTERN,
-                    })}
-                />
+                    <label>recipient:</label>
+                    <input
+                        {...register("recipient", {
+                            required: true,
+                            pattern: ARWEAVE_ADDRESS_PATTERN,
+                        })}
+                    />
 
-                <label>note:</label>
-                <input {...register("note")} />
+                    <label>note:</label>
+                    <input {...register("note")} />
 
-                <Button type="submit">Send</Button>
+                    <Button type="submit">Send</Button>
 
-                <Button>
-                    <a href="/">Cancel</a>
-                </Button>
+                    <Button>
+                        <a href="/">Cancel</a>
+                    </Button>
 
-                <p>~{amountFiat.toFixed(2)} $</p>
-                <p>fee {fee} AR</p>
-                <p>total {total} AR</p>
+                    <p>~{amountFiat.toFixed(2)} $</p>
+                    <p>fee {fee} AR</p>
+                    <p>total {total} AR</p>
 
-                {txStatus?.status === "loading" && <p>Sending transaction...</p>}
-                {txStatus?.status === "success" && <p>Transaction sent!</p>}
-                {txStatus?.status === "error" && (
-                    <p>Couldn't send the transaction: {txStatus.reason}</p>
-                )}
-            </form>
-        </>
+                    {txStatus?.status === "loading" && <p>Sending transaction...</p>}
+                    {txStatus?.status === "success" && <p>Transaction sent!</p>}
+                    {txStatus?.status === "error" && (
+                        <p>Couldn't send the transaction: {txStatus.reason}</p>
+                    )}
+                </form>
+            </Container>
+        </ViewContainer>
     );
 }
