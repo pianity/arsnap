@@ -15,7 +15,7 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
     const inputFile = useRef<HTMLInputElement>(null);
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center py-6">
             {/* MARK: Hidden input for import */}
             <input
                 type="file"
@@ -29,7 +29,7 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
             />
 
             {/* MARK: Title */}
-            <Text color="purple-dark" size="24" weight="semibold" taller className="mt-2 mb-9">
+            <Text color="purple-dark" size="24" weight="semibold" taller className="mb-9">
                 New Wallet
             </Text>
 
@@ -61,7 +61,7 @@ export default function AddWallet({ onChoice, onFileBrowserEvent }: NewWalletPro
 
             {/* MARK: Cancel */}
             <button
-                className="text-gray-dark font-semibold text-[11px] leading-none tracking-wider uppercase mt-9 mb-2"
+                className="text-gray-dark font-semibold text-[11px] leading-none tracking-wider uppercase mt-9"
                 onClick={(e) => {
                     e.stopPropagation();
                     onChoice("cancel");
