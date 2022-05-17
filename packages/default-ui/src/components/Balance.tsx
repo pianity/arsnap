@@ -14,6 +14,14 @@ type BalanceProps = {
     onSendClick: () => void;
 };
 
+const fiatFormatter = Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    currencyDisplay: "narrowSymbol",
+});
+
 /**
  * Renders the wallet's balance in both AR and fiat
  * along with a send button.
@@ -23,7 +31,7 @@ export default function Balance({ shrink, balance, price, onSendClick }: Balance
 
     useEffect(() => {
         if (balance !== undefined && price !== undefined) {
-            setFiatBalance((balance * price).toFixed(2));
+            setFiatBalance(fiatFormatter.format(balance * price));
         }
     }, [balance, price]);
 
@@ -50,7 +58,7 @@ export default function Balance({ shrink, balance, price, onSendClick }: Balance
                 color={fiatBalance !== undefined ? "gray-light" : "orange"}
                 size={shrink ? "18" : "20"}
                 pulse={fiatBalance === undefined}
-            >{`$${fiatBalance || "0"} USD`}</Text.span>
+            >{`${fiatBalance || "0"} USD`}</Text.span>
 
             {/* MARK: Send button */}
             <Link
