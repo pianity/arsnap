@@ -10,12 +10,10 @@ export type WalletProps = {
 };
 
 export default function Wallet({ balance, price, transactions }: WalletProps) {
-    function onSendClick() {}
-
     return (
         <ViewContainer>
             <div className="grow flex flex-col gap-4 w-full">
-                <Balance balance={balance} price={price} onSendClick={onSendClick} />
+                <Balance balance={balance} price={price} />
                 <Transactions transactions={transactions} />
             </div>
         </ViewContainer>

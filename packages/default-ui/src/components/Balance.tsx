@@ -10,8 +10,6 @@ type BalanceProps = {
     /** Balance state */
     balance?: number;
     price?: number;
-    /** Called when user clicks the send button */
-    onSendClick: () => void;
 };
 
 const fiatFormatter = Intl.NumberFormat(undefined, {
@@ -26,7 +24,7 @@ const fiatFormatter = Intl.NumberFormat(undefined, {
  * Renders the wallet's balance in both AR and fiat
  * along with a send button.
  */
-export default function Balance({ shrink, balance, price, onSendClick }: BalanceProps) {
+export default function Balance({ shrink, balance, price }: BalanceProps) {
     const [fiatBalance, setFiatBalance] = useState<string | undefined>(undefined);
 
     useEffect(() => {
