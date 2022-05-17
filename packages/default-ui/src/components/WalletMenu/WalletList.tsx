@@ -34,7 +34,7 @@ export default function WalletList({
             )}
 
             <Label className="mb-3 mt-6">Available wallets</Label>
-            <ul className="flex flex-col max-h-[212px] overflow-y-auto">
+            <ul className="flex flex-col gap-[10px] max-h-[212px] overflow-y-auto">
                 {[...availableWallets.entries()].map(([address, name]) =>
                     address === activeWallet ? null : (
                         <WalletItem

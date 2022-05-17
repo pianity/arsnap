@@ -28,6 +28,9 @@ export default function WalletItem({
 }: WalletItemProps) {
     // Used to show the user a copied success message
     const [copied, setCopied] = useState(false);
+    // Used to switch between text and input for editing wallet name
+    const [editing, setEditing] = useState(false);
+    const [newName, setNewName] = useState(name);
 
     /**
      * Copies text to clipboard and sets the copied state
@@ -50,10 +53,18 @@ export default function WalletItem({
     }
 
     return (
-        <div className="flex items-center px-3 py-[14px] min-w-0 group">
+        <div
+            onClick={() => {
+                !active && onEvent({ event: "selectWallet", address });
+            }}
+            className={
+                "flex items-center px-3 h-16 min-w-0 group border border-purple-light rounded-md shrink-0" +
+                (active ? "" : " cursor-pointer lg:hover:bg-purple-light")
+            }
+        >
             {/* MARK: Wallet icon */}
             {active && (
-                <div className="w-9 h-9 shrink-0 mr-3 flex items-center justify-center">
+                <div className="w-9 h-9 shrink-0 mr-3 flex items-center justify-center bg-purple-light rounded-full">
                     <img src={walletIconUrl} width={16} height={12} />
                 </div>
             )}
@@ -61,27 +72,59 @@ export default function WalletItem({
             {/* MARK: Wallet info */}
             <div className="flex flex-col min-w-0 grow">
                 {/* MARK: Wallet name */}
-                <button
-                    className={"mb-[6px] w-max" + (active ? " pointer-events-none" : "")}
-                    onClick={() => {
-                        !active && onEvent({ event: "selectWallet", address });
-                    }}
-                >
-                    <Text
-                        color="purple"
-                        size="18"
-                        taller
-                        weight="semibold"
-                        className="truncate text-left hover:underline"
-                    >
-                        {name}
-                    </Text>
-                </button>
+                <div className="mb-[6px] w-max flex items-center max-w-full">
+                    {editing ? (
+                        <input
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => {
+                                if (e.key === "Escape") {
+                                    setNewName(name);
+                                    setEditing(false);
+                                } else if (e.key === "Enter") {
+                                    onEvent({ event: "renameWallet", address, name: newName });
+                                    setEditing(false);
+                                }
+                            }}
+                            onBlur={() => {
+                                setNewName(name);
+                                setEditing(false);
+                            }}
+                            value={newName}
+                            onChange={(e) => {
+                                setNewName(e.target.value);
+                            }}
+                            className="text-purple text-[18px] leading-[110%] font-semibold text-left bg-transparent outline-none underline"
+                        />
+                    ) : (
+                        <Text
+                            color="purple"
+                            size="18"
+                            taller
+                            weight="semibold"
+                            className="truncate text-left"
+                        >
+                            {name}
+                        </Text>
+                    )}
+                    {/* MARK: Edit button */}
+                    {!editing && (
+                        <button
+                            className="hidden group-hover:block shrink-0 ml-1 leading-none"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setEditing(true);
+                            }}
+                        >
+                            edit
+                        </button>
+                    )}
+                </div>
 
                 {/* MARK: Wallet address */}
                 <button
                     className="w-max"
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         copyToClipboard(address);
                     }}
                 >
@@ -99,23 +142,24 @@ export default function WalletItem({
             </div>
 
             {/* MARK: Action buttons */}
-            <div className="hidden group-hover:flex items-center ml-3">
+            <div className="hidden group-hover:flex items-center ml-3 shrink-0">
                 {/* MARK: Export button */}
                 <button
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         onEvent({ event: "exportWallet", address });
                     }}
-                    className="mr-2"
                 >
                     <img src={exportButtonUrl} width={28} height={28} alt="Export wallet" />
                 </button>
 
                 {/* MARK: Delete button */}
                 <button
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         onDeleteWallet({ name, address });
                     }}
-                    className="mr-2 flex items-center justify-center w-7 h-7 rounded-full border border-purple-dark box-border text-purple-dark"
+                    className="ml-2 flex items-center justify-center w-7 h-7 rounded-full border border-purple-dark box-border text-purple-dark"
                 >
                     <img src={closeIconUrl} width={8} height={8} alt="Delete wallet" />
                 </button>
