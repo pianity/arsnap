@@ -4,7 +4,6 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import { NamedAddress, Wallets } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
-import { findAddressName } from "@/utils";
 
 export type SelectWallet = {
     event: "selectWallet";

@@ -7,8 +7,8 @@ import {
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import Text from "@/components/interface/typography/Text";
-import Label from "../interface/Label";
-import Input from "../interface/Input";
+import Label from "@/components/interface/Label";
+import Input from "@/components/interface/Input";
 
 type NewWalletProps = {
     origin: "imported" | "created";

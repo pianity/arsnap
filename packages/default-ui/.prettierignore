@@ -4,3 +4,5 @@ node_modules/
 
 # Ignore assets
 public/
+
+src/graphql/arweave.ts

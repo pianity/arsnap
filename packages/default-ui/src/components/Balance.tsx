@@ -1,7 +1,8 @@
-import Text from "@/components/interface/typography/Text";
-import Container from "@/components/interface/layout/Container";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import Text from "@/components/interface/typography/Text";
+import Container from "@/components/interface/layout/Container";
 import sendIconUrl from "@/assets/icons/send.svg";
 
 type BalanceProps = {

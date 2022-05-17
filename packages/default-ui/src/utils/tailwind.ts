@@ -1,3 +1,5 @@
+import { exhaustive } from "@/utils";
+
 export type TextColor =
     | "white"
     | "gray-dark"
@@ -13,7 +15,7 @@ export type TextColor =
 /**
  * Gets the tailwind class for the given text color.
  *
- * @param color
+ * @param color -
  * @returns Tailwind class name
  */
 export function getColorClass(color: TextColor): string {
@@ -47,13 +49,16 @@ export function getColorClass(color: TextColor): string {
 
         case "orange":
             return "text-orange-warning";
+
+        default:
+            return exhaustive(color);
     }
 }
 
 /**
  * Gets the tailwind hover class for the given text color.
  *
- * @param color Tailwind text color
+ * @param color - Tailwind text color
  * @returns Tailwind hover class name
  */
 export function getHoverColorClass(color: TextColor): string {
@@ -87,6 +92,9 @@ export function getHoverColorClass(color: TextColor): string {
 
         case "orange":
             return "lg:hover:text-orange-warning";
+
+        default:
+            return exhaustive(color);
     }
 }
 
@@ -95,7 +103,7 @@ export type Opacity = "0" | "25" | "50" | "75" | "100";
 /**
  * Gets the tailwind class for the given opacity.
  *
- * @param opacity
+ * @param opacity -
  * @returns Tailwind class name
  */
 export function getOpacityClass(opacity: Opacity): string {
@@ -114,6 +122,9 @@ export function getOpacityClass(opacity: Opacity): string {
 
         case "100":
             return "opacity-100";
+
+        default:
+            return exhaustive(opacity);
     }
 }
 
@@ -122,7 +133,7 @@ export type TextSize = "11" | "12" | "13" | "14" | "16" | "18" | "20" | "24" | "
 /**
  * Gets the tailwind class for the given text color.
  *
- * @param color
+ * @param size -
  * @returns Tailwind class name
  */
 export function getSizeClass(size: TextSize): string {
@@ -159,6 +170,9 @@ export function getSizeClass(size: TextSize): string {
 
         case "56":
             return "text-[56px]";
+
+        default:
+            return exhaustive(size);
     }
 }
 
@@ -167,7 +181,7 @@ export type TextWeight = "normal" | "semibold" | "bold";
 /**
  * Gets the tailwind class for the given text weight.
  *
- * @param weight
+ * @param weight -
  * @returns Tailwind class name
  */
 export function getWeightClass(weight: TextWeight) {
@@ -180,6 +194,9 @@ export function getWeightClass(weight: TextWeight) {
 
         case "bold":
             return "font-bold";
+
+        default:
+            return exhaustive(weight);
     }
 }
 
@@ -188,7 +205,7 @@ export type TextAlign = "left" | "center" | "right";
 /**
  * Gets the tailwind class for the given text alignment.
  *
- * @param align
+ * @param align -
  * @returns Tailwind class name
  */
 export function getAlignClass(align: TextAlign) {
@@ -201,5 +218,8 @@ export function getAlignClass(align: TextAlign) {
 
         case "right":
             return "text-right";
+
+        default:
+            return exhaustive(align);
     }
 }

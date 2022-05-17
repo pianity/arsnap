@@ -1,3 +1,5 @@
+import { PropsWithChildren } from "react";
+
 import {
     getAlignClass,
     getColorClass,
@@ -11,7 +13,6 @@ import {
     TextSize,
     TextWeight,
 } from "@/utils/tailwind";
-import { PropsWithChildren } from "react";
 
 type TextProps = {
     /** Font weight of the text */
@@ -129,7 +130,7 @@ function getTextClassName({
     align,
     className,
 }: TextProps) {
-    let classNames: string[] = [];
+    const classNames: string[] = [];
     if (weight) {
         classNames.push(getWeightClass(weight));
     }

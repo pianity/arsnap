@@ -1,6 +1,7 @@
 {
+    "extends": "@pianity/eslint-config",
     "env": {
         "browser": true
     },
-    "extends": "@pianity/eslint-config"
+    "ignorePatterns": ["src/graphql/arweave.ts"]
 }

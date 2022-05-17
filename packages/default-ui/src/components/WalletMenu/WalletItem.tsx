@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import walletIconUrl from "@/assets/icons/wallet.svg";
 import exportButtonUrl from "@/assets/icons/export-button.svg";
 import closeIconUrl from "@/assets/icons/close.svg";
@@ -10,7 +12,6 @@ import {
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import truncateStringCenter from "@/utils";
-import { useState } from "react";
 
 export type WalletItemProps = {
     active?: boolean;
@@ -33,10 +34,10 @@ export default function WalletItem({
      * Copies text to clipboard and sets the copied state
      * to true for a 2000ms timeout on success.
      *
-     * @param text text to copy
+     * @param text - text to copy
      */
     function copyToClipboard(text: string) {
-        let timeout: NodeJS.Timeout | undefined;
+        let timeout: ReturnType<typeof setTimeout>;
         navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
             timeout = setTimeout(() => {
@@ -45,7 +46,9 @@ export default function WalletItem({
         });
 
         return () => {
-            timeout && clearTimeout(timeout);
+            if (timeout) {
+                clearTimeout(timeout);
+            }
         };
     }
 
@@ -63,9 +66,7 @@ export default function WalletItem({
                 {/* MARK: Wallet name */}
                 <button
                     className={"mb-[6px] w-max" + (active ? " pointer-events-none" : "")}
-                    onClick={() => {
-                        !active && onEvent({ event: "selectWallet", address });
-                    }}
+                    onClick={() => !active && onEvent({ event: "selectWallet", address })}
                 >
                     <Text
                         color="purple"

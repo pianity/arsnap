@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import { OnFileBrowserEvent } from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/interface/Button";
-import Text from "../interface/typography/Text";
+import Text from "@/components/interface/typography/Text";
 
 export type NewWalletChoice = "importExisting" | "createNew" | "cancel";
 
