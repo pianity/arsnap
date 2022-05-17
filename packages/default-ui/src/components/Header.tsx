@@ -96,7 +96,8 @@ export default function Header({
                 ))}
 
             {/* MARK: ArSnap logo */}
-            <div
+            <Link
+                to="/"
                 className={
                     "absolute left-1/2 -translate-x-1/2 z-10 bg-purple-dark transition-all duration-300 ease-quart-out " +
                     (smallLogo ? "px-8 -bottom-6" : "px-10 -bottom-14")
@@ -109,7 +110,7 @@ export default function Header({
                     alt="ArSnap for MetaMask"
                     className="transition-size duration-300 ease-quart-out"
                 />
-            </div>
+            </Link>
         </header>
     );
 }
