@@ -1,3 +1,5 @@
+import { exhaustive } from "@/utils";
+
 export type TextColor =
     | "white"
     | "gray-dark"
@@ -13,14 +15,11 @@ export type TextColor =
 /**
  * Gets the tailwind class for the given text color.
  *
- * @param color
+ * @param color - Text color
  * @returns Tailwind class name
  */
 export function getColorClass(color: TextColor): string {
     switch (color) {
-        case "white":
-            return "text-white";
-
         case "gray-dark":
             return "text-gray-dark";
 
@@ -47,6 +46,12 @@ export function getColorClass(color: TextColor): string {
 
         case "orange":
             return "text-orange-warning";
+
+        case "white":
+            return "text-white";
+
+        default:
+            return exhaustive(color);
     }
 }
 
@@ -90,7 +95,7 @@ export function getHoverColorClass(color: TextColor): string {
     }
 }
 
-export type Opacity = "0" | "25" | "50" | "75" | "100";
+export type Opacity = "0" | "25" | "50" | "60" | "75" | "100";
 
 /**
  * Gets the tailwind class for the given opacity.
@@ -108,6 +113,9 @@ export function getOpacityClass(opacity: Opacity): string {
 
         case "50":
             return "opacity-50";
+
+        case "60":
+            return "opacity-60";
 
         case "75":
             return "opacity-75";

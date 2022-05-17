@@ -2,20 +2,11 @@ import Container from "@/components/interface/layout/Container";
 import Text from "@/components/interface/typography/Text";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { Transactions as TransactionsData } from "@/state";
+import TransactionItem from "@/components/TransactionItem";
 
 export type TransactionProps = {
     transactions?: TransactionsData;
 };
-
-function transactionsList(transactions: TransactionsData) {
-    return transactions.map(({ id, direction, amount, timestamp }) => (
-        <li key={id}>
-            <span>{direction}</span>
-            <span>{new Date(timestamp * 1000).toLocaleString()}</span>
-            <span>{amount}</span>
-        </li>
-    ));
-}
 
 export default function Transactions({ transactions }: TransactionProps) {
     return (
@@ -33,7 +24,16 @@ export default function Transactions({ transactions }: TransactionProps) {
             {/* MARK: Transaction list */}
             {transactions &&
                 (transactions.length > 0 ? (
-                    <ul>{transactionsList(transactions)}</ul>
+                    <ul className="px-6 py-5">
+                        {transactions.map((tx) => (
+                            <>
+                                <li>
+                                    <TransactionItem transaction={tx} key={tx.id} />
+                                </li>
+                                <div className="w-full h-[1px] bg-purple last:hidden shrink-0" />
+                            </>
+                        ))}
+                    </ul>
                 ) : (
                     <Text.span className="text-center mt-10">No activity</Text.span>
                 ))}
