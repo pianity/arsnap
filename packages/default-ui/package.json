@@ -10,8 +10,8 @@
         "preview": "vite preview",
         "typecheck": "tsc --noEmit",
         "generate-graphql": "graphql-codegen",
-        "lint": "prettier --loglevel warn --check src/ && eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
+        "lint": "prettier --loglevel warn --check src/ ; eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",

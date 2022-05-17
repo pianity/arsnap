@@ -17,8 +17,8 @@
         "build": "tsc && tsc-alias",
         "clean": "rm -r dist/",
         "typecheck": "tsc --noEmit",
-        "lint": "prettier --loglevel warn --check src/ && eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ && eslint --fix src/"
+        "lint": "prettier --loglevel warn --check src/ ; eslint src/",
+        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
