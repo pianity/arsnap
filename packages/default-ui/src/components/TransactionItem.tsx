@@ -32,10 +32,10 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                 <div
                     className={
                         "w-11 h-11 rounded-full flex items-center justify-center box-border" +
-                        "text-white mr-4 shrink-0 transition duration-300 ease-quart-out" +
-                        showDetails
+                        " text-white mr-4 shrink-0 transition duration-300 ease-quart-out " +
+                        (showDetails
                             ? "bg-purple"
-                            : "border border-purple lg:group-hover:bg-purple"
+                            : "border border-purple lg:group-hover:bg-purple")
                     }
                 >
                     <img
@@ -63,12 +63,12 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                 {/* MARK: Amount */}
                 <div
                     className={
-                        `h-[52px] px-3 rounded-lg box-border text-white flex flex-col` +
-                        "items-center justify-center transition duration-300 ease-quart-out" +
-                        showDetails
+                        "h-[52px] px-3 rounded-lg box-border text-white flex flex-col" +
+                        " items-center justify-center transition duration-300 ease-quart-out " +
+                        (showDetails
                             ? "bg-purple"
                             : "border border-purple lg:group-hover:bg-purple" +
-                              "lg:group-hover:border-transparent"
+                              "lg:group-hover:border-transparent")
                     }
                 >
                     <div className="flex items-center">
@@ -92,10 +92,8 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
             <div
                 className={
                     "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300" +
-                    "ease-quart-out relative overflow-hidden" +
-                    showDetails
-                        ? "h-[345px] mb-4"
-                        : "h-0 mb-0 pointer-events-none"
+                    " ease-quart-out relative overflow-hidden " +
+                    (showDetails ? "h-[345px] mb-4" : "h-0 mb-0 pointer-events-none")
                 }
             >
                 {/* MARK: Info Container */}
@@ -106,7 +104,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                             <div
                                 className={
                                     "bg-white rounded-lg flex flex-col gap-2 justify-center" +
-                                    "min-w-[114px] px-4"
+                                    " min-w-[114px] px-4"
                                 }
                             >
                                 <Text.span
@@ -176,10 +174,8 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                     onClick={() => setShowDetails(false)}
                     className={
                         "w-8 h-8 flex items-center justify-center rounded-full bg-white" +
-                        "text-purple-dark absolute top-8 right-8" +
-                        showDetails
-                            ? ""
-                            : "hidden"
+                        " text-purple-dark absolute top-8 right-8" +
+                        (showDetails ? "" : " hidden")
                     }
                 >
                     <Chevron className="rotate-180" />
