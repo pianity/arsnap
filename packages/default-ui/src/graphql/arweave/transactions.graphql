@@ -10,6 +10,9 @@ fragment Transaction on TransactionConnection {
             quantity {
                 ar
             }
+            fee {
+                ar
+            }
             block {
                 timestamp
             }

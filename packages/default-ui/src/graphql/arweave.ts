@@ -110,6 +110,23 @@ export type Parent = {
   id: Scalars['ID'];
 };
 
+/**
+ * Arweave Gateway
+ * Copyright (C) 2022 Permanent Data Solutions, Inc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 export type Query = {
   __typename?: 'Query';
   block?: Maybe<Block>;
@@ -121,11 +138,45 @@ export type Query = {
 };
 
 
+/**
+ * Arweave Gateway
+ * Copyright (C) 2022 Permanent Data Solutions, Inc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 export type QueryBlockArgs = {
   id?: InputMaybe<Scalars['String']>;
 };
 
 
+/**
+ * Arweave Gateway
+ * Copyright (C) 2022 Permanent Data Solutions, Inc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 export type QueryBlocksArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
@@ -135,11 +186,45 @@ export type QueryBlocksArgs = {
 };
 
 
+/**
+ * Arweave Gateway
+ * Copyright (C) 2022 Permanent Data Solutions, Inc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 export type QueryTransactionArgs = {
   id: Scalars['ID'];
 };
 
 
+/**
+ * Arweave Gateway
+ * Copyright (C) 2022 Permanent Data Solutions, Inc
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 export type QueryTransactionsArgs = {
   after?: InputMaybe<Scalars['String']>;
   block?: InputMaybe<BlockFilter>;
@@ -251,7 +336,7 @@ export type GetCurrentHeightQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCurrentHeightQuery = { __typename?: 'Query', block?: { __typename?: 'Block', height: number } | null };
 
-export type TransactionFragment = { __typename?: 'TransactionConnection', edges: Array<{ __typename?: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, recipient: string, owner: { __typename?: 'Owner', address: string }, quantity: { __typename?: 'Amount', ar: string }, block?: { __typename?: 'Block', timestamp: number } | null } }> };
+export type TransactionFragment = { __typename?: 'TransactionConnection', edges: Array<{ __typename?: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, recipient: string, owner: { __typename?: 'Owner', address: string }, quantity: { __typename?: 'Amount', ar: string }, fee: { __typename?: 'Amount', ar: string }, block?: { __typename?: 'Block', timestamp: number } | null } }> };
 
 export type IncomingTransactionsQueryVariables = Exact<{
   address: Scalars['String'];
@@ -260,7 +345,7 @@ export type IncomingTransactionsQueryVariables = Exact<{
 }>;
 
 
-export type IncomingTransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionConnection', edges: Array<{ __typename?: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, recipient: string, owner: { __typename?: 'Owner', address: string }, quantity: { __typename?: 'Amount', ar: string }, block?: { __typename?: 'Block', timestamp: number } | null } }> } };
+export type IncomingTransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionConnection', edges: Array<{ __typename?: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, recipient: string, owner: { __typename?: 'Owner', address: string }, quantity: { __typename?: 'Amount', ar: string }, fee: { __typename?: 'Amount', ar: string }, block?: { __typename?: 'Block', timestamp: number } | null } }> } };
 
 export type OutgoingTransactionsQueryVariables = Exact<{
   address: Scalars['String'];
@@ -269,7 +354,7 @@ export type OutgoingTransactionsQueryVariables = Exact<{
 }>;
 
 
-export type OutgoingTransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionConnection', edges: Array<{ __typename?: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, recipient: string, owner: { __typename?: 'Owner', address: string }, quantity: { __typename?: 'Amount', ar: string }, block?: { __typename?: 'Block', timestamp: number } | null } }> } };
+export type OutgoingTransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionConnection', edges: Array<{ __typename?: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, recipient: string, owner: { __typename?: 'Owner', address: string }, quantity: { __typename?: 'Amount', ar: string }, fee: { __typename?: 'Amount', ar: string }, block?: { __typename?: 'Block', timestamp: number } | null } }> } };
 
 export const TransactionFragmentDoc = gql`
     fragment Transaction on TransactionConnection {
@@ -282,6 +367,9 @@ export const TransactionFragmentDoc = gql`
       }
       recipient
       quantity {
+        ar
+      }
+      fee {
         ar
       }
       block {

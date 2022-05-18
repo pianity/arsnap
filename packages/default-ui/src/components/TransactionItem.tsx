@@ -30,9 +30,13 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
             >
                 {/* MARK: Direction arrow */}
                 <div
-                    className={`w-11 h-11 rounded-full flex items-center justify-center box-border text-white mr-4 shrink-0 transition duration-300 ease-quart-out ${
-                        showDetails ? "bg-purple" : "border border-purple lg:group-hover:bg-purple"
-                    }`}
+                    className={
+                        "w-11 h-11 rounded-full flex items-center justify-center box-border" +
+                        "text-white mr-4 shrink-0 transition duration-300 ease-quart-out" +
+                        showDetails
+                            ? "bg-purple"
+                            : "border border-purple lg:group-hover:bg-purple"
+                    }
                 >
                     <img
                         src={incoming ? incomingIconUrl : outgoingIconUrl}
@@ -47,8 +51,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                         {`${incoming ? "Incoming" : "Outgoing"} Transaction`}
                     </Text>
                     <Text.span size="14" color="purple-light" opacity="50">
-                        {/* TODO: Use actual target address */}
-                        {truncateStringCenter("S5CGk4jhCcTl9ly1wDfeYhxt42HfwqidTmF-68IlPcI", 40)}
+                        {truncateStringCenter(transaction.to, 40)}
                     </Text.span>
                 </div>
 
@@ -59,11 +62,14 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
 
                 {/* MARK: Amount */}
                 <div
-                    className={`h-[52px] px-3 rounded-lg box-border text-white flex flex-col items-center justify-center transition duration-300 ease-quart-out ${
+                    className={
+                        `h-[52px] px-3 rounded-lg box-border text-white flex flex-col` +
+                        "items-center justify-center transition duration-300 ease-quart-out" +
                         showDetails
                             ? "bg-purple"
-                            : "border border-purple lg:group-hover:bg-purple lg:group-hover:border-transparent"
-                    }`}
+                            : "border border-purple lg:group-hover:bg-purple" +
+                              "lg:group-hover:border-transparent"
+                    }
                 >
                     <div className="flex items-center">
                         <Text.span size="16" weight="semibold" color="white" className="mb-1">
@@ -84,16 +90,25 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
 
             {/* MARK: Details view */}
             <div
-                className={`bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300 ease-quart-out relative overflow-hidden ${
-                    showDetails ? "h-[345px] mb-4" : "h-0 mb-0 pointer-events-none"
-                }`}
+                className={
+                    "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300" +
+                    "ease-quart-out relative overflow-hidden" +
+                    showDetails
+                        ? "h-[345px] mb-4"
+                        : "h-0 mb-0 pointer-events-none"
+                }
             >
                 {/* MARK: Info Container */}
                 <div className="flex flex-col h-full w-full py-10 pl-10 pr-12">
                     <div className="grid grid-cols-[minmax(auto,50%)_1fr] gap-6">
                         {/* MARK: Amount */}
                         <div className="bg-purple rounded-lg flex h-[69px] w-max">
-                            <div className="bg-white rounded-lg flex flex-col gap-2 justify-center min-w-[114px] px-4">
+                            <div
+                                className={
+                                    "bg-white rounded-lg flex flex-col gap-2 justify-center" +
+                                    "min-w-[114px] px-4"
+                                }
+                            >
                                 <Text.span
                                     color="purple-dark"
                                     size="13"
@@ -121,7 +136,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                                 <Text.span
                                     color="white"
                                     size="13"
-                                >{`${(+transaction.amount).toFixed(6)} AR`}</Text.span>
+                                >{`${transaction.fee} AR`}</Text.span>
                             </div>
                         </div>
 
@@ -140,18 +155,8 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                         <DetailsInfo label="ID" info={transaction.id} />
                         <DetailsInfo label="TIME" info="2022-04-20 17:30:51 +02:00" />
 
-                        <DetailsInfo
-                            label="FROM"
-                            info={truncateStringCenter(
-                                "S5CGk4jhCcTl9ly1wDfeYhxt42HfwqidTmF-68IlPcI",
-                            )}
-                        />
-                        <DetailsInfo
-                            label="TO"
-                            info={truncateStringCenter(
-                                "S5CGk4jhCcTl9ly1wDfeYhxt42HfwqidTmF-68IlPcI",
-                            )}
-                        />
+                        <DetailsInfo label="FROM" info={truncateStringCenter(transaction.from)} />
+                        <DetailsInfo label="TO" info={truncateStringCenter(transaction.to)} />
                     </div>
 
                     <div className="h-[1px] bg-purple-text my-6 shrink-0" />
@@ -169,9 +174,13 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                 {/* MARK: Close button */}
                 <button
                     onClick={() => setShowDetails(false)}
-                    className={`w-8 h-8 flex items-center justify-center rounded-full bg-white text-purple-dark absolute top-8 right-8 ${
-                        showDetails ? "" : "hidden"
-                    }`}
+                    className={
+                        "w-8 h-8 flex items-center justify-center rounded-full bg-white" +
+                        "text-purple-dark absolute top-8 right-8" +
+                        showDetails
+                            ? ""
+                            : "hidden"
+                    }
                 >
                     <Chevron className="rotate-180" />
                 </button>
