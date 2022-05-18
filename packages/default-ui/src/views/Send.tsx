@@ -13,6 +13,7 @@ import Text from "@/components/interface/typography/Text";
 import ARIcon from "@/components/interface/svg/ARIcon";
 import Label from "@/components/interface/Label";
 import Input from "@/components/interface/Input";
+import InputError from "@/components/interface/InputError";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
 const fiatFormatter = Intl.NumberFormat(undefined, {
@@ -188,9 +189,14 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                         <div className="grid grid-cols-2 gap-5 mb-10">
                             {/* MARK: Recipient */}
                             <div className="flex flex-col">
-                                <Label white className="mb-3">
-                                    Send to address
-                                </Label>
+                                <div className="flex items-center justify-between mb-3">
+                                    <Label white>Send to address</Label>
+                                    {errors.recipient && (
+                                        <InputError
+                                            message={errors.recipient.message ?? "Invalid"}
+                                        />
+                                    )}
+                                </div>
                                 <Input
                                     light
                                     name="recipient"
@@ -211,7 +217,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
 
                             {/* MARK: Message */}
                             <div className="flex flex-col">
-                                <Label white className="mb-3">
+                                <Label white className="flex items-center mb-3 h-4">
                                     Message <Text.span color="purple-text">(optional)</Text.span>
                                 </Label>
                                 <Input light name="note" register={register} />
