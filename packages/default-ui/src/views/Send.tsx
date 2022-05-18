@@ -1,5 +1,6 @@
 import { Dispatch, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
@@ -8,8 +9,19 @@ import Button from "@/components/interface/Button";
 import { arweave } from "@/utils/blockchain";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
+import Text from "@/components/interface/typography/Text";
+import ARIcon from "@/components/interface/svg/ARIcon";
+import Label from "@/components/interface/Label";
+import Input from "@/components/interface/Input";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
+const fiatFormatter = Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    currencyDisplay: "narrowSymbol",
+});
 
 type Form = {
     amount: number;
@@ -40,6 +52,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
         register,
         handleSubmit,
         watch,
+        setValue,
         formState: { errors },
     } = useForm<Form>({ defaultValues: { amount: 0, recipient: "", note: "" } });
     const watchAmount = watch("amount");
@@ -91,52 +104,135 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
 
     return (
         <ViewContainer>
-            <Container className="p-8">
-                <h1>Send AR</h1>
-                <p>Available: {balance?.toFixed(4)}</p>
-
+            <Container>
                 <form onSubmit={handleSubmit(postTx)}>
-                    <label>amount:</label>
-                    <input
-                        type="number"
-                        {...register("amount", {
-                            required: true,
-                            validate: (amount) => {
-                                if (!(!balance || amount <= Number(balance))) {
-                                    return false;
-                                }
+                    <div className="flex flex-col items-center pt-10">
+                        <Text.h1 size="32" taller weight="bold" className="mb-[8px]">
+                            Send AR
+                        </Text.h1>
+                        <div className="flex items-center mb-10">
+                            <Text.span size="16" taller weight="semibold" color="purple-text">
+                                Available: {balance?.toFixed(6)}
+                            </Text.span>
+                            <ARIcon width={20} height={20} className="text-purple-text ml-1" />
+                        </div>
 
-                                return true;
-                            },
-                        })}
-                    />
+                        {/* MARK: Amount input */}
+                        <div className="bg-white flex rounded-full h-20 px-6 mb-6">
+                            <ARIcon
+                                width={24}
+                                height={24}
+                                className="text-purple-dark self-center mr-3"
+                            />
+                            <input
+                                type="number"
+                                min={0}
+                                max={balance}
+                                className="min-w-[44px] max-w-[12ch] text-[40px] text-purple-dark leading-none font-bold bg-transparent outline-none invalid:text-red-error"
+                                style={{ width: (String(watchAmount)?.length ?? 0) + "ch" }}
+                                {...register("amount", {
+                                    required: true,
+                                    validate: (amount) => {
+                                        if (!(!balance || amount <= Number(balance))) {
+                                            return false;
+                                        }
 
-                    <label>recipient:</label>
-                    <input
-                        {...register("recipient", {
-                            required: true,
-                            pattern: ARWEAVE_ADDRESS_PATTERN,
-                        })}
-                    />
+                                        return true;
+                                    },
+                                })}
+                            />
+                            {balance && (
+                                <button
+                                    onClick={() => setValue("amount", balance)}
+                                    className="ml-3 h-8 px-3 rounded-full box-border border border-purple flex items-center self-center"
+                                >
+                                    <Text.span
+                                        size="12"
+                                        weight="semibold"
+                                        color="purple"
+                                        uppercase
+                                        className="leading-[75%]"
+                                    >
+                                        Max
+                                    </Text.span>
+                                </button>
+                            )}
+                        </div>
 
-                    <label>note:</label>
-                    <input {...register("note")} />
+                        {/* MARK: Fees + Total */}
+                        <div className="flex flex-col gap-1 mb-10">
+                            <Text.span align="center">{`~${fiatFormatter.format(
+                                amountFiat,
+                            )} USD`}</Text.span>
+                            <Text
+                                color="purple-text"
+                                size="14"
+                                className="flex justify-between gap-2"
+                            >
+                                <Text.span underlined>Fee:</Text.span>
+                                <Text.span>{`${fee} AR`}</Text.span>
+                            </Text>
+                            <Text
+                                color="purple-text"
+                                size="14"
+                                className="flex justify-between gap-2"
+                            >
+                                <Text.span underlined>Total:</Text.span>
+                                <Text.span>{`${total} AR`}</Text.span>
+                            </Text>
+                        </div>
+                    </div>
 
-                    <Button type="submit">Send</Button>
+                    <div className="bg-purple-dark bg-opacity-30 rounded-b-xl pt-10 pb-5 px-12">
+                        <div className="grid grid-cols-2 gap-5 mb-10">
+                            {/* MARK: Recipient */}
+                            <div className="flex flex-col">
+                                <Label white className="mb-3">
+                                    Send to address
+                                </Label>
+                                <Input
+                                    light
+                                    {...register("recipient", {
+                                        required: true,
+                                        pattern: ARWEAVE_ADDRESS_PATTERN,
+                                    })}
+                                />
+                            </div>
 
-                    <Button>
-                        <a href="/">Cancel</a>
-                    </Button>
+                            {/* MARK: Message */}
+                            <div className="flex flex-col">
+                                <Label white className="mb-3">
+                                    Message <Text.span color="purple-text">(optional)</Text.span>
+                                </Label>
+                                <Input light {...register("note")} />
+                            </div>
+                        </div>
 
-                    <p>~{amountFiat.toFixed(2)} $</p>
-                    <p>fee {fee} AR</p>
-                    <p>total {total} AR</p>
+                        {/* MARK: Buttons */}
+                        <div className="flex flex-col items-center">
+                            <Button large color="purple" type="submit" className="mb-5">
+                                Send AR
+                            </Button>
 
-                    {txStatus?.status === "loading" && <p>Sending transaction...</p>}
-                    {txStatus?.status === "success" && <p>Transaction sent!</p>}
-                    {txStatus?.status === "error" && (
-                        <p>Couldn't send the transaction: {txStatus.reason}</p>
-                    )}
+                            <Link to="/">
+                                <Text.span
+                                    color="purple-light"
+                                    size="11"
+                                    wider
+                                    uppercase
+                                    weight="semibold"
+                                >
+                                    Cancel
+                                </Text.span>
+                            </Link>
+                        </div>
+
+                        {txStatus?.status === "loading" && <p>Sending transaction...</p>}
+                        {txStatus?.status === "success" && <p>Transaction sent!</p>}
+                        {txStatus?.status === "error" && (
+                            <p>Couldn't send the transaction: {txStatus.reason}</p>
+                        )}
+                    </div>
                 </form>
             </Container>
         </ViewContainer>

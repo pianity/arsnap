@@ -33,6 +33,8 @@ type TextProps = {
     align?: TextAlign;
     /** Makes text all uppercase */
     uppercase?: boolean;
+    /** Makes text underlined */
+    underlined?: boolean;
     /** Makes the text pulse */
     pulse?: boolean;
     /** Extra classes added to the element */
@@ -128,6 +130,7 @@ function getTextClassName({
     uppercase,
     pulse,
     align,
+    underlined,
     className,
 }: TextProps) {
     const classNames: string[] = [];
@@ -165,6 +168,9 @@ function getTextClassName({
     }
     if (align) {
         classNames.push(getAlignClass(align));
+    }
+    if (underlined) {
+        classNames.push("underline");
     }
 
     return classNames.join(" ");

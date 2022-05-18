@@ -1,14 +1,18 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, PropsWithChildren } from "react";
 
 type LabelProps = HTMLAttributes<HTMLLabelElement> & {
     white?: boolean;
-    children: string;
 };
 
 /**
  * Default ArSnap label.
  */
-export default function Label({ white, children, className, ...props }: LabelProps) {
+export default function Label({
+    white,
+    children,
+    className,
+    ...props
+}: PropsWithChildren<LabelProps>) {
     const colorClass = white ? "text-white" : "text-purple-dark";
 
     return (
