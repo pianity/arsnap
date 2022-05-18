@@ -28,6 +28,70 @@ export const getPermissions: WithState<WithOrigin<RpcApi["get_permissions"]>> = 
     return state.permissions.get(origin) || [];
 };
 
+export const requestPermissions: WithState<WithOrigin<RpcApi["request_permissions"]>> = async (
+    state,
+    origin,
+    requestedPermissions,
+) => {
+    const currentPermissions = state.permissions.get(origin) || [];
+
+    const newPermissions = await permissions.requestPermissions(
+        origin,
+        currentPermissions,
+        requestedPermissions,
+    );
+
+    if (newPermissions.length !== currentPermissions.length) {
+        state.permissions.set(origin, newPermissions);
+
+        return true;
+    } else {
+        return false;
+    }
+};
+
+export const revokePermissions: WithState<WithOrigin<RpcApi["revoke_permissions"]>> = async (
+    state,
+    origin,
+    permissionsToRevoke,
+) => {
+    const currentPermissions = state.permissions.get(origin);
+
+    if (!currentPermissions) {
+        return null;
+    }
+
+    state.permissions.set(
+        origin,
+        permissions.revokePermissions(currentPermissions, permissionsToRevoke),
+    );
+
+    return null;
+};
+
+export const getDappsPermissions: WithState<RpcApi["get_dapps_permissions"]> = async (state) => {
+    return [...state.permissions.entries()];
+};
+
+export const revokeDappPermissions: WithState<RpcApi["revoke_dapp_permissions"]> = async (
+    state,
+    dapp,
+    permissionsToRevoke,
+) => {
+    const currentPermissions = state.permissions.get(dapp);
+
+    if (!currentPermissions) {
+        return null;
+    }
+
+    state.permissions.set(
+        dapp,
+        permissions.revokePermissions(currentPermissions, permissionsToRevoke),
+    );
+
+    return null;
+};
+
 export const getActiveAddress: WithState<RpcApi["get_active_address"]> = async (state) => {
     const { metadata } = getOrThrow(state.wallets, state.activeWallet);
 
@@ -126,6 +190,7 @@ export const renameWallet: WithState<RpcApi["rename_wallet"]> = async (state, ad
     return null;
 };
 
+// TODO: prevent from deleting last wallet
 export const deleteWallet: WithState<WithOrigin<RpcApi["delete_wallet"]>> = async (
     state,
     origin,
@@ -151,26 +216,4 @@ export const deleteWallet: WithState<WithOrigin<RpcApi["delete_wallet"]>> = asyn
     state.wallets.delete(address);
 
     return null;
-};
-
-export const requestPermissions: WithState<WithOrigin<RpcApi["request_permissions"]>> = async (
-    state,
-    origin,
-    requestedPermissions,
-) => {
-    const currentPermissions = state.permissions.get(origin) || [];
-
-    const newPermissions = await permissions.requestPermissions(
-        origin,
-        currentPermissions,
-        requestedPermissions,
-    );
-
-    if (newPermissions.length !== currentPermissions.length) {
-        state.permissions.set(origin, newPermissions);
-
-        return true;
-    } else {
-        return false;
-    }
 };

@@ -30,7 +30,8 @@ export async function guard(
 }
 
 /**
- * Request `requestedPermissions` to the user. Returns an updated Permission[] with the new permissions.
+ * Request `requestedPermissions` to the user. Returns an updated Permission[] with the new
+ * permissions.
  */
 export async function requestPermissions(
     origin: string,
@@ -66,4 +67,11 @@ export async function requestPermissions(
     } else {
         return currentPermissions;
     }
+}
+
+export function revokePermissions(
+    currentPermissions: Permission[],
+    permissionsToRevoke: Permission[],
+) {
+    return currentPermissions.filter((permission) => !permissionsToRevoke.includes(permission));
 }
