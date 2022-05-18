@@ -14,6 +14,9 @@ import ARIcon from "@/components/interface/svg/ARIcon";
 import Label from "@/components/interface/Label";
 import Input from "@/components/interface/Input";
 import InputError from "@/components/interface/InputError";
+import Modal from "@/components/interface/Modal";
+import ConfirmSend from "@/components/ConfirmSend";
+import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
 const fiatFormatter = Intl.NumberFormat(undefined, {
@@ -24,13 +27,14 @@ const fiatFormatter = Intl.NumberFormat(undefined, {
     currencyDisplay: "narrowSymbol",
 });
 
-type Form = {
+export type SendFormData = {
     amount: number;
     recipient: string;
     note: string;
 };
 
 type TxStatus =
+    | { status: "confirm"; data: SendFormData }
     | {
           status: "success" | "loading";
       }
@@ -55,7 +59,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
         watch,
         setValue,
         formState: { errors },
-    } = useForm<Form>({
+    } = useForm<SendFormData>({
         defaultValues: { amount: 0, recipient: "", note: "" },
         mode: "onBlur",
     });
@@ -87,7 +91,11 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
         }
     }, [watchAmount, fee]);
 
-    async function postTx(data: Form) {
+    function onSubmit(data: SendFormData) {
+        setTxStatus({ status: "confirm", data });
+    }
+
+    async function postTx(data: SendFormData) {
         setTxStatus({ status: "loading" });
 
         try {
@@ -107,8 +115,73 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
 
     return (
         <ViewContainer>
+            <Modal show={!!txStatus} onClose={() => setTxStatus(undefined)}>
+                {txStatus?.status === "confirm" && (
+                    <ConfirmSend
+                        data={txStatus.data}
+                        fee={fee}
+                        activeAddress={activeAddress}
+                        arPrice={arPrice}
+                        onResponse={(response) => {
+                            if (response === "confirm") {
+                                postTx(txStatus.data);
+                            } else {
+                                setTxStatus(undefined);
+                            }
+                        }}
+                    />
+                )}
+
+                {txStatus?.status === "loading" && (
+                    <div className="h-[242px] flex flex-col items-center justify-center">
+                        <LoadingIndicator width={25} height={25} className="text-purple" />
+                    </div>
+                )}
+
+                {txStatus?.status === "success" && (
+                    <div className="h-[242px] flex flex-col items-center justify-center">
+                        <Text.h1 color="purple" size="32" weight="bold" taller>
+                            Success!
+                        </Text.h1>
+                        <Text.span color="gray-dark" size="16" className="mt-3 mb-8 leading-[120%]">
+                            Your transaction is on its way...
+                        </Text.span>
+                        <Link to="/">
+                            <Button color="purple" large>
+                                Done
+                            </Button>
+                        </Link>
+                    </div>
+                )}
+
+                {txStatus?.status === "error" && (
+                    <div className="py-12 px-6 flex flex-col items-center justify-center">
+                        <Text.h1 color="red-dark" size="32" weight="bold" taller>
+                            Oops.
+                        </Text.h1>
+                        <Text.span color="gray-dark" size="16" className="mt-3 leading-[120%]">
+                            There was an error while trying to send your transaction.
+                        </Text.span>
+                        <div className="bg-purple-light rounded-md w-full p-8 flex items-center justify-center my-8">
+                            <Text.span
+                                color="gray-dark"
+                                size="16"
+                                className="leading-[120%]"
+                                align="center"
+                            >
+                                {txStatus.reason}
+                            </Text.span>
+                        </div>
+
+                        <Button color="purple" large onClick={() => setTxStatus(undefined)}>
+                            Go back
+                        </Button>
+                    </div>
+                )}
+            </Modal>
+
             <Container>
-                <form onSubmit={handleSubmit(postTx)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col items-center pt-10">
                         <Text.h1 size="32" taller weight="bold" className="mb-[8px]">
                             Send AR
@@ -189,7 +262,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                         <div className="grid grid-cols-2 gap-5 mb-10">
                             {/* MARK: Recipient */}
                             <div className="flex flex-col">
-                                <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center justify-between mb-3 h-4">
                                     <Label white>Send to address</Label>
                                     {errors.recipient && (
                                         <InputError
@@ -217,7 +290,10 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
 
                             {/* MARK: Message */}
                             <div className="flex flex-col">
-                                <Label white className="flex items-center mb-3 h-4">
+                                <Label
+                                    white
+                                    className="flex items-center mb-3 h-4 whitespace-pre-wrap"
+                                >
                                     Message <Text.span color="purple-text">(optional)</Text.span>
                                 </Label>
                                 <Input light name="note" register={register} />
@@ -242,12 +318,6 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                 </Text.span>
                             </Link>
                         </div>
-
-                        {txStatus?.status === "loading" && <p>Sending transaction...</p>}
-                        {txStatus?.status === "success" && <p>Transaction sent!</p>}
-                        {txStatus?.status === "error" && (
-                            <p>Couldn't send the transaction: {txStatus.reason}</p>
-                        )}
                     </div>
                 </form>
             </Container>

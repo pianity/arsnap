@@ -9,8 +9,12 @@ export type TextColor =
     | "purple-dark"
     | "purple-text"
     | "green"
+    | "green-light"
+    | "green-dark"
     | "red"
-    | "orange";
+    | "red-dark"
+    | "orange"
+    | "orange-dark";
 
 /**
  * Gets the tailwind class for the given text color.
@@ -41,11 +45,23 @@ export function getColorClass(color: TextColor): string {
         case "green":
             return "text-green";
 
+        case "green-light":
+            return "text-green-light";
+
+        case "green-dark":
+            return "text-green-dark";
+
         case "red":
             return "text-red";
 
+        case "red-dark":
+            return "text-red-dark";
+
         case "orange":
             return "text-orange";
+
+        case "orange-dark":
+            return "text-orange-dark";
 
         case "white":
             return "text-white";
@@ -87,11 +103,23 @@ export function getHoverColorClass(color: TextColor): string {
         case "green":
             return "lg:hover:text-green";
 
+        case "green-light":
+            return "lg:hover:text-green-light";
+
+        case "green-dark":
+            return "lg:hover:text-green-dark";
+
         case "red":
             return "lg:hover:text-red";
 
+        case "red-dark":
+            return "lg:hover:text-red-dark";
+
         case "orange":
             return "lg:hover:text-orange";
+
+        case "orange-dark":
+            return "lg:hover:text-orange-dark";
 
         default:
             return exhaustive(color);
