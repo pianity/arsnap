@@ -39,13 +39,13 @@ export function getColorClass(color: TextColor): string {
             return "text-purple-text";
 
         case "green":
-            return "text-green-success";
+            return "text-green";
 
         case "red":
-            return "text-red-error";
+            return "text-red";
 
         case "orange":
-            return "text-orange-warning";
+            return "text-orange";
 
         case "white":
             return "text-white";
@@ -85,13 +85,13 @@ export function getHoverColorClass(color: TextColor): string {
             return "lg:hover:text-purple-text";
 
         case "green":
-            return "lg:hover:text-green-success";
+            return "lg:hover:text-green";
 
         case "red":
-            return "lg:hover:text-red-error";
+            return "lg:hover:text-red";
 
         case "orange":
-            return "lg:hover:text-orange-warning";
+            return "lg:hover:text-orange";
 
         default:
             return exhaustive(color);

@@ -128,7 +128,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                 type="number"
                                 min={0}
                                 max={balance}
-                                className="min-w-[44px] max-w-[12ch] text-[40px] text-purple-dark leading-none font-bold bg-transparent outline-none invalid:text-red-error"
+                                className="min-w-[44px] max-w-[12ch] text-[40px] text-purple-dark leading-none font-bold bg-transparent outline-none invalid:text-red-dark"
                                 style={{ width: (String(watchAmount)?.length ?? 0) + "ch" }}
                                 {...register("amount", {
                                     required: true,

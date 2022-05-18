@@ -10,14 +10,17 @@ module.exports = {
                     light: "#EFEFF9",
                 },
                 green: {
-                    success: "#3CEE99",
+                    DEFAULT: "#3CEE99",
+                    dark: "#42AF7B",
                 },
                 red: {
-                    error: "#FF4794",
-                    warning: "#CD1F68",
+                    DEFAULT: "#FF4794",
+                    light: "#CD1F68",
+                    dark: "#E9317E",
                 },
                 orange: {
-                    warning: "#FFA756",
+                    DEFAULT: "#FFA756",
+                    dark: "#EB9342",
                 },
                 gray: {
                     dark: "#333333",

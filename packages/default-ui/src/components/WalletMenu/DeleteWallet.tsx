@@ -10,7 +10,7 @@ export type DeleteWalletProps = {
 
 export default function DeleteWallet({ name, address, onChoice }: DeleteWalletProps) {
     return (
-        <div className="flex flex-col items-center justify-center p-6 absolute inset-0 bg-red-warning bg-opacity-95 text-white">
+        <div className="flex flex-col items-center justify-center p-6 absolute inset-0 bg-red-light bg-opacity-95 text-white">
             <Text size="24" taller weight="semibold" align="center">
                 Do you really want to remove your wallet "{name}"?
             </Text>
