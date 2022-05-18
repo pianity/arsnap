@@ -35,6 +35,7 @@ module.exports = {
         "import/extensions": "off",
         "import/no-extraneous-dependencies": "off",
 
+        "max-len": ["error", { code: 100 }],
         "prefer-template": "off",
         "no-use-before-define": "off",
         "no-unused-vars": "off",
