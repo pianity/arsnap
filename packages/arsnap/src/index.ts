@@ -40,6 +40,20 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
         case "get_permissions":
             return await handlers.getPermissions(state, origin);
 
+        case "request_permissions":
+            return await handlers.requestPermissions(state, origin, ...params);
+
+        case "revoke_permissions":
+            return await handlers.revokePermissions(state, origin, ...params);
+
+        case "get_dapps_permissions":
+            await guard(origin, permissions, "GET_DAPPS_PERMISSIONS");
+            return await handlers.getDappsPermissions(state);
+
+        case "revoke_dapp_permissions":
+            await guard(origin, permissions, "REVOKE_DAPP_PERMISSION");
+            return await handlers.revokeDappPermissions(state, ...params);
+
         case "get_active_address":
             await guard(origin, permissions, "ACCESS_ADDRESS");
             return await handlers.getActiveAddress(state);
@@ -80,11 +94,7 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
             await guard(origin, permissions, "DELETE_WALLET");
             return await handlers.deleteWallet(state, origin, ...params);
 
-        case "request_permissions":
-            return await handlers.requestPermissions(state, origin, ...params);
-
         default:
-            exhaustive(method);
-            throw new Error("Method not found.");
+            return exhaustive(method);
     }
 }

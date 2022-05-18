@@ -8,8 +8,11 @@ export type TransactionDirection = "in" | "out";
 
 export type Transaction = {
     id: string;
+    from: string;
+    to: string;
     direction: TransactionDirection;
-    amount: string;
+    amount: string; // in AR
+    fee: string; // in AR
     timestamp: number;
 };
 
@@ -20,11 +23,14 @@ function gqlToTransaction(
     direction: TransactionDirection,
 ) {
     const transactions: Transactions = gqlTxs.transactions.edges.map(
-        ({ cursor: _cursor, node }) => ({
-            id: node.id,
+        ({ cursor: _cursor, node: { id, owner, recipient, quantity, fee, block } }) => ({
+            id,
+            from: owner.address,
+            to: recipient,
             direction,
-            amount: node.quantity.ar,
-            timestamp: node.block?.timestamp ?? 0,
+            amount: quantity.ar,
+            fee: fee.ar,
+            timestamp: block?.timestamp ?? 0,
         }),
     );
 
