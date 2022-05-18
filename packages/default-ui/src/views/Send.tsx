@@ -54,13 +54,15 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
         watch,
         setValue,
         formState: { errors },
-    } = useForm<Form>({ defaultValues: { amount: 0, recipient: "", note: "" } });
+    } = useForm<Form>({
+        defaultValues: { amount: 0, recipient: "", note: "" },
+        mode: "onBlur",
+    });
     const watchAmount = watch("amount");
     const watchRecipient = watch("recipient");
 
     useEffect(() => {
-        console.log("watchRecipient:", watchRecipient);
-        if (watchRecipient.match(ARWEAVE_ADDRESS_PATTERN)) {
+        if (watchRecipient?.match(ARWEAVE_ADDRESS_PATTERN)) {
             arweave.transactions
                 .getPrice(0, watchRecipient)
                 .then((fee) => setFee(Number(arweave.ar.winstonToAr(fee))));
@@ -136,7 +138,6 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                         if (!(!balance || amount <= Number(balance))) {
                                             return false;
                                         }
-
                                         return true;
                                     },
                                 })}
@@ -192,10 +193,19 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                 </Label>
                                 <Input
                                     light
-                                    {...register("recipient", {
-                                        required: true,
-                                        pattern: ARWEAVE_ADDRESS_PATTERN,
-                                    })}
+                                    name="recipient"
+                                    register={register}
+                                    registerOptions={{
+                                        required: {
+                                            value: true,
+                                            message: "This field is required",
+                                        },
+                                        pattern: {
+                                            value: ARWEAVE_ADDRESS_PATTERN,
+                                            message: "This field must be a valid AR address",
+                                        },
+                                    }}
+                                    className={errors.recipient ? " border-red-dark" : ""}
                                 />
                             </div>
 
@@ -204,7 +214,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                 <Label white className="mb-3">
                                     Message <Text.span color="purple-text">(optional)</Text.span>
                                 </Label>
-                                <Input light {...register("note")} />
+                                <Input light name="note" register={register} />
                             </div>
                         </div>
 
