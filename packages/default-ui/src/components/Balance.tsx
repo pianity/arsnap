@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Text from "@/components/interface/typography/Text";
 import Container from "@/components/interface/layout/Container";
 import sendIconUrl from "@/assets/icons/send.svg";
+import { AppRoute } from "@/consts";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */
@@ -61,7 +62,7 @@ export default function Balance({ shrink, balance, price }: BalanceProps) {
 
             {/* MARK: Send button */}
             <Link
-                to="/send"
+                to={AppRoute.Send}
                 className="absolute right-12 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-[color:#E2E2FE] text-purple-dark flex items-center justify-center"
             >
                 <img src={sendIconUrl} width={25} height={25} alt="Send" />

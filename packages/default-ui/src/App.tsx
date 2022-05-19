@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactElement } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
-import { REQUIRED_PERMISSIONS } from "@/consts";
+import { AppRoute, REQUIRED_PERMISSIONS } from "@/consts";
 import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
 import githubIconUrl from "@/assets/icons/github.svg";
-import { useArsnapReducer, updateWallets, updateTransactions, updateBalance } from "@/state";
+import {
+    useArsnapReducer,
+    updateWallets,
+    updateTransactions,
+    updateBalance,
+    updatePermissions,
+} from "@/state";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
 import Header from "@/components/Header";
@@ -15,6 +21,10 @@ import About from "@/views/About";
 import { WalletMenuEvent, WalletMenuEventResponse } from "@/components/WalletMenu";
 import Text from "@/components/interface/typography/Text";
 import Send from "@/views/Send";
+import Settings from "@/views/Settings";
+import Permissions from "@/views/Settings/Permissions";
+import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
+import ViewContainer from "@/components/interface/layout/ViewContainer";
 
 async function isArsnapConfigured() {
     try {
@@ -37,12 +47,18 @@ export default function App() {
     };
 
     useEffect(() => {
+        async function init() {
+            await updateWallets(dispatch);
+            await updatePermissions(dispatch);
+        }
+
         isArsnapConfigured()
             .then((configured) => {
                 if (configured) {
-                    updateWallets(dispatch);
+                    init().then(() => setLoading(false));
+                } else {
+                    setLoading(false);
                 }
-                setLoading(false);
             })
             .catch(() => setLoading(false));
 
@@ -91,8 +107,7 @@ export default function App() {
                 return {};
 
             default:
-                exhaustive(e);
-                throw new Error();
+                return exhaustive(e);
         }
     }
 
@@ -107,40 +122,58 @@ export default function App() {
                 onInitialized={() => updateWallets(dispatch)}
             />
 
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        state.activeWallet ? (
-                            <Wallet
-                                balance={state.arBalance}
-                                price={state.arPrice}
-                                transactions={state.transactions}
-                            />
-                        ) : (
-                            <Welcome
-                                loading={loading}
-                                onInitialized={() => updateWallets(dispatch)}
-                            />
-                        )
-                    }
-                />
-                <Route path="/about" element={<About />} />
-                <Route
-                    path="/send"
-                    element={
-                        <Send
-                            activeAddress={state.activeWallet!}
-                            balance={state.arBalance}
-                            arPrice={state.arPrice}
-                            dispatchBalance={dispatch}
-                        />
-                    }
-                />
-                <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
+            {loading ? (
+                <ViewContainer className="justify-center">
+                    <LoadingIndicator width={40} height={40} className="opacity-40 " />
+                </ViewContainer>
+            ) : (
+                <Routes>
+                    <Route path={AppRoute.About} element={<About />} />
 
-            <footer className="fixed inset-x-0 bottom-0 h-16 flex items-center justify-between px-6">
+                    <Route
+                        path={AppRoute.Root}
+                        element={
+                            state.activeWallet ? (
+                                <Wallet
+                                    balance={state.arBalance}
+                                    price={state.arPrice}
+                                    transactions={state.transactions}
+                                />
+                            ) : (
+                                <Welcome
+                                    loading={loading}
+                                    onInitialized={() => updateWallets(dispatch)}
+                                />
+                            )
+                        }
+                    />
+
+                    <Route
+                        path={AppRoute.Send}
+                        element={
+                            <Send
+                                activeAddress={state.activeWallet!}
+                                balance={state.arBalance}
+                                arPrice={state.arPrice}
+                                dispatchBalance={dispatch}
+                            />
+                        }
+                    />
+
+                    <Route path={AppRoute.Settings} element={<Settings />} />
+
+                    <Route
+                        path={AppRoute.Permissions}
+                        element={<Permissions allPermissions={state.allPermissions} />}
+                    />
+
+                    <Route path="*" element={<Navigate to={AppRoute.Root} />} />
+                </Routes>
+            )}
+
+            <footer
+                className={"fixed inset-x-0 bottom-0 h-16 flex items-center justify-between px-6"}
+            >
                 <Text size="14" taller weight="semibold">
                     ArSnap v0.1
                 </Text>

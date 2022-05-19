@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { JWKInterface } from "arweave/node/lib/wallet";
 
-import { NamedAddress, Wallets } from "@/utils/types";
+import { Wallets } from "@/state";
+import { NamedAddress } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
 
@@ -106,6 +107,7 @@ export default function WalletMenu({
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}
                         onEvent={onEvent}
+                        onSettingsOpen={() => setMenuOpened(false)}
                     />
                 </div>
             )}

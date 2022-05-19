@@ -6,7 +6,7 @@ import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import { initializeArsnap } from "@/utils/arsnap";
 import Text from "@/components/interface/typography/Text";
-import { Wallets } from "@/utils/types";
+import { Wallets } from "@/state";
 
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */

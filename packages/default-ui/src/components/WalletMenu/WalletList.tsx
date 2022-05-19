@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+
 import { OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
 import Button from "@/components/interface/Button";
-import { NamedAddress, Wallets } from "@/utils/types";
+import { Wallets } from "@/state";
+import { NamedAddress } from "@/utils/types";
 import WalletItem from "@/components/WalletMenu/WalletItem";
 import Label from "@/components/interface/Label";
+import { AppRoute } from "@/consts";
 
 export type WalletOpenedMenuProps = {
     activeWallet: string;
@@ -10,6 +14,7 @@ export type WalletOpenedMenuProps = {
     onEvent: OnWalletMenuEvent;
     onAddWallet: () => void;
     onDeleteWallet: (wallet: NamedAddress) => void;
+    onSettingsOpen: () => void;
 };
 
 export default function WalletList({
@@ -18,6 +23,7 @@ export default function WalletList({
     onEvent,
     onAddWallet,
     onDeleteWallet,
+    onSettingsOpen,
 }: WalletOpenedMenuProps) {
     const activeWalletName = availableWallets.get(activeWallet);
     return (
@@ -51,14 +57,12 @@ export default function WalletList({
             </div>
 
             <div className="flex items-center gap-2 pl-4 pr-6 h-16 bg-purple-light rounded-b-xl">
-                <Button
-                    onClick={(e) => {
-                        onAddWallet();
-                    }}
-                >
-                    Add wallet
-                </Button>
-                <Button outlined>Settings</Button>
+                <Button onClick={onAddWallet}>Add wallet</Button>
+                <Link to={AppRoute.Settings}>
+                    <Button outlined onClick={onSettingsOpen}>
+                        Settings
+                    </Button>
+                </Link>
                 <button className="text-[color:#666666] text-[14px] leading-[15px] font-semibold ml-auto mr-1 lg:hover:text-gray-dark">
                     Logout
                 </button>
