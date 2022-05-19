@@ -5,7 +5,7 @@ import Button from "@/components/interface/Button";
 import { Wallets } from "@/state";
 import { NamedAddress } from "@/utils/types";
 import WalletItem from "@/components/WalletMenu/WalletItem";
-import Label from "@/components/interface/Label";
+import Label from "@/components/interface/form/Label";
 import { AppRoute } from "@/consts";
 import { classes } from "@/utils/tailwind";
 
