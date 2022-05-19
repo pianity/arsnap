@@ -1,15 +1,9 @@
 import Arweave from "arweave";
 
-// TODO: Make the gateway configurable
+import { ARWEAVE_HOST, ARWEAVE_PORT, ARWEAVE_PROTOCOL } from "@/consts";
 
 export const arweave = Arweave.init({
-    host: "testnet.redstone.tools",
-    port: 443,
-    protocol: "https",
+    host: ARWEAVE_HOST,
+    port: ARWEAVE_PORT,
+    protocol: ARWEAVE_PROTOCOL,
 });
-
-// export const arweave = Arweave.init({
-//     host: "arweave.net",
-//     port: 443,
-//     protocol: "https",
-// });
