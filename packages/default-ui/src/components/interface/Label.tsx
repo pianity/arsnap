@@ -1,5 +1,7 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
 
+import { classes } from "@/utils/tailwind";
+
 type LabelProps = HTMLAttributes<HTMLLabelElement> & {
     white?: boolean;
 };
@@ -17,11 +19,11 @@ export default function Label({
 
     return (
         <label
-            className={[
-                "text-[11px] leading-none font-semibold tracking-wider uppercase",
+            className={classes(
+                "text-[12px] leading-none font-semibold tracking-wider uppercase",
                 colorClass,
                 className ?? "",
-            ].join(" ")}
+            )}
             {...props}
         >
             {children}
