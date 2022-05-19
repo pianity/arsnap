@@ -1,17 +1,20 @@
 import { useState } from "react";
 
+/** Props for {@link CopiableText} */
 type CopiableTextProps = {
+    /** Full text to copy on click */
     textToCopy: string;
+    /** Text to render */
     children: string;
 };
 
 /**
  * Renders children in a span which copies textToCopy on click.
- * A "Copied to clipboard! ✓" briefly replaces children on success.
+ *
+ * @remarks
+ * A `Copied to clipboard! ✓` string briefly replaces children on success.
  *
  * @param props - Component props
- * @param props.textToCopy - Full text to copy on click
- * @param props.children - Text to render
  */
 export default function CopiableText({ textToCopy, children }: CopiableTextProps) {
     const [copied, setCopied] = useState(false);
