@@ -2,9 +2,11 @@ import { Reducer, useReducer } from "react";
 
 import { exhaustive } from "@/utils";
 import { Transactions } from "@/state/getTransactions";
-import { Wallets } from "@/utils/types";
+import { Wallets } from "@/state/getWallets";
+import { AllPermissions } from "@/state/getPermissions";
 
 export * from "@/state/getTransactions";
+export * from "@/state/getPermissions";
 export * from "@/state/getBalance";
 export * from "@/state/getWallets";
 
@@ -14,6 +16,7 @@ export type State = {
     arBalance?: number;
     arPrice?: number;
     transactions?: Transactions;
+    allPermissions?: AllPermissions;
 };
 
 export type SetActiveWallet = {
@@ -41,14 +44,18 @@ export type SetTransactions = {
     transactions: Transactions;
 };
 
-// type RenameWallet = {
-//     type: "renameWallet";
-//     address: string;
-//     newName: string;
-// };
+export type SetPermissions = {
+    type: "setPermissions";
+    permissions: AllPermissions;
+};
 
-export type Action = SetActiveWallet | SetWallets | SetArBalance | SetArPrice | SetTransactions;
-// | RenameWallet;
+export type Action =
+    | SetActiveWallet
+    | SetWallets
+    | SetArBalance
+    | SetArPrice
+    | SetTransactions
+    | SetPermissions;
 
 const reducer: Reducer<State, Action> = (state, action): State => {
     switch (action.type) {
@@ -100,9 +107,14 @@ const reducer: Reducer<State, Action> = (state, action): State => {
                 transactions: action.transactions,
             };
 
+        case "setPermissions":
+            return {
+                ...state,
+                allPermissions: action.permissions,
+            };
+
         default:
-            exhaustive(action);
-            throw new Error();
+            return exhaustive(action);
     }
 };
 

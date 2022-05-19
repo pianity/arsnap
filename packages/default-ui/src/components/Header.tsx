@@ -6,7 +6,8 @@ import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import { initializeArsnap } from "@/utils/arsnap";
 import Text from "@/components/interface/typography/Text";
-import { Wallets } from "@/utils/types";
+import { Wallets } from "@/state";
+import { AppRoute } from "@/consts";
 
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */
@@ -45,7 +46,7 @@ export default function Header({
         <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25 mb-[72px]">
             {/* MARK: Navbar items */}
             <ul className="flex">
-                <Link to="/about">
+                <Link to={AppRoute.About}>
                     <Text.li
                         size="16"
                         color="white"

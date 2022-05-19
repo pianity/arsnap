@@ -5,7 +5,8 @@ import WalletList from "@/components/WalletMenu/WalletList";
 import AddWallet, { NewWalletChoice } from "@/components/WalletMenu/AddWallet";
 import NewWallet from "@/components/WalletMenu/NewWallet";
 import DeleteWallet from "@/components/WalletMenu/DeleteWallet";
-import { NamedAddress, Wallets } from "@/utils/types";
+import { Wallets } from "@/state";
+import { NamedAddress } from "@/utils/types";
 import { arweave } from "@/utils/blockchain";
 import { exhaustive } from "@/utils";
 import Container from "@/components/interface/layout/Container";
@@ -14,12 +15,14 @@ export type WalletOpenedMenuProps = {
     activeWallet: string;
     availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
+    onSettingsOpen: () => void;
 };
 
 export default function WalletOpenedMenu({
     activeWallet,
     availableWallets,
     onEvent,
+    onSettingsOpen,
 }: WalletOpenedMenuProps) {
     const [view, setView] = useState<
         "walletsList" | "deleteWallet" | "addWallet" | "createNew" | "imported" | "created"
@@ -85,6 +88,7 @@ export default function WalletOpenedMenu({
                         setView("deleteWallet");
                         setWallet(wallet);
                     }}
+                    onSettingsOpen={onSettingsOpen}
                 />
             )}
 
@@ -107,12 +111,7 @@ export default function WalletOpenedMenu({
             {(view === "imported" || view === "created") && (
                 <NewWallet
                     origin={view}
-                    // I am using a godforsaken non-null assertion here as
-                    // Typescript doesn't allow to set a return type depending
-                    // on the type of the arguments given to a function. This
-                    // would allow me to assert that when calling `onEvent({
-                    // event: "importWallet", ... })` we'd always get a
-                    // `NamedAddress` in return.
+                    // TODO: Avoid using null assertion
                     wallet={wallet!}
                     onGoBack={() => setView("walletsList")}
                     onEvent={onEvent}
