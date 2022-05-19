@@ -2,28 +2,23 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 
 export const SNAP_ID = "local:http://localhost:4000/";
 
-export const ArconnectPermissions = [
-    "ACCESS_ADDRESS",
-    "ACCESS_PUBLIC_KEY",
-    "ACCESS_ALL_ADDRESSES",
-    "SIGN_TRANSACTION",
-    "ENCRYPT",
-    "DECRYPT",
-    "SIGNATURE",
-    "ACCESS_ARWEAVE_CONFIG",
-    "DISPATCH",
-] as const;
-
-export type ArconnectPermission = typeof ArconnectPermissions[number];
-export type ArsnapPermission =
+export type Permission =
+    | "GET_ACTIVE_ADDRESS"
+    | "SET_ACTIVE_ADDRESS"
+    | "GET_ACTIVE_PUBLIC_KEY"
+    | "GET_ALL_ADDRESSES"
+    //
+    | "SIGN"
+    | "ENCRYPT"
+    | "DECRYPT"
+    //
     | "GET_DAPPS_PERMISSIONS"
     | "REVOKE_DAPP_PERMISSION"
-    | "SET_ACTIVE_WALLET"
+    //
     | "IMPORT_WALLET"
     | "EXPORT_WALLET"
     | "RENAME_WALLET"
     | "DELETE_WALLET";
-export type Permission = ArconnectPermission | ArsnapPermission;
 
 export type RpcApi = {
     is_enabled: () => Promise<boolean>;

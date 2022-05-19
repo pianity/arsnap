@@ -55,27 +55,27 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
             return await handlers.revokeDappPermissions(state, ...params);
 
         case "get_active_address":
-            await guard(origin, permissions, "ACCESS_ADDRESS");
+            await guard(origin, permissions, "GET_ACTIVE_ADDRESS");
             return await handlers.getActiveAddress(state);
 
         case "get_active_public_key":
-            await guard(origin, permissions, "ACCESS_PUBLIC_KEY");
+            await guard(origin, permissions, "GET_ACTIVE_PUBLIC_KEY");
             return await handlers.getActivePublicKey(state);
 
         case "get_all_addresses":
-            await guard(origin, permissions, "ACCESS_ALL_ADDRESSES");
+            await guard(origin, permissions, "GET_ALL_ADDRESSES");
             return await handlers.getAllAddresses(state);
 
         case "get_wallet_names":
-            await guard(origin, permissions, "ACCESS_ALL_ADDRESSES");
+            await guard(origin, permissions, "GET_ALL_ADDRESSES");
             return await handlers.getWalletNames(state);
 
         case "sign_bytes":
-            await guard(origin, permissions, "SIGNATURE");
+            await guard(origin, permissions, "SIGN");
             return await handlers.signBytes(state, ...params);
 
         case "set_active_address":
-            await guard(origin, permissions, "SET_ACTIVE_WALLET");
+            await guard(origin, permissions, "SET_ACTIVE_ADDRESS");
             return await handlers.setActiveAddress(state, ...params);
 
         case "import_wallet":

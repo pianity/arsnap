@@ -10,21 +10,7 @@ export async function guard(
     allowedPermissions: Permission[],
     permission: Permission,
 ): Promise<void> {
-    let allowed = false;
-
-    if (permission === "SIGNATURE" || permission === "SIGN_TRANSACTION") {
-        allowed =
-            allowedPermissions.includes("SIGNATURE") ||
-            allowedPermissions.includes("SIGN_TRANSACTION");
-    } else if (permission === "ACCESS_ADDRESS") {
-        allowed =
-            allowedPermissions.includes("ACCESS_ADDRESS") ||
-            allowedPermissions.includes("ACCESS_PUBLIC_KEY");
-    } else {
-        allowed = allowedPermissions.includes(permission);
-    }
-
-    if (!allowed) {
+    if (!allowedPermissions.includes(permission)) {
         throw new Error(`Permission denied (${origin}): ${permission}`);
     }
 }

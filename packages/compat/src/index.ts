@@ -1,33 +1,81 @@
-import { AppInfo, PermissionType } from "arconnect";
+import { AppInfo, PermissionType as ArconnectPermission } from "arconnect";
 import Transaction from "arweave/node/lib/transaction";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
-async function connect(permissions: adapter.Permission[], _appInfo?: AppInfo) {
-    await adapter.installSnap();
-    await adapter.requestPermissions(permissions);
+export function exhaustive(_: never): never {
+    throw new Error("Check wasn't exhaustive");
 }
 
-async function getPermissions(): Promise<PermissionType[]> {
+const PERMISSIONS_TRANSLATIONS: Record<
+    adapter.Permission,
+    ArconnectPermission | null | ArconnectPermission[]
+> = {
+    GET_ACTIVE_ADDRESS: "ACCESS_ADDRESS",
+    GET_ACTIVE_PUBLIC_KEY: "ACCESS_PUBLIC_KEY",
+    GET_ALL_ADDRESSES: "ACCESS_ALL_ADDRESSES",
+
+    SIGN: ["SIGNATURE", "SIGN_TRANSACTION"],
+    ENCRYPT: "ENCRYPT",
+    DECRYPT: "DECRYPT",
+
+    SET_ACTIVE_ADDRESS: null,
+    GET_DAPPS_PERMISSIONS: null,
+    REVOKE_DAPP_PERMISSION: null,
+    IMPORT_WALLET: null,
+    EXPORT_WALLET: null,
+    RENAME_WALLET: null,
+    DELETE_WALLET: null,
+};
+
+function reverseFind(needle: ArconnectPermission): adapter.Permission {
+    const translations = Object.entries(PERMISSIONS_TRANSLATIONS);
+
+    for (const [permission, translation] of translations) {
+        if (translation === null) continue;
+
+        if (typeof translation === "string") {
+            if (translation === needle) {
+                return permission as unknown as adapter.Permission;
+            }
+        }
+
+        if (translation instanceof Array) {
+            if (translation.find((value) => value === needle)) {
+                return permission as unknown as adapter.Permission;
+            }
+        }
+    }
+
+    throw new Error(`Couldn't translate permission ${needle}`);
+}
+
+function convertPermsToArconnect(permissions: adapter.Permission[]): ArconnectPermission[] {
+    const translatedPermissions: ArconnectPermission[] = permissions
+        .map((permission) => PERMISSIONS_TRANSLATIONS[permission])
+        .flat()
+        .filter((permission): permission is ArconnectPermission => permission !== null);
+
+    return translatedPermissions;
+}
+
+function convertPermsToArsnap(permissions: ArconnectPermission[]): adapter.Permission[] {
+    const translatedPermissions: adapter.Permission[] = permissions
+        .map((permission) => reverseFind(permission))
+        .flat();
+
+    return translatedPermissions;
+}
+
+async function connect(permissions: ArconnectPermission[], _appInfo?: AppInfo) {
+    await adapter.installSnap();
+    await adapter.requestPermissions(convertPermsToArsnap(permissions));
+}
+
+async function getPermissions(): Promise<ArconnectPermission[]> {
     const permissions = await adapter.getPermissions();
 
-    const arconnectPermissions: PermissionType[] = [
-        "ACCESS_ADDRESS",
-        "ACCESS_PUBLIC_KEY",
-        "ACCESS_ALL_ADDRESSES",
-        "SIGN_TRANSACTION",
-        "ENCRYPT",
-        "DECRYPT",
-        "SIGNATURE",
-        "ACCESS_ARWEAVE_CONFIG",
-        "DISPATCH",
-    ];
-
-    const filteredPermissions = permissions.filter((permission) =>
-        (arconnectPermissions as string[]).includes(permission),
-    );
-
-    return filteredPermissions as PermissionType[];
+    return convertPermsToArconnect(permissions);
 }
 
 async function getActivePublicKey(): Promise<string> {
@@ -39,7 +87,7 @@ async function getAllAddresses(): Promise<string[]> {
 }
 
 async function getWalletNames(): Promise<Record<string, string>> {
-    return adapter.getWalletNames();
+    return Object.fromEntries(await adapter.getWalletNames());
 }
 
 async function sign(transaction: Transaction): Promise<Transaction> {
