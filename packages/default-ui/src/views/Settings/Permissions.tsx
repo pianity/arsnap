@@ -1,8 +1,17 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { Permission, revokeDappPermission } from "@pianity/arsnap-adapter";
 
 import { DappsPermissions as AllPermissionsData } from "@/state";
+import ViewContainer from "@/components/interface/layout/ViewContainer";
+import Container from "@/components/interface/layout/Container";
+import { classes } from "@/utils/tailwind";
+import Chevron from "@/components/interface/svg/Chevron";
+import Text from "@/components/interface/typography/Text";
+import { AppRoute } from "@/consts";
+import Tooltip from "@/components/interface/Tooltip";
+import helpIconUrl from "@/assets/icons/help.svg";
 
 export type PermissionDescription = {
     dangerous: boolean;
@@ -75,13 +84,41 @@ type DappsListProps = {
 
 function DappsList({ currentDapp, dapps, onDappClick }: DappsListProps) {
     return (
-        <ul>
-            {dapps.map((dapp) => (
-                <a key={dapp} onClick={() => onDappClick(dapp)}>
-                    <li>{currentDapp === dapp ? `**${dapp}**` : dapp}</li>
-                </a>
-            ))}
-        </ul>
+        <div
+            className={classes(
+                "flex flex-col",
+                "min-w-[170px] pl-4 pr-6 pt-6 mb-[14px]",
+                "border-r border-purple",
+            )}
+        >
+            <Text.h3 color="white" size="12" weight="semibold" wider uppercase className="mb-6">
+                Connected sites
+            </Text.h3>
+            <ul>
+                {dapps.map((dapp) => {
+                    const selected = dapp === currentDapp;
+                    return (
+                        <li
+                            key={dapp}
+                            onClick={() => onDappClick(dapp)}
+                            className={classes(
+                                "h-10 px-2 mb-1 last:mb-0",
+                                "rounded",
+                                "flex items-center",
+                                selected
+                                    ? "bg-white text-purple-dark cursor-default"
+                                    : "text-white lg:hover:bg-purple cursor-pointer",
+                                "transition duration-300 ease-quart-out",
+                            )}
+                        >
+                            <Text.span size="16" weight="semibold">
+                                {dapp}
+                            </Text.span>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
     );
 }
 
@@ -91,8 +128,6 @@ type PermissionsListProps = {
 };
 
 function PermissionsList({ permissions, onRevokeClick }: PermissionsListProps) {
-    const [showTooltip, setShowTooltip] = useState<string | undefined>();
-
     type PermissionsItems = Array<{ granted: boolean; permission: Permission }>;
 
     const grantedPermissionsItems: PermissionsItems = permissions.map((permission) => ({
@@ -107,28 +142,40 @@ function PermissionsList({ permissions, onRevokeClick }: PermissionsListProps) {
     const allPermissionsItems = [...grantedPermissionsItems, ...nonGrantedPermissionsItems];
 
     return (
-        <ul>
-            {allPermissionsItems.map(({ granted, permission }) => (
-                <li key={permission}>
-                    <span>{permission}</span>
+        <div className={classes("flex flex-col", "w-full pr-4 pl-6 py-6 mb-[14px]")}>
+            <Text.h3 color="white" size="12" weight="semibold" wider uppercase className="mb-6">
+                Permissions
+            </Text.h3>
+            <ul>
+                {allPermissionsItems.map(({ granted, permission }) => (
+                    <li key={permission} className="flex items-center mb-5 last:mb-0">
+                        <Text.span size="16" weight="semibold">
+                            {permission}
+                        </Text.span>
+                        <Tooltip text={PERMISSIONS_DESCRIPTIONS[permission].description}>
+                            <img src={helpIconUrl} alt="Permission info" className="mx-2" />
+                        </Tooltip>
+                        {PERMISSIONS_DESCRIPTIONS[permission].dangerous && (
+                            <span className="w-2 h-2 bg-orange-dark rounded-full" />
+                        )}
 
-                    {PERMISSIONS_DESCRIPTIONS[permission].dangerous && <span>/!\</span>}
-
-                    <span
-                        onMouseEnter={() => setShowTooltip(permission)}
-                        onMouseLeave={() => setShowTooltip(undefined)}
-                    >
-                        ???
-                    </span>
-
-                    {showTooltip === permission && (
-                        <span>{PERMISSIONS_DESCRIPTIONS[permission].description}</span>
-                    )}
-
-                    {granted && <a onClick={() => onRevokeClick(permission)}>revoke</a>}
-                </li>
-            ))}
-        </ul>
+                        {granted && (
+                            <button className="ml-auto" onClick={() => onRevokeClick(permission)}>
+                                <Text.span
+                                    color="red-dark"
+                                    size="12"
+                                    weight="semibold"
+                                    wider
+                                    uppercase
+                                >
+                                    Revoke
+                                </Text.span>
+                            </button>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }
 
@@ -150,21 +197,48 @@ export default function Permissions({ dappsPermissions, updatePermissions }: Per
     }
 
     return (
-        <>
-            {dappsPermissions && (
-                <DappsList
-                    currentDapp={currentDapp}
-                    dapps={[...dappsPermissions.entries()].map(([dapp, _]) => dapp)}
-                    onDappClick={setCurrentDapp}
-                />
-            )}
+        <ViewContainer>
+            <Container className="px-6 pt-8 grow">
+                <div className="flex shrink-0">
+                    <Link
+                        to={AppRoute.Settings}
+                        className={classes(
+                            "w-8 h-8 mr-4",
+                            "rounded-full",
+                            "bg-purple-dark text-purple-light",
+                            "flex items-center justify-center",
+                        )}
+                    >
+                        <Chevron className="rotate-90" />
+                    </Link>
 
-            {currentDapp && (
-                <PermissionsList
-                    permissions={dappsPermissions?.get(currentDapp) || []}
-                    onRevokeClick={onRevokeClick}
-                />
-            )}
-        </>
+                    <div className="flex flex-col items-start gap-1">
+                        <Text.h1 size="32" weight="bold" taller>
+                            Settings
+                        </Text.h1>
+                        <Text.h2 color="purple-text" size="18" weight="bold" taller>
+                            Permissions
+                        </Text.h2>
+                    </div>
+                </div>
+                <div className="h-[1px] bg-purple mt-6 shrink-0" />
+                <div className="grow grid grid-cols-[auto,1fr]">
+                    {dappsPermissions && (
+                        <DappsList
+                            currentDapp={currentDapp}
+                            dapps={[...dappsPermissions.entries()].map(([dapp, _]) => dapp)}
+                            onDappClick={setCurrentDapp}
+                        />
+                    )}
+
+                    {currentDapp && (
+                        <PermissionsList
+                            permissions={dappsPermissions?.get(currentDapp) || []}
+                            onRevokeClick={onRevokeClick}
+                        />
+                    )}
+                </div>
+            </Container>
+        </ViewContainer>
     );
 }
