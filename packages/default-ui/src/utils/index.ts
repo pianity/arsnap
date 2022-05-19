@@ -56,3 +56,24 @@ export default function truncateStringCenter(str: string, strLen = 30, separator
 
     return str.substring(0, frontChars) + separator + str.substring(str.length - backChars);
 }
+
+/**
+ * Triggers focus on the given element.
+ *
+ * @param element - element to focus
+ */
+export function triggerFocus(element: HTMLElement) {
+    const eventType = "onfocusin" in element ? "focusin" : "focus";
+    const bubbles = "onfocusin" in element;
+    let event;
+
+    if ("createEvent" in document) {
+        event = document.createEvent("Event");
+        event.initEvent?.(eventType, bubbles, true);
+    } else if ("Event" in window) {
+        event = new Event(eventType, { bubbles, cancelable: true });
+    }
+
+    element.focus();
+    if (event) element.dispatchEvent(event);
+}

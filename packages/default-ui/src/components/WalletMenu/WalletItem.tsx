@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import walletIconUrl from "@/assets/icons/wallet.svg";
 import exportButtonUrl from "@/assets/icons/export-button.svg";
 import closeIconUrl from "@/assets/icons/close.svg";
+import editIconUrl from "@/assets/icons/edit.svg";
 import Text from "@/components/interface/typography/Text";
 import {
     ExportWallet,
@@ -11,7 +12,7 @@ import {
     SelectWallet,
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
-import truncateStringCenter from "@/utils";
+import truncateStringCenter, { triggerFocus } from "@/utils";
 import CopiableText from "@/components/interface/typography/CopiableText";
 
 export type WalletItemProps = {
@@ -31,6 +32,8 @@ export default function WalletItem({
     // Used to switch between text and input for editing wallet name
     const [editing, setEditing] = useState(false);
     const [newName, setNewName] = useState(name);
+
+    const nameRef = useRef<HTMLInputElement>(null);
 
     return (
         <div
@@ -55,6 +58,7 @@ export default function WalletItem({
                 <div className="mb-[6px] w-max flex items-center max-w-full">
                     {editing ? (
                         <input
+                            ref={nameRef}
                             onKeyDown={(e) => {
                                 if (e.key === "Escape") {
                                     setNewName(name);
@@ -93,9 +97,12 @@ export default function WalletItem({
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setEditing(true);
+                                setTimeout(() => {
+                                    if (nameRef.current) triggerFocus(nameRef.current);
+                                }, 200);
                             }}
                         >
-                            edit
+                            <img src={editIconUrl} alt="Edit wallet name" />
                         </button>
                     )}
                 </div>
