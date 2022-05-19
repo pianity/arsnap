@@ -4,7 +4,7 @@ import { classes } from "@/utils/tailwind";
 import { PERMISSIONS_DESCRIPTIONS } from "@/views/Settings/Permissions";
 import Tooltip from "@/components/interface/Tooltip";
 import Text from "@/components/interface/typography/Text";
-import helpIconUrl from "@/assets/icons/help.svg";
+import HelpIcon from "@/components/interface/svg/HelpIcon";
 
 type PermissionsListProps = {
     permissions: Permission[];
@@ -33,11 +33,23 @@ export default function PermissionsList({ permissions, onRevokeClick }: Permissi
             <ul>
                 {allPermissionsItems.map(({ granted, permission }) => (
                     <li key={permission} className="flex items-center mb-5 last:mb-0">
-                        <Text.span size="16" weight="semibold">
+                        <Text.span
+                            size="16"
+                            weight="semibold"
+                            color={granted ? "white" : "purple-text"}
+                            opacity={granted ? "100" : "50"}
+                        >
                             {permission}
                         </Text.span>
                         <Tooltip text={PERMISSIONS_DESCRIPTIONS[permission].description}>
-                            <img src={helpIconUrl} alt="Permission info" className="mx-2" />
+                            <div
+                                className={
+                                    "mx-2 " +
+                                    (granted ? "text-white" : "text-purple-text opacity-50")
+                                }
+                            >
+                                <HelpIcon />
+                            </div>
                         </Tooltip>
                         {PERMISSIONS_DESCRIPTIONS[permission].dangerous && (
                             <span className="w-2 h-2 bg-orange-dark rounded-full" />
