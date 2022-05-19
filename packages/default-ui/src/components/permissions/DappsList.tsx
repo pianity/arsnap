@@ -36,6 +36,13 @@ export default function DappsList({ currentDapp, dapps, onDappClick }: DappsList
                                 "transition duration-300 ease-quart-out",
                             )}
                         >
+                            <img
+                                src={`${dapp}/favicon.ico`}
+                                alt=""
+                                width={24}
+                                height={24}
+                                className="rounded-full bg-purple-dark mr-2 shrink-0 object-cover"
+                            />
                             <Text.span size="16" weight="semibold">
                                 {dapp}
                             </Text.span>
