@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 
-import Text from "@/components/interface/typography/Text";
 import errorIconUrl from "@/assets/icons/error.svg";
 import { classes } from "@/utils/tailwind";
+import Tooltip from "@/components/interface/Tooltip";
 
+/** Props of {@link InputError} */
 type InputErrorProps = {
+    /** Message in the tooltip */
     message: string;
 };
 
+/**
+ * Shows an error icon with an open tooltip containing message.
+ * This tooltip disappears after 2 secondes, and can be re-opened
+ * on hover.
+ *
+ * @param props - Props of the component
+ */
 export default function InputError({ message }: InputErrorProps) {
     const [show, setShow] = useState(true);
 
@@ -22,10 +31,8 @@ export default function InputError({ message }: InputErrorProps) {
     }, []);
 
     return (
-        <div className="relative">
+        <Tooltip text={message} forceShow={show}>
             <div
-                onMouseEnter={() => setShow(true)}
-                onMouseLeave={() => setShow(false)}
                 className={classes(
                     "w-4 h-4",
                     "rounded-full",
@@ -35,32 +42,6 @@ export default function InputError({ message }: InputErrorProps) {
             >
                 <img src={errorIconUrl} alt="Error" />
             </div>
-
-            <div
-                className={classes(
-                    "pb-3",
-                    "overflow-hidden",
-                    "absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full",
-                    "transition-all duration-300 ease-quart-out",
-                    show ? "top-0 opacity-100 visible" : "top-2 opacity-0 invisible",
-                )}
-            >
-                <div className="bg-white rounded-md p-4 w-max max-w-[35ch] text-center">
-                    <Text.span color="gray-dark" size="14" taller>
-                        {message}
-                    </Text.span>
-                </div>
-
-                <div
-                    className={classes(
-                        "bg-white",
-                        "rounded-[2px]",
-                        "w-4 h-4",
-                        "rotate-45",
-                        "absolute left-1/2 -translate-x-1/2 bottom-2",
-                    )}
-                />
-            </div>
-        </div>
+        </Tooltip>
     );
 }
