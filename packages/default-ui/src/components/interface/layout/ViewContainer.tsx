@@ -1,14 +1,21 @@
 import { PropsWithChildren } from "react";
 
+import { classes } from "@/utils/tailwind";
+
+/** Props for {@link ViewContainer} */
 type ViewContainerProps = {
+    /**
+     * Class name to apply to the container.
+     *
+     * Defaults to `"mx-auto w-[90vw] max-w-[768px] grow flex flex-col items-center"`
+     * */
     className?: string;
 };
 
 /**
  * The container for views.
  *
- * @param className - extra classes
- * @default "mx-auto w-[90vw] max-w-[768px] grow flex flex-col items-center"
+ * @param props - Component props
  */
 export default function ViewContainer({
     children,
@@ -16,9 +23,11 @@ export default function ViewContainer({
 }: PropsWithChildren<ViewContainerProps>) {
     return (
         <div
-            className={`mx-auto w-[90vw] max-w-[768px] grow flex flex-col items-center mb-10${
-                className ? ` ${className}` : ""
-            }`}
+            className={classes(
+                "mx-auto w-[90vw] max-w-[768px] mb-10",
+                "grow flex flex-col items-center",
+                className ?? "",
+            )}
         >
             {children}
         </div>
