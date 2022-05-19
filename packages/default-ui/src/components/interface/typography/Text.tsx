@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { MouseEventHandler, PropsWithChildren } from "react";
 
 import {
     getAlignClass,
@@ -39,6 +39,8 @@ type TextProps = {
     pulse?: boolean;
     /** Extra classes added to the element */
     className?: string;
+    /** On click callback for the element */
+    onClick?: MouseEventHandler;
 };
 
 /**
@@ -50,7 +52,11 @@ type TextProps = {
  */
 function Text(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <div className={className}>{props.children}</div>;
+    return (
+        <div className={className} onClick={props.onClick}>
+            {props.children}
+        </div>
+    );
 }
 
 /**
@@ -58,7 +64,11 @@ function Text(props: PropsWithChildren<TextProps>) {
  */
 function span(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <span className={className}>{props.children}</span>;
+    return (
+        <span className={className} onClick={props.onClick}>
+            {props.children}
+        </span>
+    );
 }
 
 /**
@@ -66,7 +76,11 @@ function span(props: PropsWithChildren<TextProps>) {
  */
 function label(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <label className={className}>{props.children}</label>;
+    return (
+        <label className={className} onClick={props.onClick}>
+            {props.children}
+        </label>
+    );
 }
 
 /**
@@ -74,7 +88,11 @@ function label(props: PropsWithChildren<TextProps>) {
  */
 function p(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <p className={className}>{props.children}</p>;
+    return (
+        <p className={className} onClick={props.onClick}>
+            {props.children}
+        </p>
+    );
 }
 
 /**
@@ -82,7 +100,11 @@ function p(props: PropsWithChildren<TextProps>) {
  */
 function h1(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <h1 className={className}>{props.children}</h1>;
+    return (
+        <h1 className={className} onClick={props.onClick}>
+            {props.children}
+        </h1>
+    );
 }
 
 /**
@@ -90,7 +112,11 @@ function h1(props: PropsWithChildren<TextProps>) {
  */
 function h2(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <h2 className={className}>{props.children}</h2>;
+    return (
+        <h2 className={className} onClick={props.onClick}>
+            {props.children}
+        </h2>
+    );
 }
 
 /**
@@ -98,7 +124,11 @@ function h2(props: PropsWithChildren<TextProps>) {
  */
 function h3(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <h3 className={className}>{props.children}</h3>;
+    return (
+        <h3 className={className} onClick={props.onClick}>
+            {props.children}
+        </h3>
+    );
 }
 
 /**
@@ -106,7 +136,11 @@ function h3(props: PropsWithChildren<TextProps>) {
  */
 function li(props: PropsWithChildren<TextProps>) {
     const className = getTextClassName(props);
-    return <li className={className}>{props.children}</li>;
+    return (
+        <li className={className} onClick={props.onClick}>
+            {props.children}
+        </li>
+    );
 }
 
 Text.span = span;

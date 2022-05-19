@@ -8,6 +8,7 @@ import truncateStringCenter from "@/utils";
 import { TextColor } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
 import Button from "@/components/interface/Button";
+import CopiableText from "@/components/interface/typography/CopiableText";
 
 type TransactionItemProps = {
     transaction: Transaction;
@@ -150,11 +151,23 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                             </div>
                         </div>
 
-                        <DetailsInfo label="ID" info={transaction.id} />
+                        <DetailsInfo
+                            label="ID"
+                            info={truncateStringCenter(transaction.id)}
+                            textToCopy={transaction.id}
+                        />
                         <DetailsInfo label="TIME" info="2022-04-20 17:30:51 +02:00" />
 
-                        <DetailsInfo label="FROM" info={truncateStringCenter(transaction.from)} />
-                        <DetailsInfo label="TO" info={truncateStringCenter(transaction.to)} />
+                        <DetailsInfo
+                            label="FROM"
+                            info={truncateStringCenter(transaction.from)}
+                            textToCopy={transaction.from}
+                        />
+                        <DetailsInfo
+                            label="TO"
+                            info={truncateStringCenter(transaction.to)}
+                            textToCopy={transaction.to}
+                        />
                     </div>
 
                     <div className="h-[1px] bg-purple-text my-6 shrink-0" />
@@ -188,16 +201,17 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
 type DetailsInfoProps = {
     label: string;
     info: string;
+    textToCopy?: string;
 };
 
-function DetailsInfo({ label, info }: DetailsInfoProps) {
+function DetailsInfo({ label, info, textToCopy }: DetailsInfoProps) {
     return (
         <div className="flex flex-col gap-2 items-start">
             <Text.span color="white" size="13" weight="semibold" wider uppercase>
                 {label}
             </Text.span>
             <Text.span color="white" size="13">
-                {info}
+                {textToCopy ? <CopiableText textToCopy={textToCopy}>{info}</CopiableText> : info}
             </Text.span>
         </div>
     );

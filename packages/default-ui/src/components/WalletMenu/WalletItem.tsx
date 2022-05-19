@@ -12,6 +12,7 @@ import {
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import truncateStringCenter from "@/utils";
+import CopiableText from "@/components/interface/typography/CopiableText";
 
 export type WalletItemProps = {
     active?: boolean;
@@ -27,33 +28,9 @@ export default function WalletItem({
     onEvent,
     onDeleteWallet,
 }: WalletItemProps) {
-    // Used to show the user a copied success message
-    const [copied, setCopied] = useState(false);
     // Used to switch between text and input for editing wallet name
     const [editing, setEditing] = useState(false);
     const [newName, setNewName] = useState(name);
-
-    /**
-     * Copies text to clipboard and sets the copied state
-     * to true for a 2000ms timeout on success.
-     *
-     * @param text - text to copy
-     */
-    function copyToClipboard(text: string) {
-        let timeout: ReturnType<typeof setTimeout>;
-        navigator.clipboard.writeText(text).then(() => {
-            setCopied(true);
-            timeout = setTimeout(() => {
-                setCopied(false);
-            }, 2000);
-        });
-
-        return () => {
-            if (timeout) {
-                clearTimeout(timeout);
-            }
-        };
-    }
 
     return (
         <div
@@ -124,24 +101,17 @@ export default function WalletItem({
                 </div>
 
                 {/* MARK: Wallet address */}
-                <button
-                    className="w-max"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        copyToClipboard(address);
-                    }}
+                <Text
+                    color="gray-dark"
+                    size="14"
+                    opacity="75"
+                    className="whitespace-nowrap text-left"
+                    onClick={(e) => e.stopPropagation()}
                 >
-                    <Text
-                        color="gray-dark"
-                        size="14"
-                        opacity="75"
-                        className="whitespace-nowrap text-left"
-                    >
-                        {copied
-                            ? "Copied to clipboard! ✓"
-                            : truncateStringCenter(address, active ? 22 : 28)}
-                    </Text>
-                </button>
+                    <CopiableText textToCopy={address}>
+                        {truncateStringCenter(address, active ? 22 : 28)}
+                    </CopiableText>
+                </Text>
             </div>
 
             {/* MARK: Action buttons */}
