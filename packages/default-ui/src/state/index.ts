@@ -3,7 +3,7 @@ import { Reducer, useReducer } from "react";
 import { exhaustive } from "@/utils";
 import { Transactions } from "@/state/getTransactions";
 import { Wallets } from "@/state/getWallets";
-import { AllPermissions } from "@/state/getPermissions";
+import { DappsPermissions } from "@/state/getPermissions";
 
 export * from "@/state/getTransactions";
 export * from "@/state/getPermissions";
@@ -16,7 +16,7 @@ export type State = {
     arBalance?: number;
     arPrice?: number;
     transactions?: Transactions;
-    allPermissions?: AllPermissions;
+    dappsPermissions?: DappsPermissions;
 };
 
 export type SetActiveWallet = {
@@ -46,7 +46,7 @@ export type SetTransactions = {
 
 export type SetPermissions = {
     type: "setPermissions";
-    permissions: AllPermissions;
+    permissions: DappsPermissions;
 };
 
 export type Action =
@@ -110,7 +110,7 @@ const reducer: Reducer<State, Action> = (state, action): State => {
         case "setPermissions":
             return {
                 ...state,
-                allPermissions: action.permissions,
+                dappsPermissions: action.permissions,
             };
 
         default:

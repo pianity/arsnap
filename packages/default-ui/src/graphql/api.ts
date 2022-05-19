@@ -12,7 +12,8 @@ const retryWrapper = (maxProtectedTries: number, waitSeconds = 5): Arweave.SdkFu
             } catch (rawErr) {
                 const err = rawErr as Error;
                 console.log(
-                    `warning: GraphQL error, trying again ${tryNumber}/${maxProtectedTries}: ${err.name} ${err.message}`,
+                    `warning: GraphQL error, trying again ${tryNumber}/${maxProtectedTries}: ` +
+                        `${err.name} ${err.message}`,
                 );
                 await sleep(waitSeconds);
             }

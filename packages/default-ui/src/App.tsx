@@ -146,24 +146,28 @@ export default function App() {
                         }
                     />
 
-                    <Route
-                        path={AppRoute.Send}
-                        element={
-                            <Send
-                                activeAddress={state.activeWallet!}
-                                balance={state.arBalance}
-                                arPrice={state.arPrice}
-                                dispatchBalance={dispatch}
+                    {state.activeWallet && (
+                        <>
+                            <Route
+                                path={AppRoute.Send}
+                                element={
+                                    <Send
+                                        activeAddress={state.activeWallet!}
+                                        balance={state.arBalance}
+                                        arPrice={state.arPrice}
+                                        dispatchBalance={dispatch}
+                                    />
+                                }
                             />
-                        }
-                    />
 
-                    <Route path={AppRoute.Settings} element={<Settings />} />
+                            <Route path={AppRoute.Settings} element={<Settings />} />
 
-                    <Route
-                        path={AppRoute.Permissions}
-                        element={<Permissions allPermissions={state.allPermissions} />}
-                    />
+                            <Route
+                                path={AppRoute.Permissions}
+                                element={<Permissions allPermissions={state.dappsPermissions} />}
+                            />
+                        </>
+                    )}
 
                     <Route path="*" element={<Navigate to={AppRoute.Root} />} />
                 </Routes>
