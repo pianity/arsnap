@@ -1,16 +1,14 @@
 import { initializeArsnap } from "@/utils/arsnap";
-import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import Text from "@/components/interface/typography/Text";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
 
 export type WelcomeProps = {
-    loading: boolean;
     onInitialized: () => void;
 };
 
-export default function Welcome({ loading, onInitialized }: WelcomeProps) {
+export default function Welcome({ onInitialized }: WelcomeProps) {
     async function onMetamaskClick() {
         if (await initializeArsnap()) {
             onInitialized();
