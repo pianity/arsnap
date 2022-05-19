@@ -1,6 +1,7 @@
 import Button from "@/components/interface/Button";
 import truncateStringCenter from "@/utils";
 import Text from "@/components/interface/typography/Text";
+import { classes } from "@/utils/tailwind";
 
 export type DeleteWalletProps = {
     name: string;
@@ -10,11 +11,25 @@ export type DeleteWalletProps = {
 
 export default function DeleteWallet({ name, address, onChoice }: DeleteWalletProps) {
     return (
-        <div className="flex flex-col items-center justify-center p-6 absolute inset-0 bg-red-light bg-opacity-95 text-white">
+        <div
+            className={classes(
+                "p-6",
+                "absolute inset-0",
+                "flex flex-col items-center justify-center",
+                "bg-red-light bg-opacity-95 text-white",
+            )}
+        >
             <Text size="24" taller weight="semibold" align="center">
                 Do you really want to remove your wallet "{name}"?
             </Text>
-            <div className="my-5 rounded-full h-10 px-4 bg-white bg-opacity-25 flex items-center">
+            <div
+                className={classes(
+                    "h-10 px-4 my-5",
+                    "rounded-full",
+                    "bg-white bg-opacity-25",
+                    "flex items-center",
+                )}
+            >
                 {truncateStringCenter(address, 26)}
             </div>
 

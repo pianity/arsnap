@@ -8,6 +8,7 @@ import { initializeArsnap } from "@/utils/arsnap";
 import Text from "@/components/interface/typography/Text";
 import { Wallets } from "@/state";
 import { AppRoute } from "@/consts";
+import { classes } from "@/utils/tailwind";
 
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */
@@ -43,7 +44,14 @@ export default function Header({
     }
 
     return (
-        <header className="w-screen h-[72px] shrink-0 pl-6 pr-5 flex items-center justify-between relative border-b border-white border-opacity-25 mb-[72px]">
+        <header
+            className={classes(
+                "relative",
+                "w-screen h-[72px] pl-6 pr-5 mb-[72px]",
+                "shrink-0 flex items-center justify-between",
+                "border-b border-white border-opacity-25",
+            )}
+        >
             {/* MARK: Navbar items */}
             <ul className="flex">
                 <Link to={AppRoute.About}>
@@ -100,10 +108,12 @@ export default function Header({
             {/* MARK: ArSnap logo */}
             <Link
                 to="/"
-                className={
-                    "absolute left-1/2 -translate-x-1/2 z-10 bg-purple-dark transition-all duration-300 ease-quart-out " +
-                    (smallLogo ? "px-8 -bottom-6" : "px-10 -bottom-14")
-                }
+                className={classes(
+                    "absolute left-1/2 -translate-x-1/2 z-10",
+                    "bg-purple-dark",
+                    "transition-all duration-300 ease-quart-out",
+                    smallLogo ? "px-8 -bottom-6" : "px-10 -bottom-14",
+                )}
             >
                 <img
                     src={arsnapLogoUrl}

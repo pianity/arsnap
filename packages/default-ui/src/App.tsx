@@ -1,4 +1,4 @@
-import { useEffect, useState, ReactElement } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
@@ -25,6 +25,7 @@ import Settings from "@/views/Settings";
 import Permissions from "@/views/Settings/Permissions";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
+import { classes } from "@/utils/tailwind";
 
 async function isArsnapConfigured() {
     try {
@@ -140,10 +141,7 @@ export default function App() {
                                     transactions={state.transactions}
                                 />
                             ) : (
-                                <Welcome
-                                    loading={loading}
-                                    onInitialized={() => updateWallets(dispatch)}
-                                />
+                                <Welcome onInitialized={() => updateWallets(dispatch)} />
                             )
                         }
                     />
@@ -172,7 +170,11 @@ export default function App() {
             )}
 
             <footer
-                className={"fixed inset-x-0 bottom-0 h-16 flex items-center justify-between px-6"}
+                className={classes(
+                    "h-16 px-6",
+                    "fixed inset-x-0 bottom-0",
+                    "flex items-center justify-between",
+                )}
             >
                 <Text size="14" taller weight="semibold">
                     ArSnap v0.1

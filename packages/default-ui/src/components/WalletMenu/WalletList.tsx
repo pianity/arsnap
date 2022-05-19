@@ -7,6 +7,7 @@ import { NamedAddress } from "@/utils/types";
 import WalletItem from "@/components/WalletMenu/WalletItem";
 import Label from "@/components/interface/Label";
 import { AppRoute } from "@/consts";
+import { classes } from "@/utils/tailwind";
 
 export type WalletOpenedMenuProps = {
     activeWallet: string;
@@ -63,7 +64,13 @@ export default function WalletList({
                         Settings
                     </Button>
                 </Link>
-                <button className="text-[color:#666666] text-[14px] leading-[15px] font-semibold ml-auto mr-1 lg:hover:text-gray-dark">
+                <button
+                    className={classes(
+                        "ml-auto mr-1",
+                        "text-[14px] leading-[15px] font-semibold",
+                        "text-[color:#666666] lg:hover:text-gray-dark",
+                    )}
+                >
                     Logout
                 </button>
             </div>

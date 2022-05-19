@@ -32,7 +32,11 @@ export default function Input<T>({
     return (
         <input
             className={[
-                "w-full h-12 px-4 text-[14px] leading-none flex items-center bg-transparent rounded-md border box-border focus:outline-none invalid:border-red-dark",
+                "w-full h-12 px-4",
+                "text-[14px] leading-none",
+                "flex items-center",
+                "bg-transparent focus:outline-none invalid:border-red-dark",
+                "rounded-md border box-border",
                 colorClass,
                 className,
             ].join(" ")}

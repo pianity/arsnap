@@ -17,6 +17,7 @@ import InputError from "@/components/interface/InputError";
 import Modal from "@/components/interface/Modal";
 import ConfirmSend from "@/components/ConfirmSend";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
+import { classes } from "@/utils/tailwind";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
 const fiatFormatter = Intl.NumberFormat(undefined, {
@@ -162,7 +163,14 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                         <Text.span color="gray-dark" size="16" className="mt-3 leading-[120%]">
                             There was an error while trying to send your transaction.
                         </Text.span>
-                        <div className="bg-purple-light rounded-md w-full p-8 flex items-center justify-center my-8">
+                        <div
+                            className={classes(
+                                "w-full p-8 my-8",
+                                "bg-purple-light",
+                                "rounded-md",
+                                "flex items-center justify-center",
+                            )}
+                        >
                             <Text.span
                                 color="gray-dark"
                                 size="16"
@@ -204,7 +212,12 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                 type="number"
                                 min={0}
                                 max={balance}
-                                className="min-w-[44px] max-w-[12ch] text-[40px] text-purple-dark leading-none font-bold bg-transparent outline-none invalid:text-red-dark"
+                                className={classes(
+                                    "min-w-[44px] max-w-[12ch]",
+                                    "text-[40px] leading-none font-bold",
+                                    "text-purple-dark invalid:text-red-dark",
+                                    "bg-transparent outline-none",
+                                )}
                                 style={{ width: (String(watchAmount)?.length ?? 0) + "ch" }}
                                 {...register("amount", {
                                     required: true,
@@ -219,7 +232,11 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                             {balance && (
                                 <button
                                     onClick={() => setValue("amount", balance)}
-                                    className="ml-3 h-8 px-3 rounded-full box-border border border-purple flex items-center self-center"
+                                    className={classes(
+                                        "h-8 px-3 ml-3",
+                                        "flex items-center self-center",
+                                        "rounded-full box-border border border-purple",
+                                    )}
                                 >
                                     <Text.span
                                         size="12"

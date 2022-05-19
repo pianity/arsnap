@@ -5,6 +5,7 @@ import { Wallets } from "@/state";
 import { NamedAddress } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
+import { classes } from "@/utils/tailwind";
 
 export type SelectWallet = {
     event: "selectWallet";
@@ -89,13 +90,32 @@ export default function WalletMenu({
     return (
         <div className="relative" tabIndex={0} ref={menuRef}>
             <button
-                className="h-10 px-3 flex items-center rounded-full bg-white bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out"
+                className={classes(
+                    "h-10 px-3",
+                    "flex items-center",
+                    "rounded-full",
+                    "bg-white bg-opacity-20 lg:hover:bg-opacity-40",
+                    "transition duration-300 ease-quart-out",
+                )}
                 onClick={() => setMenuOpened(!menuOpened)}
             >
-                <label className="text-[11px] leading-[100%] font-semibold text-purple-light opacity-50 mr-2 uppercase">
+                <label
+                    className={classes(
+                        "mr-2",
+                        "text-[11px] leading-[100%] font-semibold uppercase",
+                        "text-purple-light opacity-50",
+                    )}
+                >
                     Wallet
                 </label>
-                <span className="text-white text-sm leading-[100%] font-semibold mr-2 min-w-[80px] transition-size duration-300 ease-quart-out">
+                <span
+                    className={classes(
+                        "text-white",
+                        "mr-2 min-w-[80px]",
+                        "text-sm leading-[100%] font-semibold",
+                        "transition-size duration-300 ease-quart-out",
+                    )}
+                >
                     {availableWallets.get(activeWallet)}
                 </span>
                 <Chevron width={10} height={6.6} />

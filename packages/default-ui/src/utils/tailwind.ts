@@ -254,3 +254,13 @@ export function getAlignClass(align: TextAlign) {
             return exhaustive(align);
     }
 }
+
+/**
+ * Utility method to reduce className length by joining a class list.
+ *
+ * @param args - class names
+ * @returns all class names joined by `" "`
+ */
+export function classes(...args: string[]) {
+    return args.join(" ");
+}

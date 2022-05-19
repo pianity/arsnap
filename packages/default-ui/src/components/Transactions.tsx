@@ -3,6 +3,7 @@ import Text from "@/components/interface/typography/Text";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { Transactions as TransactionsData } from "@/state";
 import TransactionItem from "@/components/TransactionItem";
+import { classes } from "@/utils/tailwind";
 
 export type TransactionProps = {
     arPrice?: number;
@@ -18,7 +19,14 @@ export default function Transactions({ arPrice, transactions }: TransactionProps
                     <Text.h1 size="14" taller wider color="purple-text" weight="semibold" uppercase>
                         Transactions
                     </Text.h1>
-                    <div className="absolute left-1/2 -bottom-[2px] -translate-x-1/2 h-[4px] w-[14px] bg-purple rounded-full" />
+                    <div
+                        className={classes(
+                            "absolute left-1/2 -bottom-[2px] -translate-x-1/2",
+                            "h-[4px] w-[14px]",
+                            "bg-purple",
+                            "rounded-full",
+                        )}
+                    />
                 </button>
             </div>
 

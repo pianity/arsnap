@@ -14,6 +14,7 @@ import {
 import { NamedAddress } from "@/utils/types";
 import truncateStringCenter, { triggerFocus } from "@/utils";
 import CopiableText from "@/components/interface/typography/CopiableText";
+import { classes } from "@/utils/tailwind";
 
 export type WalletItemProps = {
     active?: boolean;
@@ -40,14 +41,24 @@ export default function WalletItem({
             onClick={() => {
                 if (!active) onEvent({ event: "selectWallet", address });
             }}
-            className={
-                "flex items-center px-3 h-16 min-w-0 group border border-purple-light rounded-md shrink-0" +
-                (active ? "" : " cursor-pointer lg:hover:bg-purple-light")
-            }
+            className={classes(
+                "group",
+                "shrink-0 flex items-center",
+                "px-3 h-16 min-w-0",
+                "border border-purple-light rounded-md",
+                active ? "" : "cursor-pointer lg:hover:bg-purple-light",
+            )}
         >
             {/* MARK: Wallet icon */}
             {active && (
-                <div className="w-9 h-9 shrink-0 mr-3 flex items-center justify-center bg-purple-light rounded-full">
+                <div
+                    className={classes(
+                        "w-9 h-9 mr-3",
+                        "shrink-0 flex items-center justify-center",
+                        "bg-purple-light",
+                        "rounded-full",
+                    )}
+                >
                     <img src={walletIconUrl} width={16} height={12} />
                 </div>
             )}
@@ -77,7 +88,10 @@ export default function WalletItem({
                             onChange={(e) => {
                                 setNewName(e.target.value);
                             }}
-                            className="text-purple text-[18px] leading-[110%] font-semibold text-left bg-transparent outline-none underline"
+                            className={classes(
+                                "text-purple bg-transparent outline-none",
+                                "text-[18px] leading-[110%] font-semibold text-left underline",
+                            )}
                         />
                     ) : (
                         <Text
@@ -139,7 +153,12 @@ export default function WalletItem({
                         e.stopPropagation();
                         onDeleteWallet({ name, address });
                     }}
-                    className="ml-2 flex items-center justify-center w-7 h-7 rounded-full border border-purple-dark box-border text-purple-dark"
+                    className={classes(
+                        "w-7 h-7 ml-2",
+                        "flex items-center justify-center",
+                        "rounded-full border border-purple-dark box-border",
+                        "text-purple-dark",
+                    )}
                 >
                     <img src={closeIconUrl} width={8} height={8} alt="Delete wallet" />
                 </button>
