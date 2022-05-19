@@ -2,8 +2,8 @@ import Button from "@/components/interface/Button";
 import { ExportWallet, OnWalletMenuEvent, RenameWallet } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import Text from "@/components/interface/typography/Text";
-import Label from "@/components/interface/Label";
-import Input from "@/components/interface/Input";
+import Label from "@/components/interface/form/Label";
+import Input from "@/components/interface/form/Input";
 
 type NewWalletProps = {
     origin: "imported" | "created";
