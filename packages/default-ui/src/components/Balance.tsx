@@ -6,6 +6,7 @@ import Container from "@/components/interface/layout/Container";
 import sendIconUrl from "@/assets/icons/send.svg";
 import { AppRoute } from "@/consts";
 import { classes } from "@/utils/tailwind";
+import { getFiatFormatter } from "@/utils/currencies";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */
@@ -14,14 +15,6 @@ type BalanceProps = {
     balance?: number;
     price?: number;
 };
-
-const fiatFormatter = Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-    currencyDisplay: "narrowSymbol",
-});
 
 /**
  * Renders the wallet's balance in both AR and fiat
@@ -32,7 +25,7 @@ export default function Balance({ shrink, balance, price }: BalanceProps) {
 
     useEffect(() => {
         if (balance !== undefined && price !== undefined) {
-            setFiatBalance(fiatFormatter.format(balance * price));
+            setFiatBalance(getFiatFormatter().format(balance * price));
         }
     }, [balance, price]);
 

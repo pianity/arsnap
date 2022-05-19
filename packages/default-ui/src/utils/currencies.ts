@@ -27,6 +27,7 @@ export function getFiatFormatter(locales?: string | string[], opt?: Intl.NumberF
         currency: "USD",
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
+        currencyDisplay: "narrowSymbol",
         ...(opt ?? {}),
     };
 

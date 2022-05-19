@@ -18,15 +18,9 @@ import Modal from "@/components/interface/Modal";
 import ConfirmSend from "@/components/ConfirmSend";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { classes } from "@/utils/tailwind";
+import { getFiatFormatter } from "@/utils/currencies";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
-const fiatFormatter = Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-    currencyDisplay: "narrowSymbol",
-});
 
 export type SendFormData = {
     amount: number;
@@ -253,7 +247,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
 
                         {/* MARK: Fees + Total */}
                         <div className="flex flex-col gap-1 mb-10">
-                            <Text.span align="center">{`~${fiatFormatter.format(
+                            <Text.span align="center">{`~${getFiatFormatter().format(
                                 amountFiat,
                             )} USD`}</Text.span>
                             <Text
