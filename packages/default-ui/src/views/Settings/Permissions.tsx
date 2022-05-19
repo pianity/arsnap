@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Permission } from "@pianity/arsnap-adapter";
+import { Permission, revokeDappPermission } from "@pianity/arsnap-adapter";
 
 import { DappsPermissions as AllPermissionsData } from "@/state";
 
@@ -133,29 +133,35 @@ function PermissionsList({ permissions, onRevokeClick }: PermissionsListProps) {
 }
 
 export type PermissionsProps = {
-    allPermissions?: AllPermissionsData;
+    dappsPermissions?: AllPermissionsData;
+    updatePermissions: () => Promise<void>;
 };
 
-export default function Permissions({ allPermissions }: PermissionsProps) {
+export default function Permissions({ dappsPermissions, updatePermissions }: PermissionsProps) {
     const [currentDapp, setCurrentDapp] = useState<string | undefined>();
 
-    function onRevokeClick(permission: Permission) {
-        console.log("revoke", permission);
+    async function onRevokeClick(permission: Permission) {
+        if (!currentDapp) {
+            throw new Error("No dapp selected when trying to revoke permission");
+        }
+
+        await revokeDappPermission(currentDapp, [permission]);
+        await updatePermissions();
     }
 
     return (
         <>
-            {allPermissions && (
+            {dappsPermissions && (
                 <DappsList
                     currentDapp={currentDapp}
-                    dapps={[...allPermissions.entries()].map(([dapp, _]) => dapp)}
+                    dapps={[...dappsPermissions.entries()].map(([dapp, _]) => dapp)}
                     onDappClick={setCurrentDapp}
                 />
             )}
 
             {currentDapp && (
                 <PermissionsList
-                    permissions={allPermissions?.get(currentDapp) || []}
+                    permissions={dappsPermissions?.get(currentDapp) || []}
                     onRevokeClick={onRevokeClick}
                 />
             )}

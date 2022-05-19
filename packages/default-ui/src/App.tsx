@@ -152,7 +152,7 @@ export default function App() {
                                 path={AppRoute.Send}
                                 element={
                                     <Send
-                                        activeAddress={state.activeWallet!}
+                                        activeAddress={state.activeWallet}
                                         balance={state.arBalance}
                                         arPrice={state.arPrice}
                                         dispatchBalance={dispatch}
@@ -164,7 +164,12 @@ export default function App() {
 
                             <Route
                                 path={AppRoute.Permissions}
-                                element={<Permissions allPermissions={state.dappsPermissions} />}
+                                element={
+                                    <Permissions
+                                        dappsPermissions={state.dappsPermissions}
+                                        updatePermissions={async () => updatePermissions(dispatch)}
+                                    />
+                                }
                             />
                         </>
                     )}
