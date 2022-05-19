@@ -14,7 +14,7 @@ export default function Wallet({ balance, price, transactions }: WalletProps) {
         <ViewContainer>
             <div className="grow flex flex-col gap-4 w-full">
                 <Balance balance={balance} price={price} />
-                <Transactions transactions={transactions} />
+                <Transactions arPrice={price} transactions={transactions} />
             </div>
         </ViewContainer>
     );

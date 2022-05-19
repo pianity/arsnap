@@ -9,19 +9,19 @@ import { TextColor } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
 import Button from "@/components/interface/Button";
 import CopiableText from "@/components/interface/typography/CopiableText";
+import { getFiatFormatter } from "@/utils/currencies";
 
 type TransactionItemProps = {
+    arPrice?: number;
     transaction: Transaction;
 };
 
-export default function TransactionItem({ transaction }: TransactionItemProps) {
+export default function TransactionItem({ arPrice, transaction }: TransactionItemProps) {
     const [showDetails, setShowDetails] = useState(false);
 
     const incoming = transaction.direction === "in";
-    const state = ["Success", "Pending", "Failed"][Math.round(Math.random() * 10) % 3];
-    let color: TextColor = "red";
-    if (state === "Success") color = "green";
-    else if (state === "Pending") color = "orange";
+    const state = transaction.timestamp === 0 ? "Pending" : "Success";
+    const color: TextColor = state === "Pending" ? "orange" : "green";
 
     return (
         <div>
@@ -57,9 +57,20 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                 </div>
 
                 {/* MARK: State */}
-                <Text size="16" weight="semibold" color={color} className="shrink-0 mx-6">
-                    {state}
-                </Text>
+                <div className="flex flex-col items-end shrink-0 mx-6">
+                    <Text size="16" weight="semibold" color={color} className="mb-1">
+                        {state}
+                    </Text>
+                    <Text.span size="13" color="purple-light" opacity="50">
+                        {new Date(transaction.timestamp * 1000).toLocaleDateString(undefined, {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })}
+                    </Text.span>
+                </div>
 
                 {/* MARK: Amount */}
                 <div
@@ -77,15 +88,17 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                             {(+transaction.amount).toFixed(6)}
                         </Text.span>
                     </div>
-                    <Text.span
-                        color={showDetails ? "white" : "purple-light"}
-                        size="12"
-                        taller
-                        opacity={showDetails ? "60" : "50"}
-                        className="lg:group-hover:text-white lg:group-hover:opacity-60"
-                    >
-                        {"$120"}
-                    </Text.span>
+                    {arPrice && (
+                        <Text.span
+                            color={showDetails ? "white" : "purple-light"}
+                            size="12"
+                            taller
+                            opacity={showDetails ? "60" : "50"}
+                            className="lg:group-hover:text-white lg:group-hover:opacity-60"
+                        >
+                            {getFiatFormatter().format(+transaction.amount * arPrice)}
+                        </Text.span>
+                    )}
                 </div>
             </div>
 

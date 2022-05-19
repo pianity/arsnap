@@ -5,10 +5,11 @@ import { Transactions as TransactionsData } from "@/state";
 import TransactionItem from "@/components/TransactionItem";
 
 export type TransactionProps = {
+    arPrice?: number;
     transactions?: TransactionsData;
 };
 
-export default function Transactions({ transactions }: TransactionProps) {
+export default function Transactions({ arPrice, transactions }: TransactionProps) {
     return (
         <Container className="grow flex flex-col">
             {/* MARK: Tabs */}
@@ -27,7 +28,7 @@ export default function Transactions({ transactions }: TransactionProps) {
                     <ul className="px-6 py-5">
                         {transactions.map((tx) => (
                             <li className="border-b border-purple last:border-none" key={tx.id}>
-                                <TransactionItem transaction={tx} key={tx.id} />
+                                <TransactionItem arPrice={arPrice} transaction={tx} key={tx.id} />
                             </li>
                         ))}
                     </ul>
