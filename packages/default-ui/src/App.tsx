@@ -192,12 +192,12 @@ export default function App() {
                 )}
             >
                 <Text size="14" taller weight="semibold">
-                    ArSnap v0.1
+                    ArSnap v0.0
                 </Text>
                 <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://github.com"
+                    href="https://github.com/pianity/arsnap"
                     className="flex items-center"
                 >
                     <img src={githubIconUrl} alt="GitHub" />

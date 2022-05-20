@@ -1,4 +1,4 @@
-import { initializeArsnap } from "@/utils/arsnap";
+import { InitializationError, initializeArsnap } from "@/utils/arsnap";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import Text from "@/components/interface/typography/Text";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
@@ -10,8 +10,19 @@ export type WelcomeProps = {
 
 export default function Welcome({ onInitialized }: WelcomeProps) {
     async function onMetamaskClick() {
-        if (await initializeArsnap()) {
-            onInitialized();
+        if (!window.ethereum) {
+            window.open("https://metamask.io/flask/", "_blank");
+        } else {
+            try {
+                await initializeArsnap();
+                onInitialized();
+            } catch (e) {
+                if (e instanceof InitializationError) {
+                    if (e.kind === "WrongMetamaskVersion") {
+                        window.open("https://metamask.io/flask/", "_blank");
+                    }
+                }
+            }
         }
     }
 

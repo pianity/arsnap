@@ -14,13 +14,19 @@ export async function getMissingPermissions(permissions: Permission[]) {
     return missigPermissions;
 }
 
-type InitializationErrorKind = "InstallationDeclined" | "PermissionsDeclined";
-class InitializationError extends CustomError<InitializationErrorKind> {}
+export type InitializationErrorKind =
+    | "WrongMetamaskVersion"
+    | "InstallationDeclined"
+    | "PermissionsDeclined";
+export class InitializationError extends CustomError<InitializationErrorKind> {}
 
 export async function initializeArsnap() {
     try {
         await adapter.installSnap();
     } catch (e) {
+        if ((e as any)?.code === -32601) {
+            throw new InitializationError("WrongMetamaskVersion");
+        }
         throw new InitializationError("InstallationDeclined");
     }
 

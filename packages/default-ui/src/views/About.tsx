@@ -26,9 +26,15 @@ export default function About() {
                     <Text.p size="18" className="leading-[130%] whitespace-pre-wrap my-6">
                         Come check out our awesome documentation and help contribute to ArSnap!
                     </Text.p>
-                    <Button color="purple" large>
-                        Access docs
-                    </Button>
+                    <a
+                        href="https://github.com/pianity/arsnap"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Button color="purple" large>
+                            Access docs
+                        </Button>
+                    </a>
 
                     <Text.h2
                         color="purple-light"

@@ -78,7 +78,11 @@ export default function Header({
                         Help
                     </Text.li>
                 </Link>
-                <Link to="/report">
+                <a
+                    href="https://github.com/pianity/arsnap/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     <Text.li
                         size="16"
                         color="white"
@@ -89,7 +93,7 @@ export default function Header({
                     >
                         Report a bug
                     </Text.li>
-                </Link>
+                </a>
             </ul>
 
             {/* MARK: Metamask connect */}
