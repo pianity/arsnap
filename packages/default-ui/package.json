@@ -4,6 +4,10 @@
     "description": "Arsnap's default UI",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pianity/arsnap.git"
+    },
     "scripts": {
         "dev": "vite",
         "build:static": "tsc && vite build",
