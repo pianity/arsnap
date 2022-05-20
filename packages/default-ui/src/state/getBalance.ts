@@ -1,10 +1,12 @@
 import { Dispatch } from "react";
 import redstone from "redstone-api";
 
-import { arweave } from "@/utils/blockchain";
+import { arweave as getArweave } from "@/utils/blockchain";
 import { SetArBalance, SetArPrice } from "@/state";
 
 async function getArBalance(address: string) {
+    const arweave = getArweave();
+
     const winston = await arweave.wallets.getBalance(address);
     const ar = arweave.ar.winstonToAr(winston);
 

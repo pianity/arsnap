@@ -51,7 +51,7 @@ export default function WalletOpenedMenu({
             }
 
             case "createNew": {
-                const jwk = await arweave.wallets.generate();
+                const jwk = await arweave().wallets.generate();
 
                 const response = await onEvent({
                     event: "importWallet",

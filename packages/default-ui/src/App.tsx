@@ -163,7 +163,10 @@ export default function App() {
 
                             <Route path={AppRoute.Settings} element={<Settings />} />
 
-                            <Route path={AppRoute.GeneralSettings} element={<General />} />
+                            <Route
+                                path={AppRoute.GeneralSettings}
+                                element={<General onGatewayChange={updateWalletData} />}
+                            />
 
                             <Route
                                 path={AppRoute.Permissions}

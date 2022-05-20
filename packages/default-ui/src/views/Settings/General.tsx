@@ -1,5 +1,16 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import {
+    Currency,
+    setGateway,
+    setCurrency,
+    getGateway as getStoredGateway,
+    getCurrency,
+    Gateway,
+    TESTNET_GATEWAY,
+    ARWEAVE_GATEWAY,
+} from "@/state/config";
 import Label from "@/components/interface/form/Label";
 import Input from "@/components/interface/form/Input";
 import Button from "@/components/interface/Button";
@@ -8,85 +19,71 @@ import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
 import Checkbox from "@/components/interface/form/Checkbox";
 
-export default function General() {
-    type Form = {
-        currency: string;
-        gateway: string;
-        checked: boolean;
-    };
+type GatewayKey = "arweave" | "testnet";
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        control,
-    } = useForm<Form>({
-        defaultValues: {
-            gateway: "testnet",
-            currency: "USD",
-            checked: false,
-        },
-    });
-
-    function submit(data: Form) {
-        console.log(data);
+function getGateway(): GatewayKey {
+    if (getStoredGateway().host === "arweave.net") {
+        return "arweave";
     }
+    return "testnet";
+}
+
+export type GeneralProps = {
+    onGatewayChange: () => void;
+};
+
+export default function General({ onGatewayChange }: GeneralProps) {
+    const [selectedGateway, setSelectedGateway] = useState<GatewayKey>(getGateway());
+
+    const gateways: Record<GatewayKey, Gateway> = {
+        arweave: ARWEAVE_GATEWAY,
+        testnet: TESTNET_GATEWAY,
+    };
 
     return (
         <ViewContainer>
             <Container className="px-6 pt-8 grow">
-                <form onSubmit={handleSubmit(submit)}>
-                    <div className="grid grid-cols-2 gap-8">
-                        <div className="flex flex-col">
-                            <Label white className="mb-3">
-                                Gateway
-                            </Label>
-                            <Input
-                                light
-                                name="gateway"
-                                register={register}
-                                defaultValue="testnet"
-                                registerOptions={{
-                                    required: {
-                                        value: true,
-                                        message: "This field is required",
-                                    },
-                                }}
-                                className={errors.gateway ? " border-red-dark" : ""}
-                            />
-                        </div>
-
-                        <div className="flex flex-col">
-                            <Label white className="mb-3">
-                                Currency
-                            </Label>
-                            <Select
-                                options={[
-                                    ["USD", "USD"],
-                                    ["EUR", "EUR"],
-                                ]}
-                                name="currency"
-                                register={register}
-                                registerOptions={{
-                                    required: {
-                                        value: true,
-                                        message: "This field is required",
-                                    },
-                                }}
-                                className={errors.gateway ? " border-red-dark" : ""}
-                            ></Select>
-                        </div>
+                <div className="grid grid-cols-2 gap-8">
+                    <div className="flex flex-col">
+                        <Label white className="mb-3">
+                            Gateway
+                        </Label>
+                        <Select
+                            options={[
+                                ["arweave", "arweave"],
+                                ["testnet", "testnet"],
+                            ]}
+                            onChange={(gateway) => {
+                                setGateway(gateways[gateway as GatewayKey]);
+                                setSelectedGateway(gateway as GatewayKey);
+                                onGatewayChange();
+                            }}
+                            value={selectedGateway}
+                        ></Select>
                     </div>
 
-                    <Checkbox
-                        name="checked"
-                        register={register}
-                        control={control}
-                        label="My checkbox"
-                    />
+                    {/* <div className="flex flex-col"> */}
+                    {/*     <Label white className="mb-3"> */}
+                    {/*         Currency */}
+                    {/*     </Label> */}
+                    {/*     <Select */}
+                    {/*         options={[ */}
+                    {/*             ["USD", "USD"], */}
+                    {/*             ["EUR", "EUR"], */}
+                    {/*         ]} */}
+                    {/*         onChange={(currency) => { */}
+                    {/*             setCurrency(currency as Currency); */}
+                    {/*         }} */}
+                    {/*     ></Select> */}
+                    {/* </div> */}
+                </div>
 
-                    <Button type="submit">Save</Button>
-                </form>
+                {/* <Checkbox */}
+                {/*     name="checked" */}
+                {/*     register={register} */}
+                {/*     control={control} */}
+                {/*     label="My checkbox" */}
+                {/* /> */}
             </Container>
         </ViewContainer>
     );

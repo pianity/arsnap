@@ -38,12 +38,14 @@ function gqlToTransaction(
 }
 
 async function getTransactions(address: string): Promise<Transactions> {
+    const api = Api();
+
     const outgoings = gqlToTransaction(
-        await Api.outgoingTransactions({ address, limit: 10 }),
+        await api.outgoingTransactions({ address, limit: 10 }),
         "out",
     );
     const incomings = gqlToTransaction(
-        await Api.incomingTransactions({ address, limit: 10 }),
+        await api.incomingTransactions({ address, limit: 10 }),
         "in",
     );
 

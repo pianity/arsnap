@@ -71,24 +71,6 @@ const reducer: Reducer<State, Action> = (state, action): State => {
                 wallets: new Map(action.wallets),
             };
 
-        // case "renameWallet": {
-        //     if (!state.wallets) {
-        //         throw new Error("Cannot rename a wallet before wallets has been defined");
-        //     }
-        //
-        //     const walletIndex = state.wallets.findIndex(
-        //         ([hayAddress]) => hayAddress === action.address,
-        //     );
-        //
-        //     if (walletIndex < 0) {
-        //         throw new Error(`Couldn't find wallet to rename (address: ${action.address})`);
-        //     }
-        //
-        //     state.wallets[walletIndex][1] = action.newName;
-        //
-        //     return state;
-        // }
-
         case "setArBalance":
             return {
                 ...state,
@@ -119,7 +101,5 @@ const reducer: Reducer<State, Action> = (state, action): State => {
 };
 
 export function useArsnapReducer() {
-    // TODO: grab initial state from sessionStorage
-
     return useReducer(reducer, {});
 }

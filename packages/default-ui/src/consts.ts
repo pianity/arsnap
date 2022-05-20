@@ -1,13 +1,5 @@
 import { Permission } from "@pianity/arsnap-adapter";
 
-// TODO: Make the gateway configurable
-
-export const ARWEAVE_HOST = "testnet.redstone.tools";
-// export const ARWEAVE_HOST = "arweave.net";
-
-export const ARWEAVE_PORT = 443;
-export const ARWEAVE_PROTOCOL = "https";
-
 export const REQUIRED_PERMISSIONS: Permission[] = [
     "GET_ACTIVE_ADDRESS",
     "SET_ACTIVE_ADDRESS",

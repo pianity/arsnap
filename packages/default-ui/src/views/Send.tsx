@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
+import Arweave from "arweave";
 import { SetArBalance, SetArPrice, updateBalance } from "@/state";
 import Button from "@/components/interface/Button";
-import { arweave } from "@/utils/blockchain";
+import { arweave as getArweave } from "@/utils/blockchain";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
 import Text from "@/components/interface/typography/Text";
@@ -47,6 +48,8 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
     const [amountFiat, setAmountFiat] = useState<number>(0);
     const [fee, setFee] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
+
+    const [arweave, _] = useState<Arweave>(getArweave());
 
     const {
         register,
