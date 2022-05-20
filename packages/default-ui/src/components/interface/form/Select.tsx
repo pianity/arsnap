@@ -1,7 +1,9 @@
+import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
+
 import { classes } from "@/utils/tailwind";
 
 /** Props for {@link Select} */
-type SelectProps = {
+type SelectProps<T> = {
     /**
      * Placeholder for select.
      *
@@ -9,18 +11,45 @@ type SelectProps = {
      * otherwise shows as a disabled first option.
      */
     placeholder?: string;
-    /** Selected value */
-    value?: string | undefined;
     /** List of [value, label] pairs */
     options: [string, string][];
-    /** Called with the new selected value */
-    onChange: (value: string) => void;
-};
+    /** Extra classes for the component */
+    className?: string;
+} & (
+    | {
+          /** RHF: Name of the form property */
+          name: Path<T>;
+          /** RHF: Form register method */
+          register: UseFormRegister<T>;
+          /** RHF: Form register method properties */
+          registerOptions?: RegisterOptions;
+          value?: never;
+          onChange?: never;
+      }
+    | {
+          name?: UseFormRegister<T>;
+          register?: never;
+          registerOptions?: never;
+          /** Selected value */
+          value?: string | undefined;
+          /** Called with the new selected value */
+          onChange?: (value: string) => void;
+      }
+);
 
 /**
  * ArSnap default select.
  */
-export default function Select({ placeholder, value, options, onChange }: SelectProps) {
+export default function Select<T>({
+    placeholder,
+    value,
+    options,
+    name,
+    onChange,
+    register,
+    registerOptions,
+    className,
+}: SelectProps<T>) {
     return (
         <div
             className={classes(
@@ -29,16 +58,18 @@ export default function Select({ placeholder, value, options, onChange }: Select
                 "flex items-center",
                 "bg-transparent focus:outline-none",
                 "rounded-md border box-border border-purple-text",
+                className ?? "",
             )}
         >
             <select
-                value={value ?? "never"}
+                value={register ? undefined : value ?? "never"}
                 className={classes(
                     "w-full h-full",
                     "bg-transparent focus:outline-none",
                     "text-[14px] leading-[140%]",
                 )}
-                onChange={(e) => onChange(e.target.value)}
+                {...(register?.(name, registerOptions) ?? {})}
+                onChange={onChange ? (e) => onChange(e.target.value) : undefined}
             >
                 {placeholder && (
                     <option value="never" disabled>

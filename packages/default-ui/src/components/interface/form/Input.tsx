@@ -26,7 +26,7 @@ export default function Input<T>({
     ...props
 }: InputProps<T>) {
     const colorClass = light
-        ? "text-purple-light border-purple"
+        ? "text-purple-light border-purple-text"
         : "text-gray-dark border-gray-dark border-opacity-25";
 
     return (
