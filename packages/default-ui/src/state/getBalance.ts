@@ -1,4 +1,5 @@
 import { Dispatch } from "react";
+import redstone from "redstone-api";
 
 import { arweave } from "@/utils/blockchain";
 import { SetArBalance, SetArPrice } from "@/state";
@@ -11,12 +12,7 @@ async function getArBalance(address: string) {
 }
 
 async function getArPrice() {
-    const res = await (
-        await fetch("https://api.coingecko.com/api/v3/simple/price?ids=arweave&vs_currencies=usd")
-    ).json();
-    const price = res.arweave.usd;
-
-    return Number(price);
+    return (await redstone.getPrice("AR")).value;
 }
 
 export async function updateBalance(
