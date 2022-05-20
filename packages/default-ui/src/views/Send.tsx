@@ -209,6 +209,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                                 type="number"
                                 min={0}
                                 max={balance}
+                                step={0.000001}
                                 className={classes(
                                     "min-w-[44px] max-w-[12ch]",
                                     "text-[40px] leading-none font-bold",
@@ -228,7 +229,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                             />
                             {balance && (
                                 <button
-                                    onClick={() => setValue("amount", balance)}
+                                    onClick={() => setValue("amount", Number(balance.toFixed(6)))}
                                     className={classes(
                                         "h-8 px-3 ml-3",
                                         "flex items-center self-center",

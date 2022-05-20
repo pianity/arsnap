@@ -5,6 +5,9 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 
+    width: 100vw;
+    overflow-x: hidden;
+
     @apply bg-purple-dark;
     @apply text-white;
 }
