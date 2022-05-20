@@ -117,7 +117,7 @@ export default function App() {
         <div className="min-h-screen flex flex-col">
             <Header
                 loading={loading}
-                smallLogo={!!state}
+                smallLogo={!!state.activeWallet}
                 activeWallet={state.activeWallet}
                 availableWallets={state.wallets}
                 onWalletEvent={onWalletMenuEvent}
