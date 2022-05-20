@@ -77,7 +77,7 @@ export default function Select<T>({
                     </option>
                 )}
                 {options.map(([value, label]) => (
-                    <option key={value} value={value}>
+                    <option key={value} value={value} className="text-purple">
                         {label}
                     </option>
                 ))}
