@@ -9,18 +9,32 @@ type TooltipProps = {
     text: string;
     /** Set to true to keep tooltip open */
     forceShow?: boolean;
+    /** ClassName of the container div */
+    className?: string;
+    /** ClassName of the children container div */
+    childrenClassName?: string;
 };
 
 /**
  * Simple animated text tooltip on hover.
  */
-export default function Tooltip({ text, forceShow, children }: PropsWithChildren<TooltipProps>) {
+export default function Tooltip({
+    text,
+    forceShow,
+    className,
+    childrenClassName,
+    children,
+}: PropsWithChildren<TooltipProps>) {
     const [show, setShow] = useState(false);
 
     const showTooltip = show || forceShow;
     return (
-        <div className="relative">
-            <div onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+        <div className={classes("relative min-w-0", className ?? "")}>
+            <div
+                className={childrenClassName}
+                onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => setShow(false)}
+            >
                 {children}
             </div>
 

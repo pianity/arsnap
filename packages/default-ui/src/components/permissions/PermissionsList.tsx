@@ -31,45 +31,53 @@ export default function PermissionsList({ permissions, onRevokeClick }: Permissi
                 Permissions
             </Text.h3>
             <ul>
-                {allPermissionsItems.map(({ granted, permission }) => (
-                    <li key={permission} className="flex items-center mb-5 last:mb-0">
-                        <Text.span
-                            size="16"
-                            weight="semibold"
-                            color={granted ? "white" : "purple-text"}
-                            opacity={granted ? "100" : "50"}
-                        >
-                            {permission}
-                        </Text.span>
-                        <Tooltip text={PERMISSIONS_DESCRIPTIONS[permission].description}>
-                            <div
-                                className={
-                                    "mx-2 " +
-                                    (granted ? "text-white" : "text-purple-text opacity-50")
-                                }
-                            >
-                                <HelpIcon />
-                            </div>
-                        </Tooltip>
-                        {PERMISSIONS_DESCRIPTIONS[permission].dangerous && (
-                            <span className="w-2 h-2 bg-orange-dark rounded-full" />
-                        )}
+                {allPermissionsItems.map(({ granted, permission }) => {
+                    const details = PERMISSIONS_DESCRIPTIONS[permission];
 
-                        {granted && (
-                            <button className="ml-auto" onClick={() => onRevokeClick(permission)}>
-                                <Text.span
-                                    color="red-dark"
-                                    size="12"
-                                    weight="semibold"
-                                    wider
-                                    uppercase
+                    return (
+                        <li key={permission} className="flex items-center mb-5 last:mb-0">
+                            <Text.span
+                                size="16"
+                                weight="semibold"
+                                color={granted ? "white" : "purple-text"}
+                                opacity={granted ? "100" : "50"}
+                            >
+                                {permission}
+                            </Text.span>
+                            <Tooltip text={details.description}>
+                                <div
+                                    className={classes(
+                                        "ml-2",
+                                        granted ? "text-white" : "text-purple-text opacity-50",
+                                        details.dangerous ? "mr-2" : "mr-8",
+                                    )}
                                 >
-                                    Revoke
-                                </Text.span>
-                            </button>
-                        )}
-                    </li>
-                ))}
+                                    <HelpIcon />
+                                </div>
+                            </Tooltip>
+                            {details.dangerous && (
+                                <span className="w-2 h-2 bg-orange-dark rounded-full mr-8" />
+                            )}
+
+                            {granted && (
+                                <button
+                                    className="ml-auto"
+                                    onClick={() => onRevokeClick(permission)}
+                                >
+                                    <Text.span
+                                        color="red-dark"
+                                        size="12"
+                                        weight="semibold"
+                                        wider
+                                        uppercase
+                                    >
+                                        Revoke
+                                    </Text.span>
+                                </button>
+                            )}
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

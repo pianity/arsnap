@@ -1,5 +1,6 @@
 import { classes } from "@/utils/tailwind";
 import Text from "@/components/interface/typography/Text";
+import Tooltip from "@/components/interface/Tooltip";
 
 type DappsListProps = {
     currentDapp: string | undefined;
@@ -43,9 +44,11 @@ export default function DappsList({ currentDapp, dapps, onDappClick }: DappsList
                                 height={24}
                                 className="rounded-full bg-purple-dark mr-2 shrink-0 object-cover"
                             />
-                            <Text.span size="16" weight="semibold">
-                                {dapp}
-                            </Text.span>
+                            <Tooltip childrenClassName="truncate" text={dapp}>
+                                <Text.span size="16" weight="semibold">
+                                    {dapp}
+                                </Text.span>
+                            </Tooltip>
                         </li>
                     );
                 })}
