@@ -26,6 +26,7 @@ import Permissions from "@/views/Settings/Permissions";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import { classes } from "@/utils/tailwind";
+import General from "@/views/Settings/General";
 
 async function isArsnapConfigured() {
     try {
@@ -161,6 +162,8 @@ export default function App() {
                             />
 
                             <Route path={AppRoute.Settings} element={<Settings />} />
+
+                            <Route path={AppRoute.GeneralSettings} element={<General />} />
 
                             <Route
                                 path={AppRoute.Permissions}
