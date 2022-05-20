@@ -158,7 +158,11 @@ export default function TransactionItem({ arPrice, transaction }: TransactionIte
                                 Status
                             </Text.span>
                             <div className="bg-white h-[30px] rounded flex items-center px-2">
-                                <Text.span size="14" weight="semibold" color={color}>
+                                <Text.span
+                                    size="14"
+                                    weight="semibold"
+                                    color={state === "Success" ? "green-dark" : "orange-dark"}
+                                >
                                     {state}
                                 </Text.span>
                             </div>
@@ -186,12 +190,26 @@ export default function TransactionItem({ arPrice, transaction }: TransactionIte
                     <div className="h-[1px] bg-purple-text my-6 shrink-0" />
 
                     <div className="flex gap-3">
-                        <Button outlined color="purple">
-                            View RAW transaction
-                        </Button>
-                        <Button outlined color="purple">
-                            View on ViewBlock
-                        </Button>
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`https://arweave.net/tx/${transaction.id}`}
+                            className="flex items-center"
+                        >
+                            <Button outlined color="purple">
+                                View RAW transaction
+                            </Button>
+                        </a>
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`https://viewblock.io/arweave/tx/${transaction.id}`}
+                            className="flex items-center"
+                        >
+                            <Button outlined color="purple">
+                                View on ViewBlock
+                            </Button>
+                        </a>
                     </div>
                 </div>
 
