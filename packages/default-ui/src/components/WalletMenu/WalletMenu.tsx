@@ -6,6 +6,7 @@ import { NamedAddress } from "@/utils/types";
 import WalletOpenedMenu from "@/components/WalletMenu/WalletOpenedMenu";
 import Chevron from "@/components/interface/svg/Chevron";
 import { classes } from "@/utils/tailwind";
+import { GatewayName } from "@/state/config";
 
 export type SelectWallet = {
     event: "selectWallet";
@@ -48,11 +49,13 @@ export type WalletMenuEventResponse = {
 export type OnWalletMenuEvent<T = WalletMenuEvent> = (event: T) => Promise<WalletMenuEventResponse>;
 
 export type WalletMenuProps = {
+    gateway: GatewayName;
     activeWallet: string;
     availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
 };
 export default function WalletMenu({
+    gateway,
     activeWallet,
     availableWallets,
     onEvent: onEventRaw,
@@ -124,6 +127,7 @@ export default function WalletMenu({
             {menuOpened && (
                 <div className="absolute right-0 top-12 z-50 w-[90vw] max-w-[376px]">
                     <WalletOpenedMenu
+                        gateway={gateway}
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}
                         onEvent={onEvent}

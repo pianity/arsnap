@@ -3,6 +3,7 @@ import { Dispatch } from "react";
 import Api from "@/graphql/api";
 import { IncomingTransactionsQuery, OutgoingTransactionsQuery } from "@/graphql/arweave";
 import { SetTransactions } from "@/state";
+import { GatewayName } from "@/state/config";
 
 export type TransactionDirection = "in" | "out";
 
@@ -37,8 +38,8 @@ function gqlToTransaction(
     return transactions;
 }
 
-async function getTransactions(address: string): Promise<Transactions> {
-    const api = Api();
+async function getTransactions(gateway: GatewayName, address: string): Promise<Transactions> {
+    const api = Api(gateway);
 
     const outgoings = gqlToTransaction(
         await api.outgoingTransactions({ address, limit: 10 }),
@@ -52,8 +53,12 @@ async function getTransactions(address: string): Promise<Transactions> {
     return outgoings.concat([...incomings]).sort((a, b) => b.timestamp - a.timestamp);
 }
 
-export async function updateTransactions(address: string, dispatch: Dispatch<SetTransactions>) {
-    const transactions = await getTransactions(address);
+export async function updateTransactions(
+    gateway: GatewayName,
+    address: string,
+    dispatch: Dispatch<SetTransactions>,
+) {
+    const transactions = await getTransactions(gateway, address);
 
     dispatch({
         type: "setTransactions",

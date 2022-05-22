@@ -9,12 +9,14 @@ import Text from "@/components/interface/typography/Text";
 import { Wallets } from "@/state";
 import { AppRoute } from "@/consts";
 import { classes } from "@/utils/tailwind";
+import { GatewayName } from "@/state/config";
 
 type HeaderProps = {
     /** Shows a loading indicator instead of the wallet button */
     loading: boolean;
     /** Makes the ArSnap logo smaller */
     smallLogo?: boolean;
+    gateway: GatewayName;
     /** Current active wallet */
     activeWallet: string | undefined;
     /** List of available wallets */
@@ -32,6 +34,7 @@ type HeaderProps = {
 export default function Header({
     loading,
     smallLogo,
+    gateway,
     activeWallet,
     availableWallets,
     onWalletEvent,
@@ -101,6 +104,7 @@ export default function Header({
             {!loading &&
                 (activeWallet && availableWallets ? (
                     <WalletMenu
+                        gateway={gateway}
                         activeWallet={activeWallet}
                         availableWallets={availableWallets}
                         onEvent={onWalletEvent}

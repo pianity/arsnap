@@ -1,45 +1,22 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Dispatch } from "react";
 
-import {
-    Currency,
-    setGateway,
-    setCurrency,
-    getGateway as getStoredGateway,
-    getCurrency,
-    Gateway,
-    TESTNET_GATEWAY,
-    ARWEAVE_GATEWAY,
-} from "@/state/config";
+import { Config, ConfigAction, GatewayName } from "@/state/config";
 import Label from "@/components/interface/form/Label";
-import Input from "@/components/interface/form/Input";
-import Button from "@/components/interface/Button";
 import Select from "@/components/interface/form/Select";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
-import Checkbox from "@/components/interface/form/Checkbox";
-
-type GatewayKey = "arweave" | "testnet";
-
-function getGateway(): GatewayKey {
-    if (getStoredGateway().host === "arweave.net") {
-        return "arweave";
-    }
-    return "testnet";
-}
 
 export type GeneralProps = {
-    onGatewayChange: () => void;
+    config: Config;
+    dispatchConfig: Dispatch<ConfigAction>;
 };
 
-export default function General({ onGatewayChange }: GeneralProps) {
-    const [selectedGateway, setSelectedGateway] = useState<GatewayKey>(getGateway());
+const options: [GatewayName, GatewayName][] = [
+    ["testnet", "testnet"],
+    ["arweave", "arweave"],
+];
 
-    const gateways: Record<GatewayKey, Gateway> = {
-        arweave: ARWEAVE_GATEWAY,
-        testnet: TESTNET_GATEWAY,
-    };
-
+export default function General({ config, dispatchConfig }: GeneralProps) {
     return (
         <ViewContainer>
             <Container className="px-6 pt-8 grow">
@@ -49,16 +26,9 @@ export default function General({ onGatewayChange }: GeneralProps) {
                             Gateway
                         </Label>
                         <Select
-                            options={[
-                                ["arweave", "arweave"],
-                                ["testnet", "testnet"],
-                            ]}
-                            onChange={(gateway) => {
-                                setGateway(gateways[gateway as GatewayKey]);
-                                setSelectedGateway(gateway as GatewayKey);
-                                onGatewayChange();
-                            }}
-                            value={selectedGateway}
+                            options={options}
+                            onChange={(gateway) => dispatchConfig({ type: "setGateway", gateway })}
+                            value={config.gateway}
                         ></Select>
                     </div>
 

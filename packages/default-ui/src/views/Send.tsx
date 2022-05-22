@@ -20,6 +20,8 @@ import ConfirmSend from "@/components/ConfirmSend";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { classes } from "@/utils/tailwind";
 import { getFiatFormatter } from "@/utils/currencies";
+import { GatewayName } from "@/state/config";
+import { SetState } from "@/utils/types";
 
 const ARWEAVE_ADDRESS_PATTERN = /[a-z0-9-_]{43}/i;
 
@@ -36,20 +38,55 @@ type TxStatus =
       }
     | { status: "error"; reason: string };
 
+function onSubmit(data: SendFormData, setTxStatus: SetState<TxStatus | undefined>) {
+    setTxStatus({ status: "confirm", data });
+}
+
+async function postTx(
+    gateway: GatewayName,
+    data: SendFormData,
+    activeAddress: string,
+    dispatchBalance: Dispatch<SetArBalance | SetArPrice>,
+    setTxStatus: SetState<TxStatus | undefined>,
+) {
+    setTxStatus({ status: "loading" });
+
+    try {
+        const arweave = getArweave(gateway);
+
+        const winston = arweave.ar.arToWinston(data.amount.toString());
+
+        await adapter.sendWinstonTo(arweave, winston, data.recipient);
+        setTxStatus({ status: "success" });
+        await updateBalance(gateway, activeAddress, dispatchBalance);
+    } catch (e) {
+        setTxStatus({
+            status: "error",
+            // TODO: Reason shouldn't directly include `e`.
+            reason: `${e}`,
+        });
+    }
+}
+
 export type SendProps = {
+    gateway: GatewayName;
     activeAddress: string;
     balance?: number;
     arPrice?: number;
     dispatchBalance: Dispatch<SetArBalance | SetArPrice>;
 };
 
-export default function Send({ activeAddress, balance, arPrice, dispatchBalance }: SendProps) {
+export default function Send({
+    gateway,
+    activeAddress,
+    balance,
+    arPrice,
+    dispatchBalance,
+}: SendProps) {
     const [txStatus, setTxStatus] = useState<TxStatus | undefined>(undefined);
     const [amountFiat, setAmountFiat] = useState<number>(0);
     const [fee, setFee] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
-
-    const [arweave, _] = useState<Arweave>(getArweave());
 
     const {
         register,
@@ -66,6 +103,8 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
 
     useEffect(() => {
         if (watchRecipient?.match(ARWEAVE_ADDRESS_PATTERN)) {
+            const arweave = getArweave(gateway);
+
             arweave.transactions
                 .getPrice(0, watchRecipient)
                 .then((fee) => setFee(Number(arweave.ar.winstonToAr(fee))));
@@ -89,28 +128,6 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
         }
     }, [watchAmount, fee]);
 
-    function onSubmit(data: SendFormData) {
-        setTxStatus({ status: "confirm", data });
-    }
-
-    async function postTx(data: SendFormData) {
-        setTxStatus({ status: "loading" });
-
-        try {
-            const winston = arweave.ar.arToWinston(data.amount.toString());
-
-            await adapter.sendWinstonTo(arweave, winston, data.recipient);
-            setTxStatus({ status: "success" });
-            await updateBalance(activeAddress, dispatchBalance);
-        } catch (e) {
-            setTxStatus({
-                status: "error",
-                // TODO: Reason shouldn't directly include `e`.
-                reason: `${e}`,
-            });
-        }
-    }
-
     return (
         <ViewContainer>
             <Modal show={!!txStatus} onClose={() => setTxStatus(undefined)}>
@@ -122,7 +139,13 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
                         arPrice={arPrice}
                         onResponse={(response) => {
                             if (response === "confirm") {
-                                postTx(txStatus.data);
+                                postTx(
+                                    gateway,
+                                    txStatus.data,
+                                    activeAddress,
+                                    dispatchBalance,
+                                    setTxStatus,
+                                );
                             } else {
                                 setTxStatus(undefined);
                             }
@@ -186,7 +209,7 @@ export default function Send({ activeAddress, balance, arPrice, dispatchBalance 
             </Modal>
 
             <Container>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit((data) => onSubmit(data, setTxStatus))}>
                     <div className="flex flex-col items-center pt-10">
                         <Text.h1 size="32" taller weight="bold" className="mb-[8px]">
                             Send AR

@@ -10,8 +10,10 @@ import { NamedAddress } from "@/utils/types";
 import { arweave } from "@/utils/blockchain";
 import { exhaustive } from "@/utils";
 import Container from "@/components/interface/layout/Container";
+import { GatewayName } from "@/state/config";
 
 export type WalletOpenedMenuProps = {
+    gateway: GatewayName;
     activeWallet: string;
     availableWallets: Wallets;
     onEvent: OnWalletMenuEvent;
@@ -19,6 +21,7 @@ export type WalletOpenedMenuProps = {
 };
 
 export default function WalletOpenedMenu({
+    gateway,
     activeWallet,
     availableWallets,
     onEvent,
@@ -51,7 +54,7 @@ export default function WalletOpenedMenu({
             }
 
             case "createNew": {
-                const jwk = await arweave().wallets.generate();
+                const jwk = await arweave(gateway).wallets.generate();
 
                 const response = await onEvent({
                     event: "importWallet",

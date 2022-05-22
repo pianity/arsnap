@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
@@ -13,6 +13,9 @@ import {
     updateTransactions,
     updateBalance,
     updatePermissions,
+    SetTransactions,
+    SetArBalance,
+    SetArPrice,
 } from "@/state";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
@@ -27,6 +30,7 @@ import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import { classes } from "@/utils/tailwind";
 import General from "@/views/Settings/General";
+import { GatewayName, useConfigReducer } from "@/state/config";
 
 async function isArsnapConfigured() {
     try {
@@ -37,21 +41,26 @@ async function isArsnapConfigured() {
     }
 }
 
+function updateWalletData(
+    gateway: GatewayName,
+    activeWallet: string | undefined,
+    dispatchState: Dispatch<SetArBalance | SetArPrice | SetTransactions>,
+) {
+    if (activeWallet) {
+        updateBalance(gateway, activeWallet, dispatchState);
+        updateTransactions(gateway, activeWallet, dispatchState);
+    }
+}
+
 export default function App() {
     const [loading, setLoading] = useState(true);
-    const [state, dispatch] = useArsnapReducer();
-
-    const updateWalletData = () => {
-        if (state.activeWallet) {
-            updateBalance(state.activeWallet, dispatch);
-            updateTransactions(state.activeWallet, dispatch);
-        }
-    };
+    const [state, dispatchState] = useArsnapReducer();
+    const [config, dispatchConfig] = useConfigReducer();
 
     useEffect(() => {
         async function init() {
-            await updateWallets(dispatch);
-            await updatePermissions(dispatch);
+            await updateWallets(dispatchState);
+            await updatePermissions(dispatchState);
         }
 
         isArsnapConfigured()
@@ -64,7 +73,10 @@ export default function App() {
             })
             .catch(() => setLoading(false));
 
-        const updateInterval = setInterval(updateWalletData, 2 * 60 * 1000);
+        const updateInterval = setInterval(
+            () => updateWalletData(config.gateway, state.activeWallet, dispatchState),
+            2 * 60 * 1000,
+        );
 
         return () => {
             clearInterval(updateInterval);
@@ -72,24 +84,24 @@ export default function App() {
     }, []);
 
     useEffect(() => {
-        updateWalletData();
-    }, [state.activeWallet]);
+        updateWalletData(config.gateway, state.activeWallet, dispatchState);
+    }, [state.activeWallet, config.gateway]);
 
     async function onWalletMenuEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
         switch (e.event) {
             case "renameWallet":
                 await adapter.renameWallet(e.address, e.name);
-                await updateWallets(dispatch);
+                await updateWallets(dispatchState);
                 return {};
 
             case "selectWallet":
                 await adapter.setActiveAddress(e.address);
-                await updateWallets(dispatch);
+                await updateWallets(dispatchState);
                 return {};
 
             case "importWallet": {
                 const wallet = await adapter.importWallet(e.jwk);
-                await updateWallets(dispatch);
+                await updateWallets(dispatchState);
                 return { wallet };
             }
 
@@ -105,7 +117,7 @@ export default function App() {
 
             case "deleteWallet":
                 await adapter.deleteWallet(e.address);
-                await updateWallets(dispatch);
+                await updateWallets(dispatchState);
                 return {};
 
             default:
@@ -118,10 +130,11 @@ export default function App() {
             <Header
                 loading={loading}
                 smallLogo={!!state.activeWallet}
+                gateway={config.gateway}
                 activeWallet={state.activeWallet}
                 availableWallets={state.wallets}
                 onWalletEvent={onWalletMenuEvent}
-                onInitialized={() => updateWallets(dispatch)}
+                onInitialized={() => updateWallets(dispatchState)}
             />
 
             {loading ? (
@@ -142,7 +155,7 @@ export default function App() {
                                     transactions={state.transactions}
                                 />
                             ) : (
-                                <Welcome onInitialized={() => updateWallets(dispatch)} />
+                                <Welcome onInitialized={() => updateWallets(dispatchState)} />
                             )
                         }
                     />
@@ -153,10 +166,11 @@ export default function App() {
                                 path={AppRoute.Send}
                                 element={
                                     <Send
+                                        gateway={config.gateway}
                                         activeAddress={state.activeWallet}
                                         balance={state.arBalance}
                                         arPrice={state.arPrice}
-                                        dispatchBalance={dispatch}
+                                        dispatchBalance={dispatchState}
                                     />
                                 }
                             />
@@ -165,7 +179,9 @@ export default function App() {
 
                             <Route
                                 path={AppRoute.GeneralSettings}
-                                element={<General onGatewayChange={updateWalletData} />}
+                                element={
+                                    <General config={config} dispatchConfig={dispatchConfig} />
+                                }
                             />
 
                             <Route
@@ -173,7 +189,9 @@ export default function App() {
                                 element={
                                     <Permissions
                                         dappsPermissions={state.dappsPermissions}
-                                        updatePermissions={async () => updatePermissions(dispatch)}
+                                        updatePermissions={async () =>
+                                            updatePermissions(dispatchState)
+                                        }
                                     />
                                 }
                             />

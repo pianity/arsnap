@@ -2,7 +2,8 @@ import { GraphQLClient } from "graphql-request";
 
 import * as Arweave from "@/graphql/arweave";
 import { sleep } from "@/utils";
-import { getGateway } from "@/state/config";
+import { GatewayName } from "@/state/config";
+import { GATEWAYS } from "@/consts";
 
 const retryWrapper = (maxProtectedTries: number, waitSeconds = 5): Arweave.SdkFunctionWrapper => {
     return async <T>(action: () => Promise<T>): Promise<T> => {
@@ -28,8 +29,8 @@ const retryWrapper = (maxProtectedTries: number, waitSeconds = 5): Arweave.SdkFu
     };
 };
 
-export default function ArweaveApi() {
-    const { protocol, host, port } = getGateway();
+export default function ArweaveApi(gateway: GatewayName) {
+    const { protocol, host, port } = GATEWAYS[gateway];
 
     return Arweave.getSdk(new GraphQLClient(`${protocol}://${host}:${port}/graphql`));
 }

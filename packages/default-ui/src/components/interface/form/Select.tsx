@@ -3,7 +3,7 @@ import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
 import { classes } from "@/utils/tailwind";
 
 /** Props for {@link Select} */
-type SelectProps<T> = {
+type SelectProps<T, U extends string> = {
     /**
      * Placeholder for select.
      *
@@ -12,7 +12,7 @@ type SelectProps<T> = {
      */
     placeholder?: string;
     /** List of [value, label] pairs */
-    options: [string, string][];
+    options: [string, U][];
     /** Extra classes for the component */
     className?: string;
 } & (
@@ -31,16 +31,16 @@ type SelectProps<T> = {
           register?: never;
           registerOptions?: never;
           /** Selected value */
-          value?: string | undefined;
+          value?: U | undefined;
           /** Called with the new selected value */
-          onChange?: (value: string) => void;
+          onChange?: (value: U) => void;
       }
 );
 
 /**
  * ArSnap default select.
  */
-export default function Select<T>({
+export default function Select<T, U extends string>({
     placeholder,
     value,
     options,
@@ -49,7 +49,7 @@ export default function Select<T>({
     register,
     registerOptions,
     className,
-}: SelectProps<T>) {
+}: SelectProps<T, U>) {
     return (
         <div
             className={classes(
@@ -69,7 +69,7 @@ export default function Select<T>({
                     "text-[14px] leading-[140%]",
                 )}
                 {...(register?.(name, registerOptions) ?? {})}
-                onChange={onChange ? (e) => onChange(e.target.value) : undefined}
+                onChange={onChange ? (e) => onChange(e.target.value as U) : undefined}
             >
                 {placeholder && (
                     <option value="never" disabled>

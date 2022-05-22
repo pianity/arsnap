@@ -1,5 +1,10 @@
+import { Reducer, useReducer } from "react";
+
+import { exhaustive } from "@/utils";
+import { DEFAULT_CURRENCY, DEFAULT_GATEWAY } from "@/consts";
+
 export type Currency = "USD" | "EUR" | "GBP";
-export type Gateway = { protocol: string; host: string; port: number };
+export type GatewayName = "arweave" | "testnet";
 
 enum ConfigKeys {
     Currency = "currency",
@@ -7,42 +12,60 @@ enum ConfigKeys {
 }
 
 export type Config = {
+    [ConfigKeys.Currency]: Currency;
+    [ConfigKeys.Gateway]: GatewayName;
+};
+
+export type GatewayInfo = { protocol: string; host: string; port: number };
+
+function getLocalStorageItem<T extends ConfigKeys>(key: T): Config[T] | null {
+    const storageItem = window.localStorage.getItem(key) as any;
+
+    return storageItem;
+}
+
+function setLocalStorageItem<T extends ConfigKeys>(key: T, value: Config[T]) {
+    window.localStorage.setItem(key, value);
+}
+
+export type SetCurreny = {
+    type: "setCurrency";
     currency: Currency;
-    gateway: Gateway;
 };
 
-export const ARWEAVE_GATEWAY: Gateway = { protocol: "https", host: "arweave.net", port: 443 };
-export const TESTNET_GATEWAY: Gateway = {
-    protocol: "https",
-    host: "testnet.redstone.tools",
-    port: 443,
+export type SetGateway = {
+    type: "setGateway";
+    gateway: GatewayName;
 };
 
-const DEFAULT_CURRENCY: Currency = "USD";
-const DEFAULT_GATEWAY: Gateway = TESTNET_GATEWAY;
+export type ConfigAction = SetCurreny | SetGateway;
 
-function getLocalStorageItem<T>(key: string): T | null {
-    const storageItem = window.localStorage.getItem(key);
+const reducer: Reducer<Config, ConfigAction> = (state, action): Config => {
+    switch (action.type) {
+        case "setCurrency":
+            setLocalStorageItem(ConfigKeys.Currency, action.currency);
+            return {
+                ...state,
+                currency: action.currency,
+            };
 
-    return storageItem ? JSON.parse(storageItem) : null;
-}
+        case "setGateway":
+            setLocalStorageItem(ConfigKeys.Gateway, action.gateway);
+            return {
+                ...state,
+                gateway: action.gateway,
+            };
 
-function setLocalStorageItem(key: string, value: unknown) {
-    window.localStorage.setItem(key, JSON.stringify(value));
-}
+        default:
+            return exhaustive(action);
+    }
+};
 
-export function getCurrency(): Currency {
-    return getLocalStorageItem<Currency>(ConfigKeys.Currency) || DEFAULT_CURRENCY;
-}
+export function useConfigReducer() {
+    const config: Config = {
+        currency: getLocalStorageItem(ConfigKeys.Currency) || DEFAULT_CURRENCY,
+        gateway: getLocalStorageItem(ConfigKeys.Gateway) || DEFAULT_GATEWAY,
+    };
 
-export function getGateway(): Gateway {
-    return getLocalStorageItem<Gateway>(ConfigKeys.Gateway) || DEFAULT_GATEWAY;
-}
-
-export function setCurrency(currency: Currency) {
-    setLocalStorageItem(ConfigKeys.Currency, currency);
-}
-
-export function setGateway(gateway: Gateway) {
-    setLocalStorageItem(ConfigKeys.Gateway, gateway);
+    return useReducer(reducer, config);
 }

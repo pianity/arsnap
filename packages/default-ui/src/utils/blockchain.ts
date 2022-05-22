@@ -1,9 +1,8 @@
 import Arweave from "arweave";
 
-import { getGateway } from "@/state/config";
+import { GATEWAYS } from "@/consts";
+import { GatewayName } from "@/state/config";
 
-export function arweave() {
-    const gateway = getGateway();
-
-    return Arweave.init(gateway);
+export function arweave(gateway: GatewayName) {
+    return Arweave.init(GATEWAYS[gateway]);
 }
