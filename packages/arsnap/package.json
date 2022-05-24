@@ -1,6 +1,6 @@
 {
     "name": "@pianity/arsnap",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "description": "Access Arweave through Metamask",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
@@ -36,9 +36,7 @@
         "@metamask/key-tree": "^3.0.1",
         "@pianity/arsnap-adapter": "workspace:*",
         "async-mutex": "^0.3.2",
-        "base64-js": "^1.5.1",
-        "patch-package": "^6.4.7",
-        "postinstall-postinstall": "^2.1.0"
+        "base64-js": "^1.5.1"
     },
     "devDependencies": {
         "@metamask/snaps-cli": "^0.10.2",
