@@ -27,9 +27,9 @@ jobs:
 
       - name: "Deploy packages to NPM"
         run: |
-          yarn workspace @pianity/arsnap npm publish --access public
           yarn workspace @pianity/arsnap-adapter npm publish --access public
           yarn workspace @pianity/arsnap-compat npm publish --access public
+          yarn workspace @pianity/arsnap npm publish --access public
 
   deploy-ui:
     needs: publish
