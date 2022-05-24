@@ -1,7 +1,7 @@
 {
     "name": "@pianity/arsnap-compat",
     "version": "0.0.0",
-    "description": "A compatibility layer for ArSnap",
+    "description": "Make ArSnap 100% compatible with dApps developped for ArConnect by mimicking its API",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
     "repository": {

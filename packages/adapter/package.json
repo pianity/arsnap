@@ -1,7 +1,7 @@
 {
     "name": "@pianity/arsnap-adapter",
     "version": "0.0.0",
-    "description": "The 'Hello, world!' of MetaMask Snaps.",
+    "description": "Easily access ArSnap capabilities through a clean API",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
     "repository": {
