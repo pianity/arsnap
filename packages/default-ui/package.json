@@ -10,7 +10,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "build:static": "tsc && vite build",
+        "build": "tsc && vite build",
         "preview": "vite preview",
         "typecheck": "tsc --noEmit",
         "generate-graphql": "graphql-codegen",
