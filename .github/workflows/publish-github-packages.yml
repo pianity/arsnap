@@ -27,4 +27,6 @@ jobs:
       - name: "Deploy packages to NPM"
         env:
           NODE_AUTH_TOKEN: "${{ secrets.NPM_TOKEN }}"
-        run: "yarn workspace @pianity/arsnap npm publish --access public"
+        run: |
+          "echo $NODE_AUTH_TOKEN"
+          "yarn workspace @pianity/arsnap npm publish --access public"
