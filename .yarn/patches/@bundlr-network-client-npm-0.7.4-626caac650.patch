@@ -1,0 +1,13 @@
+diff --git a/build/node/cli.js b/build/node/cli.js
+index 8f9e3f32263cc698d21a9e0edee9ca42b1f0b96e..3ae3134832a67128f4eb767b44c9987f537e4306 100755
+--- a/build/node/cli.js
++++ b/build/node/cli.js
+@@ -223,7 +223,7 @@ async function loadWallet(path) {
+         if (options.debug) {
+             console.log("Assuming raw key instead of keyfile path");
+         }
+-        return path;
++        return JSON.parse(path);
+     }
+ }
+ const options = program.opts();
