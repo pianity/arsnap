@@ -12,6 +12,9 @@ jobs:
       - uses: "actions/checkout@v3"
       # Setup .npmrc file to publish to npm
       - uses: "actions/setup-node@v3"
+        env:
+          NODE_AUTH_TOKEN: "${{ secrets.NPM_TOKEN }}"
+
         with:
           cache: "yarn"
           node-version: "16.x"
@@ -25,6 +28,4 @@ jobs:
         run: "yarn build"
 
       - name: "Deploy packages to NPM"
-        env:
-          NODE_AUTH_TOKEN: "${{ secrets.NPM_TOKEN }}"
         run: "yarn workspace @pianity/arsnap npm publish --access public"
