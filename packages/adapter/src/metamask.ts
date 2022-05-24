@@ -1,4 +1,6 @@
-import { RpcRequest, SNAP_ID } from "@/types";
+import { RpcRequest } from "@/types";
+
+import { SNAP_ID } from "@/consts";
 
 declare global {
     interface Window {

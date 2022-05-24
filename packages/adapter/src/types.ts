@@ -1,7 +1,5 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
 
-export const SNAP_ID = "local:http://localhost:4000/";
-
 export type Permission =
     | "GET_ACTIVE_ADDRESS"
     | "SET_ACTIVE_ADDRESS"
