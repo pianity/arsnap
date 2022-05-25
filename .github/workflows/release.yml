@@ -19,6 +19,9 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           scope: "@pianity"
 
+      - name: "Check packages versions"
+        run: "yarn version check"
+
       - name: "Install dependencies"
         run: "yarn install --immutable"
 
@@ -27,9 +30,9 @@ jobs:
 
       - name: "Deploy packages to NPM"
         run: |
-          yarn workspace @pianity/arsnap-adapter npm publish --access public
-          yarn workspace @pianity/arsnap-compat npm publish --access public
-          yarn workspace @pianity/arsnap npm publish --access public
+          yarn workspace @pianity/arsnap-adapter npm publish --access public --tolerate-republish
+          yarn workspace @pianity/arsnap-compat npm publish --access public --tolerate-republish
+          yarn workspace @pianity/arsnap npm publish --access public --tolerate-republish
 
   deploy-ui:
     needs: publish
