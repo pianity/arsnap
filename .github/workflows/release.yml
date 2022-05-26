@@ -44,11 +44,11 @@ jobs:
           cache: "yarn"
           node-version: "16.x"
 
-      - name: "Deploy default-ui to the Permaweb"
+      - name: "Deploy Wallet to the Permaweb"
         env:
           ARWEAVE_DEPLOY_KEY: "${{ secrets.ARWEAVE_DEPLOY_KEY }}"
         run: >
-          yarn workspace @pianity/arsnap-default-ui bundlr
+          yarn workspace @pianity/arsnap-wallet bundlr
           --host https://node1.bundlr.network
           --wallet ${ARWEAVE_DEPLOY_KEY}
           --index-file index.html

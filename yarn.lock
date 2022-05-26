@@ -3025,9 +3025,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pianity/arsnap-default-ui@workspace:packages/default-ui":
+"@pianity/arsnap-wallet@workspace:packages/wallet":
   version: 0.0.0-use.local
-  resolution: "@pianity/arsnap-default-ui@workspace:packages/default-ui"
+  resolution: "@pianity/arsnap-wallet@workspace:packages/wallet"
   dependencies:
     "@bundlr-network/client": 0.7.4
     "@graphql-codegen/cli": ^2.6.2
