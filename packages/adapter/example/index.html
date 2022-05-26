@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello, ArSnap!</title>
+    </head>
+
+    <body>
+        <h1>Hello, Snap!</h1>
+        <details>
+            <summary>Instructions</summary>
+            <ul>
+                <li>First, click "Connect". Then, try out the other buttons!</li>
+                <li>Please note that:</li>
+                <ul>
+                    <li>
+                        The <code>snap.manifest.json</code> and <code>package.json</code> must be
+                        located in located in the server root directory..
+                    </li>
+                    <li>
+                        The Snap bundle must be hosted at the location specified by the
+                        <code>location</code> field of <code>snap.manifest.json</code>.
+                    </li>
+                </ul>
+            </ul>
+        </details>
+        <br />
+
+        <p id="status"></p>
+
+        <button id="connect">Connect</button>
+        <button id="request-permissions">Request some permissions</button>
+        <button id="revoke-permissions">Revoke all granted permissions</button>
+
+        <hr style="width: 100px; margin: 20px" />
+
+        <button id="get-active-address">Display the active wallet's address</button>
+        <button id="sign-message">Sign the following input's content</button>
+        <input id="message-to-sign" />
+
+        <script type="module" src="/index.ts"></script>
+    </body>
+</html>

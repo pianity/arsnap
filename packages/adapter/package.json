@@ -18,7 +18,8 @@
         "clean": "rm -r dist/",
         "typecheck": "tsc --noEmit",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
+        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
+        "example": "vite example"
     },
     "dependencies": {
         "@metamask/key-tree": "^3.0.1",
@@ -36,6 +37,7 @@
         "eslint": "^8.13.0",
         "prettier": "^2.6.2",
         "tsc-alias": "^1.6.3",
-        "typescript": "^4.6.3"
+        "typescript": "^4.6.3",
+        "vite": "^2.9.9"
     }
 }
