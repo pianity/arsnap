@@ -2,14 +2,24 @@ import { requestSnap } from "@/metamask";
 
 import { RpcApi } from "@/types";
 
-export const isEnabled: RpcApi["is_enabled"] = (...params) => {
-    return requestSnap("is_enabled", params);
+export const isEnabled: RpcApi["is_enabled"] = async (...params) => {
+    try {
+        return await requestSnap("is_enabled", params);
+    } catch {
+        return false;
+    }
 };
 
 export const getPermissions: RpcApi["get_permissions"] = (...params) => {
     return requestSnap("get_permissions", params);
 };
 
+/**
+ * Request permissions to the user.
+ *
+ * @returns true when requested permissions were granted or if they've already been granted.
+ * Returns false otherwise.
+ */
 export const requestPermissions: RpcApi["request_permissions"] = (...params) => {
     return requestSnap("request_permissions", params);
 };
@@ -18,6 +28,9 @@ export const revokePermission: RpcApi["revoke_permissions"] = (...params) => {
     return requestSnap("revoke_permissions", params);
 };
 
+/**
+ * Get permisssions granted to all dApps.
+ */
 export const getAllPermissions: RpcApi["get_dapps_permissions"] = (...params) => {
     return requestSnap("get_dapps_permissions", params);
 };
@@ -46,8 +59,12 @@ export const getWalletNames: RpcApi["get_wallet_names"] = (...params) => {
     return requestSnap("get_wallet_names", params);
 };
 
-export const signBytes: RpcApi["sign_bytes"] = (...params) => {
-    return requestSnap("sign_bytes", params);
+export const signBytes: RpcApi["sign_bytes"] = async (...params) => {
+    // NOTE: As everything that is sent back from MetaMask is serialized, the object coming from
+    // ArSnap is not an actual Uint8Array but a serialized version of it so we need to convert it
+    // back.
+    const bytes = (await requestSnap("sign_bytes", params)) as { [k: number]: number };
+    return new Uint8Array(Object.values(bytes));
 };
 
 export const setActiveAddress: RpcApi["set_active_address"] = (...params) => {

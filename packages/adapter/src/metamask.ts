@@ -24,7 +24,7 @@ function request(method: string, params: unknown[]): Promise<any> {
     });
 }
 
-export async function installSnap() {
+export async function connect() {
     await request("wallet_enable", [{ wallet_snap: { [SNAP_ID]: {} } }]);
 }
 

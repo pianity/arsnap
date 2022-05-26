@@ -3,10 +3,6 @@ import Transaction from "arweave/node/lib/transaction";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
-export function exhaustive(_: never): never {
-    throw new Error("Check wasn't exhaustive");
-}
-
 const PERMISSIONS_TRANSLATIONS: Record<
     adapter.Permission,
     ArconnectPermission | null | ArconnectPermission[]
@@ -68,7 +64,7 @@ function convertPermsToArsnap(permissions: ArconnectPermission[]): adapter.Permi
 }
 
 async function connect(permissions: ArconnectPermission[], _appInfo?: AppInfo) {
-    await adapter.installSnap();
+    await adapter.connect();
     await adapter.requestPermissions(convertPermsToArsnap(permissions));
 }
 

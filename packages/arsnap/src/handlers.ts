@@ -35,19 +35,17 @@ export const requestPermissions: WithState<WithOrigin<RpcApi["request_permission
 ) => {
     const currentPermissions = state.permissions.get(origin) || [];
 
-    const newPermissions = await permissions.requestPermissions(
+    const { granted, permissions: newPermissions } = await permissions.requestPermissions(
         origin,
         currentPermissions,
         requestedPermissions,
     );
 
-    if (newPermissions.length !== currentPermissions.length) {
+    if (granted) {
         state.permissions.set(origin, newPermissions);
-
-        return true;
-    } else {
-        return false;
     }
+
+    return granted;
 };
 
 export const revokePermissions: WithState<WithOrigin<RpcApi["revoke_permissions"]>> = async (

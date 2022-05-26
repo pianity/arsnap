@@ -15,15 +15,23 @@ export async function guard(
     }
 }
 
+type RequestPermissionsResult = {
+    granted: boolean;
+    /**
+     * Full new set of permission. If the user declined the request, the old unchanged
+     * `currentPermissions` is returned.
+     */
+    permissions: Permission[];
+};
+
 /**
- * Request `requestedPermissions` to the user. Returns an updated Permission[] with the new
- * permissions.
+ * Request `requestedPermissions` to the user.
  */
 export async function requestPermissions(
     origin: string,
     currentPermissions: Permission[],
     requestedPermissions: Permission[],
-): Promise<Permission[]> {
+): Promise<RequestPermissionsResult> {
     const newPermissions = currentPermissions
         ? [
               ...new Set(
@@ -35,7 +43,7 @@ export async function requestPermissions(
         : requestedPermissions;
 
     if (newPermissions.length === 0) {
-        return currentPermissions;
+        return { granted: true, permissions: currentPermissions };
     }
 
     const newPermissionsString = newPermissions
@@ -49,9 +57,9 @@ export async function requestPermissions(
     );
 
     if (granted) {
-        return currentPermissions.concat(...newPermissions);
+        return { granted: true, permissions: currentPermissions.concat(...newPermissions) };
     } else {
-        return currentPermissions;
+        return { granted: false, permissions: currentPermissions };
     }
 }
 

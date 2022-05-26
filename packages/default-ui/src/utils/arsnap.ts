@@ -22,7 +22,7 @@ export class InitializationError extends CustomError<InitializationErrorKind> {}
 
 export async function initializeArsnap() {
     try {
-        await adapter.installSnap();
+        await adapter.connect();
     } catch (e) {
         if ((e as any)?.code === -32601) {
             throw new InitializationError("WrongMetamaskVersion");
