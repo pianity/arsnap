@@ -14,7 +14,7 @@ about Snaps, head over to <https://docs.metamask.io/guide/snaps.html>.
 
 In the packages directory you'll find the 4 key pieces composing the ArSnap Project, making
 possible the use of MetaMask for existing and new Arweave dApps. Below is a quick summary of each
-of them, describing their relations and their purpose. If you want to quickly start playing
+of them, describing their relations and their purpose. If you want to quickly start playing with
 ArSnap's API you can take a look at [this simple example](packages/adapter/example).
 
 ### [ArSnap](packages/arsnap)
@@ -26,7 +26,7 @@ ArSnap is the core of the project, it's the code that will ultimately run inside
 If you're building a new dApp or want to integrate with ArSnap specifically, this is what you'll be
 using. It defines ArSnap's API and exposes its many methods in a simple and clean way.
 
-### [Compat](packages/compat)(ibility Layer)
+### [Compat](packages/compat)
 
 What if you've already built a dApp that integrates with the existing Arweave wallet ArConnect?
 Thanks to this package you'll be able to give your users the possibility to benefit from ArSnap

@@ -21,7 +21,7 @@ is here to fill this role but it also serves other purposes:
    dApp with ArSnap. So if you're eager to see how a dApp should integrate with ArSnap, the Wallet
    also serves as a complete example!
 
-## Hosted on the Permaweb
+## Hosted On The Permaweb
 
 Thanks to the power of Arweave, we will upload every new versions of ArSnap Wallet to the Permaweb,
 allowing you to rest assured that it will forever be available.

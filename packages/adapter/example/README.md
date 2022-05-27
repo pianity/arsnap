@@ -7,7 +7,7 @@ This is a simple commented example demonstrating how to:
 - Display the user's active wallet's address
 - Sign a message with the user's active wallet
 
-## Test it yourself
+## Test It Yourself
 
 Run the following commands in your terminal:
 
@@ -17,6 +17,6 @@ Run the following commands in your terminal:
 1. `cd packages/adapter`
 1. `yarn example`
 
-Now head over to http://localhost:3000/ and start playing with the example! The page will update
-automatically when changes are made to its code located here (in [index.ts](index.ts)), allowing
-you to easily play with it.
+Now you should be able to head over to http://localhost:3000/ and start playing with the example!
+You can edit its code in [index.ts](index.ts) and the page will update automatically, allowing you
+to easily start trying out the API.
