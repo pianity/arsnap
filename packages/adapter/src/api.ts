@@ -10,15 +10,15 @@ export const isEnabled: RpcApi["is_enabled"] = async (...params) => {
     }
 };
 
+/**
+ * Get the permissions granted to the dApp from which the request is originating from
+ */
 export const getPermissions: RpcApi["get_permissions"] = (...params) => {
     return requestSnap("get_permissions", params);
 };
 
 /**
  * Request permissions to the user.
- *
- * @returns true when requested permissions were granted or if they've already been granted.
- * Returns false otherwise.
  */
 export const requestPermissions: RpcApi["request_permissions"] = (...params) => {
     return requestSnap("request_permissions", params);
