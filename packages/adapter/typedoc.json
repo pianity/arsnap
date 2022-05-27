@@ -1,0 +1,5 @@
+{
+    "githubPages": false,
+    "plugin": "typedoc-plugin-markdown",
+    "entryPoints": "src/index.ts"
+}
