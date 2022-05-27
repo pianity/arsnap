@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 
-import { getAllPermissions, Permission } from "@pianity/arsnap-adapter";
+import { getDappsPermissions, Permission } from "@pianity/arsnap-adapter";
 
 import { SetPermissions } from "@/state";
 
@@ -11,7 +11,7 @@ import { SetPermissions } from "@/state";
 export type DappsPermissions = Map<string, Permission[]>;
 
 export async function updatePermissions(dispatch: Dispatch<SetPermissions>) {
-    const permissions = new Map(await getAllPermissions());
+    const permissions = new Map(await getDappsPermissions());
 
     dispatch({
         type: "setPermissions",

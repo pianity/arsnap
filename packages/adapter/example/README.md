@@ -12,11 +12,11 @@ This is a simple commented example demonstrating how to:
 Run the following commands in your terminal:
 
 1. `git clone https://github.com/pianity/arsnap`
-1. `cd arsnap`
-1. `yarn install`
-1. `cd packages/adapter`
-1. `yarn example`
+2. `cd arsnap`
+3. `yarn install`
+4. `cd packages/adapter`
+5. `yarn example`
 
 Now you should be able to head over to http://localhost:3000/ and start playing with the example!
-You can edit its code in [index.ts](index.ts) and the page will update automatically, allowing you
-to easily start trying out the API.
+You can edit its code in [index.ts](/packages/adapter/example/index.ts) and the page will update
+automatically, allowing you to easily start trying out the API.

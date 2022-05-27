@@ -11,7 +11,7 @@ export type Permission =
     | "DECRYPT"
     //
     | "GET_DAPPS_PERMISSIONS"
-    | "REVOKE_DAPP_PERMISSION"
+    | "REVOKE_DAPP_PERMISSIONS"
     //
     | "IMPORT_WALLET"
     | "EXPORT_WALLET"
@@ -24,13 +24,13 @@ export type RpcApi = {
     get_permissions: () => Promise<Permission[]>;
     request_permissions: (permissions: Permission[]) => Promise<boolean>;
     revoke_permissions: (permissions: Permission[]) => Promise<null>;
-    get_dapps_permissions: () => Promise<[string, Permission[]][]>;
+    get_dapps_permissions: () => Promise<[dappOrigin: string, permissions: Permission[]][]>;
     revoke_dapp_permissions: (dapp: string, permissions: Permission[]) => Promise<null>;
 
     get_active_address: () => Promise<string>;
     get_active_public_key: () => Promise<string>;
     get_all_addresses: () => Promise<string[]>;
-    get_wallet_names: () => Promise<[string, string][]>;
+    get_wallet_names: () => Promise<[address: string, name: string][]>;
     sign_bytes: (bytes: Uint8Array, saltLength: number) => Promise<Uint8Array>;
 
     set_active_address: (address: string) => Promise<null>;

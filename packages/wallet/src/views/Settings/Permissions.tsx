@@ -53,7 +53,7 @@ export const PERMISSIONS_DESCRIPTIONS: Record<Permission, PermissionDescription>
         dangerous: false,
         description: "Get the permissions of a DApp",
     },
-    REVOKE_DAPP_PERMISSION: {
+    REVOKE_DAPP_PERMISSIONS: {
         dangerous: true,
         description: "Revoke a permission of a DApp",
     },
