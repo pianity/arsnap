@@ -17,6 +17,7 @@ Run the following commands in your terminal:
 4. `cd packages/adapter`
 5. `yarn example`
 
-Now you should be able to head over to http://localhost:3000/ and start playing with the example!
+You should now be able to head over to <http://localhost:3000/> and start playing with the example!
 You can edit its code in [index.ts](/packages/adapter/example/index.ts) and the page will update
-automatically, allowing you to easily start trying out the API.
+automatically, allowing you to easily start trying out [the
+API](/packages/adapter/docs/modules.md).
