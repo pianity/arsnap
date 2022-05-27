@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[types.ts:3](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/types.ts#L3)
+[types.ts:3](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/types.ts#L3)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[types.ts:21](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/types.ts#L21)
+[types.ts:21](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/types.ts#L21)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[types.ts:48](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/types.ts#L48)
+[types.ts:48](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/types.ts#L48)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[types.ts:52](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/types.ts#L52)
+[types.ts:52](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/types.ts#L52)
 
 ## Functions
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-[metamask.ts:27](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/metamask.ts#L27)
+[metamask.ts:27](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/metamask.ts#L27)
 
 ___
 
@@ -126,7 +126,7 @@ ___
 
 #### Defined in
 
-[api.ts:87](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L87)
+[api.ts:82](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L82)
 
 ___
 
@@ -146,7 +146,7 @@ ___
 
 #### Defined in
 
-[api.ts:83](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L83)
+[api.ts:78](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L78)
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[api.ts:47](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L47)
+[api.ts:42](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L42)
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-[api.ts:51](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L51)
+[api.ts:46](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L46)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[api.ts:55](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L55)
+[api.ts:50](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L50)
 
 ___
 
@@ -204,7 +204,7 @@ Get permisssions granted to all dApps.
 
 #### Defined in
 
-[api.ts:39](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L39)
+[api.ts:34](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L34)
 
 ___
 
@@ -220,7 +220,7 @@ Get the permissions granted to the dApp from which the request is originating fr
 
 #### Defined in
 
-[api.ts:18](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L18)
+[api.ts:16](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L16)
 
 ___
 
@@ -237,7 +237,7 @@ Returns an array of all wallets addresses and their attached name in the followi
 
 #### Defined in
 
-[api.ts:63](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L63)
+[api.ts:58](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L58)
 
 ___
 
@@ -258,7 +258,7 @@ ___
 
 #### Defined in
 
-[api.ts:79](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L79)
+[api.ts:74](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L74)
 
 ___
 
@@ -272,7 +272,7 @@ ___
 
 #### Defined in
 
-[api.ts:5](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L5)
+[api.ts:5](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L5)
 
 ___
 
@@ -293,7 +293,7 @@ ___
 
 #### Defined in
 
-[api.ts:91](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L91)
+[api.ts:86](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L86)
 
 ___
 
@@ -313,12 +313,9 @@ Request permissions to the user.
 
 `Promise`<`boolean`\>
 
-true when requested permissions were granted or if they've already been granted.
-Returns false otherwise.
-
 #### Defined in
 
-[api.ts:28](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L28)
+[api.ts:23](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L23)
 
 ___
 
@@ -339,7 +336,7 @@ ___
 
 #### Defined in
 
-[api.ts:43](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L43)
+[api.ts:38](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L38)
 
 ___
 
@@ -359,7 +356,7 @@ ___
 
 #### Defined in
 
-[api.ts:32](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L32)
+[api.ts:27](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L27)
 
 ___
 
@@ -383,7 +380,7 @@ Send `winston` winstons using the current active wallet.
 
 #### Defined in
 
-[helpers.ts:46](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/helpers.ts#L46)
+[helpers.ts:46](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/helpers.ts#L46)
 
 ___
 
@@ -403,7 +400,7 @@ ___
 
 #### Defined in
 
-[api.ts:75](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L75)
+[api.ts:70](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L70)
 
 ___
 
@@ -424,7 +421,7 @@ ___
 
 #### Defined in
 
-[api.ts:67](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/api.ts#L67)
+[api.ts:62](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/api.ts#L62)
 
 ___
 
@@ -446,4 +443,4 @@ Sign a transaction with the current active wallet.
 
 #### Defined in
 
-[helpers.ts:19](https://github.com/pianity/arsnap/blob/da36ec0/packages/adapter/src/helpers.ts#L19)
+[helpers.ts:19](https://github.com/pianity/arsnap/blob/3b97c96/packages/adapter/src/helpers.ts#L19)
