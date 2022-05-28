@@ -7,6 +7,7 @@ import { AppRoute, REQUIRED_PERMISSIONS } from "@/consts";
 import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
 import githubIconUrl from "@/assets/icons/github.svg";
+import permawebSeal from "@/assets/permaweb-seal.svg";
 import {
     useArsnapReducer,
     updateWallets,
@@ -209,9 +210,13 @@ export default function App() {
                     "flex items-center justify-between",
                 )}
             >
-                <Text size="14" taller weight="semibold">
-                    ArSnap v0.0
-                </Text>
+                <div className="flex flex-col mb-12">
+                    <Text className="ml-1 mb-3" size="14" taller weight="semibold">
+                        ArSnap v0.0
+                    </Text>
+                    <img src={permawebSeal} />
+                </div>
+
                 <a
                     target="_blank"
                     rel="noopener noreferrer"

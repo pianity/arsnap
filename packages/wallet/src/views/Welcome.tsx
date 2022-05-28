@@ -1,3 +1,4 @@
+import arweaveLogo from "@/assets/arweave.svg";
 import { InitializationError, initializeArsnap } from "@/utils/arsnap";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import Text from "@/components/interface/typography/Text";
@@ -28,7 +29,7 @@ export default function Welcome({ onInitialized }: WelcomeProps) {
 
     return (
         <ViewContainer className="justify-center">
-            <Container centerAll className="h-[50vh] min-h-[280px] max-h-[395px">
+            <Container centerAll className="relative h-[50vh] min-h-[280px] max-h-[395px">
                 <Text.h1 size="24" taller weight="semibold">
                     Welcome!
                 </Text.h1>
@@ -36,6 +37,7 @@ export default function Welcome({ onInitialized }: WelcomeProps) {
                     Click on the button below to initialize ArSnap
                 </Text.span>
                 <MetamaskButton label="Connect with" onClick={onMetamaskClick} />
+                <img className="absolute bottom-10" src={arweaveLogo} />
             </Container>
         </ViewContainer>
     );
