@@ -180,7 +180,7 @@ export async function encryptWallet(salt: string, wallet: Wallet): Promise<Encry
     const encryptedData = await encrypt(salt, new TextEncoder().encode(JSON.stringify(wallet.key)));
 
     return {
-        encryptedData,
+        encryptedKey: encryptedData,
         metadata: wallet.metadata,
     };
 }
@@ -190,7 +190,7 @@ export async function encryptWallet(salt: string, wallet: Wallet): Promise<Encry
  */
 export async function decryptWallet(salt: string, wallet: EncryptedWallet): Promise<Wallet> {
     const decryptedData: JWKInterface = JSON.parse(
-        new TextDecoder().decode(await decrypt(salt, wallet.encryptedData)),
+        new TextDecoder().decode(await decrypt(salt, wallet.encryptedKey)),
     );
 
     return {
