@@ -43,11 +43,11 @@
         "@pianity/eslint-config": "workspace:*",
         "@pianity/prettier-config": "workspace:*",
         "@types/base-64": "^1.0.0",
-        "eslint": "^8.13.0",
+        "eslint": "^8.16.0",
         "mkdirp": "^1.0.4",
-        "nodemon": "^2.0.15",
+        "nodemon": "^2.0.16",
         "prettier": "^2.6.2",
-        "tsc-alias": "^1.6.3",
-        "typescript": "^4.6.3"
+        "tsc-alias": "^1.6.7",
+        "typescript": "^4.7.2"
     }
 }

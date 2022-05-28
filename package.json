@@ -6,6 +6,7 @@
     ],
     "scripts": {
         "build": "yarn workspaces foreach -vitp run build",
+        "build-dev": "NODE_ENV=development yarn build",
         "typecheck": "yarn workspaces foreach -vip run typecheck",
         "lint": "yarn workspaces foreach -vip run lint",
         "lint-errors": "yarn workspaces foreach -vip run lint -- --quiet",
