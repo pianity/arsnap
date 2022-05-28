@@ -39,7 +39,7 @@
         "base64-js": "^1.5.1"
     },
     "devDependencies": {
-        "@metamask/snaps-cli": "^0.10.2",
+        "@metamask/snaps-cli": "^0.15.0",
         "@pianity/eslint-config": "workspace:*",
         "@pianity/prettier-config": "workspace:*",
         "@types/base-64": "^1.0.0",

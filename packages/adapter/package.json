@@ -26,7 +26,6 @@
         "example": "vite example"
     },
     "dependencies": {
-        "@metamask/key-tree": "^3.0.1",
         "arweave": "^1.10.23",
         "base-64": "^1.0.0",
         "bignumber.js": "^9.0.2",

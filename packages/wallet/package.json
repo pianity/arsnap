@@ -18,7 +18,6 @@
         "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
-        "@metamask/key-tree": "^3.0.1",
         "@pianity/arsnap-adapter": "workspace:*",
         "arweave": "^1.10.23",
         "autoprefixer": "^10.4.7",
