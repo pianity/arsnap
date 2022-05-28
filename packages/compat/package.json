@@ -18,7 +18,7 @@
         "clean": "rm -r dist/",
         "typecheck": "tsc --noEmit",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
+        "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
         "@pianity/arsnap-adapter": "workspace:*",
