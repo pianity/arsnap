@@ -14,12 +14,15 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "tsc && tsc-alias",
+        "build": "tsc -p tsconfig.build.json && yarn post-build",
+        "post-build": "tsc-alias -p tsconfig.build.json && ts-node scripts/postBuild.ts",
+        "build-dev": "NODE_ENV=development yarn build",
+        "dev": "nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
         "clean": "rm -r dist/",
         "typecheck": "tsc --noEmit",
         "generate-doc": "yarn typedoc",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
-        "lint:fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
+        "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
         "example": "vite example"
     },
     "dependencies": {
@@ -28,7 +31,8 @@
         "base-64": "^1.0.0",
         "bignumber.js": "^9.0.2",
         "js-base64": "^3.7.2",
-        "node-forge": "^1.2.1"
+        "node-forge": "^1.2.1",
+        "replace-in-file": "^6.3.3"
     },
     "devDependencies": {
         "@pianity/eslint-config": "workspace:*",
@@ -36,7 +40,9 @@
         "@types/base-64": "^1.0.0",
         "@types/node-forge": "^1.0.0",
         "eslint": "^8.13.0",
+        "nodemon": "^2.0.16",
         "prettier": "^2.6.2",
+        "ts-node": "^10.8.0",
         "tsc-alias": "^1.6.3",
         "typedoc": "^0.22.15",
         "typedoc-plugin-markdown": "^3.12.1",

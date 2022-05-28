@@ -1,9 +1,9 @@
 {
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "scripts/**/*.ts"],
     "compilerOptions": {
         "target": "es2021",
         "lib": ["es2021", "dom"],
-        "module": "es2022",
+        "module": "commonjs",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "strict": true,
@@ -19,5 +19,9 @@
             "@/*": ["*"],
             "package.json": ["../package.json"]
         }
+    },
+    "ts-node": {
+        "transpileOnly": true,
+        "require": ["tsconfig-paths/register"]
     }
 }
