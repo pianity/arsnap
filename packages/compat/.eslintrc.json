@@ -2,5 +2,10 @@
     "env": {
         "browser": true
     },
+    "globals": {
+        "EcdsaParams": true,
+        "RsaPssParams": true,
+        "AlgorithmIdentifier": true
+    },
     "extends": "@pianity/eslint-config"
 }

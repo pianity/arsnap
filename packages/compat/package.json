@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "@pianity/arsnap-adapter": "workspace:*",
-        "arconnect": "0.4.1",
+        "arconnect": "0.4.2",
         "arweave": "^1.10.23"
     },
     "devDependencies": {

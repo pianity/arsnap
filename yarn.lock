@@ -3406,7 +3406,7 @@ __metadata:
     "@pianity/arsnap-adapter": "workspace:*"
     "@pianity/eslint-config": "workspace:*"
     "@pianity/prettier-config": "workspace:*"
-    arconnect: 0.4.1
+    arconnect: 0.4.2
     arweave: ^1.10.23
     eslint: ^8.16.0
     prettier: ^2.6.2
@@ -4438,12 +4438,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"arconnect@npm:0.4.1":
-  version: 0.4.1
-  resolution: "arconnect@npm:0.4.1"
+"arconnect@npm:0.4.2":
+  version: 0.4.2
+  resolution: "arconnect@npm:0.4.2"
   dependencies:
     arweave: ^1.10.13
-  checksum: c333139cb0c4f8646787d4e762b2808c1e3e90e11c58888d658225176d3cf2fcc5be9a4e32e4cd7e54e9253271f15e79856bffbc77da994c7a5196227ddcec62
+  checksum: 5b2f262a93a3a25d4bd6f72eb3afe4b13d0e94ed12f88b7bcf3501d25839e74c2882fa1a1a9b527ac9c6da22ca2f407c07fc49e3d898a4f24b5d66a1901173f8
   languageName: node
   linkType: hard
 

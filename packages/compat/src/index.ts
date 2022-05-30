@@ -92,8 +92,13 @@ async function sign(transaction: Transaction): Promise<Transaction> {
     return transaction;
 }
 
-function signature(data: Uint8Array, options = { saltLength: 32 }): Promise<Uint8Array> {
-    return adapter.signBytes(data, options.saltLength);
+function signature(
+    data: Uint8Array,
+    options: AlgorithmIdentifier | RsaPssParams | EcdsaParams,
+): Promise<Uint8Array> {
+    const { saltLength } = options as RsaPssParams;
+
+    return adapter.signBytes(data, saltLength);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any
