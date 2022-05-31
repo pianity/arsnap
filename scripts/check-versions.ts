@@ -2,6 +2,8 @@ import { readdir, readFile } from "node:fs/promises";
 import { statSync } from "node:fs";
 import { join } from "node:path";
 
+import { Command } from "commander";
+
 import {
     commitsSince,
     getFileAt,
@@ -45,10 +47,24 @@ function containsError(pkgs: Pkg[]): boolean {
 (async () => {
     console.log("Starting check-versions...");
 
-    const showCommits =
-        process.argv[1] === "--show-commits" || process.argv[2] === "--show-commits";
+    type Options = {
+        showCommits: boolean;
+        commit?: string;
+    };
 
-    const tags = await getSortedTags();
+    const opts = new Command()
+        .name("check-version")
+        .option("--show-commits", undefined, false)
+        .option("--commit <commit>")
+        .parse()
+        .opts<Options>();
+
+    const latestTag = opts.commit ?? (await getSortedTags())[0];
+
+    if (!latestTag) {
+        console.log("ERROR: Couldn't find any tag and no commit was provided.");
+        process.exit(1);
+    }
 
     const pkgs: Pkg[] = await Promise.all(
         (
@@ -59,7 +75,7 @@ function containsError(pkgs: Pkg[]): boolean {
             .map(async (path) => {
                 const pkgJsonPath = join(path, "package.json");
 
-                const oldPkgJson = parsePkgJson(await getFileAt(tags[0], pkgJsonPath));
+                const oldPkgJson = parsePkgJson(await getFileAt(latestTag, pkgJsonPath));
                 const newPkgJson = parsePkgJson((await readFile(pkgJsonPath)).toString());
 
                 return { path, oldPkgJson, newPkgJson, shouldBumpReasons: [] };
@@ -67,7 +83,7 @@ function containsError(pkgs: Pkg[]): boolean {
     );
 
     for (const pkg of pkgs) {
-        const diff = await hasChangedSince(tags[0], join(pkg.path, "src"));
+        const diff = await hasChangedSince(latestTag, join(pkg.path, "src"));
 
         const { name, version } = pkg.newPkgJson;
 
@@ -75,8 +91,8 @@ function containsError(pkgs: Pkg[]): boolean {
             if (pkg.oldPkgJson.version === version) {
                 let reasonBuild = `has modifications`;
 
-                if (showCommits) {
-                    const newCommits = (await commitsSince(tags[0], pkg.path)).map(
+                if (opts.showCommits) {
+                    const newCommits = (await commitsSince(latestTag, pkg.path)).map(
                         (commit) => `${tabLevel(2)} * ${commit}`,
                     );
 

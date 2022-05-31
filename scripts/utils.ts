@@ -25,10 +25,15 @@ export function parsePkgJson(content: string): PkgJson {
  * @returns list of tags sorted by date: most recent tag appear first.
  */
 export async function getSortedTags(): Promise<string[]> {
-    // const { stdout } = await exec("git describe --tags --abbrev=0");
-    const { stdout } = await exec("git tag --list --sort=-*committerdate");
+    const { stdout } = await exec('git tag --list "--sort=-*committerdate"');
 
-    const lastTags = stdout.trim().split("\n");
+    const trimmed = stdout.trim();
+
+    if (trimmed === "") {
+        return [];
+    }
+
+    const lastTags = trimmed.split("\n");
 
     return lastTags;
 }
@@ -50,7 +55,13 @@ export async function hasChangedSince(sinceTag: string, dir: string): Promise<bo
 export async function commitsSince(sinceTag: string, dir: string): Promise<string[]> {
     const { stdout } = await exec(`git log --follow ${sinceTag}..HEAD --format="%h: %s" -- ${dir}`);
 
-    const commits = stdout.trim().split("\n");
+    const trimmed = stdout.trim();
+
+    if (trimmed === "") {
+        return [];
+    }
+
+    const commits = trimmed.split("\n");
 
     return commits;
 }

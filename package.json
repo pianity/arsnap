@@ -5,12 +5,12 @@
         "packages/*"
     ],
     "scripts": {
-        "build": "yarn workspaces foreach -vitp run build",
+        "build": "yarn workspaces foreach --exclude root -vitp run build",
         "build-dev": "NODE_ENV=development yarn build",
-        "typecheck": "yarn workspaces foreach -vip run typecheck",
-        "lint": "yarn workspaces foreach -vip run lint",
-        "lint-errors": "yarn workspaces foreach -vip run lint -- --quiet",
-        "lint-fix": "yarn workspaces foreach -vip run lint:fix",
+        "typecheck": "yarn workspaces foreach --exclude root -vip run typecheck",
+        "lint": "yarn workspaces foreach --exclude root -vip run lint",
+        "lint-errors": "yarn workspaces foreach --exclude root -vip run lint --quiet",
+        "lint-fix": "yarn workspaces foreach --exclude root -vip run lint:fix",
         "check-versions": "yarn ts-node scripts/check-versions.ts",
         "create-release": "yarn ts-node scripts/create-release.ts"
     },
@@ -18,6 +18,7 @@
         "@pianity/eslint-config": "workspace:*",
         "@pianity/prettier-config": "workspace:*",
         "@types/node": "^17.0.36",
+        "commander": "^9.3.0",
         "eslint": "^8.16.0",
         "nodemon": "^2.0.16",
         "prettier": "^2.6.2",

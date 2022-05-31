@@ -22,6 +22,12 @@ jobs:
       - name: "Build packages"
         run: "yarn build"
 
+      - name: "Typecheck"
+        run: "yarn typecheck"
+
+      - name: "Lint"
+        run: "yarn lint"
+
       - name: "Check versions"
         run: "yarn check-versions"
 

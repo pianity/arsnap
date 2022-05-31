@@ -1,6 +1,12 @@
+/**
+ * **CAUTION**: This script should only be executed if `check-versions` was run without returning
+ * any errors.
+ */
 import { statSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
+
+import { Command } from "commander";
 
 import { exec, getFileAt, getSortedTags, parsePkgJson } from "@/utils";
 
@@ -18,9 +24,7 @@ export async function pushTag(name: string) {
     await exec(`git push origin ${name}`);
 }
 
-async function getReleaseTag(): Promise<string> {
-    const latestTag = (await getSortedTags())[0];
-
+async function getReleaseTag(sinceTag: string): Promise<string> {
     const pkgPaths = (await readdir(PACKAGES_PATH))
         .map((dir) => join("packages", dir))
         .filter((path) => statSync(path).isDirectory());
@@ -30,7 +34,7 @@ async function getReleaseTag(): Promise<string> {
     for (const path of pkgPaths) {
         const pkgJsonPath = join(path, "package.json");
 
-        const oldPkgJson = parsePkgJson(await getFileAt(latestTag, pkgJsonPath));
+        const oldPkgJson = parsePkgJson(await getFileAt(sinceTag, pkgJsonPath));
         const newPkgJson = parsePkgJson((await readFile(pkgJsonPath)).toString());
 
         if (oldPkgJson.version !== newPkgJson.version) {
@@ -46,8 +50,30 @@ async function getReleaseTag(): Promise<string> {
 (async () => {
     console.log("Starting create-release...");
 
-    const releaseTag = await getReleaseTag();
+    type Options = {
+        commit?: string;
+        push: boolean;
+    };
+
+    const opts = new Command()
+        .name("check-version")
+        .option("--commit <commit>")
+        .option("--push", undefined, false)
+        .parse()
+        .opts<Options>();
+
+    const latestTag = opts.commit ?? (await getSortedTags())[0];
+
+    if (!latestTag) {
+        console.log("ERROR: Couldn't find any tag and no commit was provided.");
+        process.exit(1);
+    }
+
+    const releaseTag = await getReleaseTag(latestTag);
 
     await createTag(releaseTag);
-    // await pushTag(releaseTag);
+
+    if (opts.push) {
+        await pushTag(releaseTag);
+    }
 })();

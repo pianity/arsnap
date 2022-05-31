@@ -19,9 +19,6 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           scope: "@pianity"
 
-      - name: "Check packages versions"
-        run: "yarn version check"
-
       - name: "Install dependencies"
         run: "yarn install --immutable"
 
