@@ -33,7 +33,7 @@ jobs:
           yarn workspace @pianity/arsnap npm publish --access public --tolerate-republish
 
   deploy-wallet:
-    needs: publish
+    needs: publish-npm
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
