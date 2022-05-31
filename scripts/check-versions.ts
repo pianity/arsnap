@@ -125,6 +125,7 @@ function containsError(pkgs: Pkg[]): boolean {
     if (containsError(pkgs)) {
         process.exit(1);
     } else {
+        console.log("All good!");
         process.exit(0);
     }
 })();

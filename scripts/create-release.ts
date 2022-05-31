@@ -4,7 +4,7 @@
  */
 import { statSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { join, basename } from "node:path";
 
 import { Command } from "commander";
 
@@ -14,13 +14,11 @@ import { exec, getFileAt, getSortedTags, parsePkgJson } from "@/utils";
 // `PACKAGES_PATH`.
 const PACKAGES_PATH = "./packages";
 
-export async function createTag(name: string, message?: string) {
-    await exec(`git tag -a "${name}" ${message ? `-m "${message}"` : ""}`);
-
-    return name;
+export async function createTag(name: string): Promise<void> {
+    await exec(`git tag -a "${name}" -m "${name}"`);
 }
 
-export async function pushTag(name: string) {
+export async function pushTag(name: string): Promise<void> {
     await exec(`git push origin ${name}`);
 }
 
@@ -38,11 +36,11 @@ async function getReleaseTag(sinceTag: string): Promise<string> {
         const newPkgJson = parsePkgJson((await readFile(pkgJsonPath)).toString());
 
         if (oldPkgJson.version !== newPkgJson.version) {
-            updates.push(`${newPkgJson.name}-v${newPkgJson.version}`);
+            updates.push(`${basename(path)}-v${newPkgJson.version}`);
         }
     }
 
-    const releaseTag = updates.join(",");
+    const releaseTag = updates.sort().join(",");
 
     return releaseTag;
 }
@@ -62,7 +60,9 @@ async function getReleaseTag(sinceTag: string): Promise<string> {
         .parse()
         .opts<Options>();
 
-    const latestTag = opts.commit ?? (await getSortedTags())[0];
+    const tags = await getSortedTags();
+
+    const latestTag = opts.commit ?? tags[0];
 
     if (!latestTag) {
         console.log("ERROR: Couldn't find any tag and no commit was provided.");
@@ -71,9 +71,23 @@ async function getReleaseTag(sinceTag: string): Promise<string> {
 
     const releaseTag = await getReleaseTag(latestTag);
 
-    await createTag(releaseTag);
+    const dupTagIndex = tags.findIndex((tag) => tag === releaseTag);
+
+    if (dupTagIndex === -1) {
+        console.log(`Creating tag "${releaseTag}"...`);
+
+        await createTag(releaseTag);
+    } else if (dupTagIndex > -1 && dupTagIndex === 0) {
+        console.log(`Tag "${releaseTag}" has already been created, skipping...`);
+    } else if (dupTagIndex > 0) {
+        console.log(
+            `ERROR: the tag "${releaseTag}" has been found but isn't the latest one! Aborting...`,
+        );
+        process.exit(1);
+    }
 
     if (opts.push) {
+        console.log(`Pushing tag "${releaseTag}"...`);
         await pushTag(releaseTag);
     }
 })();
