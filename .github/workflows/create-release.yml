@@ -8,6 +8,8 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
       - uses: "actions/setup-node@v3"
         with:
           cache: "yarn"
@@ -19,14 +21,11 @@ jobs:
       - name: "Install dependencies"
         run: "yarn install --immutable"
 
-      - name: "Build packages"
-        run: "yarn build"
-
-      - name: "Typecheck"
+      - name: "Run the typechecker"
         run: "yarn typecheck"
 
-      - name: "Lint"
-        run: "yarn lint"
+      - name: "Run the linters"
+        run: "yarn lint-errors"
 
       - name: "Check versions"
         run: "yarn check-versions"
