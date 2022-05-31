@@ -53,6 +53,8 @@ jobs:
           ARWEAVE_DEPLOY_KEY: "${{ secrets.ARWEAVE_DEPLOY_KEY }}"
         run: >
           yarn workspace @pianity/arsnap-wallet bundlr
+          --no-confirmation
+          -c arweave
           --host https://node1.bundlr.network
           --wallet ${ARWEAVE_DEPLOY_KEY}
           --index-file index.html
