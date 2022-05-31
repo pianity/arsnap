@@ -6,7 +6,7 @@ on:
     - "*"
 
 jobs:
-  publish:
+  publish-npm:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
@@ -31,7 +31,7 @@ jobs:
           yarn workspace @pianity/arsnap-compat npm publish --access public --tolerate-republish
           yarn workspace @pianity/arsnap npm publish --access public --tolerate-republish
 
-  deploy-ui:
+  deploy-wallet:
     needs: publish
     runs-on: "ubuntu-latest"
     steps:
@@ -40,6 +40,12 @@ jobs:
         with:
           cache: "yarn"
           node-version: "16.x"
+
+      - name: "Install dependencies"
+        run: "yarn install --immutable"
+
+      - name: "Build Wallet"
+        run: "yarn build-wallet"
 
       - name: "Deploy Wallet to the Permaweb"
         env:

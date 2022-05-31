@@ -5,7 +5,8 @@
         "packages/*"
     ],
     "scripts": {
-        "build": "yarn workspaces foreach --exclude root -vitp run build",
+        "build": "yarn workspaces foreach --exclude root --exclude @pianity/arsnap-wallet -vitp run build",
+        "build-wallet": "yarn workspaces foreach --exclude root -vitp run build",
         "build-dev": "NODE_ENV=development yarn build",
         "typecheck": "yarn workspaces foreach --exclude root -vip run typecheck",
         "lint": "yarn workspaces foreach --exclude root -vip run lint",
