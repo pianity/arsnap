@@ -4,5 +4,5 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
     base: "",
-    plugins: [react({ jsxRuntime: "classic" }), tsconfigPaths()],
+    plugins: [react(), tsconfigPaths()],
 });
