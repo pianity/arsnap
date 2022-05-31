@@ -12,9 +12,8 @@
         "dist/"
     ],
     "main": "dist/index.js",
-    "types": "dist/index.d.ts",
     "scripts": {
-        "build": "tsc && tsc-alias",
+        "build": "esbuild src/index.ts --bundle --outdir=dist",
         "clean": "rm -r dist/",
         "typecheck": "tsc --noEmit",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
@@ -28,6 +27,7 @@
     "devDependencies": {
         "@pianity/eslint-config": "workspace:*",
         "@pianity/prettier-config": "workspace:*",
+        "esbuild": "^0.14.42",
         "eslint": "^8.16.0",
         "prettier": "^2.6.2",
         "tsc-alias": "^1.6.7",
