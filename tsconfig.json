@@ -1,0 +1,29 @@
+{
+    "include": ["scripts/**/*.ts"],
+    "compilerOptions": {
+        "target": "es2022",
+        "lib": ["es2022"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "baseUrl": "scripts/",
+        "paths": {
+            "@/*": ["*"],
+            "root-package.json": ["../package.json"],
+            "arsnap-package.json": ["../packages/arsnap/package.json"],
+            "adapter-package.json": ["../packages/adapter/package.json"],
+            "compat-package.json": ["../packages/compat/package.json"]
+        }
+    },
+    "ts-node": {
+        "transpileOnly": true,
+        "require": ["tsconfig-paths/register"]
+    }
+}

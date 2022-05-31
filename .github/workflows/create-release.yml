@@ -1,0 +1,29 @@
+name: "Create Release"
+
+on: ["workflow_dispatch"]
+
+
+jobs:
+  create-release:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+      - uses: "actions/setup-node@v3"
+        with:
+          cache: "yarn"
+          node-version: "16.x"
+
+      - name: "Check packages versions"
+        run: "yarn version check"
+
+      - name: "Install dependencies"
+        run: "yarn install --immutable"
+
+      - name: "Build packages"
+        run: "yarn build"
+
+      - name: "Check versions"
+        run: "yarn check-versions"
+
+      - name: "Ceate release"
+        run: "yarn create-release"

@@ -1,4 +1,4 @@
-name: "Release"
+name: "Publish"
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
       - name: "Build packages"
         run: "yarn build"
 
-      - name: "Deploy packages to NPM"
+      - name: "Publish packages to NPM"
         run: |
           yarn workspace @pianity/arsnap-adapter npm publish --access public --tolerate-republish
           yarn workspace @pianity/arsnap-compat npm publish --access public --tolerate-republish

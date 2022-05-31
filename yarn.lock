@@ -3859,6 +3859,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^17.0.36":
+  version: 17.0.36
+  resolution: "@types/node@npm:17.0.36"
+  checksum: 11055fde0a1e1421113849b5e32c7022911efc0be670729947bf0162970e79962d804b1eb8a9afb291380cac97cf0e684511415d586ae5fe1560322c940fe188
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -13082,6 +13089,15 @@ __metadata:
 "root@workspace:.":
   version: 0.0.0-use.local
   resolution: "root@workspace:."
+  dependencies:
+    "@pianity/eslint-config": "workspace:*"
+    "@pianity/prettier-config": "workspace:*"
+    "@types/node": ^17.0.36
+    eslint: ^8.16.0
+    nodemon: ^2.0.16
+    prettier: ^2.6.2
+    ts-node: ^10.8.0
+    typescript: ^4.7.2
   languageName: unknown
   linkType: soft
 
