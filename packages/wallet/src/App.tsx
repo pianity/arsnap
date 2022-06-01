@@ -212,7 +212,7 @@ export default function App() {
             >
                 <div className="flex flex-col mb-12">
                     <Text className="ml-1 mb-3" size="14" taller weight="semibold">
-                        ArSnap v0.0.2
+                        ArSnap v0.0.3
                     </Text>
                     <img src={permawebSeal} />
                 </div>
