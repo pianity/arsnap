@@ -23,5 +23,6 @@ is here to fill this role but it also serves other purposes:
 
 ## Hosted On The Permaweb
 
-Thanks to the power of Arweave, we will upload every new versions of ArSnap Wallet to the Permaweb,
-allowing you to rest assured that it will forever be available.
+Thanks to the power of Arweave, every new versions of ArSnap Wallet will be uploaded to the
+Permaweb, allowing you to rest assured that it will forever be available. The domain
+<https://arsnap.org> will always redirect to the latest uploaded version.
