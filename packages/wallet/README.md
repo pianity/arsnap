@@ -21,6 +21,14 @@ is here to fill this role but it also serves other purposes:
    dApp with ArSnap. So if you're eager to see how a dApp should integrate with ArSnap, the Wallet
    also serves as a complete example!
 
+## Caution
+
+The ArSnap project having not reached a stable state yet, the Wallet should only be used for
+testing purposes. It is currently advised **not** to use it with existing wallets that currently
+hold actual ARs. **The default gateway used by the wallet is the testnet at
+<https://testnet.redstone.tools>.** However, if you feel adventurous, you can change the gateway to
+<https://arweave.net> in the general settings page.
+
 ## Hosted On The Permaweb
 
 Thanks to the power of Arweave, every new versions of ArSnap Wallet will be uploaded to the
