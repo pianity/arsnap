@@ -14,17 +14,34 @@ export default function About() {
                 <div className="w-full h-[1px] bg-purple mt-6 mb-14" />
 
                 <div className="flex flex-col px-10">
-                    <Text.p size="18" className="leading-[130%] whitespace-pre-wrap mb-14">
-                        {
-                            "ArSnap is a decentralized, peer-to-peer, blockchain-based, open-source, Arweave wallet management system. It is designed to be easy to use, secure, and easy to deploy. It allows you to create and manage your own Arweave wallets, and to send and receive Arweave tokens, all through the Metamask API.\n\nCode by Eyal, Felix\n- A story written by Copilot"
-                        }
+                    <Text.p
+                        size="18"
+                        className="leading-[130%] whitespace-pre-wrap mb-5 leading-snug"
+                    >
+                        The ArSnap Wallet is part of the ArSnap Project, initiated by Pianity, a
+                        collection of packages empowering builders and users to create and access
+                        their favorite Arweave centered dApps through the already known and loved
+                        MetaMask. This is made possible by the in-development MetaMask Snap feature,
+                        that allows developers to extend MetaMask abilities in all sorts of way.
+                    </Text.p>
+
+                    <Text.p
+                        size="18"
+                        className="leading-[130%] whitespace-pre-wrap mb-10 leading-snug"
+                    >
+                        When we learned about this MetaMask Snap feature, we saw it as a great
+                        opportunity for the Arweave ecosystem so we started building around it. The
+                        end goal is to allow Arweave dApps creators to more easily expose their
+                        services to users that are already familiar with the well known wallet. In
+                        this spirit, the whole project is published under the permissive MIT license
+                        and hosted on Github. Contributions are welcomed!
                     </Text.p>
 
                     <Text.h2 color="purple-light" weight="semibold" size="24" taller>
                         Documentation
                     </Text.h2>
                     <Text.p size="18" className="leading-[130%] whitespace-pre-wrap my-6">
-                        Come check out our awesome documentation and help contribute to ArSnap!
+                        Come learn more about the project and start building!
                     </Text.p>
                     <a
                         href="https://github.com/pianity/arsnap"
@@ -45,8 +62,11 @@ export default function About() {
                     >
                         Pianity
                     </Text.h2>
-                    <Text.p size="18" className="leading-[130%] whitespace-pre-wrap my-6">
-                        ArSnap has been created for the needs of{" "}
+                    <Text.p
+                        size="18"
+                        className="leading-[130%] whitespace-pre-wrap my-6 leading-snug"
+                    >
+                        ArSnap has been created and is currently maintained by{" "}
                         <a
                             target="_blank"
                             rel="noopener noreferrer"
@@ -55,7 +75,7 @@ export default function About() {
                         >
                             Pianity
                         </a>
-                        , a music NFT platform built on Arweave.
+                        , a music NFT platform operating on Arweave.
                     </Text.p>
                 </div>
             </Container>
