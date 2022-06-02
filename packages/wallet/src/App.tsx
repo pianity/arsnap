@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
+import { version } from "package.json";
 import { AppRoute, REQUIRED_PERMISSIONS } from "@/consts";
 import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
@@ -212,7 +213,7 @@ export default function App() {
             >
                 <div className="flex flex-col mb-12">
                     <Text className="ml-1 mb-3" size="14" taller weight="semibold">
-                        ArSnap v0.0.3
+                        ArSnap {version}
                     </Text>
                     <img src={permawebSeal} />
                 </div>
