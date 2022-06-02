@@ -283,7 +283,7 @@ export default function Send({
                                 className="flex justify-between gap-2"
                             >
                                 <Text.span underlined>Fee:</Text.span>
-                                <Text.span>{`${fee} AR`}</Text.span>
+                                <Text.span>{`${fee.toFixed(12)} AR`}</Text.span>
                             </Text>
                             <Text
                                 color="purple-text"
@@ -291,7 +291,7 @@ export default function Send({
                                 className="flex justify-between gap-2"
                             >
                                 <Text.span underlined>Total:</Text.span>
-                                <Text.span>{`${total} AR`}</Text.span>
+                                <Text.span>{`${total.toFixed(12)} AR`}</Text.span>
                             </Text>
                         </div>
                     </div>
