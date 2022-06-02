@@ -46,9 +46,7 @@ export async function requestPermissions(
         return { granted: true, permissions: currentPermissions };
     }
 
-    const newPermissionsString = newPermissions
-        .map((permission) => `    • ${permission}`)
-        .join("\n");
+    const newPermissionsString = newPermissions.map((permission) => `• ${permission}`).join("\n");
 
     const granted = await confirmPopup(
         "Permissions Request",
