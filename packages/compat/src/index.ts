@@ -68,10 +68,22 @@ async function connect(permissions: ArconnectPermission[], _appInfo?: AppInfo) {
     await adapter.requestPermissions(convertPermsToArsnap(permissions));
 }
 
-async function getPermissions(): Promise<ArconnectPermission[]> {
-    const permissions = await adapter.getPermissions();
+async function disconnect() {
+    try {
+        await adapter.revokeAllPermissions();
+    } catch {
+        // ignore errors
+    }
+}
 
-    return convertPermsToArconnect(permissions);
+async function getPermissions(): Promise<ArconnectPermission[]> {
+    try {
+        const permissions = await adapter.getPermissions();
+
+        return convertPermsToArconnect(permissions);
+    } catch {
+        return [];
+    }
 }
 
 async function getActivePublicKey(): Promise<string> {
@@ -115,7 +127,7 @@ if (typeof window !== "undefined") {
         window.arweaveWallet = {
             walletName: "ArSnap",
             connect,
-            disconnect: unimplemented,
+            disconnect,
             getPermissions,
             getArweaveConfig: unimplemented,
             getActiveAddress: adapter.getActiveAddress,
