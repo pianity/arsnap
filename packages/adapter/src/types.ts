@@ -24,6 +24,7 @@ export type RpcApi = {
     get_permissions: () => Promise<Permission[]>;
     request_permissions: (permissions: Permission[]) => Promise<boolean>;
     revoke_permissions: (permissions: Permission[]) => Promise<null>;
+    revoke_all_permissions: () => Promise<null>;
     get_dapps_permissions: () => Promise<[dappOrigin: string, permissions: Permission[]][]>;
     revoke_dapp_permissions: (dapp: string, permissions: Permission[]) => Promise<null>;
 

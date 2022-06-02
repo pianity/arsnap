@@ -46,6 +46,9 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
         case "revoke_permissions":
             return await handlers.revokePermissions(state, origin, ...params);
 
+        case "revoke_all_permissions":
+            return await handlers.revokeAllPermissions(state, origin);
+
         case "get_dapps_permissions":
             await guard(origin, permissions, "GET_DAPPS_PERMISSIONS");
             return await handlers.getDappsPermissions(state);

@@ -23,7 +23,7 @@
         "generate-doc": "yarn typedoc",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
         "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
-        "example": "vite example"
+        "example": "vite ./example"
     },
     "dependencies": {
         "arweave": "^1.10.23",

@@ -32,6 +32,13 @@ export const revokePermission: RpcApi["revoke_permissions"] = (...params) => {
 };
 
 /**
+ * Revoke all the granted permissions for the current dApp.
+ */
+export const revokeAllPermissions: RpcApi["revoke_all_permissions"] = (...params) => {
+    return requestSnap("revoke_all_permissions", params);
+};
+
+/**
  * Get permisssions granted for all dApps.
  *
  * @requires "GET_DAPPS_PERMISSIONS"

@@ -67,6 +67,21 @@ export const revokePermissions: WithState<WithOrigin<RpcApi["revoke_permissions"
     return null;
 };
 
+export const revokeAllPermissions: WithState<WithOrigin<RpcApi["revoke_all_permissions"]>> = async (
+    state,
+    origin,
+) => {
+    const currentPermissions = state.permissions.get(origin);
+
+    if (!currentPermissions) {
+        return null;
+    }
+
+    state.permissions.set(origin, []);
+
+    return null;
+};
+
 export const getDappsPermissions: WithState<RpcApi["get_dapps_permissions"]> = async (state) => {
     return [...state.permissions.entries()];
 };
