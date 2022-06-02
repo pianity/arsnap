@@ -15,7 +15,7 @@
     "scripts": {
         "build": "tsc && esbuild src/index.ts --bundle --outdir=dist",
         "clean": "rm -r dist/",
-        "typecheck": "tsc --noEmit",
+        "typecheck": "tsc --emitDeclarationOnly false --noEmit",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
         "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
         "example": "vite ./example"
