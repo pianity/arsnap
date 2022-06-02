@@ -15,6 +15,8 @@ const arsnapTags = [
  * Sign a transaction with the current active wallet.
  *
  * @param tx - The transaction to sign
+ *
+ * @requires - ["GET_ACTIVE_PUBLIC_KEY", "SIGN"]
  */
 export async function signTx(tx: Transaction): Promise<void> {
     const owner = await api.getActivePublicKey();
@@ -27,6 +29,7 @@ export async function signTx(tx: Transaction): Promise<void> {
 
     const dataToSign = await tx.getSignatureData();
     const dataSigned = await api.signBytes(dataToSign, 32);
+    console.log("SIGN_BYTES", dataToSign, dataSigned);
     const id = await crypto.subtle.digest("SHA-256", dataSigned);
 
     tx.setSignature({
@@ -42,6 +45,8 @@ export async function signTx(tx: Transaction): Promise<void> {
  * @param arweave - Arweave client used to send the transaction
  * @param winston - Amount of winstons to send (1 winston = 0.000000000001 AR)
  * @param recipient - Address that should receive the winstons
+ *
+ * @requires - ["GET_ACTIVE_PUBLIC_KEY", "SIGN"]
  */
 export async function sendWinstonTo(arweave: Arweave, winston: string, recipient: string) {
     const tx = await arweave.createTransaction({
