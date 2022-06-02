@@ -122,6 +122,11 @@ export default function App() {
                 await updateWallets(dispatchState);
                 return {};
 
+            case "logout":
+                await adapter.revokeAllPermissions();
+                dispatchState({ type: "logout" });
+                return {};
+
             default:
                 return exhaustive(e);
         }

@@ -34,12 +34,17 @@ export type DeleteWallet = {
     address: string;
 };
 
+export type Logout = {
+    event: "logout";
+};
+
 export type WalletMenuEvent =
     | SelectWallet
     | RenameWallet
     | ImportWallet
     | ExportWallet
-    | DeleteWallet;
+    | DeleteWallet
+    | Logout;
 
 export type WalletMenuEventResponse = {
     wallet?: NamedAddress;

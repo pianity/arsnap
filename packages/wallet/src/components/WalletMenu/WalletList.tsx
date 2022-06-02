@@ -65,6 +65,7 @@ export default function WalletList({
                     </Button>
                 </Link>
                 <button
+                    onClick={() => onEvent({ event: "logout" })}
                     className={classes(
                         "ml-auto mr-1",
                         "text-[14px] leading-[15px] font-semibold",

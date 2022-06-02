@@ -49,13 +49,18 @@ export type SetPermissions = {
     permissions: DappsPermissions;
 };
 
+export type Logout = {
+    type: "logout";
+};
+
 export type Action =
     | SetActiveWallet
     | SetWallets
     | SetArBalance
     | SetArPrice
     | SetTransactions
-    | SetPermissions;
+    | SetPermissions
+    | Logout;
 
 const reducer: Reducer<State, Action> = (state, action): State => {
     switch (action.type) {
@@ -94,6 +99,9 @@ const reducer: Reducer<State, Action> = (state, action): State => {
                 ...state,
                 dappsPermissions: action.permissions,
             };
+
+        case "logout":
+            return {};
 
         default:
             return exhaustive(action);
