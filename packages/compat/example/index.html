@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello, ArSnap!</title>
+    </head>
+
+    <body>
+        <h1>Hello, ArSnap!</h1>
+        <p>
+            First, click "Connect" to connect to ArSnap and "Request required permissions" in order
+            to be able to interact with ArSnap. Then, try out the other buttons!
+        </p>
+
+        <p id="status"></p>
+
+        <button id="connect">Connect and request required permissions</button>
+        <button id="revoke-permissions">Revoke all granted permissions</button>
+
+        <hr style="width: 100px; margin: 20px" />
+
+        <button id="get-active-address">Display the active wallet's address</button>
+        <button id="sign-message">Sign the following input's content</button>
+        <input id="message-to-sign" />
+
+        <script type="module" src="/index.ts"></script>
+    </body>
+</html>
