@@ -29,6 +29,24 @@ hold actual ARs. **The default gateway used by the wallet is the testnet at
 <https://testnet.redstone.tools>.** However, if you feel adventurous, you can change the gateway to
 <https://arweave.net> in the general settings page.
 
+## Testing
+
+The testnet's gateway (which is enabled by default for now) allows users to mint new ARs straight
+into their wallet in order to test making transactions and interacting with the testnet. In order
+to give yourself some fake ARs, visit this URL:
+
+```
+https://testnet.redstone.tools/mint/<your-wallet-address>/<amount-of-winston>
+```
+
+So for example:
+
+```
+https://testnet.redstone.tools/mint/u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg/1000000000000000
+```
+
+Will send 1000 AR to `u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg`.
+
 ## Hosted On The Permaweb
 
 Thanks to the power of Arweave, every new versions of ArSnap Wallet will be uploaded to the
