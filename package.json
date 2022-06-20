@@ -16,8 +16,8 @@
         "create-release": "yarn ts-node scripts/create-release.ts"
     },
     "dependencies": {
-        "@pianity/eslint-config": "workspace:*",
-        "@pianity/prettier-config": "workspace:*",
+        "@pianity/eslint-config": "^0.0.2",
+        "@pianity/prettier-config": "^0.0.1",
         "@types/node": "^17.0.36",
         "commander": "^9.3.0",
         "eslint": "^8.16.0",

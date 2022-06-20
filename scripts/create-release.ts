@@ -71,6 +71,11 @@ async function getReleaseTag(sinceTag: string): Promise<string> {
 
     const releaseTag = await getReleaseTag(latestTag);
 
+    if (releaseTag === "") {
+        console.log("ERROR: No release to create, have you already created the tag?");
+        process.exit(1);
+    }
+
     const dupTagIndex = tags.findIndex((tag) => tag === releaseTag);
 
     if (dupTagIndex === -1) {

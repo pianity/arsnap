@@ -40,8 +40,8 @@
     },
     "devDependencies": {
         "@metamask/snaps-cli": "^0.15.0",
-        "@pianity/eslint-config": "workspace:*",
-        "@pianity/prettier-config": "workspace:*",
+        "@pianity/eslint-config": "^0.0.2",
+        "@pianity/prettier-config": "^0.0.1",
         "@types/base-64": "^1.0.0",
         "eslint": "^8.16.0",
         "mkdirp": "^1.0.4",
