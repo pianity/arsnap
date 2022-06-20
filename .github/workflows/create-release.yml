@@ -15,9 +15,6 @@ jobs:
           cache: "yarn"
           node-version: "16.x"
 
-      - name: "Check packages versions"
-        run: "yarn version check"
-
       - name: "Install dependencies"
         run: "yarn install --immutable"
 
