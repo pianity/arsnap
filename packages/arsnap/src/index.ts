@@ -38,7 +38,13 @@ function registerRequestEvent(state: State, origin: string, request: RpcRequest)
         request,
     };
 
-    state.events.unshift(event);
+    const { events, eventsStorageLimit } = state;
+
+    events.unshift(event);
+
+    if (events.length > eventsStorageLimit) {
+        events.splice(eventsStorageLimit, events.length - eventsStorageLimit);
+    }
 }
 
 registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {

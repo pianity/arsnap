@@ -52,6 +52,13 @@ export type State = {
      * List of all the successful requests created by dApps, indexed by dApp origin
      */
     events: RequestEvent[];
+
+    /**
+     * Maximum number of individual request events that will be stored.
+     *
+     * TODO: Make this configurable.
+     */
+    eventsStorageLimit: number;
 };
 
 type SerializableState = Omit<State, "wallets" | "permissions"> & {
@@ -71,6 +78,7 @@ export async function initializeState(): Promise<State> {
         activeWallet: defaultWallet.metadata.address,
         permissions: new Map(),
         events: [],
+        eventsStorageLimit: 100,
     };
 }
 
