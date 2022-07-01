@@ -1,4 +1,14 @@
-function _getNumberFormatter(locales?: string | string[], opt?: Intl.NumberFormatOptions) {
+export function formatTimestamp(timestamp: number): string {
+    return new Date(timestamp).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+}
+
+function getNumberFormatter(locales?: string | string[], opt?: Intl.NumberFormatOptions) {
     try {
         return new Intl.NumberFormat(locales, opt);
     } catch {
@@ -31,6 +41,6 @@ export function getFiatFormatter(locales?: string | string[], opt?: Intl.NumberF
         ...(opt ?? {}),
     };
 
-    const formatter = _getNumberFormatter(locales, options);
+    const formatter = getNumberFormatter(locales, options);
     return formatter;
 }

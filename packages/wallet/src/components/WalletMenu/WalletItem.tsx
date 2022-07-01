@@ -12,7 +12,7 @@ import {
     SelectWallet,
 } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
-import truncateStringCenter, { triggerFocus } from "@/utils";
+import { truncateStringCenter, triggerFocus } from "@/utils";
 import CopiableText from "@/components/interface/typography/CopiableText";
 import { classes } from "@/utils/tailwind";
 

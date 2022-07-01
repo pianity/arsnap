@@ -4,12 +4,12 @@ import { Transaction } from "@/state";
 import outgoingIconUrl from "@/assets/icons/outgoing.svg";
 import incomingIconUrl from "@/assets/icons/incoming.svg";
 import Text from "@/components/interface/typography/Text";
-import truncateStringCenter from "@/utils";
+import { truncateStringCenter } from "@/utils";
 import { TextColor } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
 import Button from "@/components/interface/Button";
 import CopiableText from "@/components/interface/typography/CopiableText";
-import { getFiatFormatter } from "@/utils/currencies";
+import { getFiatFormatter, formatTimestamp } from "@/utils/locale";
 
 type TransactionItemProps = {
     arPrice?: number;
@@ -62,13 +62,7 @@ export default function TransactionItem({ arPrice, transaction }: TransactionIte
                         {state}
                     </Text>
                     <Text.span size="13" color="purple-light" opacity="50">
-                        {new Date(transaction.timestamp * 1000).toLocaleDateString(undefined, {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        })}
+                        {formatTimestamp(transaction.timestamp)}
                     </Text.span>
                 </div>
 

@@ -1,7 +1,7 @@
 import { SendFormData } from "@/views/Send";
 import Text from "@/components/interface/typography/Text";
 import ARIcon from "@/components/interface/svg/ARIcon";
-import truncateStringCenter from "@/utils";
+import { truncateStringCenter } from "@/utils";
 import Button from "@/components/interface/Button";
 
 type ConfirmSendProps = {

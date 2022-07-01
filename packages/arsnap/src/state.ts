@@ -1,6 +1,6 @@
 import { Mutex, MutexInterface } from "async-mutex";
 
-import { Permission } from "@pianity/arsnap-adapter";
+import { Permission, RequestEvent, RpcRequest } from "@pianity/arsnap-adapter";
 
 import { EncryptedData, encryptWallet, JWKInterface } from "@/crypto";
 import { generateWallet } from "@/wallets";
@@ -47,6 +47,11 @@ export type State = {
      * List of permissions indexed by `originString`.
      */
     permissions: Map<string, Permission[]>;
+
+    /**
+     * List of all the successful requests created by dApps, indexed by dApp origin
+     */
+    events: RequestEvent[];
 };
 
 type SerializableState = Omit<State, "wallets" | "permissions"> & {
@@ -65,6 +70,7 @@ export async function initializeState(): Promise<State> {
         ]),
         activeWallet: defaultWallet.metadata.address,
         permissions: new Map(),
+        events: [],
     };
 }
 

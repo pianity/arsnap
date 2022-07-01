@@ -1,5 +1,5 @@
 import Button from "@/components/interface/Button";
-import truncateStringCenter from "@/utils";
+import { truncateStringCenter } from "@/utils";
 import Text from "@/components/interface/typography/Text";
 import { classes } from "@/utils/tailwind";
 

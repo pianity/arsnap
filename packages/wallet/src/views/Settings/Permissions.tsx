@@ -74,6 +74,11 @@ export const PERMISSIONS_DESCRIPTIONS: Record<Permission, PermissionDescription>
         dangerous: true,
         description: "Delete a wallet",
     },
+
+    GET_EVENTS: {
+        dangerous: true,
+        description: "Get all events",
+    },
 };
 
 export type PermissionsProps = {

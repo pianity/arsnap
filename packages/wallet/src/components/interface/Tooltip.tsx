@@ -49,7 +49,7 @@ export default function Tooltip({
                         : "top-2 opacity-0 invisible",
                 )}
             >
-                <div className="bg-white rounded-md p-4 w-max max-w-[35ch] text-center">
+                <div className="bg-white rounded-md p-4 w-max max-w-[35ch] text-center break-words">
                     <Text.span color="gray-dark" size="14" taller>
                         {text}
                     </Text.span>

@@ -46,7 +46,7 @@ export function findAddressName(wallets: [string, string][], needle: string): st
  * @param separator - string used to replace the truncated part (default "...")
  * @returns string truncated in the middle
  */
-export default function truncateStringCenter(str: string, strLen = 30, separator = "...") {
+export function truncateStringCenter(str: string, strLen = 30, separator = "...") {
     if (!str || str.length < strLen) return str;
 
     const sepLen = separator.length;

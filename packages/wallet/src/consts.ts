@@ -16,6 +16,7 @@ export const REQUIRED_PERMISSIONS: Permission[] = [
     "EXPORT_WALLET",
     "RENAME_WALLET",
     "DELETE_WALLET",
+    "GET_EVENTS",
 ];
 
 export enum AppRoute {

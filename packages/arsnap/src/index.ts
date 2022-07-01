@@ -1,10 +1,45 @@
-import { RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
+import { RequestEvent, RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
 
 import * as handlers from "@/handlers";
 import { registerRpcMessageHandler } from "@/metamask";
 import { getState, initializeState, replaceState, State } from "@/state";
 import { exhaustive } from "@/utils";
 import { guard } from "@/permissions";
+
+function registerRequestEvent(state: State, origin: string, request: RpcRequest) {
+    // Don't register "is_enabled" and "get_permissions" requests, they're not interesting as they
+    // don't require any permissions.
+    if (request.method === "is_enabled" || request.method === "get_permissions") {
+        return;
+    }
+
+    // Redact data for the following requests as they could be sensitive or too large.
+    if (request.method === "sign_bytes") {
+        request.params = [{} as Uint8Array, 0];
+    } else if (request.method === "import_wallet") {
+        const redactedWallet = {
+            kty: "",
+            e: "",
+            n: "",
+            d: "",
+            p: "",
+            q: "",
+            dp: "",
+            dq: "",
+            qi: "",
+        };
+
+        request.params = [redactedWallet, request.params[1] ?? ""];
+    }
+
+    const event: RequestEvent = {
+        timestamp: Date.now(),
+        origin,
+        request,
+    };
+
+    state.events.unshift(event);
+}
 
 registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
     const [maybeState, releaseState] = await getState();
@@ -15,6 +50,9 @@ registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
 
     try {
         response = await handleRequest(state, origin, request);
+
+        registerRequestEvent(state, origin, request);
+
         // eslint-disable-next-line no-useless-catch
     } catch (e) {
         throw e;
@@ -96,6 +134,10 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
         case "delete_wallet":
             await guard(origin, permissions, "DELETE_WALLET");
             return await handlers.deleteWallet(state, origin, ...params);
+
+        case "get_events":
+            await guard(origin, permissions, "GET_EVENTS");
+            return state.events;
 
         default:
             return exhaustive(method);

@@ -16,7 +16,15 @@ export type Permission =
     | "IMPORT_WALLET"
     | "EXPORT_WALLET"
     | "RENAME_WALLET"
-    | "DELETE_WALLET";
+    | "DELETE_WALLET"
+    //
+    | "GET_EVENTS";
+
+export type RequestEvent = {
+    timestamp: number;
+    origin: string;
+    request: RpcRequest;
+};
 
 export type RpcApi = {
     is_enabled: () => Promise<boolean>;
@@ -26,7 +34,7 @@ export type RpcApi = {
     revoke_permissions: (permissions: Permission[]) => Promise<null>;
     revoke_all_permissions: () => Promise<null>;
     get_dapps_permissions: () => Promise<[dappOrigin: string, permissions: Permission[]][]>;
-    revoke_dapp_permissions: (dapp: string, permissions: Permission[]) => Promise<null>;
+    revoke_dapp_permissions: (dappOrigin: string, permissions: Permission[]) => Promise<null>;
 
     get_active_address: () => Promise<string>;
     get_active_public_key: () => Promise<string>;
@@ -42,8 +50,10 @@ export type RpcApi = {
     export_wallet: (
         address: string,
     ) => Promise<{ jwk: JWKInterface; name: string; address: string }>;
-    delete_wallet: (address: string) => Promise<null>;
     rename_wallet: (address: string, name: string) => Promise<null>;
+    delete_wallet: (address: string) => Promise<null>;
+
+    get_events: () => Promise<RequestEvent[]>;
 };
 
 export type RpcRequest = {

@@ -6,7 +6,7 @@ import Container from "@/components/interface/layout/Container";
 import sendIconUrl from "@/assets/icons/send.svg";
 import { AppRoute } from "@/consts";
 import { classes } from "@/utils/tailwind";
-import { getFiatFormatter } from "@/utils/currencies";
+import { getFiatFormatter } from "@/utils/locale";
 
 type BalanceProps = {
     /** Set to true to shrink size of balance component */

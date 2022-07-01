@@ -4,11 +4,13 @@ import { exhaustive } from "@/utils";
 import { Transactions } from "@/state/getTransactions";
 import { Wallets } from "@/state/getWallets";
 import { DappsPermissions } from "@/state/getPermissions";
+import { RequestEvents } from "@/state/getEvents";
 
 export * from "@/state/getTransactions";
 export * from "@/state/getPermissions";
 export * from "@/state/getBalance";
 export * from "@/state/getWallets";
+export * from "@/state/getEvents";
 
 export type State = {
     activeWallet?: string;
@@ -17,6 +19,7 @@ export type State = {
     arPrice?: number;
     transactions?: Transactions;
     dappsPermissions?: DappsPermissions;
+    events?: RequestEvents;
 };
 
 export type SetActiveWallet = {
@@ -49,6 +52,11 @@ export type SetPermissions = {
     permissions: DappsPermissions;
 };
 
+export type SetEvents = {
+    type: "setEvents";
+    events: RequestEvents;
+};
+
 export type Logout = {
     type: "logout";
 };
@@ -60,6 +68,7 @@ export type Action =
     | SetArPrice
     | SetTransactions
     | SetPermissions
+    | SetEvents
     | Logout;
 
 const reducer: Reducer<State, Action> = (state, action): State => {
@@ -98,6 +107,12 @@ const reducer: Reducer<State, Action> = (state, action): State => {
             return {
                 ...state,
                 dappsPermissions: action.permissions,
+            };
+
+        case "setEvents":
+            return {
+                ...state,
+                events: action.events,
             };
 
         case "logout":

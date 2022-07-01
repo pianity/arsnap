@@ -124,6 +124,13 @@ export const exportWallet: RpcApi["export_wallet"] = (...params) => {
 };
 
 /**
+ * @requires "RENAME_WALLET"
+ */
+export const renameWallet: RpcApi["rename_wallet"] = (...params) => {
+    return requestSnap("rename_wallet", params);
+};
+
+/**
  * @requires "DELETE_WALLET"
  */
 export const deleteWallet: RpcApi["delete_wallet"] = (...params) => {
@@ -131,8 +138,8 @@ export const deleteWallet: RpcApi["delete_wallet"] = (...params) => {
 };
 
 /**
- * @requires "RENAME_WALLET"
+ * @requires "GET_EVENTS"
  */
-export const renameWallet: RpcApi["rename_wallet"] = (...params) => {
-    return requestSnap("rename_wallet", params);
+export const getEvents: RpcApi["get_events"] = (...params) => {
+    return requestSnap("get_events", params);
 };

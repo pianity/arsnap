@@ -19,7 +19,7 @@ import Modal from "@/components/interface/Modal";
 import ConfirmSend from "@/components/ConfirmSend";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { classes } from "@/utils/tailwind";
-import { getFiatFormatter } from "@/utils/currencies";
+import { getFiatFormatter } from "@/utils/locale";
 import { GatewayName } from "@/state/config";
 import { SetState } from "@/utils/types";
 
