@@ -1,6 +1,6 @@
 import { RpcApi } from "@pianity/arsnap-adapter";
 
-import { decryptWallet, encryptWallet, signWithJwk } from "@/crypto";
+import { signWithJwk } from "@/crypto";
 import * as walletsUtils from "@/wallets";
 import * as permissions from "@/permissions";
 import { getOrThrow } from "@/utils";
@@ -137,7 +137,7 @@ export const signBytes: WithState<RpcApi["sign_bytes"]> = async (state, data, sa
 
     const wallet = getOrThrow(state.wallets, state.activeWallet);
 
-    return await signWithJwk((await decryptWallet(state.keySalt, wallet)).key, data, saltLength);
+    return await signWithJwk(wallet.key, data, saltLength);
 };
 
 export const setActiveAddress: WithState<RpcApi["set_active_address"]> = async (state, address) => {
@@ -165,7 +165,7 @@ export const importWallet: WithState<RpcApi["import_wallet"]> = async (state, jw
         );
     }
 
-    state.wallets.set(wallet.metadata.address, await encryptWallet(state.keySalt, wallet));
+    state.wallets.set(wallet.metadata.address, wallet);
 
     return { name: wallet.metadata.name, address: wallet.metadata.address };
 };
@@ -194,7 +194,7 @@ export const exportWallet: WithState<WithOrigin<RpcApi["export_wallet"]>> = asyn
     }
 
     return {
-        jwk: (await decryptWallet(state.keySalt, wallet)).key,
+        jwk: wallet.key,
         address: wallet.metadata.address,
         name: wallet.metadata.name,
     };
