@@ -3200,21 +3200,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/contract-metadata@npm:^1.33.0":
+"@metamask/browser-passworder@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@metamask/browser-passworder@npm:3.0.0"
+  checksum: 2eccb399341b377b60b544bce758a597c77518983ef13bed50ca795e0053ab883570de884fcba8782a1edc8541b0e03d1124b4097e0bad5d70544e28e320685c
+  languageName: node
+  linkType: hard
+
+"@metamask/contract-metadata@npm:^1.35.0":
   version: 1.35.0
   resolution: "@metamask/contract-metadata@npm:1.35.0"
   checksum: d2bbb8bff2e2ebd4104512dbf4b2900fffd1f03125673b0d3ac58dac0e3b324402fec7170229dfdb601635d6d7074e0755f139149b3dc8640ee4703c17eb2383
   languageName: node
   linkType: hard
 
-"@metamask/controllers@npm:^29.0.1":
-  version: 29.0.1
-  resolution: "@metamask/controllers@npm:29.0.1"
+"@metamask/controllers@npm:^30.0.0":
+  version: 30.1.0
+  resolution: "@metamask/controllers@npm:30.1.0"
   dependencies:
     "@ethereumjs/common": ^2.3.1
     "@ethereumjs/tx": ^3.2.1
     "@keystonehq/metamask-airgapped-keyring": ^0.3.0
-    "@metamask/contract-metadata": ^1.33.0
+    "@metamask/contract-metadata": ^1.35.0
     "@metamask/metamask-eth-abis": 3.0.0
     "@metamask/types": ^1.1.0
     "@types/uuid": ^8.3.0
@@ -3226,7 +3233,7 @@ __metadata:
     eth-json-rpc-infura: ^5.1.0
     eth-keyring-controller: ^7.0.2
     eth-method-registry: 1.1.0
-    eth-phishing-detect: ^1.1.16
+    eth-phishing-detect: ^1.2.0
     eth-query: ^2.1.2
     eth-rpc-errors: ^4.0.0
     eth-sig-util: ^3.0.0
@@ -3246,7 +3253,7 @@ __metadata:
     uuid: ^8.3.2
     web3: ^0.20.7
     web3-provider-engine: ^16.0.3
-  checksum: 05d3f178c9ba964f5a3a8a3e1d04e797cb2a2c8b738311c5f5a23f2a73bc668819f788ff312e92985719f90b08bc4f022799b915424167cec3543a6e402eee19
+  checksum: 1838f71b3c485fead7b6a4bff05956e3c8f47d8507fd1067fd86614c5098546cd16e94f5d90fcc3bb646f9da2bcf0ff0320df1a3fdbc58719633c221c0e0be05
   languageName: node
   linkType: hard
 
@@ -3276,20 +3283,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/execution-environments@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/execution-environments@npm:0.15.0"
+"@metamask/execution-environments@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@metamask/execution-environments@npm:0.16.0"
   dependencies:
     "@metamask/object-multiplex": ^1.2.0
     "@metamask/post-message-stream": ^4.0.0
-    "@metamask/providers": ^8.1.1
-    "@metamask/snap-types": ^0.15.0
+    "@metamask/providers": ^9.0.0
+    "@metamask/snap-types": ^0.16.0
     "@metamask/utils": ^2.0.0
     eth-rpc-errors: ^4.0.3
     pump: ^3.0.0
     ses: ^0.15.15
     stream-browserify: ^3.0.0
-  checksum: 66051df255e15e52c7cd20a797bd5b6c272bbafea834ba1d66c42a29981665a034636c92a8f81b5cee33417845141dffc0c5e33219e100098c8dd5ff78d8be63
+  checksum: 9c7c73f08087610a09f790537c908366c5cd568738cae8a0939c8f4058f312727e0ff21d2df9870632a3086baf367e6ff1aebfcc54e185e2c53d4668a3cf3f29
   languageName: node
   linkType: hard
 
@@ -3343,9 +3350,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^8.1.1":
-  version: 8.1.1
-  resolution: "@metamask/providers@npm:8.1.1"
+"@metamask/providers@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@metamask/providers@npm:9.0.0"
   dependencies:
     "@metamask/object-multiplex": ^1.1.0
     "@metamask/safe-event-emitter": ^2.0.0
@@ -3359,7 +3366,7 @@ __metadata:
     json-rpc-middleware-stream: ^3.0.0
     pump: ^3.0.0
     webextension-polyfill-ts: ^0.25.0
-  checksum: 69172c084fa8cfc78777dfed228c38ec8bce81f84c40ece1aa6521c571bee5e0f431f7b1df9028e9d23ef5fa7694f34777b3ee4585cbe6674372e1880dc5c1b1
+  checksum: c005742d0757b10bec9da66f077e364794ae306b5371155aa98f29fce2ba534c7d95637359a2caffca7c22abc3270ad69344fe1b6c9065aed50866d795c27336
   languageName: node
   linkType: hard
 
@@ -3370,12 +3377,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/snap-controllers@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/snap-controllers@npm:0.15.0"
+"@metamask/snap-controllers@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@metamask/snap-controllers@npm:0.16.0"
   dependencies:
-    "@metamask/controllers": ^29.0.1
-    "@metamask/execution-environments": ^0.15.0
+    "@metamask/browser-passworder": ^3.0.0
+    "@metamask/controllers": ^30.0.0
+    "@metamask/execution-environments": ^0.16.0
     "@metamask/object-multiplex": ^1.1.0
     "@metamask/obs-store": ^7.0.0
     "@metamask/post-message-stream": 4.0.0
@@ -3397,40 +3405,40 @@ __metadata:
     readable-web-to-node-stream: ^3.0.2
     semver: ^7.3.5
     tar-stream: ^2.2.0
-  checksum: dcfa5e6350e1534d610051c3a6bb08f1b433538524144b326f5ab79a412d40627378bc96a3e70eed69b0325146a6a6e974b5494187b1813335bc7a58ee5a2a26
+  checksum: f6c852ecd0bae8c3dbdd6992d1f0c4c3ac4da5f7bb7628af8b380f47b6f9f38bc5d4662c1a06722822496ddfcf70e47ee3255dd033903a79d5e32f35c9fcd4ce
   languageName: node
   linkType: hard
 
-"@metamask/snap-types@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/snap-types@npm:0.15.0"
+"@metamask/snap-types@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@metamask/snap-types@npm:0.16.0"
   dependencies:
-    "@metamask/controllers": ^29.0.1
-  checksum: 8c45fcc868d51d4c61a1d410a7c487697b697f0b834283363b20a793eca8e19b7d629c12b7cec8cec76640e2a8e7eceb009634610902992db53ab21aa2cd3b6f
+    "@metamask/controllers": ^30.0.0
+  checksum: be116b2204076b9fbc5aecfb488ec3d8e65c83e483acff6dd794c99e42bbb5f417ec27fcce9b9bd9cc260483ff3546a995be28e4180126dc2c7c25928a926437
   languageName: node
   linkType: hard
 
-"@metamask/snap-utils@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/snap-utils@npm:0.15.0"
+"@metamask/snap-utils@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@metamask/snap-utils@npm:0.16.0"
   dependencies:
     "@chainsafe/strip-comments": ^1.0.7
-  checksum: 5635f262e0c4a95eabe5e133bf34c484947d7496bacbe79d81b1212f4dd4d02c413bef4d390dee1716954bc484d440390f6fc284fa95b38b66c6e6056bbb7c5b
+  checksum: 907050df89bc48fc12b6b9687d729efa3cb87f48b33757533446aad4b5667506e98ba0bbe0eb42684f4b02df93a2c83904cd19c7831f2d877d088b447f37e1bb
   languageName: node
   linkType: hard
 
-"@metamask/snaps-browserify-plugin@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/snaps-browserify-plugin@npm:0.15.0"
+"@metamask/snaps-browserify-plugin@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@metamask/snaps-browserify-plugin@npm:0.16.0"
   dependencies:
-    "@metamask/snap-utils": ^0.15.0
-  checksum: 7463fa081dd0c1e4c761422e5e39852f5b3d9e4a2fc54157c08dc1ae53f11cdc01803b392e24f4054315d2dc7d37f567ebdce14e56e26e11cce7ad931ce14f38
+    "@metamask/snap-utils": ^0.16.0
+  checksum: b1d99ee0d5096d6e854d03d8698b2f9c5d71ce4ddc0a90d28a71a064f03c5906a4a078213c32a82cc064ad9420b247d4417a8fa22d30756fddbfbce735e535ea
   languageName: node
   linkType: hard
 
-"@metamask/snaps-cli@npm:0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/snaps-cli@npm:0.15.0"
+"@metamask/snaps-cli@npm:0.16.0":
+  version: 0.16.0
+  resolution: "@metamask/snaps-cli@npm:0.16.0"
   dependencies:
     "@babel/core": ^7.16.7
     "@babel/plugin-proposal-class-properties": ^7.16.7
@@ -3440,8 +3448,8 @@ __metadata:
     "@babel/plugin-transform-runtime": ^7.16.7
     "@babel/preset-env": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
-    "@metamask/snap-controllers": ^0.15.0
-    "@metamask/snaps-browserify-plugin": ^0.15.0
+    "@metamask/snap-controllers": ^0.16.0
+    "@metamask/snaps-browserify-plugin": ^0.16.0
     "@metamask/utils": ^2.0.0
     babelify: ^10.0.0
     browserify: ^17.0.0
@@ -3457,7 +3465,7 @@ __metadata:
     yargs-parser: ^20.2.2
   bin:
     mm-snap: dist/main.js
-  checksum: ef152e1bbd06adf9d4a437db2388a624d3955dac6a8de8f4889fcc3d859f67c324527a3946c5d4f194a9b28bd633a66854d8668a5e669c9692bc22eefbe3fedf
+  checksum: a80b5d4c327fe65d8a39e2437fee209c093dc4b63b2d9cf190dd4c8558766084204deb54121d293333c36512fb7586ae80ae1b0c1ff173c19dcf3c113ef9e010
   languageName: node
   linkType: hard
 
@@ -3666,7 +3674,7 @@ __metadata:
   resolution: "@pianity/arsnap@workspace:packages/arsnap"
   dependencies:
     "@metamask/key-tree": 4.0.0
-    "@metamask/snaps-cli": 0.15.0
+    "@metamask/snaps-cli": 0.16.0
     "@pianity/arsnap-adapter": "workspace:*"
     "@pianity/eslint-config": 0.0.2
     "@pianity/prettier-config": 0.0.1
@@ -7887,7 +7895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-phishing-detect@npm:^1.1.16":
+"eth-phishing-detect@npm:^1.2.0":
   version: 1.2.0
   resolution: "eth-phishing-detect@npm:1.2.0"
   dependencies:

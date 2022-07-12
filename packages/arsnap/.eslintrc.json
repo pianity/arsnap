@@ -4,6 +4,7 @@
     },
     "extends": "@pianity/eslint-config",
     "rules": {
-        "no-restricted-globals": ["error", "origin"]
+        "no-restricted-globals": ["error", "origin"],
+        "import/no-import-module-exports": "off"
     }
 }
