@@ -2355,7 +2355,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/cli@npm:^2.6.2":
+"@graphql-codegen/cli@npm:2.6.2":
   version: 2.6.2
   resolution: "@graphql-codegen/cli@npm:2.6.2"
   dependencies:
@@ -2452,7 +2452,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript-graphql-request@npm:^4.4.8":
+"@graphql-codegen/typescript-graphql-request@npm:4.4.8":
   version: 4.4.8
   resolution: "@graphql-codegen/typescript-graphql-request@npm:4.4.8"
   dependencies:
@@ -2468,7 +2468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript-operations@npm:^2.4.0":
+"@graphql-codegen/typescript-operations@npm:2.4.0":
   version: 2.4.0
   resolution: "@graphql-codegen/typescript-operations@npm:2.4.0"
   dependencies:
@@ -2483,7 +2483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript@npm:^2.4.11":
+"@graphql-codegen/typescript@npm:2.4.11, @graphql-codegen/typescript@npm:^2.4.11":
   version: 2.4.11
   resolution: "@graphql-codegen/typescript@npm:2.4.11"
   dependencies:
@@ -3409,25 +3409,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pianity/arsnap-adapter@workspace:packages/adapter"
   dependencies:
-    "@pianity/eslint-config": ^0.0.2
-    "@pianity/prettier-config": ^0.0.1
-    "@types/base-64": ^1.0.0
-    "@types/node-forge": ^1.0.2
-    arweave: ^1.10.23
-    base-64: ^1.0.0
-    bignumber.js: ^9.0.2
-    eslint: ^8.16.0
-    js-base64: ^3.7.2
-    node-forge: ^1.3.1
-    nodemon: ^2.0.16
-    prettier: ^2.6.2
-    replace-in-file: ^6.3.3
-    ts-node: ^10.8.0
-    tsc-alias: ^1.6.7
-    typedoc: ^0.22.15
-    typedoc-plugin-markdown: ^3.12.1
-    typescript: ^4.7.2
-    vite: ^2.9.9
+    "@pianity/eslint-config": 0.0.2
+    "@pianity/prettier-config": 0.0.1
+    arweave: 1.10.23
+    eslint: 8.16.0
+    js-base64: 3.7.2
+    nodemon: 2.0.16
+    prettier: 2.6.2
+    replace-in-file: 6.3.3
+    ts-node: 10.8.0
+    tsc-alias: 1.6.7
+    typedoc: 0.22.15
+    typedoc-plugin-markdown: 3.12.1
+    typescript: 4.7.2
+    vite: 2.9.9
   languageName: unknown
   linkType: soft
 
@@ -3436,15 +3431,15 @@ __metadata:
   resolution: "@pianity/arsnap-compat@workspace:packages/compat"
   dependencies:
     "@pianity/arsnap-adapter": "workspace:*"
-    "@pianity/eslint-config": ^0.0.2
-    "@pianity/prettier-config": ^0.0.1
+    "@pianity/eslint-config": 0.0.2
+    "@pianity/prettier-config": 0.0.1
     arconnect: 0.4.2
-    arweave: ^1.10.23
-    esbuild: ^0.14.42
-    eslint: ^8.16.0
-    prettier: ^2.6.2
-    typescript: ^4.7.2
-    vite: ^2.9.9
+    arweave: 1.10.23
+    esbuild: 0.14.42
+    eslint: 8.16.0
+    prettier: 2.6.2
+    typescript: 4.7.2
+    vite: 2.9.9
   languageName: unknown
   linkType: soft
 
@@ -3453,38 +3448,33 @@ __metadata:
   resolution: "@pianity/arsnap-wallet@workspace:packages/wallet"
   dependencies:
     "@bundlr-network/client": 0.7.4
-    "@graphql-codegen/cli": ^2.6.2
-    "@graphql-codegen/typescript": ^2.4.11
-    "@graphql-codegen/typescript-graphql-request": ^4.4.8
-    "@graphql-codegen/typescript-operations": ^2.4.0
+    "@graphql-codegen/cli": 2.6.2
+    "@graphql-codegen/typescript": 2.4.11
+    "@graphql-codegen/typescript-graphql-request": 4.4.8
+    "@graphql-codegen/typescript-operations": 2.4.0
     "@pianity/arsnap-adapter": "workspace:*"
-    "@pianity/eslint-config": ^0.0.2
-    "@pianity/prettier-config": ^0.0.1
-    "@types/node-forge": ^1.0.2
-    "@types/react": ^18.0.9
-    "@types/react-dom": ^18.0.5
-    "@vitejs/plugin-react": ^1.3.2
-    arweave: ^1.10.23
-    autoprefixer: ^10.4.7
-    base64-js: ^1.5.1
-    bignumber.js: ^9.0.2
-    eslint: ^8.16.0
-    graphql: ^15.8.0
-    graphql-request: ^4.2.0
-    graphql-tag: ^2.12.6
-    js-base64: ^3.7.2
-    node-forge: ^1.3.1
-    postcss: ^8.4.14
-    prettier: ^2.6.2
-    react: ^18.1.0
-    react-dom: ^18.1.0
-    react-hook-form: ^7.31.3
-    react-router-dom: ^6.3.0
-    redstone-api: ^0.4.11
-    tailwindcss: ^3.0.24
-    typescript: ^4.7.2
-    vite: ^2.9.9
-    vite-tsconfig-paths: ^3.5.0
+    "@pianity/eslint-config": 0.0.2
+    "@pianity/prettier-config": 0.0.1
+    "@types/react": 18.0.9
+    "@types/react-dom": 18.0.5
+    "@vitejs/plugin-react": 1.3.2
+    arweave: 1.10.23
+    autoprefixer: 10.4.7
+    eslint: 8.16.0
+    graphql: 15.8.0
+    graphql-request: 4.2.0
+    graphql-tag: 2.12.6
+    postcss: 8.4.14
+    prettier: 2.6.2
+    react: 18.1.0
+    react-dom: 18.1.0
+    react-hook-form: 7.31.3
+    react-router-dom: 6.3.0
+    redstone-api: 0.4.11
+    tailwindcss: 3.0.24
+    typescript: 4.7.2
+    vite: 2.9.9
+    vite-tsconfig-paths: 3.5.0
   languageName: unknown
   linkType: soft
 
@@ -3495,21 +3485,19 @@ __metadata:
     "@metamask/key-tree": 4.0.0
     "@metamask/snaps-cli": 0.15.0
     "@pianity/arsnap-adapter": "workspace:*"
-    "@pianity/eslint-config": ^0.0.2
-    "@pianity/prettier-config": ^0.0.1
-    "@types/base-64": ^1.0.0
+    "@pianity/eslint-config": 0.0.2
+    "@pianity/prettier-config": 0.0.1
     async-mutex: 0.3.2
-    base64-js: 1.5.1
-    eslint: ^8.16.0
-    mkdirp: ^1.0.4
-    nodemon: ^2.0.16
-    prettier: ^2.6.2
-    tsc-alias: ^1.6.7
-    typescript: ^4.7.2
+    eslint: 8.16.0
+    js-base64: 3.7.2
+    nodemon: 2.0.16
+    prettier: 2.6.2
+    tsc-alias: 1.6.7
+    typescript: 4.7.2
   languageName: unknown
   linkType: soft
 
-"@pianity/eslint-config@npm:^0.0.2":
+"@pianity/eslint-config@npm:0.0.2":
   version: 0.0.2
   resolution: "@pianity/eslint-config@npm:0.0.2"
   dependencies:
@@ -3531,7 +3519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pianity/prettier-config@npm:^0.0.1":
+"@pianity/prettier-config@npm:0.0.1":
   version: 0.0.1
   resolution: "@pianity/prettier-config@npm:0.0.1"
   peerDependencies:
@@ -3723,13 +3711,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/base-64@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@types/base-64@npm:1.0.0"
-  checksum: bcb1b52b404a0a6e3cfdefab6d2eb04a0a23dd3881890944f56e0885866b97e8b7e13988b2fd74359a1258b68c7e399d58c0e2aaed3f03fcd801af62a0040ee2
-  languageName: node
-  linkType: hard
-
 "@types/bn.js@npm:^4.11.3":
   version: 4.11.6
   resolution: "@types/bn.js@npm:4.11.6"
@@ -3879,15 +3860,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-forge@npm:^1.0.2":
-  version: 1.0.3
-  resolution: "@types/node-forge@npm:1.0.3"
-  dependencies:
-    "@types/node": "*"
-  checksum: 394d331cd1c871442246cc96b4d2dd349f543477cdfa733f59e1f5c18572ff6d2003b5e37e4db1b51d5ca6d4491b213bf121c68001b54200575760931d481cb4
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:*":
   version: 17.0.25
   resolution: "@types/node@npm:17.0.25"
@@ -3902,17 +3874,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:17.0.36":
+  version: 17.0.36
+  resolution: "@types/node@npm:17.0.36"
+  checksum: 11055fde0a1e1421113849b5e32c7022911efc0be670729947bf0162970e79962d804b1eb8a9afb291380cac97cf0e684511415d586ae5fe1560322c940fe188
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^12.12.54":
   version: 12.20.52
   resolution: "@types/node@npm:12.20.52"
   checksum: b720ee939a43f1427baf1606deee97e50892ff482bf3d64ab8a1eda3a50802a80866a232aeab337621f6ea4fdc4515147d7829337653e9e99d97c3aaeec3615d
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^17.0.36":
-  version: 17.0.36
-  resolution: "@types/node@npm:17.0.36"
-  checksum: 11055fde0a1e1421113849b5e32c7022911efc0be670729947bf0162970e79962d804b1eb8a9afb291380cac97cf0e684511415d586ae5fe1560322c940fe188
   languageName: node
   linkType: hard
 
@@ -3953,7 +3925,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.5":
+"@types/react-dom@npm:18.0.5":
   version: 18.0.5
   resolution: "@types/react-dom@npm:18.0.5"
   dependencies:
@@ -3962,7 +3934,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.9":
+"@types/react@npm:*, @types/react@npm:18.0.9":
   version: 18.0.9
   resolution: "@types/react@npm:18.0.9"
   dependencies:
@@ -4154,7 +4126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^1.3.2":
+"@vitejs/plugin-react@npm:1.3.2":
   version: 1.3.2
   resolution: "@vitejs/plugin-react@npm:1.3.2"
   dependencies:
@@ -4633,7 +4605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"arweave@npm:^1.10.13, arweave@npm:^1.10.15, arweave@npm:^1.10.16, arweave@npm:^1.10.18, arweave@npm:^1.10.23":
+"arweave@npm:1.10.23, arweave@npm:^1.10.13, arweave@npm:^1.10.15, arweave@npm:^1.10.16, arweave@npm:^1.10.18":
   version: 1.10.23
   resolution: "arweave@npm:1.10.23"
   dependencies:
@@ -4784,7 +4756,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.7":
+"autoprefixer@npm:10.4.7":
   version: 10.4.7
   resolution: "autoprefixer@npm:10.4.7"
   dependencies:
@@ -5005,13 +4977,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base-64@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "base-64@npm:1.0.0"
-  checksum: d10b64a1fc9b2c5a5f39f1ce1e6c9d1c5b249222bbfa3a0604c592d90623caf74419983feadd8a170f27dc0c3389704f72faafa3e645aeb56bfc030c93ff074a
-  languageName: node
-  linkType: hard
-
 "base-x@npm:^1.1.0":
   version: 1.1.0
   resolution: "base-x@npm:1.1.0"
@@ -5037,7 +5002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:1.5.1, base64-js@npm:^1.0.2, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:^1.0.2, base64-js@npm:^1.3.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -5084,7 +5049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.0.2":
+"bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1":
   version: 9.0.2
   resolution: "bignumber.js@npm:9.0.2"
   checksum: 8637b71d0a99104b20413c47578953970006fec6b4df796b9dcfd9835ea9c402ea0e727eba9a5ca9f9a393c1d88b6168c5bbe0887598b708d4f8b4870ad62e1f
@@ -6012,6 +5977,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:9.3.0":
+  version: 9.3.0
+  resolution: "commander@npm:9.3.0"
+  checksum: d421ce66fee25792a1470c69aa8d1b86434bf873a96483aa92c8267f81a6f20c6f7c426f5e82f88ac50a8ec4855d3f2787aebcdef8aa559e1080a2337a95a217
+  languageName: node
+  linkType: hard
+
 "commander@npm:^2.20.3":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -6030,13 +6002,6 @@ __metadata:
   version: 9.2.0
   resolution: "commander@npm:9.2.0"
   checksum: 7c82e4cd969712aa6d7c055b8351807a7230f9f31ef7ec7881e11a1147511de85adf5d6ccfd200240a118eecf693b220caf6865b8efbcea558a70d35aa9ed711
-  languageName: node
-  linkType: hard
-
-"commander@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "commander@npm:9.3.0"
-  checksum: d421ce66fee25792a1470c69aa8d1b86434bf873a96483aa92c8267f81a6f20c6f7c426f5e82f88ac50a8ec4855d3f2787aebcdef8aa559e1080a2337a95a217
   languageName: node
   linkType: hard
 
@@ -7345,6 +7310,77 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esbuild@npm:0.14.42":
+  version: 0.14.42
+  resolution: "esbuild@npm:0.14.42"
+  dependencies:
+    esbuild-android-64: 0.14.42
+    esbuild-android-arm64: 0.14.42
+    esbuild-darwin-64: 0.14.42
+    esbuild-darwin-arm64: 0.14.42
+    esbuild-freebsd-64: 0.14.42
+    esbuild-freebsd-arm64: 0.14.42
+    esbuild-linux-32: 0.14.42
+    esbuild-linux-64: 0.14.42
+    esbuild-linux-arm: 0.14.42
+    esbuild-linux-arm64: 0.14.42
+    esbuild-linux-mips64le: 0.14.42
+    esbuild-linux-ppc64le: 0.14.42
+    esbuild-linux-riscv64: 0.14.42
+    esbuild-linux-s390x: 0.14.42
+    esbuild-netbsd-64: 0.14.42
+    esbuild-openbsd-64: 0.14.42
+    esbuild-sunos-64: 0.14.42
+    esbuild-windows-32: 0.14.42
+    esbuild-windows-64: 0.14.42
+    esbuild-windows-arm64: 0.14.42
+  dependenciesMeta:
+    esbuild-android-64:
+      optional: true
+    esbuild-android-arm64:
+      optional: true
+    esbuild-darwin-64:
+      optional: true
+    esbuild-darwin-arm64:
+      optional: true
+    esbuild-freebsd-64:
+      optional: true
+    esbuild-freebsd-arm64:
+      optional: true
+    esbuild-linux-32:
+      optional: true
+    esbuild-linux-64:
+      optional: true
+    esbuild-linux-arm:
+      optional: true
+    esbuild-linux-arm64:
+      optional: true
+    esbuild-linux-mips64le:
+      optional: true
+    esbuild-linux-ppc64le:
+      optional: true
+    esbuild-linux-riscv64:
+      optional: true
+    esbuild-linux-s390x:
+      optional: true
+    esbuild-netbsd-64:
+      optional: true
+    esbuild-openbsd-64:
+      optional: true
+    esbuild-sunos-64:
+      optional: true
+    esbuild-windows-32:
+      optional: true
+    esbuild-windows-64:
+      optional: true
+    esbuild-windows-arm64:
+      optional: true
+  bin:
+    esbuild: bin/esbuild
+  checksum: e036278177bdb3f5a58fd7a56f67afa7ae603e0458b0dcc75901e0fa86b07587a63c2b447653d400c1bdf9d56e93b0d1011b6a83fc3c973e752c3cc75baabb91
+  languageName: node
+  linkType: hard
+
 "esbuild@npm:^0.14.27":
   version: 0.14.39
   resolution: "esbuild@npm:0.14.39"
@@ -7413,77 +7449,6 @@ __metadata:
   bin:
     esbuild: bin/esbuild
   checksum: 400d97fb3ede3bdd6a50f28fd7d18d9a009a46dcf59c3988b87842f421ae36fa9a3c81bb0acd6ab07059143bc4b5f0c429f8a4129d1dc687e00aa497eb10f77b
-  languageName: node
-  linkType: hard
-
-"esbuild@npm:^0.14.42":
-  version: 0.14.42
-  resolution: "esbuild@npm:0.14.42"
-  dependencies:
-    esbuild-android-64: 0.14.42
-    esbuild-android-arm64: 0.14.42
-    esbuild-darwin-64: 0.14.42
-    esbuild-darwin-arm64: 0.14.42
-    esbuild-freebsd-64: 0.14.42
-    esbuild-freebsd-arm64: 0.14.42
-    esbuild-linux-32: 0.14.42
-    esbuild-linux-64: 0.14.42
-    esbuild-linux-arm: 0.14.42
-    esbuild-linux-arm64: 0.14.42
-    esbuild-linux-mips64le: 0.14.42
-    esbuild-linux-ppc64le: 0.14.42
-    esbuild-linux-riscv64: 0.14.42
-    esbuild-linux-s390x: 0.14.42
-    esbuild-netbsd-64: 0.14.42
-    esbuild-openbsd-64: 0.14.42
-    esbuild-sunos-64: 0.14.42
-    esbuild-windows-32: 0.14.42
-    esbuild-windows-64: 0.14.42
-    esbuild-windows-arm64: 0.14.42
-  dependenciesMeta:
-    esbuild-android-64:
-      optional: true
-    esbuild-android-arm64:
-      optional: true
-    esbuild-darwin-64:
-      optional: true
-    esbuild-darwin-arm64:
-      optional: true
-    esbuild-freebsd-64:
-      optional: true
-    esbuild-freebsd-arm64:
-      optional: true
-    esbuild-linux-32:
-      optional: true
-    esbuild-linux-64:
-      optional: true
-    esbuild-linux-arm:
-      optional: true
-    esbuild-linux-arm64:
-      optional: true
-    esbuild-linux-mips64le:
-      optional: true
-    esbuild-linux-ppc64le:
-      optional: true
-    esbuild-linux-riscv64:
-      optional: true
-    esbuild-linux-s390x:
-      optional: true
-    esbuild-netbsd-64:
-      optional: true
-    esbuild-openbsd-64:
-      optional: true
-    esbuild-sunos-64:
-      optional: true
-    esbuild-windows-32:
-      optional: true
-    esbuild-windows-64:
-      optional: true
-    esbuild-windows-arm64:
-      optional: true
-  bin:
-    esbuild: bin/esbuild
-  checksum: e036278177bdb3f5a58fd7a56f67afa7ae603e0458b0dcc75901e0fa86b07587a63c2b447653d400c1bdf9d56e93b0d1011b6a83fc3c973e752c3cc75baabb91
   languageName: node
   linkType: hard
 
@@ -7725,7 +7690,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.16.0":
+"eslint@npm:8.16.0":
   version: 8.16.0
   resolution: "eslint@npm:8.16.0"
   dependencies:
@@ -9130,7 +9095,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-request@npm:^4.0.0, graphql-request@npm:^4.2.0":
+"graphql-request@npm:4.2.0, graphql-request@npm:^4.0.0":
   version: 4.2.0
   resolution: "graphql-request@npm:4.2.0"
   dependencies:
@@ -9143,7 +9108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-tag@npm:^2.11.0, graphql-tag@npm:^2.12.6":
+"graphql-tag@npm:2.12.6, graphql-tag@npm:^2.11.0":
   version: 2.12.6
   resolution: "graphql-tag@npm:2.12.6"
   dependencies:
@@ -9163,7 +9128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^15.8.0":
+"graphql@npm:15.8.0":
   version: 15.8.0
   resolution: "graphql@npm:15.8.0"
   checksum: 423325271db8858428641b9aca01699283d1fe5b40ef6d4ac622569ecca927019fce8196208b91dd1d8eb8114f00263fe661d241d0eb40c10e5bfd650f86ec5e
@@ -10256,7 +10221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-base64@npm:^3.7.2":
+"js-base64@npm:3.7.2":
   version: 3.7.2
   resolution: "js-base64@npm:3.7.2"
   checksum: 573f28e9a27c3df60096d4d3f551bcb4fcb6d49161cf83396e9bad9b76f94736a70bb70b8808fe834dff2a388f76604ba09d6e153bbf181646e407720139fa5b
@@ -11532,13 +11497,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-forge@npm:^1.3.1":
-  version: 1.3.1
-  resolution: "node-forge@npm:1.3.1"
-  checksum: 08fb072d3d670599c89a1704b3e9c649ff1b998256737f0e06fbd1a5bf41cae4457ccaee32d95052d80bbafd9ffe01284e078c8071f0267dc9744e51c5ed42a9
-  languageName: node
-  linkType: hard
-
 "node-gyp-build@npm:^4.2.0, node-gyp-build@npm:^4.3.0":
   version: 4.4.0
   resolution: "node-gyp-build@npm:4.4.0"
@@ -11591,7 +11549,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemon@npm:^2.0.16":
+"nodemon@npm:2.0.16":
   version: 2.0.16
   resolution: "nodemon@npm:2.0.16"
   dependencies:
@@ -12364,6 +12322,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss@npm:8.4.14, postcss@npm:^8.4.13":
+  version: 8.4.14
+  resolution: "postcss@npm:8.4.14"
+  dependencies:
+    nanoid: ^3.3.4
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: fe58766ff32e4becf65a7d57678995cfd239df6deed2fe0557f038b47c94e4132e7e5f68b5aa820c13adfec32e523b693efaeb65798efb995ce49ccd83953816
+  languageName: node
+  linkType: hard
+
 "postcss@npm:^8.4.12":
   version: 8.4.12
   resolution: "postcss@npm:8.4.12"
@@ -12372,17 +12341,6 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
   checksum: 248e3d0f9bbb8efaafcfda7f91627a29bdc9a19f456896886330beb28c5abea0e14c7901b35191928602e2eccbed496b1e94097d27a0b2a980854cd00c7a835f
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.4.13, postcss@npm:^8.4.14":
-  version: 8.4.14
-  resolution: "postcss@npm:8.4.14"
-  dependencies:
-    nanoid: ^3.3.4
-    picocolors: ^1.0.0
-    source-map-js: ^1.0.2
-  checksum: fe58766ff32e4becf65a7d57678995cfd239df6deed2fe0557f038b47c94e4132e7e5f68b5aa820c13adfec32e523b693efaeb65798efb995ce49ccd83953816
   languageName: node
   linkType: hard
 
@@ -12407,7 +12365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.6.2":
+"prettier@npm:2.6.2":
   version: 2.6.2
   resolution: "prettier@npm:2.6.2"
   bin:
@@ -12694,7 +12652,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.1.0":
+"react-dom@npm:18.1.0":
   version: 18.1.0
   resolution: "react-dom@npm:18.1.0"
   dependencies:
@@ -12706,7 +12664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.31.3":
+"react-hook-form@npm:7.31.3":
   version: 7.31.3
   resolution: "react-hook-form@npm:7.31.3"
   peerDependencies:
@@ -12729,7 +12687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.3.0":
+"react-router-dom@npm:6.3.0":
   version: 6.3.0
   resolution: "react-router-dom@npm:6.3.0"
   dependencies:
@@ -12753,7 +12711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.1.0":
+"react@npm:18.1.0":
   version: 18.1.0
   resolution: "react@npm:18.1.0"
   dependencies:
@@ -12887,7 +12845,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redstone-api@npm:^0.4.11":
+"redstone-api@npm:0.4.11":
   version: 0.4.11
   resolution: "redstone-api@npm:0.4.11"
   dependencies:
@@ -13070,7 +13028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"replace-in-file@npm:^6.3.3":
+"replace-in-file@npm:6.3.3":
   version: 6.3.3
   resolution: "replace-in-file@npm:6.3.3"
   dependencies:
@@ -13365,15 +13323,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
-    "@pianity/eslint-config": ^0.0.2
-    "@pianity/prettier-config": ^0.0.1
-    "@types/node": ^17.0.36
-    commander: ^9.3.0
-    eslint: ^8.16.0
-    nodemon: ^2.0.16
-    prettier: ^2.6.2
-    ts-node: ^10.8.0
-    typescript: ^4.7.2
+    "@pianity/eslint-config": 0.0.2
+    "@pianity/prettier-config": 0.0.1
+    "@types/node": 17.0.36
+    commander: 9.3.0
+    eslint: 8.16.0
+    nodemon: 2.0.16
+    prettier: 2.6.2
+    ts-node: 10.8.0
+    typescript: 4.7.2
   languageName: unknown
   linkType: soft
 
@@ -14250,7 +14208,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.0.24":
+"tailwindcss@npm:3.0.24":
   version: 3.0.24
   resolution: "tailwindcss@npm:3.0.24"
   dependencies:
@@ -14459,6 +14417,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-node@npm:10.8.0":
+  version: 10.8.0
+  resolution: "ts-node@npm:10.8.0"
+  dependencies:
+    "@cspotcode/source-map-support": ^0.8.0
+    "@tsconfig/node10": ^1.0.7
+    "@tsconfig/node12": ^1.0.7
+    "@tsconfig/node14": ^1.0.0
+    "@tsconfig/node16": ^1.0.2
+    acorn: ^8.4.1
+    acorn-walk: ^8.1.1
+    arg: ^4.1.0
+    create-require: ^1.1.0
+    diff: ^4.0.1
+    make-error: ^1.1.1
+    v8-compile-cache-lib: ^3.0.1
+    yn: 3.1.1
+  peerDependencies:
+    "@swc/core": ">=1.2.50"
+    "@swc/wasm": ">=1.2.50"
+    "@types/node": "*"
+    typescript: ">=2.7"
+  peerDependenciesMeta:
+    "@swc/core":
+      optional: true
+    "@swc/wasm":
+      optional: true
+  bin:
+    ts-node: dist/bin.js
+    ts-node-cwd: dist/bin-cwd.js
+    ts-node-esm: dist/bin-esm.js
+    ts-node-script: dist/bin-script.js
+    ts-node-transpile-only: dist/bin-transpile.js
+    ts-script: dist/bin-script-deprecated.js
+  checksum: 1c22dc8dd80d0ba4dd4250b82cc032b63f6fbe8c87f8197cef43e7f9e2d43f5b333b445ed712e3006e24119257b4bff2c46605f7da61ab6f5e9514885d296f0c
+  languageName: node
+  linkType: hard
+
 "ts-node@npm:^10.5.0":
   version: 10.7.0
   resolution: "ts-node@npm:10.7.0"
@@ -14497,44 +14493,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.8.0":
-  version: 10.8.0
-  resolution: "ts-node@npm:10.8.0"
-  dependencies:
-    "@cspotcode/source-map-support": ^0.8.0
-    "@tsconfig/node10": ^1.0.7
-    "@tsconfig/node12": ^1.0.7
-    "@tsconfig/node14": ^1.0.0
-    "@tsconfig/node16": ^1.0.2
-    acorn: ^8.4.1
-    acorn-walk: ^8.1.1
-    arg: ^4.1.0
-    create-require: ^1.1.0
-    diff: ^4.0.1
-    make-error: ^1.1.1
-    v8-compile-cache-lib: ^3.0.1
-    yn: 3.1.1
-  peerDependencies:
-    "@swc/core": ">=1.2.50"
-    "@swc/wasm": ">=1.2.50"
-    "@types/node": "*"
-    typescript: ">=2.7"
-  peerDependenciesMeta:
-    "@swc/core":
-      optional: true
-    "@swc/wasm":
-      optional: true
-  bin:
-    ts-node: dist/bin.js
-    ts-node-cwd: dist/bin-cwd.js
-    ts-node-esm: dist/bin-esm.js
-    ts-node-script: dist/bin-script.js
-    ts-node-transpile-only: dist/bin-transpile.js
-    ts-script: dist/bin-script-deprecated.js
-  checksum: 1c22dc8dd80d0ba4dd4250b82cc032b63f6fbe8c87f8197cef43e7f9e2d43f5b333b445ed712e3006e24119257b4bff2c46605f7da61ab6f5e9514885d296f0c
-  languageName: node
-  linkType: hard
-
 "ts-node@npm:^9":
   version: 9.1.1
   resolution: "ts-node@npm:9.1.1"
@@ -14556,7 +14514,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsc-alias@npm:^1.6.7":
+"tsc-alias@npm:1.6.7":
   version: 1.6.7
   resolution: "tsc-alias@npm:1.6.7"
   dependencies:
@@ -14703,7 +14661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.12.1":
+"typedoc-plugin-markdown@npm:3.12.1":
   version: 3.12.1
   resolution: "typedoc-plugin-markdown@npm:3.12.1"
   dependencies:
@@ -14714,7 +14672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.15":
+"typedoc@npm:0.22.15":
   version: 0.22.15
   resolution: "typedoc@npm:0.22.15"
   dependencies:
@@ -14731,6 +14689,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:4.7.2":
+  version: 4.7.2
+  resolution: "typescript@npm:4.7.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 5163585e6b56410f77d5483b698d9489bbee8902c99029eb70cf6d21525a186530ce19a00951af84eefd4a131cc51d0959f5118e25e70ab61f45ac4057dbd1ef
+  languageName: node
+  linkType: hard
+
 "typescript@npm:^4.5.4":
   version: 4.6.4
   resolution: "typescript@npm:4.6.4"
@@ -14741,13 +14709,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.7.2":
+"typescript@patch:typescript@4.7.2#~builtin<compat/typescript>":
   version: 4.7.2
-  resolution: "typescript@npm:4.7.2"
+  resolution: "typescript@patch:typescript@npm%3A4.7.2#~builtin<compat/typescript>::version=4.7.2&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 5163585e6b56410f77d5483b698d9489bbee8902c99029eb70cf6d21525a186530ce19a00951af84eefd4a131cc51d0959f5118e25e70ab61f45ac4057dbd1ef
+  checksum: 09d93fc0983d38eadd9b0427f790b49b4437f45002a87d447be3fbe53120880e87a91dd03e1d900498f99205d6e0b7c9784fe41fca11d56f4bbce371f74bb160
   languageName: node
   linkType: hard
 
@@ -14758,16 +14726,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 1cb434fbc637d347be90e3a0c6cd05e33c38f941713c8786d3031faf1842c2c148ba91d2fac01e7276b0ae3249b8633f1660e32686cc7a8c6a8fd5361dc52c66
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.7.2#~builtin<compat/typescript>":
-  version: 4.7.2
-  resolution: "typescript@patch:typescript@npm%3A4.7.2#~builtin<compat/typescript>::version=4.7.2&hash=bda367"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 09d93fc0983d38eadd9b0427f790b49b4437f45002a87d447be3fbe53120880e87a91dd03e1d900498f99205d6e0b7c9784fe41fca11d56f4bbce371f74bb160
   languageName: node
   linkType: hard
 
@@ -15138,7 +15096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-tsconfig-paths@npm:^3.5.0":
+"vite-tsconfig-paths@npm:3.5.0":
   version: 3.5.0
   resolution: "vite-tsconfig-paths@npm:3.5.0"
   dependencies:
@@ -15152,7 +15110,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.9.9":
+"vite@npm:2.9.9":
   version: 2.9.9
   resolution: "vite@npm:2.9.9"
   dependencies:

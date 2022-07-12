@@ -1,4 +1,4 @@
-import * as Base64 from "base64-js";
+import { Base64 } from "js-base64";
 
 export function exhaustive(_: never): never {
     throw new Error("Check wasn't exhaustive");
@@ -27,11 +27,11 @@ export function b64ToBin(data: string): Uint8Array {
 }
 
 function b64UrlToBuffer(b64UrlString: string): Uint8Array {
-    return new Uint8Array(Base64.toByteArray(b64UrlDecode(b64UrlString)));
+    return new Uint8Array(Base64.toUint8Array(b64UrlDecode(b64UrlString)));
 }
 
 function bufferTob64(buffer: Uint8Array): string {
-    return Base64.fromByteArray(new Uint8Array(buffer));
+    return Base64.fromUint8Array(buffer);
 }
 
 function bufferTob64Url(buffer: Uint8Array): string {
