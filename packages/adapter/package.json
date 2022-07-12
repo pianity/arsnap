@@ -26,21 +26,21 @@
         "example": "vite ./example"
     },
     "dependencies": {
-        "arweave": "1.10.23",
+        "arweave": "1.11.4",
         "js-base64": "3.7.2",
-        "replace-in-file": "6.3.3"
+        "replace-in-file": "6.3.5"
     },
     "devDependencies": {
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
-        "eslint": "8.16.0",
-        "nodemon": "2.0.16",
-        "prettier": "2.6.2",
-        "ts-node": "10.8.0",
-        "tsc-alias": "1.6.7",
-        "typedoc": "0.22.15",
-        "typedoc-plugin-markdown": "3.12.1",
-        "typescript": "4.7.2",
-        "vite": "2.9.9"
+        "eslint": "8.19.0",
+        "nodemon": "2.0.19",
+        "prettier": "2.7.1",
+        "ts-node": "10.8.2",
+        "tsc-alias": "1.6.11",
+        "typedoc": "0.23.7",
+        "typedoc-plugin-markdown": "3.13.3",
+        "typescript": "4.7.4",
+        "vite": "2.9.14"
     }
 }

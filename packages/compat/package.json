@@ -23,15 +23,15 @@
     "dependencies": {
         "@pianity/arsnap-adapter": "workspace:*",
         "arconnect": "0.4.2",
-        "arweave": "1.10.23"
+        "arweave": "1.11.4"
     },
     "devDependencies": {
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
-        "esbuild": "0.14.42",
-        "eslint": "8.16.0",
-        "prettier": "2.6.2",
-        "typescript": "4.7.2",
-        "vite": "2.9.9"
+        "esbuild": "0.14.49",
+        "eslint": "8.19.0",
+        "prettier": "2.7.1",
+        "typescript": "4.7.4",
+        "vite": "2.9.14"
     }
 }
