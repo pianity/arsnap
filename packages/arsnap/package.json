@@ -33,13 +33,13 @@
         "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
-        "@metamask/key-tree": "^3.0.1",
+        "@metamask/key-tree": "4.0.0",
         "@pianity/arsnap-adapter": "workspace:*",
-        "async-mutex": "^0.3.2",
-        "base64-js": "^1.5.1"
+        "async-mutex": "0.3.2",
+        "base64-js": "1.5.1"
     },
     "devDependencies": {
-        "@metamask/snaps-cli": "^0.15.0",
+        "@metamask/snaps-cli": "0.15.0",
         "@pianity/eslint-config": "^0.0.2",
         "@pianity/prettier-config": "^0.0.1",
         "@types/base-64": "^1.0.0",

@@ -3110,14 +3110,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/key-tree@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@metamask/key-tree@npm:3.0.1"
+"@metamask/key-tree@npm:4.0.0":
+  version: 4.0.0
+  resolution: "@metamask/key-tree@npm:4.0.0"
   dependencies:
-    bip39: ^3.0.4
-    keccak: ^3.0.2
-    secp256k1: ^4.0.2
-  checksum: 83705fde3b1c4e2fccceba761117a887cbc13cc75db3a66e327741638b8146b732f8b6d8839f5156ba0bf089964d1d855952c0bd0805a9f34aca4f3f8ef6c13d
+    "@noble/ed25519": ^1.6.0
+    "@noble/hashes": ^1.0.0
+    "@noble/secp256k1": ^1.5.5
+    "@scure/base": ^1.0.0
+    "@scure/bip39": ^1.0.0
+  checksum: d1d088319c6d2f040a59722cde3be4eda9049ccff23504bb86776185ff6670f4ee70f1c18563e3dab96111bae4e531c23f9f39156d55f393552d159213666d69
   languageName: node
   linkType: hard
 
@@ -3243,7 +3245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/snaps-cli@npm:^0.15.0":
+"@metamask/snaps-cli@npm:0.15.0":
   version: 0.15.0
   resolution: "@metamask/snaps-cli@npm:0.15.0"
   dependencies:
@@ -3332,6 +3334,27 @@ __metadata:
     jsbi: ^3.1.5
     sha.js: ^2.4.11
   checksum: 8081d0436a37ccc4612e0fdb8000b37d695ed14b82e909cb9f3931191b57dd9d33f67c4573911bc63e52267e7f8a3185979032ba16aa559183b5259071df3de8
+  languageName: node
+  linkType: hard
+
+"@noble/ed25519@npm:^1.6.0":
+  version: 1.6.1
+  resolution: "@noble/ed25519@npm:1.6.1"
+  checksum: 4bf9177549e8e93464cdc6740990973ca5d3447e68dd608aff3d7380b12d1007eb77e38b4806d74b580ba4eee7408f036331dc0387319fa49d64d4d62c648aaf
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:^1.0.0, @noble/hashes@npm:~1.1.1":
+  version: 1.1.2
+  resolution: "@noble/hashes@npm:1.1.2"
+  checksum: 3c2a8cb7c2e053811032f242155d870c5eb98844d924d69702244d48804cb03b42d4a666c49c2b71164420d8229cb9a6f242b972d50d5bb2f1d673b98b041de2
+  languageName: node
+  linkType: hard
+
+"@noble/secp256k1@npm:^1.5.5":
+  version: 1.6.0
+  resolution: "@noble/secp256k1@npm:1.6.0"
+  checksum: e99df3b776515e6a8b3193870e69ff3a7d22c6a4733245dceb9d1d229d5b0859bd478b7213f31d556ba3745647ec07262d0f9df845d79204b7ce4ae1648b27c7
   languageName: node
   linkType: hard
 
@@ -3469,14 +3492,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pianity/arsnap@workspace:packages/arsnap"
   dependencies:
-    "@metamask/key-tree": ^3.0.1
-    "@metamask/snaps-cli": ^0.15.0
+    "@metamask/key-tree": 4.0.0
+    "@metamask/snaps-cli": 0.15.0
     "@pianity/arsnap-adapter": "workspace:*"
     "@pianity/eslint-config": ^0.0.2
     "@pianity/prettier-config": ^0.0.1
     "@types/base-64": ^1.0.0
-    async-mutex: ^0.3.2
-    base64-js: ^1.5.1
+    async-mutex: 0.3.2
+    base64-js: 1.5.1
     eslint: ^8.16.0
     mkdirp: ^1.0.4
     nodemon: ^2.0.16
@@ -3561,6 +3584,23 @@ __metadata:
     zen-observable:
       optional: true
   checksum: 8ec6d43370f419975295f306699f87989dd64a099a29cf62ddacbbbe32df634f87451504d340e15321e74b0a3ca8a9b447736472f792102e234faa207395e6c9
+  languageName: node
+  linkType: hard
+
+"@scure/base@npm:^1.0.0, @scure/base@npm:~1.1.0":
+  version: 1.1.1
+  resolution: "@scure/base@npm:1.1.1"
+  checksum: b4fc810b492693e7e8d0107313ac74c3646970c198bbe26d7332820886fa4f09441991023ec9aa3a2a51246b74409ab5ebae2e8ef148bbc253da79ac49130309
+  languageName: node
+  linkType: hard
+
+"@scure/bip39@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@scure/bip39@npm:1.1.0"
+  dependencies:
+    "@noble/hashes": ~1.1.1
+    "@scure/base": ~1.1.0
+  checksum: c4361406f092a45e511dc572c89f497af6665ad81cb3fd7bf78e6772f357f7ae885e129ef0b985cb3496a460b4811318f77bc61634d9b0a8446079a801b6003c
   languageName: node
   linkType: hard
 
@@ -3840,11 +3880,11 @@ __metadata:
   linkType: hard
 
 "@types/node-forge@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@types/node-forge@npm:1.0.2"
+  version: 1.0.3
+  resolution: "@types/node-forge@npm:1.0.3"
   dependencies:
     "@types/node": "*"
-  checksum: cb90215a59246026478d4cc717d4e8d108d7cc580d637b38f0e57b59dfba4f1b97ea17804afcd08bb517a74ad24176dd1405eacdb02250f814950e19f574d40b
+  checksum: 394d331cd1c871442246cc96b4d2dd349f543477cdfa733f59e1f5c18572ff6d2003b5e37e4db1b51d5ca6d4491b213bf121c68001b54200575760931d481cb4
   languageName: node
   linkType: hard
 
@@ -4687,21 +4727,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"async-mutex@npm:0.3.2":
+  version: 0.3.2
+  resolution: "async-mutex@npm:0.3.2"
+  dependencies:
+    tslib: ^2.3.1
+  checksum: 620b771dfdea1cad0a6b712915c31a1e3ca880a8cf1eae92b4590f435995e0260929c6ebaae0b9126b1456790ea498064b5bb9a506948cda760f48d3d0dcc4c8
+  languageName: node
+  linkType: hard
+
 "async-mutex@npm:^0.2.6":
   version: 0.2.6
   resolution: "async-mutex@npm:0.2.6"
   dependencies:
     tslib: ^2.0.0
   checksum: f50102e0c57f6a958528cff7dff13da070897f17107b42274417a7248905b927b6e51c3387f8aed1f5cd6005b0e692d64a83a0789be602e4e7e7da4afe08b889
-  languageName: node
-  linkType: hard
-
-"async-mutex@npm:^0.3.2":
-  version: 0.3.2
-  resolution: "async-mutex@npm:0.3.2"
-  dependencies:
-    tslib: ^2.3.1
-  checksum: 620b771dfdea1cad0a6b712915c31a1e3ca880a8cf1eae92b4590f435995e0260929c6ebaae0b9126b1456790ea498064b5bb9a506948cda760f48d3d0dcc4c8
   languageName: node
   linkType: hard
 
@@ -4997,7 +5037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.0.2, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:1.5.1, base64-js@npm:^1.0.2, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -5064,18 +5104,6 @@ __metadata:
   dependencies:
     file-uri-to-path: 1.0.0
   checksum: 65b6b48095717c2e6105a021a7da4ea435aa8d3d3cd085cb9e85bcb6e5773cf318c4745c3f7c504412855940b585bdf9b918236612a1c7a7942491de176f1ae7
-  languageName: node
-  linkType: hard
-
-"bip39@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "bip39@npm:3.0.4"
-  dependencies:
-    "@types/node": 11.11.6
-    create-hash: ^1.1.0
-    pbkdf2: ^3.0.9
-    randombytes: ^2.0.1
-  checksum: 79ce1600a03d1ba5053bdd4e6323f9463ec340764c7e52918b6c6b9dca81221940f2d9a65656447f108f9bc2c8d9ae8df319cca83bbd1dad63f53ef2768d9bae
   languageName: node
   linkType: hard
 

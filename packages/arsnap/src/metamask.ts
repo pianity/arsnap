@@ -1,4 +1,4 @@
-import { deriveBIP44AddressKey, JsonBIP44CoinTypeNode } from "@metamask/key-tree";
+import { getBIP44AddressKeyDeriver, JsonBIP44CoinTypeNode } from "@metamask/key-tree";
 
 import { RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
 
@@ -62,14 +62,16 @@ export async function getSecret(): Promise<Uint8Array> {
 
     const arweaveNode = (await window.wallet.request({
         method: `snap_getBip44Entropy_${bip44Code}`,
-        params: [],
     })) as JsonBIP44CoinTypeNode;
 
-    const secret = deriveBIP44AddressKey(arweaveNode, {
-        account,
-        change,
-        address_index: addressIndex,
-    });
+    const deriveArweaveAddress = await getBIP44AddressKeyDeriver(arweaveNode);
 
-    return new Uint8Array(secret);
+    const addressKey = await deriveArweaveAddress(addressIndex);
+    const secret = addressKey.privateKeyBuffer;
+
+    if (!secret) {
+        throw new Error("Could not access secret.");
+    }
+
+    return secret;
 }
