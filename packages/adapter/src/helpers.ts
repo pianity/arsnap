@@ -29,7 +29,6 @@ export async function signTx(tx: Transaction): Promise<void> {
 
     const dataToSign = await tx.getSignatureData();
     const dataSigned = await api.signBytes(dataToSign, 32);
-    console.log("SIGN_BYTES", dataToSign, dataSigned);
     const id = await crypto.subtle.digest("SHA-256", dataSigned);
 
     tx.setSignature({
