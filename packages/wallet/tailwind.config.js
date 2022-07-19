@@ -28,6 +28,7 @@ module.exports = {
                 },
             },
             transitionProperty: {
+                height: "height",
                 size: "height, width",
                 spacing: "margin, padding",
                 visibility: "visibility",

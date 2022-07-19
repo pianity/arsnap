@@ -4,7 +4,7 @@ import { exhaustive } from "@/utils";
 import { Transactions } from "@/state/getTransactions";
 import { Wallets } from "@/state/getWallets";
 import { DappsPermissions } from "@/state/getPermissions";
-import { RequestEvents } from "@/state/getEvents";
+import { DappsEvents } from "@/state/getEvents";
 
 export * from "@/state/getTransactions";
 export * from "@/state/getPermissions";
@@ -19,7 +19,7 @@ export type State = {
     arPrice?: number;
     transactions?: Transactions;
     dappsPermissions?: DappsPermissions;
-    events?: RequestEvents;
+    events?: DappsEvents;
 };
 
 export type SetActiveWallet = {
@@ -54,7 +54,7 @@ export type SetPermissions = {
 
 export type SetEvents = {
     type: "setEvents";
-    events: RequestEvents;
+    events: DappsEvents;
 };
 
 export type Logout = {

@@ -210,7 +210,12 @@ export default function App() {
 
                             <Route
                                 path={AppRoute.Events}
-                                element={<Events events={state.events} />}
+                                element={
+                                    <Events
+                                        events={state.events}
+                                        onClearEvents={adapter.clearEvents}
+                                    />
+                                }
                             />
                         </>
                     )}
@@ -224,20 +229,23 @@ export default function App() {
                     "h-16 px-6",
                     "fixed inset-x-0 bottom-0",
                     "flex items-center justify-between",
+                    "pointer-events-none",
                 )}
             >
-                <div className="flex flex-col mb-12">
+                <div className="flex flex-col mb-12 pointer-events-auto">
                     <Text className="ml-1 mb-3" size="14" taller weight="semibold">
                         ArSnap {version}
                     </Text>
-                    <img src={permawebSeal} />
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.arweave.org/">
+                        <img src={permawebSeal} />
+                    </a>
                 </div>
 
                 <a
                     target="_blank"
                     rel="noopener noreferrer"
                     href="https://github.com/pianity/arsnap"
-                    className="flex items-center"
+                    className="flex items-center pointer-events-auto"
                 >
                     <img src={githubIconUrl} alt="GitHub" />
                     <Text.span size="16" taller weight="semibold" className="ml-2">

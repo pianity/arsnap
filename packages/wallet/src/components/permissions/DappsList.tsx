@@ -1,6 +1,69 @@
+import { ImgHTMLAttributes, useState } from "react";
+
 import { classes } from "@/utils/tailwind";
 import Text from "@/components/interface/typography/Text";
 import Tooltip from "@/components/interface/Tooltip";
+import AllSitesIconUrl from "@/assets/icons/all-sites.svg";
+
+function DappFavicon({ origin }: { origin: string }) {
+    const [imgError, setImgError] = useState(false);
+
+    return (
+        <div
+            className={classes(
+                "rounded-full w-6 h-6 shrink-0 object-cover",
+                "place-items-center text-center",
+                origin !== "all" && "bg-purple-dark",
+            )}
+        >
+            {imgError ? (
+                <Text color="white" className="inline align-middle">
+                    ?
+                </Text>
+            ) : (
+                <img
+                    src={origin === "all" ? AllSitesIconUrl : `${origin}/favicon.ico`}
+                    alt=""
+                    onError={() => setImgError(true)}
+                />
+            )}
+        </div>
+    );
+}
+
+function DappText({ origin, iconPosition }: DappItemProps) {
+    return (
+        <Text.span
+            className={iconPosition === "left" ? "ml-2" : "mr-2"}
+            size="16"
+            weight="semibold"
+        >
+            {origin === "all" ? "All sites" : origin}
+        </Text.span>
+    );
+}
+
+export type DappItemProps = {
+    origin: string;
+    iconPosition?: "left" | "right";
+};
+export function DappItem({ origin, iconPosition = "left" }: DappItemProps) {
+    return (
+        <>
+            {iconPosition === "left" && <DappFavicon origin={origin} />}
+
+            {origin !== "all" ? (
+                <Tooltip childrenClassName="truncate" text={origin}>
+                    <DappText origin={origin} iconPosition={iconPosition} />
+                </Tooltip>
+            ) : (
+                <DappText origin={origin} iconPosition={iconPosition} />
+            )}
+
+            {iconPosition === "right" && <DappFavicon origin={origin} />}
+        </>
+    );
+}
 
 type DappsListProps = {
     currentDapp: string | undefined;
@@ -13,14 +76,14 @@ export default function DappsList({ currentDapp, dapps, onDappClick }: DappsList
         <div
             className={classes(
                 "flex flex-col",
-                "min-w-[170px] pl-4 pr-6 pt-6 mb-[14px]",
+                "w-[233px] pl-4 pr-6 pt-6 mb-[14px]",
                 "border-r border-purple",
             )}
         >
             <Text.h3 color="white" size="12" weight="semibold" wider uppercase className="mb-6">
                 Connected sites
             </Text.h3>
-            <ul>
+            <ul className="grow">
                 {dapps.map((dapp) => {
                     const selected = dapp === currentDapp;
                     return (
@@ -33,22 +96,11 @@ export default function DappsList({ currentDapp, dapps, onDappClick }: DappsList
                                 "flex items-center",
                                 selected
                                     ? "bg-white text-purple-dark cursor-default"
-                                    : "text-white lg:hover:bg-purple cursor-pointer",
+                                    : "text-white lg:hover:bg-purple/50 cursor-pointer",
                                 "transition duration-300 ease-quart-out",
                             )}
                         >
-                            <img
-                                src={`${dapp}/favicon.ico`}
-                                alt=""
-                                width={24}
-                                height={24}
-                                className="rounded-full bg-purple-dark mr-2 shrink-0 object-cover"
-                            />
-                            <Tooltip childrenClassName="truncate" text={dapp}>
-                                <Text.span size="16" weight="semibold">
-                                    {dapp}
-                                </Text.span>
-                            </Tooltip>
+                            <DappItem origin={dapp} />
                         </li>
                     );
                 })}

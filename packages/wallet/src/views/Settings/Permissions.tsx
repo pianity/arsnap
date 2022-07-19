@@ -79,6 +79,10 @@ export const PERMISSIONS_DESCRIPTIONS: Record<Permission, PermissionDescription>
         dangerous: true,
         description: "Get all events",
     },
+    CLEAR_EVENTS: {
+        dangerous: true,
+        description: "Clear all events",
+    },
 };
 
 export type PermissionsProps = {

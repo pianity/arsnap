@@ -2,11 +2,14 @@ import { Control, Path, RegisterOptions, UseFormRegister, useWatch } from "react
 
 import Text from "@/components/interface/typography/Text";
 import checkmarkIconUrl from "@/assets/icons/checkmark.svg";
+import checkmarkWhiteIconUrl from "@/assets/icons/checkmark-white.svg";
 import { classes } from "@/utils/tailwind";
+import { exhaustive } from "@/utils";
 
 /** Props for {@link Checkbox} */
 type CheckboxProps<T> = {
     label?: string;
+    style?: "squared" | "rounded-fill";
 } & (
     | {
           /** RHF: Name of the form property */
@@ -39,6 +42,7 @@ type CheckboxProps<T> = {
  */
 export default function Checkbox<T>({
     label,
+    style = "squared",
     checked,
     name,
     onToggle,
@@ -47,27 +51,61 @@ export default function Checkbox<T>({
     registerOptions,
 }: CheckboxProps<T>) {
     checked = checked ?? !!useWatch({ name, control });
+
+    let boxStyle: string;
+    let checkmarkStyle: string;
+    let checkmarkUrl: string;
+
+    switch (style) {
+        case "squared":
+            boxStyle = classes(
+                "rounded box-border border border-purple-text",
+                checked && "bg-purple-text",
+            );
+            checkmarkStyle = "";
+            checkmarkUrl = checkmarkIconUrl;
+            break;
+
+        case "rounded-fill":
+            boxStyle = classes("rounded-full", checked ? "bg-green-dark" : "bg-gray-light");
+            checkmarkStyle = checked ? "opacity-100" : "opacity-50";
+            checkmarkUrl = checkmarkWhiteIconUrl;
+            break;
+
+        default:
+            return exhaustive(style);
+    }
+
     return (
         <label className="flex cursor-pointer w-max relative">
-            {(onToggle || register) && (
-                <input
-                    type="checkbox"
-                    // checked={checked}
-                    {...(register?.(name, registerOptions) ?? {})}
-                    // onChange={onToggle ? () => onToggle() : undefined}
-                    className="absolute invisible"
-                />
-            )}
+            <>
+                {register && (
+                    <input
+                        type="checkbox"
+                        {...(register?.(name, registerOptions) ?? {})}
+                        className="absolute invisible"
+                    />
+                )}
+                {(onToggle || !register) && (
+                    <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={onToggle}
+                        className="absolute invisible"
+                    />
+                )}
+            </>
             <span
                 className={classes(
                     "w-5 h-5",
-                    "rounded box-border border border-purple-text",
+                    boxStyle,
                     "flex items-center justify-center",
                     "transition duration-300 ease-quart-out",
-                    checked ? "bg-purple-text" : "",
                 )}
             >
-                {checked && <img src={checkmarkIconUrl} alt="" />}
+                {(checked || style === "rounded-fill") && (
+                    <img className={checkmarkStyle} src={checkmarkUrl} alt="" />
+                )}
             </span>
             {label && (
                 <Text.span size="14" className="ml-2 leading-[140%] whitespace-pre-wrap">

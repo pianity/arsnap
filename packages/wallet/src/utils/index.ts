@@ -77,3 +77,11 @@ export function triggerFocus(element: HTMLElement) {
     element.focus();
     if (event) element.dispatchEvent(event);
 }
+
+/**
+ * Produce an array of numbers starting from `start` (inclusively) and ending at `end`
+ * (inclusively).
+ */
+export function range(start: number, end: number) {
+    return Array.from(Array(end - start + 1), (_, i) => start + i);
+}
