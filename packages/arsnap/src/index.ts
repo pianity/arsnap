@@ -1,41 +1,68 @@
-import { RequestEvent, RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
+import { RequestEvent, RpcEvent, RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
 
 import * as handlers from "@/handlers";
 import { registerRpcMessageHandler } from "@/metamask";
 import { getState, initializeState, replaceState, State } from "@/state";
-import { exhaustive } from "@/utils";
+import { exhaustive, ownerToAddress } from "@/utils";
 import { guard } from "@/permissions";
 
-function registerRequestEvent(state: State, origin: string, request: RpcRequest) {
+async function getRpcEvent(request: RpcRequest): Promise<RpcEvent> {
+    const { method, params } = request;
+
+    switch (method) {
+        case "is_enabled":
+        case "get_dapps_permissions":
+        case "get_permissions":
+        case "revoke_all_permissions":
+        case "get_active_address":
+        case "get_active_public_key":
+        case "get_all_addresses":
+        case "get_wallet_names":
+        case "get_events":
+        case "clear_events":
+            return { method };
+
+        case "request_permissions":
+        case "revoke_permissions":
+            return { method, permissions: params[0] };
+
+        case "revoke_dapp_permissions":
+            return { method, dappOrigin: params[0], permissions: params[1] };
+
+        case "sign_bytes":
+            return { method, bytesLength: params[0].length };
+
+        case "set_active_address":
+            return { method, address: params[0] };
+
+        case "import_wallet":
+            return { method, address: await ownerToAddress(params[0].n), name: params[1] ?? "" };
+
+        case "export_wallet":
+            return { method, address: params[0] };
+
+        case "rename_wallet":
+            return { method, address: params[0], name: params[1] };
+
+        case "delete_wallet":
+            return { method, address: params[0] };
+
+        default:
+            return exhaustive(method);
+    }
+}
+
+async function registerRequestEvent(state: State, origin: string, request: RpcRequest) {
     // Don't register "is_enabled" and "get_permissions" requests, they're not interesting as they
     // don't require any permissions.
     if (request.method === "is_enabled" || request.method === "get_permissions") {
         return;
     }
 
-    // Redact data for the following requests as they could be sensitive or too large.
-    if (request.method === "sign_bytes") {
-        request.params = [{} as Uint8Array, 0];
-    } else if (request.method === "import_wallet") {
-        const redactedWallet = {
-            kty: "",
-            e: "",
-            n: "",
-            d: "",
-            p: "",
-            q: "",
-            dp: "",
-            dq: "",
-            qi: "",
-        };
-
-        request.params = [redactedWallet, request.params[1] ?? ""];
-    }
-
     const event: RequestEvent = {
         timestamp: Date.now(),
         origin,
-        request,
+        request: await getRpcEvent(request),
     };
 
     const { events: allEvents, eventsStorageLimit } = state;
@@ -59,7 +86,7 @@ registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
     try {
         response = await handleRequest(state, origin, request);
 
-        registerRequestEvent(state, origin, request);
+        await registerRequestEvent(state, origin, request);
 
         // eslint-disable-next-line no-useless-catch
     } catch (e) {
@@ -75,7 +102,11 @@ registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
     return response;
 });
 
-async function handleRequest(state: State, origin: string, request: RpcRequest) {
+async function handleRequest(
+    state: State,
+    origin: string,
+    request: RpcRequest,
+): Promise<RpcResponse> {
     const permissions = state.permissions.get(origin) || [];
     const { method, params } = request;
 
@@ -146,6 +177,11 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
         case "get_events":
             await guard(origin, permissions, "GET_EVENTS");
             return Array.from(state.events.entries());
+
+        case "clear_events":
+            await guard(origin, permissions, "CLEAR_EVENTS");
+            state.events.clear();
+            return null;
 
         default:
             return exhaustive(method);

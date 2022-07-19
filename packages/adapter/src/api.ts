@@ -143,3 +143,10 @@ export const deleteWallet: RpcApi["delete_wallet"] = (...params) => {
 export const getEvents: RpcApi["get_events"] = (...params) => {
     return requestSnap("get_events", params);
 };
+
+/**
+ * @requires "CLEAR_EVENTS"
+ */
+export const clearEvents: RpcApi["clear_events"] = (...params) => {
+    return requestSnap("clear_events", params);
+};
