@@ -38,13 +38,15 @@ function registerRequestEvent(state: State, origin: string, request: RpcRequest)
         request,
     };
 
-    const { events, eventsStorageLimit } = state;
+    const { events: allEvents, eventsStorageLimit } = state;
 
-    events.unshift(event);
+    const events = allEvents.get(origin) ?? [];
 
-    if (events.length > eventsStorageLimit) {
+    if (events.unshift(event) > eventsStorageLimit) {
         events.splice(eventsStorageLimit, events.length - eventsStorageLimit);
     }
+
+    allEvents.set(origin, events);
 }
 
 registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
@@ -143,7 +145,7 @@ async function handleRequest(state: State, origin: string, request: RpcRequest) 
 
         case "get_events":
             await guard(origin, permissions, "GET_EVENTS");
-            return state.events;
+            return Array.from(state.events.entries());
 
         default:
             return exhaustive(method);

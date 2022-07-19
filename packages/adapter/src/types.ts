@@ -53,7 +53,7 @@ export type RpcApi = {
     rename_wallet: (address: string, name: string) => Promise<null>;
     delete_wallet: (address: string) => Promise<null>;
 
-    get_events: () => Promise<RequestEvent[]>;
+    get_events: () => Promise<[dappOrigin: string, events: RequestEvent[]][]>;
 };
 
 export type RpcRequest = {
