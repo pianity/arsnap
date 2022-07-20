@@ -7,10 +7,10 @@ import {
 } from "@pianity/arsnap-adapter";
 
 import * as handlers from "@/handlers";
-import { registerRpcMessageHandler } from "@/metamask";
 import { getState, initializeState, replaceState, State } from "@/state";
 import { exhaustive, ownerToAddress } from "@/utils";
 import { guard } from "@/permissions";
+import { RpcMessageHandler } from "@/metamask";
 
 async function getRpcEvent(request: RpcParam): Promise<RpcLogInfo> {
     const { method, params } = request;
@@ -82,7 +82,7 @@ async function registerRequestEvent(state: State, origin: string, request: RpcPa
     allEvents.set(origin, events);
 }
 
-registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
+const handler: RpcMessageHandler = async ({ origin, request }): Promise<RpcResponse> => {
     const [maybeState, releaseState] = await getState();
 
     const state = maybeState || (await initializeState());
@@ -106,7 +106,7 @@ registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
     }
 
     return response;
-});
+};
 
 async function handleRequest(
     state: State,
@@ -195,3 +195,5 @@ async function handleRequest(
             return exhaustive(method);
     }
 }
+
+module.exports.onRpcRequest = handler;

@@ -2,13 +2,12 @@ import { getBIP44AddressKeyDeriver, JsonBIP44CoinTypeNode } from "@metamask/key-
 
 import { RpcParam, RpcResponse } from "@pianity/arsnap-adapter";
 
-export type RpcMessageHandlerCallback = (
-    originString: string,
-    requestObject: RpcParam,
-) => Promise<RpcResponse>;
+export type RpcMessageHandler = (args: {
+    origin: string;
+    request: RpcParam;
+}) => Promise<RpcResponse>;
 
 interface MetamaskWallet {
-    registerRpcMessageHandler: (fn: RpcMessageHandlerCallback) => unknown;
     request(options: { method: string; params?: unknown[] }): Promise<unknown>;
 }
 
@@ -16,10 +15,6 @@ declare global {
     interface Window {
         wallet: MetamaskWallet;
     }
-}
-
-export async function registerRpcMessageHandler(callback: RpcMessageHandlerCallback) {
-    window.wallet.registerRpcMessageHandler(callback);
 }
 
 export function confirmPopup(

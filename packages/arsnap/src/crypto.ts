@@ -1,5 +1,5 @@
 import { getSecret } from "@/metamask";
-import { EncryptedWallet, Wallet } from "@/state";
+import { Wallet, WalletMetadata } from "@/state";
 import { b64ToBin, binToB64 } from "@/utils";
 
 /**
@@ -15,6 +15,14 @@ export type EncryptedData = {
      * The base 64 encoded encrypted data
      */
     data: string;
+};
+
+/**
+ * @deprecated state will be automatically encrypted by Metamask itself
+ */
+export type EncryptedWallet = {
+    encryptedKey: EncryptedData;
+    metadata: WalletMetadata;
 };
 
 export interface JWKPublicInterface {

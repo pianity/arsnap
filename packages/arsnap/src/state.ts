@@ -2,9 +2,8 @@ import { Mutex, MutexInterface } from "async-mutex";
 
 import { RpcPermission, LogEntry, RpcParam } from "@pianity/arsnap-adapter";
 
-import { EncryptedData, encryptWallet, JWKInterface } from "@/crypto";
+import { JWKInterface } from "@/crypto";
 import { generateWallet } from "@/wallets";
-import { binToB64 } from "@/utils";
 
 const stateMutex = new Mutex();
 
@@ -19,24 +18,11 @@ export type Wallet = {
     metadata: WalletMetadata;
 };
 
-/**
- * @deprecated state will be automatically encrypted by Metamask itself
- */
-export type EncryptedWallet = {
-    encryptedKey: EncryptedData;
-    metadata: WalletMetadata;
-};
-
 export type State = {
-    /**
-     * The base 64 encoded salt parameter used to derive the AES-GCM key used to encrypts wallets.
-     */
-    keySalt: string;
-
     /**
      * List of wallets managed by ArSnap indexed by their address.
      */
-    wallets: Map<string, EncryptedWallet>;
+    wallets: Map<string, Wallet>;
 
     /**
      * Address of active wallet.
@@ -62,20 +48,16 @@ export type State = {
 };
 
 type SerializableState = Omit<State, "wallets" | "permissions" | "events"> & {
-    wallets: [string, EncryptedWallet][];
+    wallets: [string, Wallet][];
     permissions: [string, RpcPermission[]][];
     events: [string, LogEntry[]][];
 };
 
 export async function initializeState(): Promise<State> {
-    const keySalt = binToB64(window.crypto.getRandomValues(new Uint8Array(8)));
     const defaultWallet = await generateWallet([], "Default Wallet");
 
     return {
-        keySalt,
-        wallets: new Map([
-            [defaultWallet.metadata.address, await encryptWallet(keySalt, defaultWallet)],
-        ]),
+        wallets: new Map([[defaultWallet.metadata.address, defaultWallet]]),
         activeWallet: defaultWallet.metadata.address,
         permissions: new Map(),
         events: new Map(),
