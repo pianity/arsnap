@@ -22,9 +22,9 @@
         "node": ">=12.11.0"
     },
     "scripts": {
-        "build": "yarn clean && yarn build-tsc && yarn build-snap",
+        "build": "yarn clean && yarn build-esbuild && yarn build-snap",
         "build-snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
-        "build-tsc": "tsc && tsc-alias",
+        "build-esbuild": "esbuild --bundle src/index.ts --outdir=build",
         "dev": "nodemon --watch src/ --ext ts --exec 'yarn build && yarn serve'",
         "clean": "rm -rf dist/ build/",
         "serve": "mm-snap serve --port 4000",
@@ -42,10 +42,10 @@
         "@metamask/snaps-cli": "0.15.0",
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
+        "esbuild": "0.14.49",
         "eslint": "8.19.0",
         "nodemon": "2.0.19",
         "prettier": "2.7.1",
-        "tsc-alias": "1.6.11",
         "typescript": "4.7.4"
     }
 }

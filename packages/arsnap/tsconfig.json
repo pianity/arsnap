@@ -10,7 +10,6 @@
         "noImplicitReturns": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
         "outDir": "build/",
         "baseUrl": "src/",
         "paths": {
