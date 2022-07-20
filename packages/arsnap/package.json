@@ -24,7 +24,7 @@
     "scripts": {
         "build": "yarn clean && yarn build-esbuild && yarn build-snap",
         "build-snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
-        "build-esbuild": "esbuild --bundle src/index.ts --outdir=build",
+        "build-esbuild": "esbuild --bundle --format=cjs --outdir=build src/index.ts",
         "dev": "nodemon --watch src/ --ext ts --exec 'yarn build && yarn serve'",
         "clean": "rm -rf dist/ build/",
         "serve": "mm-snap serve --port 4000",
