@@ -55,6 +55,7 @@ export default function Pagination({ currentPage, pages, onPageChange }: Paginat
                     pageRange.map((i) => {
                         return (
                             <PageButton
+                                key={i}
                                 current={currentPage}
                                 number={i}
                                 onClick={() => onPageChange(i)}

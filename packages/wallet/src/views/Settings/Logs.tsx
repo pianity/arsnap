@@ -97,7 +97,7 @@ function LogDetails({ params }: { params: [string, unknown][] }) {
     return (
         <div className="grid grid-cols-[minmax(auto,50%)_1fr] gap-6">
             {params.map(([key, value]) => (
-                <DetailsInfo label={key} info={typeof value === "string" ? value : "-"} />
+                <DetailsInfo key={key} label={key} info={typeof value === "string" ? value : "-"} />
             ))}
         </div>
     );

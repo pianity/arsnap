@@ -91,6 +91,7 @@ export default function Checkbox<T>({
                         type="checkbox"
                         checked={checked}
                         onChange={onToggle}
+                        readOnly={!onToggle}
                         className="absolute invisible"
                     />
                 )}
