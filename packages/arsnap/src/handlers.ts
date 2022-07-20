@@ -1,4 +1,4 @@
-import { RpcApi } from "@pianity/arsnap-adapter";
+import { RpcMethods } from "@pianity/arsnap-adapter";
 
 import { decryptWallet, encryptWallet, signWithJwk } from "@/crypto";
 import * as walletsUtils from "@/wallets";
@@ -17,18 +17,18 @@ type WithState<T extends (...params: any[]) => any> = (
     ...params: [state: State, ...rest: Parameters<T>]
 ) => ReturnType<T>;
 
-export const isEnabled: RpcApi["is_enabled"] = async () => {
+export const isEnabled: RpcMethods["is_enabled"] = async () => {
     return true;
 };
 
-export const getPermissions: WithState<WithOrigin<RpcApi["get_permissions"]>> = async (
+export const getPermissions: WithState<WithOrigin<RpcMethods["get_permissions"]>> = async (
     state,
     origin,
 ) => {
     return state.permissions.get(origin) || [];
 };
 
-export const requestPermissions: WithState<WithOrigin<RpcApi["request_permissions"]>> = async (
+export const requestPermissions: WithState<WithOrigin<RpcMethods["request_permissions"]>> = async (
     state,
     origin,
     requestedPermissions,
@@ -48,7 +48,7 @@ export const requestPermissions: WithState<WithOrigin<RpcApi["request_permission
     return granted;
 };
 
-export const revokePermissions: WithState<WithOrigin<RpcApi["revoke_permissions"]>> = async (
+export const revokePermissions: WithState<WithOrigin<RpcMethods["revoke_permissions"]>> = async (
     state,
     origin,
     permissionsToRevoke,
@@ -67,10 +67,9 @@ export const revokePermissions: WithState<WithOrigin<RpcApi["revoke_permissions"
     return null;
 };
 
-export const revokeAllPermissions: WithState<WithOrigin<RpcApi["revoke_all_permissions"]>> = async (
-    state,
-    origin,
-) => {
+export const revokeAllPermissions: WithState<
+    WithOrigin<RpcMethods["revoke_all_permissions"]>
+> = async (state, origin) => {
     const currentPermissions = state.permissions.get(origin);
 
     if (!currentPermissions) {
@@ -82,11 +81,13 @@ export const revokeAllPermissions: WithState<WithOrigin<RpcApi["revoke_all_permi
     return null;
 };
 
-export const getDappsPermissions: WithState<RpcApi["get_dapps_permissions"]> = async (state) => {
+export const getDappsPermissions: WithState<RpcMethods["get_dapps_permissions"]> = async (
+    state,
+) => {
     return [...state.permissions.entries()];
 };
 
-export const revokeDappPermissions: WithState<RpcApi["revoke_dapp_permissions"]> = async (
+export const revokeDappPermissions: WithState<RpcMethods["revoke_dapp_permissions"]> = async (
     state,
     dapp,
     permissionsToRevoke,
@@ -105,25 +106,25 @@ export const revokeDappPermissions: WithState<RpcApi["revoke_dapp_permissions"]>
     return null;
 };
 
-export const getActiveAddress: WithState<RpcApi["get_active_address"]> = async (state) => {
+export const getActiveAddress: WithState<RpcMethods["get_active_address"]> = async (state) => {
     const { metadata } = getOrThrow(state.wallets, state.activeWallet);
 
     return metadata.address;
 };
 
-export const getActivePublicKey: WithState<RpcApi["get_active_public_key"]> = async (state) => {
+export const getActivePublicKey: WithState<RpcMethods["get_active_public_key"]> = async (state) => {
     const wallet = getOrThrow(state.wallets, state.activeWallet);
 
     return wallet.metadata.keyOwnerField;
 };
 
-export const getAllAddresses: WithState<RpcApi["get_all_addresses"]> = async (state) => {
+export const getAllAddresses: WithState<RpcMethods["get_all_addresses"]> = async (state) => {
     const addresses = Array.from(state.wallets.keys());
 
     return addresses;
 };
 
-export const getWalletNames: WithState<RpcApi["get_wallet_names"]> = async (state) => {
+export const getWalletNames: WithState<RpcMethods["get_wallet_names"]> = async (state) => {
     const walletNames: [string, string][] = [...state.wallets.values()].map((wallet) => [
         wallet.metadata.address,
         wallet.metadata.name,
@@ -132,7 +133,7 @@ export const getWalletNames: WithState<RpcApi["get_wallet_names"]> = async (stat
     return walletNames;
 };
 
-export const signBytes: WithState<RpcApi["sign_bytes"]> = async (state, data, saltLength) => {
+export const signBytes: WithState<RpcMethods["sign_bytes"]> = async (state, data, saltLength) => {
     data = new Uint8Array(Object.values(data));
 
     const wallet = getOrThrow(state.wallets, state.activeWallet);
@@ -140,7 +141,10 @@ export const signBytes: WithState<RpcApi["sign_bytes"]> = async (state, data, sa
     return await signWithJwk((await decryptWallet(state.keySalt, wallet)).key, data, saltLength);
 };
 
-export const setActiveAddress: WithState<RpcApi["set_active_address"]> = async (state, address) => {
+export const setActiveAddress: WithState<RpcMethods["set_active_address"]> = async (
+    state,
+    address,
+) => {
     if (!state.wallets.get(address)) {
         throw new Error(`Couldn't find any wallet with address "${address}"`);
     }
@@ -150,7 +154,7 @@ export const setActiveAddress: WithState<RpcApi["set_active_address"]> = async (
     return null;
 };
 
-export const importWallet: WithState<RpcApi["import_wallet"]> = async (state, jwk, name) => {
+export const importWallet: WithState<RpcMethods["import_wallet"]> = async (state, jwk, name) => {
     const wallet = await walletsUtils.jwkToWallet(
         walletsUtils.walletsToNames(state.wallets),
         jwk,
@@ -170,7 +174,7 @@ export const importWallet: WithState<RpcApi["import_wallet"]> = async (state, jw
     return { name: wallet.metadata.name, address: wallet.metadata.address };
 };
 
-export const exportWallet: WithState<WithOrigin<RpcApi["export_wallet"]>> = async (
+export const exportWallet: WithState<WithOrigin<RpcMethods["export_wallet"]>> = async (
     state,
     origin,
     address,
@@ -200,7 +204,11 @@ export const exportWallet: WithState<WithOrigin<RpcApi["export_wallet"]>> = asyn
     };
 };
 
-export const renameWallet: WithState<RpcApi["rename_wallet"]> = async (state, address, name) => {
+export const renameWallet: WithState<RpcMethods["rename_wallet"]> = async (
+    state,
+    address,
+    name,
+) => {
     const wallet = getOrThrow(state.wallets, address);
 
     wallet.metadata.name = name;
@@ -209,7 +217,7 @@ export const renameWallet: WithState<RpcApi["rename_wallet"]> = async (state, ad
 };
 
 // TODO: prevent from deleting last wallet
-export const deleteWallet: WithState<WithOrigin<RpcApi["delete_wallet"]>> = async (
+export const deleteWallet: WithState<WithOrigin<RpcMethods["delete_wallet"]>> = async (
     state,
     origin,
     address,

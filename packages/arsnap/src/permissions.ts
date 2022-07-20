@@ -1,4 +1,4 @@
-import { Permission } from "@pianity/arsnap-adapter";
+import { RpcPermission } from "@pianity/arsnap-adapter";
 
 import { confirmPopup } from "@/metamask";
 
@@ -7,9 +7,13 @@ import { confirmPopup } from "@/metamask";
  */
 export async function guard(
     origin: string,
-    allowedPermissions: Permission[],
-    permission: Permission,
+    allowedPermissions: RpcPermission[],
+    permission: RpcPermission | null,
 ): Promise<void> {
+    if (permission === null) {
+        return;
+    }
+
     if (!allowedPermissions.includes(permission)) {
         throw new Error(`Permission denied (${origin}): ${permission}`);
     }
@@ -21,7 +25,7 @@ type RequestPermissionsResult = {
      * Full new set of permission. If the user declined the request, the old unchanged
      * `currentPermissions` is returned.
      */
-    permissions: Permission[];
+    permissions: RpcPermission[];
 };
 
 /**
@@ -29,8 +33,8 @@ type RequestPermissionsResult = {
  */
 export async function requestPermissions(
     origin: string,
-    currentPermissions: Permission[],
-    requestedPermissions: Permission[],
+    currentPermissions: RpcPermission[],
+    requestedPermissions: RpcPermission[],
 ): Promise<RequestPermissionsResult> {
     const newPermissions = currentPermissions
         ? [
@@ -62,8 +66,8 @@ export async function requestPermissions(
 }
 
 export function revokePermissions(
-    currentPermissions: Permission[],
-    permissionsToRevoke: Permission[],
+    currentPermissions: RpcPermission[],
+    permissionsToRevoke: RpcPermission[],
 ) {
     return currentPermissions.filter((permission) => !permissionsToRevoke.includes(permission));
 }

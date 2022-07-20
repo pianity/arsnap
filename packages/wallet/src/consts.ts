@@ -1,8 +1,8 @@
-import { Permission } from "@pianity/arsnap-adapter";
+import { RpcPermission } from "@pianity/arsnap-adapter";
 
 import { Currency, GatewayInfo, GatewayName } from "@/state/config";
 
-export const REQUIRED_PERMISSIONS: Permission[] = [
+export const REQUIRED_PERMISSIONS: RpcPermission[] = [
     "GET_ACTIVE_ADDRESS",
     "SET_ACTIVE_ADDRESS",
     "GET_ACTIVE_PUBLIC_KEY",

@@ -1,10 +1,10 @@
 import { getBIP44AddressKeyDeriver, JsonBIP44CoinTypeNode } from "@metamask/key-tree";
 
-import { RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
+import { RpcParam, RpcResponse } from "@pianity/arsnap-adapter";
 
 export type RpcMessageHandlerCallback = (
     originString: string,
-    requestObject: RpcRequest,
+    requestObject: RpcParam,
 ) => Promise<RpcResponse>;
 
 interface MetamaskWallet {

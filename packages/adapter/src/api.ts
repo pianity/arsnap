@@ -1,8 +1,8 @@
 import { requestSnap } from "@/metamask";
 
-import { RpcApi } from "@/types";
+import { RpcMethods } from "@/types";
 
-export const isEnabled: RpcApi["is_enabled"] = async (...params) => {
+export const isEnabled: RpcMethods["is_enabled"] = async (...params) => {
     try {
         return await requestSnap("is_enabled", params);
     } catch {
@@ -13,28 +13,28 @@ export const isEnabled: RpcApi["is_enabled"] = async (...params) => {
 /**
  * Get the permissions granted to current dApp.
  */
-export const getPermissions: RpcApi["get_permissions"] = (...params) => {
+export const getPermissions: RpcMethods["get_permissions"] = (...params) => {
     return requestSnap("get_permissions", params);
 };
 
 /**
  * Request permissions for the current dApp.
  */
-export const requestPermissions: RpcApi["request_permissions"] = (...params) => {
+export const requestPermissions: RpcMethods["request_permissions"] = (...params) => {
     return requestSnap("request_permissions", params);
 };
 
 /**
  * Revoke permissions for the current dApp.
  */
-export const revokePermission: RpcApi["revoke_permissions"] = (...params) => {
+export const revokePermission: RpcMethods["revoke_permissions"] = (...params) => {
     return requestSnap("revoke_permissions", params);
 };
 
 /**
  * Revoke all the granted permissions for the current dApp.
  */
-export const revokeAllPermissions: RpcApi["revoke_all_permissions"] = (...params) => {
+export const revokeAllPermissions: RpcMethods["revoke_all_permissions"] = (...params) => {
     return requestSnap("revoke_all_permissions", params);
 };
 
@@ -43,7 +43,7 @@ export const revokeAllPermissions: RpcApi["revoke_all_permissions"] = (...params
  *
  * @requires "GET_DAPPS_PERMISSIONS"
  */
-export const getDappsPermissions: RpcApi["get_dapps_permissions"] = (...params) => {
+export const getDappsPermissions: RpcMethods["get_dapps_permissions"] = (...params) => {
     return requestSnap("get_dapps_permissions", params);
 };
 
@@ -51,7 +51,7 @@ export const getDappsPermissions: RpcApi["get_dapps_permissions"] = (...params) 
  * Revoke permissions for the specified dApp.
  * @requires "REVOKE_DAPP_PERMISSIONS"
  */
-export const revokeDappPermission: RpcApi["revoke_dapp_permissions"] = (...params) => {
+export const revokeDappPermission: RpcMethods["revoke_dapp_permissions"] = (...params) => {
     return requestSnap("revoke_dapp_permissions", params);
 };
 
@@ -60,7 +60,7 @@ export const revokeDappPermission: RpcApi["revoke_dapp_permissions"] = (...param
  *
  * @requires "GET_ACTIVE_ADDRESS"
  */
-export const getActiveAddress: RpcApi["get_active_address"] = (...params) => {
+export const getActiveAddress: RpcMethods["get_active_address"] = (...params) => {
     return requestSnap("get_active_address", params);
 };
 
@@ -69,7 +69,7 @@ export const getActiveAddress: RpcApi["get_active_address"] = (...params) => {
  *
  * @requires "GET_ACTIVE_PUBLIC_KEY"
  */
-export const getActivePublicKey: RpcApi["get_active_public_key"] = (...params) => {
+export const getActivePublicKey: RpcMethods["get_active_public_key"] = (...params) => {
     return requestSnap("get_active_public_key", params);
 };
 
@@ -78,7 +78,7 @@ export const getActivePublicKey: RpcApi["get_active_public_key"] = (...params) =
  *
  * @requires "GET_ALL_ADDRESSES"
  */
-export const getAllAddresses: RpcApi["get_all_addresses"] = (...params) => {
+export const getAllAddresses: RpcMethods["get_all_addresses"] = (...params) => {
     return requestSnap("get_all_addresses", params);
 };
 
@@ -87,14 +87,14 @@ export const getAllAddresses: RpcApi["get_all_addresses"] = (...params) => {
  *
  * @requires "GET_ALL_ADDRESSES"
  */
-export const getWalletNames: RpcApi["get_wallet_names"] = (...params) => {
+export const getWalletNames: RpcMethods["get_wallet_names"] = (...params) => {
     return requestSnap("get_wallet_names", params);
 };
 
 /**
  * @requires "SIGN"
  */
-export const signBytes: RpcApi["sign_bytes"] = async (...params) => {
+export const signBytes: RpcMethods["sign_bytes"] = async (...params) => {
     // NOTE: As everything that is sent back from MetaMask is serialized, the object coming from
     // ArSnap is not an actual Uint8Array but a serialized version of it so we need to convert it
     // back.
@@ -105,48 +105,48 @@ export const signBytes: RpcApi["sign_bytes"] = async (...params) => {
 /**
  * @requires "SET_ACTIVE_ADDRESS"
  */
-export const setActiveAddress: RpcApi["set_active_address"] = (...params) => {
+export const setActiveAddress: RpcMethods["set_active_address"] = (...params) => {
     return requestSnap("set_active_address", params);
 };
 
 /**
  * @requires "IMPORT_WALLET"
  */
-export const importWallet: RpcApi["import_wallet"] = (...params) => {
+export const importWallet: RpcMethods["import_wallet"] = (...params) => {
     return requestSnap("import_wallet", params);
 };
 
 /**
  * @requires "EXPORT_WALLET"
  */
-export const exportWallet: RpcApi["export_wallet"] = (...params) => {
+export const exportWallet: RpcMethods["export_wallet"] = (...params) => {
     return requestSnap("export_wallet", params);
 };
 
 /**
  * @requires "RENAME_WALLET"
  */
-export const renameWallet: RpcApi["rename_wallet"] = (...params) => {
+export const renameWallet: RpcMethods["rename_wallet"] = (...params) => {
     return requestSnap("rename_wallet", params);
 };
 
 /**
  * @requires "DELETE_WALLET"
  */
-export const deleteWallet: RpcApi["delete_wallet"] = (...params) => {
+export const deleteWallet: RpcMethods["delete_wallet"] = (...params) => {
     return requestSnap("delete_wallet", params);
 };
 
 /**
  * @requires "GET_EVENTS"
  */
-export const getEvents: RpcApi["get_events"] = (...params) => {
+export const getEvents: RpcMethods["get_events"] = (...params) => {
     return requestSnap("get_events", params);
 };
 
 /**
  * @requires "CLEAR_EVENTS"
  */
-export const clearEvents: RpcApi["clear_events"] = (...params) => {
+export const clearEvents: RpcMethods["clear_events"] = (...params) => {
     return requestSnap("clear_events", params);
 };

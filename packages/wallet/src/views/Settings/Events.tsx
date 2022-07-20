@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { RequestEvent, RpcEvent, RpcRequest } from "@pianity/arsnap-adapter";
+import { EventEntry, RpcEvent } from "@pianity/arsnap-adapter";
 
 import { DappsEvents, Transaction, Transactions } from "@/state";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
@@ -23,7 +23,7 @@ import Pagination from "@/components/Pagination";
 const EVENTS_PER_PAGE = 9;
 
 type EventsListProps = {
-    events?: RequestEvent[];
+    events?: EventEntry[];
 };
 
 function EventsList({ events }: EventsListProps) {
@@ -64,63 +64,80 @@ function EventsList({ events }: EventsListProps) {
 type DetailsInfoProps = {
     label: string;
     info: string;
-    textToCopy?: string;
 };
+function DetailsInfo({ label, info }: DetailsInfoProps) {
+    const truncatedInfo = truncateStringCenter(info, 30);
 
-function DetailsInfo({ label, info, textToCopy }: DetailsInfoProps) {
+    const InfoText = () => (
+        <Text.span color="white" size="13">
+            <CopiableText textToCopy={info}>{truncatedInfo}</CopiableText>
+        </Text.span>
+    );
+
     return (
         <div className="flex flex-col gap-2 items-start">
-            <Text.span color="white" size="13" weight="semibold" wider uppercase>
-                {label}
-            </Text.span>
-            <Text.span color="white" size="13">
-                {textToCopy ? <CopiableText textToCopy={textToCopy}>{info}</CopiableText> : info}
-            </Text.span>
+            <>
+                <Text.span color="white" size="13" weight="semibold" wider uppercase>
+                    {label}
+                </Text.span>
+
+                {truncatedInfo.length !== info.length ? (
+                    <Tooltip text={info}>
+                        <InfoText />
+                    </Tooltip>
+                ) : (
+                    <InfoText />
+                )}
+            </>
         </div>
     );
 }
 
-function RequestParams({ event }: { event: RpcEvent }) {
-    const params = Object.entries(event).filter(([key]) => (key as keyof RpcEvent) !== "method");
-
-    return (
-        <>
-            {params.map(([key, value]) => (
-                <DetailsInfo
-                    label={key}
-                    info={typeof value === "string" ? truncateStringCenter(value, 30) : "-"}
-                />
-            ))}
-        </>
-    );
-}
-
-function EventDetails({ event }: { event: RequestEvent }) {
+function EventDetails({ params }: { params: [string, unknown][] }) {
     return (
         <div className="grid grid-cols-[minmax(auto,50%)_1fr] gap-6">
-            <RequestParams event={event.request} />
+            {params.map(([key, value]) => (
+                <DetailsInfo label={key} info={typeof value === "string" ? value : "-"} />
+            ))}
         </div>
     );
 }
 
 type EventItemProps = {
-    event: RequestEvent;
+    event: EventEntry;
     showDetails: boolean;
     onShowDetails: () => void;
 };
-
 function EventItem({ event, showDetails, onShowDetails }: EventItemProps) {
+    const params = Object.entries(event.request).filter(
+        ([key]) => (key as keyof RpcEvent) !== "method",
+    );
+    const hasDetails = params.length > 0;
+
     return (
         <div>
             <div
-                onClick={onShowDetails}
+                onClick={hasDetails ? onShowDetails : undefined}
                 className={classes(
                     "flex items-center h-[62px] px-3 group cursor-pointer",
                     "transition duration-300 ease-quart-out",
                     "lg:hover:bg-purple/50 rounded",
                 )}
             >
-                {/* MARK: Direction name + address */}
+                {/* MARK: Open details button */}
+                <button
+                    onClick={onShowDetails}
+                    className={classes(
+                        "mr-2 w-6 h-6 flex items-center justify-center rounded-full bg-white",
+                        "text-purple-dark transition-transform",
+                        !hasDetails && "opacity-25",
+                        showDetails && "rotate-180",
+                    )}
+                >
+                    <Chevron />
+                </button>
+
+                {/* MARK: Event name + timestamp */}
                 <div className="flex flex-col grow">
                     <Text size="18" color="white" weight="semibold" taller className="mb-1">
                         {event.request.method}
@@ -138,28 +155,18 @@ function EventItem({ event, showDetails, onShowDetails }: EventItemProps) {
 
             {/* MARK: Details view */}
             <div
-                className={
-                    "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300" +
-                    " ease-quart-out relative overflow-hidden " +
-                    (showDetails ? "h-[200px] mb-4" : "h-0 mb-0 pointer-events-none")
-                }
+                className={classes(
+                    "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300",
+                    "ease-quart-out relative",
+                    showDetails ? "h-[200px] mb-4" : "h-0 mb-0 pointer-events-none overflow-hidden",
+                )}
             >
                 {/* MARK: Info Container */}
-                <div className="flex flex-col h-full w-full py-10 pl-10 pr-12">
-                    <EventDetails event={event} />
-                </div>
-
-                {/* MARK: Close button */}
-                <button
-                    onClick={onShowDetails}
-                    className={
-                        "w-8 h-8 flex items-center justify-center rounded-full bg-white" +
-                        " text-purple-dark absolute top-8 right-8" +
-                        (showDetails ? "" : " hidden")
-                    }
-                >
-                    <Chevron className="rotate-180" />
-                </button>
+                {hasDetails && showDetails && (
+                    <div className="flex flex-col h-full w-full py-10 pl-10 pr-12">
+                        <EventDetails params={params} />
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -174,9 +181,9 @@ export default function Events({ events: allEvents }: EventsProps) {
     const [showWalletEvents, setShowWalletEvents] = useState(false);
     const [dapps, setDapps] = useState<string[]>([]);
     const [currentDapp, setCurrentDapp] = useState<"all" | string>("all");
-    const [filteredEvents, setFilteredEvents] = useState<RequestEvent[]>([]);
+    const [filteredEvents, setFilteredEvents] = useState<EventEntry[]>([]);
     const [page, setPage] = useState(1);
-    const [pageView, setPageView] = useState<RequestEvent[]>([]);
+    const [pageView, setPageView] = useState<EventEntry[]>([]);
 
     // Update dapps list
     useEffect(() => {

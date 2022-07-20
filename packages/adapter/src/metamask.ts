@@ -1,4 +1,4 @@
-import { RpcRequest } from "@/types";
+import { RpcParam } from "@/types";
 
 import { SNAP_ID } from "@/consts";
 
@@ -28,7 +28,7 @@ export async function connect() {
     await request("wallet_enable", [{ wallet_snap: { [SNAP_ID]: {} } }]);
 }
 
-export function requestSnap<T extends RpcRequest, U>(
+export function requestSnap<T extends RpcParam, U>(
     method: T["method"],
     params: T["params"],
 ): Promise<U> {

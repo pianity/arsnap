@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Permission, revokeDappPermission } from "@pianity/arsnap-adapter";
+import { RpcPermission, revokeDappPermission } from "@pianity/arsnap-adapter";
 
 import { DappsPermissions as AllPermissionsData } from "@/state";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
@@ -18,7 +18,7 @@ export type PermissionDescription = {
     description: string;
 };
 
-export const PERMISSIONS_DESCRIPTIONS: Record<Permission, PermissionDescription> = {
+export const PERMISSIONS_DESCRIPTIONS: Record<RpcPermission, PermissionDescription> = {
     GET_ACTIVE_ADDRESS: {
         dangerous: false,
         description: "Get the currently active address",
@@ -39,14 +39,6 @@ export const PERMISSIONS_DESCRIPTIONS: Record<Permission, PermissionDescription>
     SIGN: {
         dangerous: true,
         description: "Sign a message",
-    },
-    ENCRYPT: {
-        dangerous: true,
-        description: "Encrypt a message",
-    },
-    DECRYPT: {
-        dangerous: true,
-        description: "Decrypt a message",
     },
 
     GET_DAPPS_PERMISSIONS: {
@@ -93,7 +85,7 @@ export type PermissionsProps = {
 export default function Permissions({ dappsPermissions, updatePermissions }: PermissionsProps) {
     const [currentDapp, setCurrentDapp] = useState<string | undefined>();
 
-    async function onRevokeClick(permission: Permission) {
+    async function onRevokeClick(permission: RpcPermission) {
         if (!currentDapp) {
             throw new Error("No dapp selected when trying to revoke permission");
         }

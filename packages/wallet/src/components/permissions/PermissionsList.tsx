@@ -1,4 +1,4 @@
-import { Permission } from "@pianity/arsnap-adapter";
+import { RpcPermission } from "@pianity/arsnap-adapter";
 
 import { classes } from "@/utils/tailwind";
 import { PERMISSIONS_DESCRIPTIONS } from "@/views/Settings/Permissions";
@@ -7,12 +7,12 @@ import Text from "@/components/interface/typography/Text";
 import HelpIcon from "@/components/interface/svg/HelpIcon";
 
 type PermissionsListProps = {
-    permissions: Permission[];
-    onRevokeClick: (permission: Permission) => void;
+    permissions: RpcPermission[];
+    onRevokeClick: (permission: RpcPermission) => void;
 };
 
 export default function PermissionsList({ permissions, onRevokeClick }: PermissionsListProps) {
-    type PermissionsItems = Array<{ granted: boolean; permission: Permission }>;
+    type PermissionsItems = Array<{ granted: boolean; permission: RpcPermission }>;
 
     const grantedPermissionsItems: PermissionsItems = permissions.map((permission) => ({
         granted: true,
@@ -20,8 +20,8 @@ export default function PermissionsList({ permissions, onRevokeClick }: Permissi
     }));
 
     const nonGrantedPermissionsItems: PermissionsItems = Object.keys(PERMISSIONS_DESCRIPTIONS)
-        .filter((permission) => !permissions.includes(permission as Permission))
-        .map((permission) => ({ granted: false, permission: permission as Permission }));
+        .filter((permission) => !permissions.includes(permission as RpcPermission))
+        .map((permission) => ({ granted: false, permission: permission as RpcPermission }));
 
     const allPermissionsItems = [...grantedPermissionsItems, ...nonGrantedPermissionsItems];
 

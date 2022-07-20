@@ -1,10 +1,10 @@
 import * as adapter from "@pianity/arsnap-adapter";
 
-import { getPermissions, Permission } from "@pianity/arsnap-adapter";
+import { getPermissions, RpcPermission } from "@pianity/arsnap-adapter";
 import { CustomError } from "@/utils/types";
 import { REQUIRED_PERMISSIONS } from "@/consts";
 
-export async function getMissingPermissions(permissions: Permission[]) {
+export async function getMissingPermissions(permissions: RpcPermission[]) {
     const currentPermissions = await getPermissions();
 
     const missigPermissions = permissions.filter(

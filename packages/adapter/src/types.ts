@@ -1,41 +1,22 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
 
-export type Permission =
-    | "GET_ACTIVE_ADDRESS"
-    | "SET_ACTIVE_ADDRESS"
-    | "GET_ACTIVE_PUBLIC_KEY"
-    | "GET_ALL_ADDRESSES"
-    //
-    | "SIGN"
-    | "ENCRYPT"
-    | "DECRYPT"
-    //
-    | "GET_DAPPS_PERMISSIONS"
-    | "REVOKE_DAPP_PERMISSIONS"
-    //
-    | "IMPORT_WALLET"
-    | "EXPORT_WALLET"
-    | "RENAME_WALLET"
-    | "DELETE_WALLET"
-    //
-    | "GET_EVENTS"
-    | "CLEAR_EVENTS";
+import { Empty } from "@/utils";
 
-export type RequestEvent = {
+export type EventEntry = {
     timestamp: number;
     origin: string;
     request: RpcEvent;
 };
 
-export type RpcApi = {
+export type RpcMethods = {
     is_enabled: () => Promise<boolean>;
 
-    get_permissions: () => Promise<Permission[]>;
-    request_permissions: (permissions: Permission[]) => Promise<boolean>;
-    revoke_permissions: (permissions: Permission[]) => Promise<null>;
+    get_permissions: () => Promise<RpcPermission[]>;
+    request_permissions: (permissions: RpcPermission[]) => Promise<boolean>;
+    revoke_permissions: (permissions: RpcPermission[]) => Promise<null>;
     revoke_all_permissions: () => Promise<null>;
-    get_dapps_permissions: () => Promise<[dappOrigin: string, permissions: Permission[]][]>;
-    revoke_dapp_permissions: (dappOrigin: string, permissions: Permission[]) => Promise<null>;
+    get_dapps_permissions: () => Promise<[dappOrigin: string, permissions: RpcPermission[]][]>;
+    revoke_dapp_permissions: (dappOrigin: string, permissions: RpcPermission[]) => Promise<null>;
 
     get_active_address: () => Promise<string>;
     get_active_public_key: () => Promise<string>;
@@ -54,22 +35,20 @@ export type RpcApi = {
     rename_wallet: (address: string, name: string) => Promise<null>;
     delete_wallet: (address: string) => Promise<null>;
 
-    get_events: () => Promise<[dappOrigin: string, events: RequestEvent[]][]>;
+    get_events: () => Promise<[dappOrigin: string, events: EventEntry[]][]>;
     clear_events: () => Promise<null>;
 };
 
-type Empty = Record<string, unknown>;
-
 export type RpcEvent = {
-    [K in keyof RpcApi]: ({
+    [K in keyof RpcMethods]: ({
         is_enabled: Empty;
 
         get_permissions: Empty;
-        request_permissions: { permissions: Permission[] };
-        revoke_permissions: { permissions: Permission[] };
+        request_permissions: { permissions: RpcPermission[] };
+        revoke_permissions: { permissions: RpcPermission[] };
         revoke_all_permissions: Empty;
         get_dapps_permissions: Empty;
-        revoke_dapp_permissions: { dappOrigin: string; permissions: Permission[] };
+        revoke_dapp_permissions: { dappOrigin: string; permissions: RpcPermission[] };
 
         get_active_address: Empty;
         get_active_public_key: Empty;
@@ -85,13 +64,46 @@ export type RpcEvent = {
 
         get_events: Empty;
         clear_events: Empty;
-    } & { [K in keyof RpcApi]: { method: K } })[K];
-}[keyof RpcApi];
+    } & { [K in keyof RpcMethods]: { method: K } })[K];
+}[keyof RpcMethods];
 
-export type RpcRequest = {
-    [K in keyof RpcApi]: { method: K; params: Parameters<RpcApi[K]> };
-}[keyof RpcApi];
+export const RPC_PERMISSIONS = {
+    is_enabled: null,
+
+    get_permissions: null,
+    request_permissions: null,
+    revoke_permissions: null,
+    revoke_all_permissions: null,
+    get_dapps_permissions: "GET_DAPPS_PERMISSIONS",
+    revoke_dapp_permissions: "REVOKE_DAPP_PERMISSIONS",
+
+    get_active_address: "GET_ACTIVE_ADDRESS",
+    get_active_public_key: "GET_ACTIVE_PUBLIC_KEY",
+    get_all_addresses: "GET_ALL_ADDRESSES",
+    get_wallet_names: "GET_ALL_ADDRESSES",
+    sign_bytes: "SIGN",
+
+    set_active_address: "SET_ACTIVE_ADDRESS",
+    import_wallet: "IMPORT_WALLET",
+    export_wallet: "EXPORT_WALLET",
+    rename_wallet: "RENAME_WALLET",
+    delete_wallet: "DELETE_WALLET",
+
+    get_events: "GET_EVENTS",
+    clear_events: "CLEAR_EVENTS",
+} as const;
+
+export type RpcPermission = Exclude<
+    {
+        [K in keyof RpcMethods]: typeof RPC_PERMISSIONS[K];
+    }[keyof typeof RPC_PERMISSIONS],
+    null
+>;
+
+export type RpcParam = {
+    [K in keyof RpcMethods]: { method: K; params: Parameters<RpcMethods[K]> };
+}[keyof RpcMethods];
 
 export type RpcResponse = {
-    [K in keyof RpcApi]: ReturnType<RpcApi[K]>;
-}[keyof RpcApi];
+    [K in keyof RpcMethods]: ReturnType<RpcMethods[K]>;
+}[keyof RpcMethods];

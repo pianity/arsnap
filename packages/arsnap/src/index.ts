@@ -1,4 +1,10 @@
-import { RequestEvent, RpcEvent, RpcRequest, RpcResponse } from "@pianity/arsnap-adapter";
+import {
+    EventEntry,
+    RpcEvent,
+    RpcParam,
+    RpcResponse,
+    RPC_PERMISSIONS,
+} from "@pianity/arsnap-adapter";
 
 import * as handlers from "@/handlers";
 import { registerRpcMessageHandler } from "@/metamask";
@@ -6,7 +12,7 @@ import { getState, initializeState, replaceState, State } from "@/state";
 import { exhaustive, ownerToAddress } from "@/utils";
 import { guard } from "@/permissions";
 
-async function getRpcEvent(request: RpcRequest): Promise<RpcEvent> {
+async function getRpcEvent(request: RpcParam): Promise<RpcEvent> {
     const { method, params } = request;
 
     switch (method) {
@@ -52,14 +58,14 @@ async function getRpcEvent(request: RpcRequest): Promise<RpcEvent> {
     }
 }
 
-async function registerRequestEvent(state: State, origin: string, request: RpcRequest) {
+async function registerRequestEvent(state: State, origin: string, request: RpcParam) {
     // Don't register "is_enabled" and "get_permissions" requests, they're not interesting as they
     // don't require any permissions.
     if (request.method === "is_enabled" || request.method === "get_permissions") {
         return;
     }
 
-    const event: RequestEvent = {
+    const event: EventEntry = {
         timestamp: Date.now(),
         origin,
         request: await getRpcEvent(request),
@@ -105,10 +111,12 @@ registerRpcMessageHandler(async (origin, request): Promise<RpcResponse> => {
 async function handleRequest(
     state: State,
     origin: string,
-    request: RpcRequest,
+    request: RpcParam,
 ): Promise<RpcResponse> {
     const permissions = state.permissions.get(origin) || [];
     const { method, params } = request;
+
+    await guard(origin, permissions, RPC_PERMISSIONS[method]);
 
     switch (method) {
         case "is_enabled":
