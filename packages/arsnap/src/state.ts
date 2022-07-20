@@ -37,20 +37,20 @@ export type State = {
     /**
      * List of all the successful requests created by dApps, indexed by dApp origin
      */
-    events: Map<string, LogEntry[]>;
+    logs: Map<string, LogEntry[]>;
 
     /**
-     * Maximum number of individual request events per dapp that will be stored.
+     * Maximum number of individual request logs per dapp that will be stored.
      *
      * TODO: Make this configurable.
      */
-    eventsStorageLimit: number;
+    logsStorageLimit: number;
 };
 
-type SerializableState = Omit<State, "wallets" | "permissions" | "events"> & {
+type SerializableState = Omit<State, "wallets" | "permissions" | "logs"> & {
     wallets: [string, Wallet][];
     permissions: [string, RpcPermission[]][];
-    events: [string, LogEntry[]][];
+    logs: [string, LogEntry[]][];
 };
 
 export async function initializeState(): Promise<State> {
@@ -60,8 +60,8 @@ export async function initializeState(): Promise<State> {
         wallets: new Map([[defaultWallet.metadata.address, defaultWallet]]),
         activeWallet: defaultWallet.metadata.address,
         permissions: new Map(),
-        events: new Map(),
-        eventsStorageLimit: 100,
+        logs: new Map(),
+        logsStorageLimit: 100,
     };
 }
 
@@ -86,7 +86,7 @@ export async function getState(): Promise<[State | undefined, MutexInterface.Rel
             ...serialState,
             wallets: new Map(serialState.wallets),
             permissions: new Map(serialState.permissions),
-            events: new Map(serialState.events),
+            logs: new Map(serialState.logs),
         };
 
         return [state, releaseState];
@@ -103,7 +103,7 @@ export async function replaceState(state: State) {
         ...state,
         wallets: Array.from(state.wallets.entries()),
         permissions: Array.from(state.permissions.entries()),
-        events: Array.from(state.events.entries()),
+        logs: Array.from(state.logs.entries()),
     };
 
     await window.wallet.request({ method: "snap_manageState", params: ["update", serialState] });

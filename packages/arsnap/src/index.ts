@@ -12,7 +12,7 @@ import { exhaustive, ownerToAddress } from "@/utils";
 import { guard } from "@/permissions";
 import { RpcMessageHandler } from "@/metamask";
 
-async function getRpcEvent(request: RpcParam): Promise<RpcLogInfo> {
+async function getLogInfo(request: RpcParam): Promise<RpcLogInfo> {
     const { method, params } = request;
 
     switch (method) {
@@ -58,28 +58,28 @@ async function getRpcEvent(request: RpcParam): Promise<RpcLogInfo> {
     }
 }
 
-async function registerRequestEvent(state: State, origin: string, request: RpcParam) {
+async function registerLog(state: State, origin: string, request: RpcParam) {
     // Don't register "is_enabled" and "get_permissions" requests, they're not interesting as they
     // don't require any permissions.
     if (request.method === "is_enabled" || request.method === "get_permissions") {
         return;
     }
 
-    const event: LogEntry = {
+    const entry: LogEntry = {
         timestamp: Date.now(),
         origin,
-        info: await getRpcEvent(request),
+        info: await getLogInfo(request),
     };
 
-    const { events: allEvents, eventsStorageLimit } = state;
+    const { logs: allLogs, logsStorageLimit } = state;
 
-    const events = allEvents.get(origin) ?? [];
+    const logs = allLogs.get(origin) ?? [];
 
-    if (events.unshift(event) > eventsStorageLimit) {
-        events.splice(eventsStorageLimit, events.length - eventsStorageLimit);
+    if (logs.unshift(entry) > logsStorageLimit) {
+        logs.splice(logsStorageLimit, logs.length - logsStorageLimit);
     }
 
-    allEvents.set(origin, events);
+    allLogs.set(origin, logs);
 }
 
 const handler: RpcMessageHandler = async ({ origin, request }): Promise<RpcResponse> => {
@@ -92,7 +92,7 @@ const handler: RpcMessageHandler = async ({ origin, request }): Promise<RpcRespo
     try {
         response = await handleRequest(state, origin, request);
 
-        await registerRequestEvent(state, origin, request);
+        await registerLog(state, origin, request);
 
         // eslint-disable-next-line no-useless-catch
     } catch (e) {
@@ -184,11 +184,11 @@ async function handleRequest(
 
         case "get_logs":
             await guard(origin, permissions, "GET_LOGS");
-            return Array.from(state.events.entries());
+            return Array.from(state.logs.entries());
 
         case "clear_logs":
             await guard(origin, permissions, "CLEAR_LOGS");
-            state.events.clear();
+            state.logs.clear();
             return null;
 
         default:
