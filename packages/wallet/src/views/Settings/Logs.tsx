@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { EventEntry, RpcEvent } from "@pianity/arsnap-adapter";
+import { LogEntry, RpcLogInfo } from "@pianity/arsnap-adapter";
 
-import { DappsEvents, Transaction, Transactions } from "@/state";
+import { DappsLogs, Transaction, Transactions } from "@/state";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
 import { classes, TextColor } from "@/utils/tailwind";
@@ -20,25 +20,25 @@ import DappsList, { DappItem } from "@/components/permissions/DappsList";
 import Checkbox from "@/components/interface/form/Checkbox";
 import Pagination from "@/components/Pagination";
 
-const EVENTS_PER_PAGE = 9;
+const LOGS_PER_PAGE = 9;
 
-type EventsListProps = {
-    events?: EventEntry[];
+type LogsListProps = {
+    logs?: LogEntry[];
 };
 
-function EventsList({ events }: EventsListProps) {
+function LogsList({ logs }: LogsListProps) {
     const [showDetails, setShowDetails] = useState<number | undefined>();
 
     return (
         <>
-            {/* MARK: Events list */}
-            {events &&
-                (events.length > 0 ? (
+            {/* MARK: Logs list */}
+            {logs &&
+                (logs.length > 0 ? (
                     <ul>
-                        {events.map((event, i) => (
+                        {logs.map((log, i) => (
                             <li key={i}>
-                                <EventItem
-                                    event={event}
+                                <LogItem
+                                    log={log}
                                     showDetails={showDetails === i}
                                     onShowDetails={() =>
                                         setShowDetails(showDetails === i ? undefined : i)
@@ -52,7 +52,7 @@ function EventsList({ events }: EventsListProps) {
                 ))}
 
             {/* MARK: Loading */}
-            {!events && (
+            {!logs && (
                 <div className="mt-10 flex justify-center">
                     <LoadingIndicator />
                 </div>
@@ -93,7 +93,7 @@ function DetailsInfo({ label, info }: DetailsInfoProps) {
     );
 }
 
-function EventDetails({ params }: { params: [string, unknown][] }) {
+function LogDetails({ params }: { params: [string, unknown][] }) {
     return (
         <div className="grid grid-cols-[minmax(auto,50%)_1fr] gap-6">
             {params.map(([key, value]) => (
@@ -103,14 +103,14 @@ function EventDetails({ params }: { params: [string, unknown][] }) {
     );
 }
 
-type EventItemProps = {
-    event: EventEntry;
+type LogItemProps = {
+    log: LogEntry;
     showDetails: boolean;
     onShowDetails: () => void;
 };
-function EventItem({ event, showDetails, onShowDetails }: EventItemProps) {
-    const params = Object.entries(event.request).filter(
-        ([key]) => (key as keyof RpcEvent) !== "method",
+function LogItem({ log, showDetails, onShowDetails }: LogItemProps) {
+    const params = Object.entries(log.info).filter(
+        ([key]) => (key as keyof RpcLogInfo) !== "method",
     );
     const hasDetails = params.length > 0;
 
@@ -137,19 +137,19 @@ function EventItem({ event, showDetails, onShowDetails }: EventItemProps) {
                     <Chevron />
                 </button>
 
-                {/* MARK: Event name + timestamp */}
+                {/* MARK: Log name + timestamp */}
                 <div className="flex flex-col grow">
                     <Text size="18" color="white" weight="semibold" taller className="mb-1">
-                        {event.request.method}
+                        {log.info.method}
                     </Text>
                     <Text.span size="14" color="purple-light" opacity="50">
-                        {formatTimestamp(event.timestamp)}
+                        {formatTimestamp(log.timestamp)}
                     </Text.span>
                 </div>
 
                 {/* MARK: Origin */}
                 <div className="flex w-40 items-end shrink-0">
-                    <DappItem origin={event.origin} iconPosition="right" />
+                    <DappItem origin={log.origin} iconPosition="right" />
                 </div>
             </div>
 
@@ -164,7 +164,7 @@ function EventItem({ event, showDetails, onShowDetails }: EventItemProps) {
                 {/* MARK: Info Container */}
                 {hasDetails && showDetails && (
                     <div className="flex flex-col h-full w-full py-10 pl-10 pr-12">
-                        <EventDetails params={params} />
+                        <LogDetails params={params} />
                     </div>
                 )}
             </div>
@@ -172,23 +172,23 @@ function EventItem({ event, showDetails, onShowDetails }: EventItemProps) {
     );
 }
 
-export type EventsProps = {
-    events?: DappsEvents;
-    onClearEvents: () => void;
+export type LogsProps = {
+    logs?: DappsLogs;
+    onClearLogs: () => void;
 };
 
-export default function Events({ events: allEvents }: EventsProps) {
-    const [showWalletEvents, setShowWalletEvents] = useState(false);
+export default function Logs({ logs: allLogs }: LogsProps) {
+    const [showWalletLogs, setShowWalletLogs] = useState(false);
     const [dapps, setDapps] = useState<string[]>([]);
     const [currentDapp, setCurrentDapp] = useState<"all" | string>("all");
-    const [filteredEvents, setFilteredEvents] = useState<EventEntry[]>([]);
+    const [filteredLogs, setFilteredLogs] = useState<LogEntry[]>([]);
     const [page, setPage] = useState(1);
-    const [pageView, setPageView] = useState<EventEntry[]>([]);
+    const [pageView, setPageView] = useState<LogEntry[]>([]);
 
     // Update dapps list
     useEffect(() => {
-        const rawDapps = Array.from(allEvents?.keys() || []);
-        const dapps = showWalletEvents
+        const rawDapps = Array.from(allLogs?.keys() || []);
+        const dapps = showWalletLogs
             ? rawDapps
             : rawDapps.filter((origin) => origin !== window.origin);
 
@@ -198,39 +198,37 @@ export default function Events({ events: allEvents }: EventsProps) {
         }
 
         setDapps(["all", ...dapps]);
-    }, [allEvents, showWalletEvents]);
+    }, [allLogs, showWalletLogs]);
 
     useEffect(() => {
         setPage(1);
 
-        const newFilteredEvents = (() => {
-            if (!allEvents) {
+        const newFilteredLogs = (() => {
+            if (!allLogs) {
                 return [];
             } else if (currentDapp === "all") {
-                const rawEvents = Array.from(allEvents.entries());
-                const events = showWalletEvents
-                    ? rawEvents
-                    : rawEvents.filter(([origin, _]) => origin !== window.origin);
+                const rawLogs = Array.from(allLogs.entries());
+                const logs = showWalletLogs
+                    ? rawLogs
+                    : rawLogs.filter(([origin, _]) => origin !== window.origin);
 
-                return events
-                    .flatMap(([_, events]) => events)
-                    .sort((a, b) => b.timestamp - a.timestamp);
+                return logs.flatMap(([_, logs]) => logs).sort((a, b) => b.timestamp - a.timestamp);
             } else {
-                return allEvents.get(currentDapp) || [];
+                return allLogs.get(currentDapp) || [];
             }
         })();
 
-        setFilteredEvents(newFilteredEvents);
-    }, [allEvents, currentDapp, showWalletEvents]);
+        setFilteredLogs(newFilteredLogs);
+    }, [allLogs, currentDapp, showWalletLogs]);
 
     useEffect(() => {
-        const newPageView = filteredEvents.slice(
-            (page - 1) * EVENTS_PER_PAGE,
-            (page - 1) * EVENTS_PER_PAGE + EVENTS_PER_PAGE,
+        const newPageView = filteredLogs.slice(
+            (page - 1) * LOGS_PER_PAGE,
+            (page - 1) * LOGS_PER_PAGE + LOGS_PER_PAGE,
         );
 
         setPageView(newPageView);
-    }, [page, filteredEvents]);
+    }, [page, filteredLogs]);
 
     return (
         <ViewContainer>
@@ -253,29 +251,29 @@ export default function Events({ events: allEvents }: EventsProps) {
                             Settings
                         </Text.h1>
                         <Text.h2 color="purple-text" size="18" weight="bold" taller>
-                            Events
+                            Logs
                         </Text.h2>
                     </div>
 
                     <div className="flex ml-auto self-center space-x-5">
                         <Button
-                            outlined={!showWalletEvents}
+                            outlined={!showWalletLogs}
                             color="white"
                             className="flex transition-colors"
                             onClick={(e) => {
                                 e.preventDefault();
-                                setShowWalletEvents(!showWalletEvents);
+                                setShowWalletLogs(!showWalletLogs);
                             }}
                         >
                             <Checkbox
                                 style="rounded-fill"
-                                checked={showWalletEvents}
-                                label={"Show Wallet events"}
+                                checked={showWalletLogs}
+                                label={"Show Wallet logs"}
                             />
                         </Button>
 
                         <Button outlined color="white" className="transition-colors">
-                            Clear Events
+                            Clear Logs
                         </Button>
                     </div>
                 </div>
@@ -289,15 +287,12 @@ export default function Events({ events: allEvents }: EventsProps) {
 
                     <div className="flex flex-col pl-6 py-4">
                         <div className="grow">
-                            <EventsList events={pageView} />
+                            <LogsList logs={pageView} />
                         </div>
 
                         <div className="self-center">
                             <Pagination
-                                pages={Math.max(
-                                    Math.ceil(filteredEvents.length / EVENTS_PER_PAGE),
-                                    1,
-                                )}
+                                pages={Math.max(Math.ceil(filteredLogs.length / LOGS_PER_PAGE), 1)}
                                 currentPage={page}
                                 onPageChange={setPage}
                             />

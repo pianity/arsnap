@@ -1,6 +1,6 @@
 import {
-    EventEntry,
-    RpcEvent,
+    LogEntry,
+    RpcLogInfo,
     RpcParam,
     RpcResponse,
     RPC_PERMISSIONS,
@@ -12,7 +12,7 @@ import { getState, initializeState, replaceState, State } from "@/state";
 import { exhaustive, ownerToAddress } from "@/utils";
 import { guard } from "@/permissions";
 
-async function getRpcEvent(request: RpcParam): Promise<RpcEvent> {
+async function getRpcEvent(request: RpcParam): Promise<RpcLogInfo> {
     const { method, params } = request;
 
     switch (method) {
@@ -24,8 +24,8 @@ async function getRpcEvent(request: RpcParam): Promise<RpcEvent> {
         case "get_active_public_key":
         case "get_all_addresses":
         case "get_wallet_names":
-        case "get_events":
-        case "clear_events":
+        case "get_logs":
+        case "clear_logs":
             return { method };
 
         case "request_permissions":
@@ -65,10 +65,10 @@ async function registerRequestEvent(state: State, origin: string, request: RpcPa
         return;
     }
 
-    const event: EventEntry = {
+    const event: LogEntry = {
         timestamp: Date.now(),
         origin,
-        request: await getRpcEvent(request),
+        info: await getRpcEvent(request),
     };
 
     const { events: allEvents, eventsStorageLimit } = state;
@@ -182,12 +182,12 @@ async function handleRequest(
             await guard(origin, permissions, "DELETE_WALLET");
             return await handlers.deleteWallet(state, origin, ...params);
 
-        case "get_events":
-            await guard(origin, permissions, "GET_EVENTS");
+        case "get_logs":
+            await guard(origin, permissions, "GET_LOGS");
             return Array.from(state.events.entries());
 
-        case "clear_events":
-            await guard(origin, permissions, "CLEAR_EVENTS");
+        case "clear_logs":
+            await guard(origin, permissions, "CLEAR_LOGS");
             state.events.clear();
             return null;
 

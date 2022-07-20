@@ -16,8 +16,8 @@ export const REQUIRED_PERMISSIONS: RpcPermission[] = [
     "EXPORT_WALLET",
     "RENAME_WALLET",
     "DELETE_WALLET",
-    "GET_EVENTS",
-    "CLEAR_EVENTS",
+    "GET_LOGS",
+    "CLEAR_LOGS",
 ];
 
 export enum AppRoute {
@@ -27,7 +27,7 @@ export enum AppRoute {
     Settings = "/settings",
     GeneralSettings = "/settings/general",
     Permissions = "/settings/permissions",
-    Events = "/settings/events",
+    Logs = "/settings/logs",
 }
 
 export const DEFAULT_CURRENCY: Currency = "USD";

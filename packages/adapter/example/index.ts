@@ -9,7 +9,7 @@ const msgToSignInput = document.getElementById("message-to-sign") as HTMLInputEl
 const status = document.getElementById("status") as HTMLParagraphElement;
 
 // Define the permissions required by our dApp (more on this later).
-const PERMISSIONS: adapter.Permission[] = ["GET_ACTIVE_ADDRESS", "SIGN"];
+const PERMISSIONS: adapter.RpcPermission[] = ["GET_ACTIVE_ADDRESS", "SIGN"];
 
 window.onload = async () => {
     // Verify whether this dApp is already connected to ArSnap.

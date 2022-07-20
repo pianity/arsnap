@@ -67,13 +67,13 @@ export const PERMISSIONS_DESCRIPTIONS: Record<RpcPermission, PermissionDescripti
         description: "Delete a wallet",
     },
 
-    GET_EVENTS: {
+    GET_LOGS: {
         dangerous: true,
-        description: "Get all events",
+        description: "Get all logs",
     },
-    CLEAR_EVENTS: {
+    CLEAR_LOGS: {
         dangerous: true,
-        description: "Clear all events",
+        description: "Clear all logs",
     },
 };
 

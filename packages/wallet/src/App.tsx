@@ -18,8 +18,8 @@ import {
     SetTransactions,
     SetArBalance,
     SetArPrice,
-    SetEvents,
-    updateEvents,
+    SetLogs,
+    updateLogs,
 } from "@/state";
 import Wallet from "@/views/Wallet";
 import Welcome from "@/views/Welcome";
@@ -34,7 +34,7 @@ import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import { classes } from "@/utils/tailwind";
 import General from "@/views/Settings/General";
-import Events from "@/views/Settings/Events";
+import Logs from "@/views/Settings/Logs";
 import { GatewayName, useConfigReducer } from "@/state/config";
 
 async function isArsnapConfigured() {
@@ -49,12 +49,12 @@ async function isArsnapConfigured() {
 function updateWalletData(
     gateway: GatewayName,
     activeWallet: string | undefined,
-    dispatchState: Dispatch<SetArBalance | SetArPrice | SetTransactions | SetEvents>,
+    dispatchState: Dispatch<SetArBalance | SetArPrice | SetTransactions | SetLogs>,
 ) {
     if (activeWallet) {
         updateBalance(gateway, activeWallet, dispatchState);
         updateTransactions(gateway, activeWallet, dispatchState);
-        updateEvents(dispatchState);
+        updateLogs(dispatchState);
     }
 }
 
@@ -67,7 +67,7 @@ export default function App() {
         async function init() {
             await updateWallets(dispatchState);
             await updatePermissions(dispatchState);
-            await updateEvents(dispatchState);
+            await updateLogs(dispatchState);
         }
 
         isArsnapConfigured()
@@ -209,13 +209,8 @@ export default function App() {
                             />
 
                             <Route
-                                path={AppRoute.Events}
-                                element={
-                                    <Events
-                                        events={state.events}
-                                        onClearEvents={adapter.clearEvents}
-                                    />
-                                }
+                                path={AppRoute.Logs}
+                                element={<Logs logs={state.logs} onClearLogs={adapter.clearLogs} />}
                             />
                         </>
                     )}

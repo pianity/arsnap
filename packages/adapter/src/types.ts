@@ -1,11 +1,9 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
 
-import { Empty } from "@/utils";
-
-export type EventEntry = {
+export type LogEntry = {
     timestamp: number;
     origin: string;
-    request: RpcEvent;
+    info: RpcLogInfo;
 };
 
 export type RpcMethods = {
@@ -35,12 +33,13 @@ export type RpcMethods = {
     rename_wallet: (address: string, name: string) => Promise<null>;
     delete_wallet: (address: string) => Promise<null>;
 
-    get_events: () => Promise<[dappOrigin: string, events: EventEntry[]][]>;
-    clear_events: () => Promise<null>;
+    get_logs: () => Promise<[dappOrigin: string, logs: LogEntry[]][]>;
+    clear_logs: () => Promise<null>;
 };
 
-export type RpcEvent = {
-    [K in keyof RpcMethods]: ({
+type Empty = { method: string };
+export type RpcLogInfo = {
+    [K in keyof RpcMethods]: {
         is_enabled: Empty;
 
         get_permissions: Empty;
@@ -62,9 +61,10 @@ export type RpcEvent = {
         rename_wallet: { address: string; name: string };
         delete_wallet: { address: string };
 
-        get_events: Empty;
-        clear_events: Empty;
-    } & { [K in keyof RpcMethods]: { method: K } })[K];
+        get_logs: Empty;
+        clear_logs: Empty;
+    }[K] &
+        { [K in keyof RpcMethods]: { method: K } }[K];
 }[keyof RpcMethods];
 
 export const RPC_PERMISSIONS = {
@@ -89,8 +89,8 @@ export const RPC_PERMISSIONS = {
     rename_wallet: "RENAME_WALLET",
     delete_wallet: "DELETE_WALLET",
 
-    get_events: "GET_EVENTS",
-    clear_events: "CLEAR_EVENTS",
+    get_logs: "GET_LOGS",
+    clear_logs: "CLEAR_LOGS",
 } as const;
 
 export type RpcPermission = Exclude<

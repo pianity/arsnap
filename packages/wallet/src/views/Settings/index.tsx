@@ -21,11 +21,7 @@ export default function Settings() {
                         title="General Settings"
                         subtitle="Edit currency, etc..."
                     />
-                    <SettingsLink
-                        to={AppRoute.Events}
-                        title="Events"
-                        subtitle="View security events"
-                    />
+                    <SettingsLink to={AppRoute.Logs} title="Logs" subtitle="View security logs" />
                     <SettingsLink
                         to={AppRoute.Permissions}
                         title="Permissions"

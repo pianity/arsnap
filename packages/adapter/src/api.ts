@@ -138,15 +138,15 @@ export const deleteWallet: RpcMethods["delete_wallet"] = (...params) => {
 };
 
 /**
- * @requires "GET_EVENTS"
+ * @requires "GET_LOGS"
  */
-export const getEvents: RpcMethods["get_events"] = (...params) => {
-    return requestSnap("get_events", params);
+export const getLogs: RpcMethods["get_logs"] = (...params) => {
+    return requestSnap("get_logs", params);
 };
 
 /**
- * @requires "CLEAR_EVENTS"
+ * @requires "CLEAR_LOGS"
  */
-export const clearEvents: RpcMethods["clear_events"] = (...params) => {
-    return requestSnap("clear_events", params);
+export const clearLogs: RpcMethods["clear_logs"] = (...params) => {
+    return requestSnap("clear_logs", params);
 };
