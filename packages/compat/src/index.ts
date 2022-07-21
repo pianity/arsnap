@@ -4,7 +4,7 @@ import Transaction from "arweave/node/lib/transaction";
 import * as adapter from "@pianity/arsnap-adapter";
 
 const PERMISSIONS_TRANSLATIONS: Record<
-    adapter.Permission,
+    adapter.RpcPermission,
     ArconnectPermission | null | ArconnectPermission[]
 > = {
     GET_ACTIVE_ADDRESS: "ACCESS_ADDRESS",
@@ -12,8 +12,6 @@ const PERMISSIONS_TRANSLATIONS: Record<
     GET_ALL_ADDRESSES: "ACCESS_ALL_ADDRESSES",
 
     SIGN: ["SIGNATURE", "SIGN_TRANSACTION"],
-    ENCRYPT: "ENCRYPT",
-    DECRYPT: "DECRYPT",
 
     SET_ACTIVE_ADDRESS: null,
     GET_DAPPS_PERMISSIONS: null,
@@ -22,9 +20,12 @@ const PERMISSIONS_TRANSLATIONS: Record<
     EXPORT_WALLET: null,
     RENAME_WALLET: null,
     DELETE_WALLET: null,
+
+    GET_LOGS: null,
+    CLEAR_LOGS: null,
 };
 
-function reverseFind(needle: ArconnectPermission): adapter.Permission {
+function reverseFind(needle: ArconnectPermission): adapter.RpcPermission {
     const translations = Object.entries(PERMISSIONS_TRANSLATIONS);
 
     for (const [permission, translation] of translations) {
@@ -32,13 +33,13 @@ function reverseFind(needle: ArconnectPermission): adapter.Permission {
 
         if (typeof translation === "string") {
             if (translation === needle) {
-                return permission as unknown as adapter.Permission;
+                return permission as unknown as adapter.RpcPermission;
             }
         }
 
         if (translation instanceof Array) {
             if (translation.find((value) => value === needle)) {
-                return permission as unknown as adapter.Permission;
+                return permission as unknown as adapter.RpcPermission;
             }
         }
     }
@@ -46,7 +47,7 @@ function reverseFind(needle: ArconnectPermission): adapter.Permission {
     throw new Error(`Couldn't translate permission ${needle}`);
 }
 
-function convertPermsToArconnect(permissions: adapter.Permission[]): ArconnectPermission[] {
+function convertPermsToArconnect(permissions: adapter.RpcPermission[]): ArconnectPermission[] {
     const translatedPermissions: ArconnectPermission[] = permissions
         .map((permission) => PERMISSIONS_TRANSLATIONS[permission])
         .flat()
@@ -55,8 +56,8 @@ function convertPermsToArconnect(permissions: adapter.Permission[]): ArconnectPe
     return translatedPermissions;
 }
 
-function convertPermsToArsnap(permissions: ArconnectPermission[]): adapter.Permission[] {
-    const translatedPermissions: adapter.Permission[] = permissions
+function convertPermsToArsnap(permissions: ArconnectPermission[]): adapter.RpcPermission[] {
+    const translatedPermissions: adapter.RpcPermission[] = permissions
         .map((permission) => reverseFind(permission))
         .flat();
 
