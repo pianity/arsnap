@@ -5,7 +5,6 @@ coverage/
 public/
 
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -78,7 +77,6 @@ node_modules/
 !.yarn/versions
 
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
