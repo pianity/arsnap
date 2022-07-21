@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 
 import { LogEntry, RpcLogInfo } from "@pianity/arsnap-adapter";
 
-import { DappsLogs, Transaction, Transactions } from "@/state";
+import { DappsLogs } from "@/state";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
-import { classes, TextColor } from "@/utils/tailwind";
+import { classes } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
 import Text from "@/components/interface/typography/Text";
 import { AppRoute } from "@/consts";
-import { exhaustive, truncateStringCenter } from "@/utils";
+import { truncateStringCenter } from "@/utils";
 import Tooltip from "@/components/interface/Tooltip";
-import { formatTimestamp, getFiatFormatter } from "@/utils/locale";
+import { formatTimestamp } from "@/utils/locale";
 import Button from "@/components/interface/Button";
 import CopiableText from "@/components/interface/typography/CopiableText";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
@@ -27,26 +27,68 @@ type LogsListProps = {
 };
 
 function LogsList({ logs }: LogsListProps) {
+    const [page, setPage] = useState(1);
+    const [pageView, setPageView] = useState<LogEntry[]>([]);
     const [showDetails, setShowDetails] = useState<number | undefined>();
+    const [changingPage, setChangingPage] = useState<number | undefined>();
+
+    useEffect(() => {
+        setPage(1);
+    }, [logs]);
+
+    useEffect(() => {
+        if (changingPage !== undefined) {
+            setPage(changingPage);
+            setChangingPage(undefined);
+        }
+    }, [changingPage]);
+
+    useEffect(() => {
+        if (!logs) {
+            setPageView([]);
+            return;
+        }
+
+        const newPageView = logs.slice(
+            (page - 1) * LOGS_PER_PAGE,
+            (page - 1) * LOGS_PER_PAGE + LOGS_PER_PAGE,
+        );
+
+        setPageView(newPageView);
+    }, [page, logs]);
 
     return (
-        <>
+        <div className="flex flex-col pl-6 py-4">
             {/* MARK: Logs list */}
             {logs &&
                 (logs.length > 0 ? (
-                    <ul>
-                        {logs.map((log, i) => (
-                            <li key={i}>
-                                <LogItem
-                                    log={log}
-                                    showDetails={showDetails === i}
-                                    onShowDetails={() =>
-                                        setShowDetails(showDetails === i ? undefined : i)
-                                    }
-                                />
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        <ul className="grow">
+                            {pageView.map((log, i) => (
+                                <li key={i}>
+                                    <LogItem
+                                        log={log}
+                                        showDetails={showDetails === i}
+                                        onShowDetails={() =>
+                                            setShowDetails(showDetails === i ? undefined : i)
+                                        }
+                                        disableTransition={changingPage !== undefined}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div className="self-center">
+                            <Pagination
+                                pages={Math.max(Math.ceil(logs.length / LOGS_PER_PAGE), 1)}
+                                currentPage={page}
+                                onPageChange={(newPage) => {
+                                    setShowDetails(undefined);
+                                    setChangingPage(newPage);
+                                }}
+                            />
+                        </div>
+                    </>
                 ) : (
                     <Text.span className="mt-10 flex justify-center">No activity</Text.span>
                 ))}
@@ -57,20 +99,36 @@ function LogsList({ logs }: LogsListProps) {
                     <LoadingIndicator />
                 </div>
             )}
-        </>
+        </div>
     );
 }
 
 type DetailsInfoProps = {
     label: string;
-    info: string;
+    info: string | string[] | Record<string, unknown>;
 };
 function DetailsInfo({ label, info }: DetailsInfoProps) {
-    const truncatedInfo = truncateStringCenter(info, 30);
+    let displayInfo: string;
+
+    if (typeof info === "string") {
+        displayInfo = truncateStringCenter(info, 30);
+    } else if (Array.isArray(info)) {
+        displayInfo = `[${info.length} items]`;
+    } else {
+        displayInfo = "[object]";
+    }
+
+    let copiableInfo: string;
+
+    if (typeof info === "string") {
+        copiableInfo = info;
+    } else {
+        copiableInfo = JSON.stringify(info, undefined, 2);
+    }
 
     const InfoText = () => (
         <Text.span color="white" size="13">
-            <CopiableText textToCopy={info}>{truncatedInfo}</CopiableText>
+            <CopiableText textToCopy={copiableInfo}>{displayInfo}</CopiableText>
         </Text.span>
     );
 
@@ -81,8 +139,8 @@ function DetailsInfo({ label, info }: DetailsInfoProps) {
                     {label}
                 </Text.span>
 
-                {truncatedInfo.length !== info.length ? (
-                    <Tooltip text={info}>
+                {displayInfo !== info ? (
+                    <Tooltip text={copiableInfo}>
                         <InfoText />
                     </Tooltip>
                 ) : (
@@ -93,11 +151,15 @@ function DetailsInfo({ label, info }: DetailsInfoProps) {
     );
 }
 
-function LogDetails({ params }: { params: [string, unknown][] }) {
+function LogDetails({
+    params,
+}: {
+    params: [string, string | string[] | Record<string, unknown>][];
+}) {
     return (
         <div className="grid grid-cols-[minmax(auto,50%)_1fr] gap-6">
             {params.map(([key, value]) => (
-                <DetailsInfo key={key} label={key} info={typeof value === "string" ? value : "-"} />
+                <DetailsInfo key={key} label={key} info={value} />
             ))}
         </div>
     );
@@ -107,8 +169,9 @@ type LogItemProps = {
     log: LogEntry;
     showDetails: boolean;
     onShowDetails: () => void;
+    disableTransition?: boolean;
 };
-function LogItem({ log, showDetails, onShowDetails }: LogItemProps) {
+function LogItem({ log, showDetails, onShowDetails, disableTransition = false }: LogItemProps) {
     const params = Object.entries(log.info).filter(
         ([key]) => (key as keyof RpcLogInfo) !== "method",
     );
@@ -129,8 +192,9 @@ function LogItem({ log, showDetails, onShowDetails }: LogItemProps) {
                     onClick={onShowDetails}
                     className={classes(
                         "mr-2 w-6 h-6 flex items-center justify-center rounded-full bg-white",
-                        "text-purple-dark transition-transform",
+                        "text-purple-dark",
                         !hasDetails && "opacity-25",
+                        !disableTransition && "transition-transform ease-quart-out duration-300",
                         showDetails && "rotate-180",
                     )}
                 >
@@ -156,8 +220,8 @@ function LogItem({ log, showDetails, onShowDetails }: LogItemProps) {
             {/* MARK: Details view */}
             <div
                 className={classes(
-                    "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300",
-                    "ease-quart-out relative",
+                    "bg-purple-dark bg-opacity-30 rounded-lg relative",
+                    !disableTransition && "ease-quart-out transition-size duration-300",
                     showDetails ? "h-[200px] mb-4" : "h-0 mb-0 pointer-events-none overflow-hidden",
                 )}
             >
@@ -182,8 +246,6 @@ export default function Logs({ logs: allLogs }: LogsProps) {
     const [dapps, setDapps] = useState<string[]>([]);
     const [currentDapp, setCurrentDapp] = useState<"all" | string>("all");
     const [filteredLogs, setFilteredLogs] = useState<LogEntry[]>([]);
-    const [page, setPage] = useState(1);
-    const [pageView, setPageView] = useState<LogEntry[]>([]);
 
     // Update dapps list
     useEffect(() => {
@@ -194,15 +256,12 @@ export default function Logs({ logs: allLogs }: LogsProps) {
 
         if (!dapps.includes(currentDapp)) {
             setCurrentDapp("all");
-            setPage(1);
         }
 
         setDapps(["all", ...dapps]);
     }, [allLogs, showWalletLogs]);
 
     useEffect(() => {
-        setPage(1);
-
         const newFilteredLogs = (() => {
             if (!allLogs) {
                 return [];
@@ -220,15 +279,6 @@ export default function Logs({ logs: allLogs }: LogsProps) {
 
         setFilteredLogs(newFilteredLogs);
     }, [allLogs, currentDapp, showWalletLogs]);
-
-    useEffect(() => {
-        const newPageView = filteredLogs.slice(
-            (page - 1) * LOGS_PER_PAGE,
-            (page - 1) * LOGS_PER_PAGE + LOGS_PER_PAGE,
-        );
-
-        setPageView(newPageView);
-    }, [page, filteredLogs]);
 
     return (
         <ViewContainer>
@@ -285,19 +335,7 @@ export default function Logs({ logs: allLogs }: LogsProps) {
                         onDappClick={setCurrentDapp}
                     />
 
-                    <div className="flex flex-col pl-6 py-4">
-                        <div className="grow">
-                            <LogsList logs={pageView} />
-                        </div>
-
-                        <div className="self-center">
-                            <Pagination
-                                pages={Math.max(Math.ceil(filteredLogs.length / LOGS_PER_PAGE), 1)}
-                                currentPage={page}
-                                onPageChange={setPage}
-                            />
-                        </div>
-                    </div>
+                    <LogsList logs={filteredLogs} />
                 </div>
             </Container>
         </ViewContainer>
