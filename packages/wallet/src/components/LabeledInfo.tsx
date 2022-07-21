@@ -5,12 +5,15 @@ import Tooltip from "@/components/interface/Tooltip";
 
 type LabeledInfo = {
     label: string;
-    info: string | string[] | Record<string, unknown>;
+    info: string | number | unknown[] | Record<string, unknown>;
 };
 
 export default function LabeledInfo({ label, info }: LabeledInfo) {
-    let displayInfo: string;
+    if (typeof info === "number") {
+        info = info.toString();
+    }
 
+    let displayInfo: string;
     if (typeof info === "string") {
         displayInfo = truncateStringCenter(info, 30);
     } else if (Array.isArray(info)) {
@@ -20,7 +23,6 @@ export default function LabeledInfo({ label, info }: LabeledInfo) {
     }
 
     let copiableInfo: string;
-
     if (typeof info === "string") {
         copiableInfo = info;
     } else {
