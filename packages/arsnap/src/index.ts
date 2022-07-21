@@ -36,7 +36,7 @@ async function getLogInfo(request: RpcParam): Promise<RpcLogInfo> {
             return { method, dappOrigin: params[0], permissions: params[1] };
 
         case "sign_bytes":
-            return { method, bytesLength: params[0].length };
+            return { method, bytesLength: Object.values(params[0]).length };
 
         case "set_active_address":
             return { method, address: params[0] };
