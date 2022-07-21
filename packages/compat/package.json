@@ -13,7 +13,7 @@
     ],
     "main": "dist/index.js",
     "scripts": {
-        "build": "tsc && esbuild src/index.ts --bundle --outdir=dist",
+        "build": "esbuild src/index.ts --bundle --outdir=dist",
         "clean": "rm -r dist/",
         "typecheck": "tsc --emitDeclarationOnly false --noEmit",
         "lint": "prettier --loglevel warn --check src/ ; eslint src/",
