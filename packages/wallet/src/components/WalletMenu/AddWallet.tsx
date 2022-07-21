@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import Text from "@/components/interface/typography/Text";
 
 export type NewWalletChoice = "importExisting" | "createNew" | "cancel";

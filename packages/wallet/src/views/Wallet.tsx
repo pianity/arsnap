@@ -1,6 +1,6 @@
 import { Transactions as TransactionsData } from "@/state";
-import Balance from "@/components/Balance";
-import Transactions from "@/components/Transactions";
+import Balance from "@/components/wallet/Balance";
+import Transactions from "@/components/wallet/Transactions";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 
 export type WalletProps = {

@@ -2,7 +2,7 @@ import Container from "@/components/interface/layout/Container";
 import Text from "@/components/interface/typography/Text";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { Transactions as TransactionsData } from "@/state";
-import TransactionItem from "@/components/TransactionItem";
+import TransactionItem from "@/components/wallet/TransactionItem";
 import { classes } from "@/utils/tailwind";
 
 export type TransactionProps = {

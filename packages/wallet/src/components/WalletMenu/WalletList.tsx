@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { OnWalletMenuEvent } from "@/components/WalletMenu/WalletMenu";
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import { Wallets } from "@/state";
 import { NamedAddress } from "@/utils/types";
 import WalletItem from "@/components/WalletMenu/WalletItem";

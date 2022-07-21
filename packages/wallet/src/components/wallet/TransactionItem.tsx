@@ -5,11 +5,13 @@ import outgoingIconUrl from "@/assets/icons/outgoing.svg";
 import incomingIconUrl from "@/assets/icons/incoming.svg";
 import Text from "@/components/interface/typography/Text";
 import { truncateStringCenter } from "@/utils";
-import { TextColor } from "@/utils/tailwind";
+import { classes, TextColor } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import CopiableText from "@/components/interface/typography/CopiableText";
 import { getFiatFormatter, formatTimestamp } from "@/utils/locale";
+import Tooltip from "@/components/interface/Tooltip";
+import LabeledInfo from "@/components/LabeledInfo";
 
 type TransactionItemProps = {
     arPrice?: number;
@@ -98,11 +100,11 @@ export default function TransactionItem({ arPrice, transaction }: TransactionIte
 
             {/* MARK: Details view */}
             <div
-                className={
-                    "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300" +
-                    " ease-quart-out relative overflow-hidden " +
-                    (showDetails ? "h-[345px] mb-4" : "h-0 mb-0 pointer-events-none")
-                }
+                className={classes(
+                    "bg-purple-dark bg-opacity-30 rounded-lg transition-size duration-300",
+                    "ease-quart-out relative",
+                    showDetails ? "h-[345px] mb-4" : "h-0 mb-0 pointer-events-none overflow-hidden",
+                )}
             >
                 {/* MARK: Info Container */}
                 <div className="flex flex-col h-full w-full py-10 pl-10 pr-12">
@@ -162,23 +164,11 @@ export default function TransactionItem({ arPrice, transaction }: TransactionIte
                             </div>
                         </div>
 
-                        <DetailsInfo
-                            label="ID"
-                            info={truncateStringCenter(transaction.id)}
-                            textToCopy={transaction.id}
-                        />
-                        <DetailsInfo label="TIME" info="2022-04-20 17:30:51 +02:00" />
+                        <LabeledInfo label="ID" info={transaction.id} />
+                        <LabeledInfo label="TIME" info="2022-04-20 17:30:51 +02:00" />
 
-                        <DetailsInfo
-                            label="FROM"
-                            info={truncateStringCenter(transaction.from)}
-                            textToCopy={transaction.from}
-                        />
-                        <DetailsInfo
-                            label="TO"
-                            info={truncateStringCenter(transaction.to)}
-                            textToCopy={transaction.to}
-                        />
+                        <LabeledInfo label="FROM" info={transaction.from} />
+                        <LabeledInfo label="TO" info={transaction.to} />
                     </div>
 
                     <div className="h-[1px] bg-purple-text my-6 shrink-0" />
@@ -219,25 +209,6 @@ export default function TransactionItem({ arPrice, transaction }: TransactionIte
                     <Chevron className="rotate-180" />
                 </button>
             </div>
-        </div>
-    );
-}
-
-type DetailsInfoProps = {
-    label: string;
-    info: string;
-    textToCopy?: string;
-};
-
-function DetailsInfo({ label, info, textToCopy }: DetailsInfoProps) {
-    return (
-        <div className="flex flex-col gap-2 items-start">
-            <Text.span color="white" size="13" weight="semibold" wider uppercase>
-                {label}
-            </Text.span>
-            <Text.span color="white" size="13">
-                {textToCopy ? <CopiableText textToCopy={textToCopy}>{info}</CopiableText> : info}
-            </Text.span>
         </div>
     );
 }

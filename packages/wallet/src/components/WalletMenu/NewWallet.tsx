@@ -1,4 +1,4 @@
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import { ExportWallet, OnWalletMenuEvent, RenameWallet } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import Text from "@/components/interface/typography/Text";

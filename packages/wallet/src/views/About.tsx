@@ -1,4 +1,4 @@
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import Container from "@/components/interface/layout/Container";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Text from "@/components/interface/typography/Text";

@@ -1,5 +1,5 @@
 import Text from "@/components/interface/typography/Text";
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import { range } from "@/utils";
 
 type PageButtonProps = {

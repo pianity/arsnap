@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
-import Arweave from "arweave";
 import { SetArBalance, SetArPrice, updateBalance } from "@/state";
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import { arweave as getArweave } from "@/utils/blockchain";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
 import Container from "@/components/interface/layout/Container";
@@ -16,7 +15,7 @@ import Label from "@/components/interface/form/Label";
 import Input from "@/components/interface/form/Input";
 import InputError from "@/components/interface/form/InputError";
 import Modal from "@/components/interface/Modal";
-import ConfirmSend from "@/components/ConfirmSend";
+import ConfirmSend from "@/components/send/ConfirmSend";
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import { classes } from "@/utils/tailwind";
 import { getFiatFormatter } from "@/utils/locale";

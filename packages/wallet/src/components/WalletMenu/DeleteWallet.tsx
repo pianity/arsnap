@@ -1,4 +1,4 @@
-import Button from "@/components/interface/Button";
+import Button from "@/components/interface/form/Button";
 import { truncateStringCenter } from "@/utils";
 import Text from "@/components/interface/typography/Text";
 import { classes } from "@/utils/tailwind";
