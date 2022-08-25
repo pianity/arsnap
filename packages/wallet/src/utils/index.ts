@@ -83,5 +83,9 @@ export function triggerFocus(element: HTMLElement) {
  * (inclusively).
  */
 export function range(start: number, end: number) {
+    if (start > end) {
+        return [];
+    }
+
     return Array.from(Array(end - start + 1), (_, i) => start + i);
 }

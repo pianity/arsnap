@@ -34,15 +34,9 @@ export type PaginationProps = {
 export default function Pagination({ currentPage, pages, onPageChange }: PaginationProps) {
     const viewArea = 2;
 
-    let pageRange = [1];
-    if (pages > 1 && pages < viewArea * 2 + 1) {
-        pageRange = range(2, pages - 1);
-    } else if (pages > viewArea * 2 + 1) {
-        pageRange = range(
-            Math.max(currentPage - viewArea, 2),
-            Math.min(currentPage + viewArea, pages - 1),
-        );
-    }
+    const pageRange = range(currentPage - viewArea, currentPage + viewArea).filter(
+        (x) => x > 1 && x < pages,
+    );
 
     return (
         <div className="flex items-center">
