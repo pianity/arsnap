@@ -22,7 +22,7 @@ export type LogsProps = {
     onClearLogs: () => void;
 };
 
-export default function Logs({ logs: allLogs }: LogsProps) {
+export default function Logs({ logs: allLogs, onClearLogs }: LogsProps) {
     const [showWalletLogs, setShowWalletLogs] = useState(false);
     const [dapps, setDapps] = useState<string[]>([]);
     const [currentDapp, setCurrentDapp] = useState<"all" | string>("all");
@@ -103,7 +103,12 @@ export default function Logs({ logs: allLogs }: LogsProps) {
                             />
                         </Button>
 
-                        <Button outlined color="white" className="transition-colors">
+                        <Button
+                            outlined
+                            color="white"
+                            className="transition-colors"
+                            onClick={() => onClearLogs()}
+                        >
                             Clear Logs
                         </Button>
                     </div>
