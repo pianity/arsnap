@@ -26,22 +26,22 @@
         "example": "vite ./example"
     },
     "dependencies": {
-        "arweave": "1.11.4",
+        "arweave": "1.11.6",
         "js-base64": "3.7.2",
         "replace-in-file": "6.3.5"
     },
     "devDependencies": {
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
-        "eslint": "8.19.0",
+        "eslint": "8.22.0",
         "nodemon": "2.0.19",
         "prettier": "2.7.1",
-        "ts-node": "10.8.2",
-        "tsc-alias": "1.6.11",
-        "tsconfig-paths": "4.0.0",
-        "typedoc": "0.23.7",
-        "typedoc-plugin-markdown": "3.13.3",
+        "ts-node": "10.9.1",
+        "tsc-alias": "1.7.0",
+        "tsconfig-paths": "4.1.0",
+        "typedoc": "0.23.10",
+        "typedoc-plugin-markdown": "3.13.4",
         "typescript": "4.7.4",
-        "vite": "2.9.14"
+        "vite": "3.0.9"
     }
 }
