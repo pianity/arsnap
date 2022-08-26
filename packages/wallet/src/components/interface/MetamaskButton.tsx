@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import LoadingIndicator from "@/components/interface/svg/LoadingIndicator";
 import metamaskLogoUrlDark from "@/assets/metamask-dark.svg";
 import metamaskLogoUrlLight from "@/assets/metamask-light.svg";
 import Text from "@/components/interface/typography/Text";
+import { classes } from "@/utils/tailwind";
 
 type MetamaskButtonProps = {
     label: string;
@@ -21,13 +23,12 @@ export default function MetamaskButton({ label, small, dark, onClick }: Metamask
                 await onClick();
                 setInitializing(false);
             }}
-            className={
-                "flex items-center justify-center rounded-full bg-white relative" +
-                (dark
-                    ? " bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out"
-                    : "") +
-                (small ? " h-10 px-4" : " h-14 px-6")
-            }
+            className={classes(
+                "flex items-center justify-center rounded-full bg-white relative",
+                dark &&
+                    "bg-opacity-20 lg:hover:bg-opacity-40 transition duration-300 ease-quart-out",
+                small ? "h-10 px-4" : "h-14 px-6",
+            )}
         >
             <Text.span
                 color={dark ? "white" : "gray-dark"}

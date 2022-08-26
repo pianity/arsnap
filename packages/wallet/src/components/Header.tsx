@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { match } from "ts-pattern";
 
 import arsnapLogoUrl from "@/assets/arsnap.svg";
 import WalletMenu, { OnWalletMenuEvent } from "@/components/WalletMenu";
@@ -10,10 +11,16 @@ import { Wallets } from "@/state";
 import { AppRoute } from "@/consts";
 import { classes } from "@/utils/tailwind";
 import { GatewayName } from "@/state/config";
+import { AppStatus } from "@/App";
 
 type HeaderProps = {
-    /** Shows a loading indicator instead of the wallet button */
-    loading: boolean;
+    /**
+     * Show/hide the wallet button according to the app status:
+     *   - "loading": display a loading indicator
+     *   - "error": display an error indicator
+     *   - "loaded": display the wallet button
+     */
+    appStatus: AppStatus;
     /** Makes the ArSnap logo smaller */
     smallLogo?: boolean;
     gateway: GatewayName;
@@ -32,7 +39,7 @@ type HeaderProps = {
  * logo in the center and wallet button on the right.
  */
 export default function Header({
-    loading,
+    appStatus,
     smallLogo,
     gateway,
     activeWallet,
@@ -100,18 +107,32 @@ export default function Header({
             </ul>
 
             {/* MARK: Metamask connect */}
-            {loading && <LoadingIndicator height={16} width={16} />}
-            {!loading &&
-                (activeWallet && availableWallets ? (
-                    <WalletMenu
-                        gateway={gateway}
-                        activeWallet={activeWallet}
-                        availableWallets={availableWallets}
-                        onEvent={onWalletEvent}
-                    />
-                ) : (
-                    <MetamaskButton label="Connect with" onClick={onMetamaskClick} small dark />
-                ))}
+            {match(appStatus)
+                .with("error", () => (
+                    <Text
+                        size="16"
+                        color="white"
+                        weight="semibold"
+                        taller
+                        className="cursor-default mr"
+                    >
+                        :(
+                    </Text>
+                ))
+                .with("loading", () => <LoadingIndicator height={16} width={16} />)
+                .with("loaded", () =>
+                    activeWallet && availableWallets ? (
+                        <WalletMenu
+                            gateway={gateway}
+                            activeWallet={activeWallet}
+                            availableWallets={availableWallets}
+                            onEvent={onWalletEvent}
+                        />
+                    ) : (
+                        <MetamaskButton label="Connect with" onClick={onMetamaskClick} small dark />
+                    ),
+                )
+                .exhaustive()}
 
             {/* MARK: ArSnap logo */}
             <Link

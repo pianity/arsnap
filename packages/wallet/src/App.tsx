@@ -1,11 +1,12 @@
 import { Dispatch, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { match } from "ts-pattern";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
 import { version } from "package.json";
 import { AppRoute, REQUIRED_PERMISSIONS } from "@/consts";
-import { downloadFile, exhaustive } from "@/utils";
+import { downloadFile, exhaustive, sleep } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
 import githubIconUrl from "@/assets/icons/github.svg";
 import permawebSeal from "@/assets/permaweb-seal.svg";
@@ -37,12 +38,27 @@ import General from "@/views/Settings/General";
 import Logs from "@/views/Settings/Logs";
 import { GatewayName, useConfigReducer } from "@/state/config";
 
-async function isArsnapConfigured() {
+type ArsnapState = "configured" | "unconfigured" | "error";
+export type AppStatus = "loading" | "loaded" | "error";
+
+async function getArsnapStatus(): Promise<ArsnapState> {
     try {
-        const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
-        return missingPermissions.length === 0;
+        const state = await Promise.race<ArsnapState>([
+            getMissingPermissions(REQUIRED_PERMISSIONS).then((missingPermissions) =>
+                missingPermissions.length > 0 ? "unconfigured" : "configured",
+            ),
+            sleep(3).then(() => "error"),
+        ]);
+
+        return state;
     } catch (e) {
-        return false;
+        // TODO: The adapter doesn't include a proper way of checking for thrown error kind yet so
+        // we have to rely on the message attached to the error object...
+        if (e && (e as Error).message === "MetaMask is not installed") {
+            return "error";
+        }
+
+        return "unconfigured";
     }
 }
 
@@ -59,26 +75,13 @@ function updateWalletData(
 }
 
 export default function App() {
-    const [loading, setLoading] = useState(true);
+    const [arsnapStatus, setArsnapStatus] = useState<undefined | ArsnapState>();
+    const [appStatus, setAppStatus] = useState<AppStatus>("loading");
     const [state, dispatchState] = useArsnapReducer();
     const [config, dispatchConfig] = useConfigReducer();
 
     useEffect(() => {
-        async function init() {
-            await updateWallets(dispatchState);
-            await updatePermissions(dispatchState);
-            await updateLogs(dispatchState);
-        }
-
-        isArsnapConfigured()
-            .then((configured) => {
-                if (configured) {
-                    init().then(() => setLoading(false));
-                } else {
-                    setLoading(false);
-                }
-            })
-            .catch(() => setLoading(false));
+        getArsnapStatus().then((status) => setArsnapStatus(status));
 
         const updateInterval = setInterval(
             () => updateWalletData(config.gateway, state.activeWallet, dispatchState),
@@ -89,6 +92,22 @@ export default function App() {
             clearInterval(updateInterval);
         };
     }, []);
+
+    useEffect(() => {
+        match<typeof arsnapStatus, Promise<AppStatus>>(arsnapStatus)
+            .with("configured", () =>
+                Promise.all([
+                    updateWallets(dispatchState),
+                    updatePermissions(dispatchState),
+                    updateLogs(dispatchState),
+                ]).then(() => "loaded"),
+            )
+            .with("unconfigured", async () => "loaded")
+            .with("error", async () => "error")
+            .with(undefined, async () => "loading")
+            .exhaustive()
+            .then(setAppStatus);
+    }, [arsnapStatus]);
 
     useEffect(() => {
         updateWalletData(config.gateway, state.activeWallet, dispatchState);
@@ -140,7 +159,7 @@ export default function App() {
     return (
         <div className="min-h-screen flex flex-col">
             <Header
-                loading={loading}
+                appStatus={appStatus}
                 smallLogo={!!state.activeWallet}
                 gateway={config.gateway}
                 activeWallet={state.activeWallet}
@@ -149,75 +168,110 @@ export default function App() {
                 onInitialized={() => updateWallets(dispatchState)}
             />
 
-            {loading ? (
-                <ViewContainer className="justify-center">
-                    <LoadingIndicator width={40} height={40} className="opacity-40 " />
-                </ViewContainer>
-            ) : (
-                <Routes>
-                    <Route path={AppRoute.About} element={<About />} />
+            {match(appStatus)
+                .with("loading", () => (
+                    <ViewContainer className="justify-center">
+                        <LoadingIndicator width={40} height={40} className="opacity-40" />
+                    </ViewContainer>
+                ))
+                .with("error", () => (
+                    <ViewContainer className="justify-center">
+                        <Text size="32" color="white" className="mb-3">
+                            Something went wrong :(
+                        </Text>
+                        <Text
+                            size="20"
+                            color="white"
+                            className="whitespace-pre-wrap"
+                            align="center"
+                            taller
+                        >
+                            Make sure you have{" "}
+                            <span className="text-purple hover:text-purple-text font-semibold">
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://metamask.io/flask"
+                                >
+                                    MetaMask Flask
+                                </a>
+                            </span>{" "}
+                            <span className="font-semibold">(and only MetaMask Flask)</span>{" "}
+                            installed and reload the page.
+                        </Text>
+                    </ViewContainer>
+                ))
+                .with("loaded", () => (
+                    <Routes>
+                        <Route path={AppRoute.About} element={<About />} />
 
-                    <Route
-                        path={AppRoute.Root}
-                        element={
-                            state.activeWallet ? (
-                                <Wallet
-                                    balance={state.arBalance}
-                                    price={state.arPrice}
-                                    transactions={state.transactions}
+                        {!state.activeWallet ? (
+                            <Route
+                                path={AppRoute.Root}
+                                element={
+                                    <Welcome onInitialized={() => updateWallets(dispatchState)} />
+                                }
+                            />
+                        ) : (
+                            <>
+                                <Route
+                                    path={AppRoute.Root}
+                                    element={
+                                        <Wallet
+                                            balance={state.arBalance}
+                                            price={state.arPrice}
+                                            transactions={state.transactions}
+                                        />
+                                    }
                                 />
-                            ) : (
-                                <Welcome onInitialized={() => updateWallets(dispatchState)} />
-                            )
-                        }
-                    />
 
-                    {state.activeWallet && (
-                        <>
-                            <Route
-                                path={AppRoute.Send}
-                                element={
-                                    <Send
-                                        gateway={config.gateway}
-                                        activeAddress={state.activeWallet}
-                                        balance={state.arBalance}
-                                        arPrice={state.arPrice}
-                                        dispatchBalance={dispatchState}
-                                    />
-                                }
-                            />
+                                <Route
+                                    path={AppRoute.Send}
+                                    element={
+                                        <Send
+                                            gateway={config.gateway}
+                                            activeAddress={state.activeWallet}
+                                            balance={state.arBalance}
+                                            arPrice={state.arPrice}
+                                            dispatchBalance={dispatchState}
+                                        />
+                                    }
+                                />
 
-                            <Route path={AppRoute.Settings} element={<Settings />} />
+                                <Route path={AppRoute.Settings} element={<Settings />} />
 
-                            <Route
-                                path={AppRoute.GeneralSettings}
-                                element={
-                                    <General config={config} dispatchConfig={dispatchConfig} />
-                                }
-                            />
+                                <Route
+                                    path={AppRoute.GeneralSettings}
+                                    element={
+                                        <General config={config} dispatchConfig={dispatchConfig} />
+                                    }
+                                />
 
-                            <Route
-                                path={AppRoute.Permissions}
-                                element={
-                                    <Permissions
-                                        dappsPermissions={state.dappsPermissions}
-                                        updatePermissions={async () =>
-                                            updatePermissions(dispatchState)
-                                        }
-                                    />
-                                }
-                            />
+                                <Route
+                                    path={AppRoute.Permissions}
+                                    element={
+                                        <Permissions
+                                            dappsPermissions={state.dappsPermissions}
+                                            updatePermissions={async () =>
+                                                updatePermissions(dispatchState)
+                                            }
+                                        />
+                                    }
+                                />
 
-                            <Route
-                                path={AppRoute.Logs}
-                                element={<Logs logs={state.logs} onClearLogs={adapter.clearLogs} />}
-                            />
-                        </>
-                    )}
+                                <Route
+                                    path={AppRoute.Logs}
+                                    element={
+                                        <Logs logs={state.logs} onClearLogs={adapter.clearLogs} />
+                                    }
+                                />
+                            </>
+                        )}
 
-                    <Route path="*" element={<Navigate to={AppRoute.Root} />} />
-                </Routes>
-            )}
+                        <Route path="*" element={<Navigate to={AppRoute.Root} />} />
+                    </Routes>
+                ))
+                .exhaustive()}
 
             <footer
                 className={classes(

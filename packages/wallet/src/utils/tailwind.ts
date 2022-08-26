@@ -261,6 +261,6 @@ export function getAlignClass(align: TextAlign) {
  * @param args - class names
  * @returns all class names joined by `" "`
  */
-export function classes(...args: (string | boolean)[]) {
+export function classes(...args: (string | boolean | undefined)[]) {
     return args.filter((arg) => typeof arg === "string").join(" ");
 }
