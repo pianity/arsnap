@@ -38,11 +38,22 @@ import General from "@/views/Settings/General";
 import Logs from "@/views/Settings/Logs";
 import { GatewayName, useConfigReducer } from "@/state/config";
 
-type ArsnapState = "configured" | "unconfigured" | "error";
-export type AppStatus = "loading" | "loaded" | "error";
+type ArsnapState = "locked" | "configured" | "unconfigured" | "error";
+export type AppStatus = "locked" | "loading" | "loaded" | "error";
 
 async function getArsnapStatus(): Promise<ArsnapState> {
     try {
+        const unlocked = await adapter.isUnlocked();
+
+        if (unlocked === "timeout") {
+            return "error";
+        } else if (!unlocked) {
+            // Try to trigger Metamask's unlock screen if Arsnap has already been installed.
+            // NOTE: If Arsnap hasn't been installed yet, this will just fail.
+            adapter.getPermissions();
+            return "locked";
+        }
+
         const state = await Promise.race<ArsnapState>([
             getMissingPermissions(REQUIRED_PERMISSIONS).then((missingPermissions) =>
                 missingPermissions.length > 0 ? "unconfigured" : "configured",
@@ -81,7 +92,7 @@ export default function App() {
     const [config, dispatchConfig] = useConfigReducer();
 
     useEffect(() => {
-        getArsnapStatus().then((status) => setArsnapStatus(status));
+        getArsnapStatus().then(setArsnapStatus);
 
         const updateInterval = setInterval(
             () => updateWalletData(config.gateway, state.activeWallet, dispatchState),
@@ -94,6 +105,12 @@ export default function App() {
     }, []);
 
     useEffect(() => {
+        let detectUnlock: undefined | ReturnType<typeof setInterval>;
+
+        if (arsnapStatus === "locked") {
+            detectUnlock = setInterval(() => getArsnapStatus().then(setArsnapStatus), 3 * 1000);
+        }
+
         match<typeof arsnapStatus, Promise<AppStatus>>(arsnapStatus)
             .with("configured", () =>
                 Promise.all([
@@ -102,11 +119,14 @@ export default function App() {
                     updateLogs(dispatchState),
                 ]).then(() => "loaded"),
             )
+            .with("locked", async () => "locked")
             .with("unconfigured", async () => "loaded")
             .with("error", async () => "error")
             .with(undefined, async () => "loading")
             .exhaustive()
             .then(setAppStatus);
+
+        return () => clearInterval(detectUnlock);
     }, [arsnapStatus]);
 
     useEffect(() => {
@@ -169,6 +189,23 @@ export default function App() {
             />
 
             {match(appStatus)
+                .with("locked", () => (
+                    <ViewContainer className="justify-center">
+                        <Text size="32" color="white" className="mb-3">
+                            Metamask is locked.
+                        </Text>
+                        <Text
+                            size="20"
+                            color="white"
+                            className="whitespace-pre-wrap"
+                            align="center"
+                            taller
+                        >
+                            Unlock it by opening the extension and entering your password to start
+                            using Arsnap.
+                        </Text>
+                    </ViewContainer>
+                ))
                 .with("loading", () => (
                     <ViewContainer className="justify-center">
                         <LoadingIndicator width={40} height={40} className="opacity-40" />

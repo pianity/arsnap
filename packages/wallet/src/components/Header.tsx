@@ -108,6 +108,17 @@ export default function Header({
 
             {/* MARK: Metamask connect */}
             {match(appStatus)
+                .with("locked", () => (
+                    <Text
+                        size="16"
+                        color="white"
+                        weight="semibold"
+                        taller
+                        className="cursor-default mr"
+                    >
+                        locked
+                    </Text>
+                ))
                 .with("error", () => (
                     <Text
                         size="16"
