@@ -1,14 +1,21 @@
 import { RpcParam } from "@/types";
 
 import { SNAP_ID } from "@/consts";
+import { sleep } from "@/utils";
 
 declare global {
     interface Window {
         ethereum: {
             isMetaMask: boolean;
-            isUnlocked: Promise<boolean>;
             request: (request: unknown | { method: string; params?: any[] }) => Promise<any>;
             on: (eventName: unknown, callback: unknown) => unknown;
+            isConnected: () => Promise<boolean>;
+            /**
+             * Experimental API
+             */
+            _metamask: {
+                isUnlocked: () => Promise<boolean>;
+            };
         };
     }
 }
@@ -22,6 +29,16 @@ function request(method: string, params: unknown[]): Promise<any> {
         method,
         params,
     });
+}
+
+/**
+ * WARNING: This function relies on an experimental Metamask API.
+ */
+export function isUnlocked(timeout = 3): Promise<boolean | "timeout"> {
+    return Promise.race<boolean | "timeout">([
+        window.ethereum._metamask.isUnlocked(),
+        sleep(timeout).then(() => "timeout"),
+    ]);
 }
 
 export async function connect() {
