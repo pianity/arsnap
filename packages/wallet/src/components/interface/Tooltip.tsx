@@ -29,7 +29,7 @@ export default function Tooltip({
 
     const showTooltip = show || forceShow;
     return (
-        <div className={classes("relative min-w-0", className ?? "")}>
+        <div className={classes("relative min-w-0", className)}>
             <div
                 className={childrenClassName}
                 onMouseEnter={() => setShow(true)}

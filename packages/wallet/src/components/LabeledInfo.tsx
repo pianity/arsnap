@@ -15,7 +15,7 @@ export default function LabeledInfo({ label, info }: LabeledInfo) {
 
     let displayInfo: string;
     if (typeof info === "string") {
-        displayInfo = truncateStringCenter(info, 30);
+        displayInfo = truncateStringCenter(info, 28);
     } else if (Array.isArray(info)) {
         displayInfo = `[${info.length} items]`;
     } else {
@@ -37,19 +37,17 @@ export default function LabeledInfo({ label, info }: LabeledInfo) {
 
     return (
         <div className="flex flex-col gap-2 items-start">
-            <>
-                <Text.span color="white" size="13" weight="semibold" wider uppercase>
-                    {label}
-                </Text.span>
+            <Text.span color="white" size="13" weight="semibold" wider uppercase>
+                {label}
+            </Text.span>
 
-                {displayInfo !== info ? (
-                    <Tooltip text={copiableInfo}>
-                        <InfoText />
-                    </Tooltip>
-                ) : (
+            {displayInfo !== info ? (
+                <Tooltip childrenClassName="flex" text={copiableInfo}>
                     <InfoText />
-                )}
-            </>
+                </Tooltip>
+            ) : (
+                <InfoText />
+            )}
         </div>
     );
 }
