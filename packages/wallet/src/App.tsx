@@ -51,7 +51,7 @@ async function getArsnapStatus(): Promise<ArsnapState> {
             return "locked";
         }
 
-        const state = getMissingPermissions(REQUIRED_PERMISSIONS).then((missingPermissions) =>
+        const state = await getMissingPermissions(REQUIRED_PERMISSIONS).then((missingPermissions) =>
             missingPermissions.length > 0 ? "unconfigured" : "configured",
         );
 
