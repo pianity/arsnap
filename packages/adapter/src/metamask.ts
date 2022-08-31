@@ -34,7 +34,7 @@ function request(method: string, params: unknown[]): Promise<any> {
 /**
  * WARNING: This function relies on an experimental Metamask API.
  */
-export function isUnlocked(timeout = 3): Promise<boolean | "timeout"> {
+export function isUnlocked(timeout = 5): Promise<boolean | "timeout"> {
     return Promise.race<boolean | "timeout">([
         window.ethereum._metamask.isUnlocked(),
         sleep(timeout).then(() => "timeout"),
