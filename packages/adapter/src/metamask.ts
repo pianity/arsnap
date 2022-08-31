@@ -35,6 +35,10 @@ function request(method: string, params: unknown[]): Promise<any> {
  * WARNING: This function relies on an experimental Metamask API.
  */
 export function isUnlocked(timeout = 5): Promise<boolean | "timeout"> {
+    if (!window.ethereum || !window.ethereum.isMetaMask) {
+        throw new Error("MetaMask is not installed");
+    }
+
     return Promise.race<boolean | "timeout">([
         window.ethereum._metamask.isUnlocked(),
         sleep(timeout).then(() => "timeout"),
