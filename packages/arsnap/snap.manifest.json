@@ -1,5 +1,5 @@
 {
-  "version": "0.0.10",
+  "version": "0.0.13",
   "proposedName": "ArSnap",
   "description": "A MetaMask Snap allowing interaction with Arweave dapps.",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/pianity/arsnap.git"
   },
   "source": {
-    "shasum": "wvx/mWIBRnvuZI4CJS1MOvMVt8sYsZv+KLC4lbnx/0E=",
+    "shasum": "PdQS7oZRrXGGlQ6VlsYhiOWeuG2TFEWRZfHFt2Dfp7o=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
