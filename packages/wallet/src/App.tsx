@@ -43,23 +43,17 @@ export type AppStatus = "locked" | "loading" | "loaded" | "error";
 
 async function getArsnapStatus(): Promise<ArsnapState> {
     try {
-        const unlocked = await adapter.isUnlocked();
+        const unlocked = await adapter.isUnlocked(6);
 
         if (unlocked === "timeout") {
             return "error";
         } else if (!unlocked) {
-            // Try to trigger Metamask's unlock screen if Arsnap has already been installed.
-            // NOTE: If Arsnap hasn't been installed yet, this will just fail.
-            adapter.getPermissions();
             return "locked";
         }
 
-        const state = await Promise.race<ArsnapState>([
-            getMissingPermissions(REQUIRED_PERMISSIONS).then((missingPermissions) =>
-                missingPermissions.length > 0 ? "unconfigured" : "configured",
-            ),
-            sleep(3).then(() => "error"),
-        ]);
+        const state = getMissingPermissions(REQUIRED_PERMISSIONS).then((missingPermissions) =>
+            missingPermissions.length > 0 ? "unconfigured" : "configured",
+        );
 
         return state;
     } catch (e) {
@@ -234,7 +228,7 @@ export default function App() {
                                 </a>
                             </span>{" "}
                             <span className="font-semibold">(and only MetaMask Flask)</span>{" "}
-                            installed and reload the page.
+                            installed and refresh the page.
                         </Text>
                     </ViewContainer>
                 ))
