@@ -49,7 +49,7 @@ function SettingsLink({ to, title, subtitle }: SettingsLinkProps) {
                     "rounded-lg",
                     "flex items-center justify-between",
                     "transition duration-300 ease-quart-out",
-                    "hover:bg-purple",
+                    "hover:bg-purple/50",
                 )}
             >
                 <Text.h2 size="18" weight="semibold" taller>

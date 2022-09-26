@@ -46,7 +46,7 @@ export default function LogItem({
                 className={classes(
                     "flex items-center h-[62px] px-3 group cursor-pointer",
                     "transition duration-300 ease-quart-out",
-                    "lg:hover:bg-purple/50 rounded",
+                    "hover:bg-purple/50 rounded",
                 )}
             >
                 {/* MARK: Open details button */}

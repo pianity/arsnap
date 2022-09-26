@@ -96,7 +96,7 @@ export default function DappsList({ currentDapp, dapps, onDappClick }: DappsList
                                 "flex items-center",
                                 selected
                                     ? "bg-white text-purple-dark cursor-default"
-                                    : "text-white lg:hover:bg-purple/50 cursor-pointer",
+                                    : "text-white hover:bg-purple/50 cursor-pointer",
                                 "transition duration-300 ease-quart-out",
                             )}
                         >
