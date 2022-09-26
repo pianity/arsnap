@@ -11,15 +11,21 @@ async function wasmPlugin(pkgName: string): Promise<Plugin> {
     const wasmPath = path.join(entryPathParsed.dir, `${entryPathParsed.name}_bg.wasm`);
     const newPkgEntryCode = `
 import wasmBinary from "${wasmPath}";
-initSync(wasmBinary);
-${entryContent}
+${entryContent.replace("export default", "// export default")}
+
+export default async function initB64() {
+    const imports = getImports();
+    initMemory(imports);
+    const { instance, module } = await load(wasmBinary, imports);
+    return finalizeInit(instance, module);
+}
 `;
     const wasmBase64 = await readFile(wasmPath, "base64");
 
     return {
         name: "wasm",
         setup(build: PluginBuild) {
-            build.onLoad({ filter: new RegExp(`${entryPath}`) }, (args) => {
+            build.onLoad({ filter: new RegExp(entryPath) }, (args) => {
                 return {
                     contents: newPkgEntryCode,
                     loader: "js",
