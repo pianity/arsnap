@@ -25,7 +25,7 @@
         "build": "yarn clean && yarn build-esbuild && yarn build-snap && yarn ts-node ./scripts/postBuild.ts && yarn mm-snap manifest --fix",
         "build-snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
         "build-esbuild": "ts-node scripts/build.ts",
-        "dev": "nodemon --watch src/ --ext ts --exec 'yarn build && yarn serve'",
+        "dev": "nodemon --watch src/ --watch scripts/ --ext ts --exec 'yarn build && yarn serve'",
         "clean": "rm -rf dist/ build/",
         "serve": "mm-snap serve --port 4000",
         "typecheck": "tsc --noEmit",

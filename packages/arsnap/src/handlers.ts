@@ -211,6 +211,10 @@ export const renameWallet: WithState<RpcMethods["rename_wallet"]> = async (
 ) => {
     const wallet = getOrThrow(state.wallets, address);
 
+    if (wallet.metadata.isProtected) {
+        throw new Error("Cannot rename default wallet");
+    }
+
     wallet.metadata.name = name;
 
     return null;
@@ -222,10 +226,10 @@ export const deleteWallet: WithState<WithOrigin<RpcMethods["delete_wallet"]>> = 
     origin,
     address,
 ) => {
-    const wallet = state.wallets.get(address);
+    const wallet = getOrThrow(state.wallets, address);
 
-    if (!wallet) {
-        throw new Error(`Wallet not found for address: ${address}`);
+    if (wallet.metadata.isProtected) {
+        throw new Error("Cannot rename default wallet");
     }
 
     const granted = await confirmPopup(

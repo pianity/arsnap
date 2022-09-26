@@ -1,9 +1,9 @@
 import { Mutex, MutexInterface } from "async-mutex";
 
-import { RpcPermission, LogEntry, RpcParam } from "@pianity/arsnap-adapter";
+import { RpcPermission, LogEntry } from "@pianity/arsnap-adapter";
 
 import { JWKInterface } from "@/crypto";
-import { generateWallet } from "@/wallets";
+import { generateDefaultWallet } from "@/wallets";
 
 const stateMutex = new Mutex();
 
@@ -11,6 +11,11 @@ export type WalletMetadata = {
     keyOwnerField: string;
     address: string;
     name: string;
+    /**
+     * A protected wallet cannot be renamed nor deleted. Right now, only the default wallet
+     * derive from the user's Ethereum key is protected.
+     */
+    isProtected: boolean;
 };
 
 export type Wallet = {
@@ -54,7 +59,7 @@ type SerializableState = Omit<State, "wallets" | "permissions" | "logs"> & {
 };
 
 export async function initializeState(): Promise<State> {
-    const defaultWallet = await generateWallet([], "Default Wallet");
+    const defaultWallet = await generateDefaultWallet();
 
     return {
         wallets: new Map([[defaultWallet.metadata.address, defaultWallet]]),

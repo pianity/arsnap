@@ -55,6 +55,13 @@ export async function getSecret(): Promise<Uint8Array> {
     const addressIndex = 0;
     const bip44Code = 472;
 
+    // NOTE: `snap_getBip44Entropy_${bip44Code}` will get deprecated, this will be the correct way
+    // to get `arweaveNode`
+    // const arweaveNode = (await window.wallet.request({
+    //     method: `snap_getBip44Entropy`,
+    //     params: [{coinType: bip44Code}]
+    // })) as JsonBIP44CoinTypeNode;
+
     const arweaveNode = (await window.wallet.request({
         method: `snap_getBip44Entropy_${bip44Code}`,
     })) as JsonBIP44CoinTypeNode;
