@@ -110,6 +110,7 @@ export default function WalletMenu({
                 <label
                     className={classes(
                         "mr-2",
+                        "hover:cursor-pointer",
                         "text-[11px] leading-[100%] font-semibold uppercase",
                         "text-purple-light opacity-50",
                     )}
@@ -129,17 +130,23 @@ export default function WalletMenu({
                 <Chevron width={10} height={6.6} />
             </button>
 
-            {menuOpened && (
-                <div className="absolute right-0 top-12 z-50 w-[90vw] max-w-[376px]">
-                    <WalletOpenedMenu
-                        gateway={gateway}
-                        activeWallet={activeWallet}
-                        availableWallets={availableWallets}
-                        onEvent={onEvent}
-                        onSettingsOpen={() => setMenuOpened(false)}
-                    />
-                </div>
-            )}
+            <div
+                className={classes(
+                    "absolute right-0 z-50 w-[90vw] max-w-[376px]",
+                    menuOpened
+                        ? "visible opacity-100 top-12"
+                        : "invisible opacity-0 top-9 pointer-events-none",
+                    "transition-all",
+                )}
+            >
+                <WalletOpenedMenu
+                    gateway={gateway}
+                    activeWallet={activeWallet}
+                    availableWallets={availableWallets}
+                    onEvent={onEvent}
+                    onSettingsOpen={() => setMenuOpened(false)}
+                />
+            </div>
         </div>
     );
 }
