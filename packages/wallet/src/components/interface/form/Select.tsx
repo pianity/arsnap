@@ -58,7 +58,7 @@ export default function Select<T, U extends string>({
                 "flex items-center",
                 "bg-transparent focus:outline-none",
                 "rounded-md border box-border border-purple-text",
-                className ?? "",
+                className,
             )}
         >
             <select
@@ -67,9 +67,10 @@ export default function Select<T, U extends string>({
                     "w-full h-full",
                     "bg-transparent focus:outline-none",
                     "text-[14px] leading-[140%]",
+                    "hover:cursor-pointer",
                 )}
-                {...(register?.(name, registerOptions) ?? {})}
-                onChange={onChange ? (e) => onChange(e.target.value as U) : undefined}
+                onChange={(e) => onChange?.(e.target.value as U)}
+                {...register?.(name, registerOptions)}
             >
                 {placeholder && (
                     <option value="never" disabled>
