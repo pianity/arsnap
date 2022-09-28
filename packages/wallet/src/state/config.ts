@@ -4,7 +4,8 @@ import { exhaustive } from "@/utils";
 import { DEFAULT_CURRENCY, DEFAULT_GATEWAY } from "@/consts";
 
 export type Currency = "USD" | "EUR" | "GBP";
-export type GatewayName = "arweave" | "testnet";
+export const GATEWAY_NAMES = ["arweave", "testnet"] as const;
+export type GatewayName = typeof GATEWAY_NAMES[number];
 
 enum ConfigKeys {
     Currency = "currency",
