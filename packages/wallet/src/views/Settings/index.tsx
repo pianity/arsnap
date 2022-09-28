@@ -1,35 +1,30 @@
 import { Link, To } from "react-router-dom";
 
 import { AppRoute } from "@/consts";
-import ViewContainer from "@/components/interface/layout/ViewContainer";
-import Container from "@/components/interface/layout/Container";
 import Text from "@/components/interface/typography/Text";
 import { classes } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
+import { BaseLayout } from "@/components/interface/layout/settingsLayout";
+import Button from "@/components/interface/form/Button";
+import Checkbox from "@/components/interface/form/Checkbox";
 
 export default function Settings() {
     return (
-        <ViewContainer>
-            <Container className="px-6 py-8">
-                <Text.h1 size="32" weight="bold" taller>
-                    Settings
-                </Text.h1>
-                <div className="h-[1px] bg-purple mt-6 mb-4" />
-                <ul>
-                    <SettingsLink
-                        to={AppRoute.GeneralSettings}
-                        title="General Settings"
-                        subtitle="Edit currency, etc..."
-                    />
-                    <SettingsLink to={AppRoute.Logs} title="Logs" subtitle="View security logs" />
-                    <SettingsLink
-                        to={AppRoute.Permissions}
-                        title="Permissions"
-                        subtitle="Manage site permissions"
-                    />
-                </ul>
-            </Container>
-        </ViewContainer>
+        <BaseLayout>
+            <ul className="mt-4">
+                <SettingsLink
+                    to={AppRoute.GeneralSettings}
+                    title="General Settings"
+                    subtitle="Edit currency, etc..."
+                />
+                <SettingsLink to={AppRoute.Logs} title="Logs" subtitle="View security logs" />
+                <SettingsLink
+                    to={AppRoute.Permissions}
+                    title="Permissions"
+                    subtitle="Manage site permissions"
+                />
+            </ul>
+        </BaseLayout>
     );
 }
 

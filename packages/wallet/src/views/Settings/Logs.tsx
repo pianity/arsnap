@@ -14,6 +14,7 @@ import Button from "@/components/interface/form/Button";
 import DappsList from "@/components/permissions/DappsList";
 import Checkbox from "@/components/interface/form/Checkbox";
 import LogsList from "@/components/logs/LogsList";
+import { BaseLayout } from "@/components/interface/layout/settingsLayout";
 
 const LOGS_PER_PAGE = 9;
 
@@ -62,68 +63,42 @@ export default function Logs({ logs: allLogs, onClearLogs }: LogsProps) {
     }, [allLogs, currentDapp, showWalletLogs]);
 
     return (
-        <ViewContainer>
-            <Container className="px-6 pt-8 grow">
-                <div className="flex shrink-0">
-                    <Link
-                        to={AppRoute.Settings}
-                        className={classes(
-                            "w-8 h-8 mr-4",
-                            "rounded-full",
-                            "bg-purple-dark text-purple-light",
-                            "flex items-center justify-center",
-                        )}
+        <BaseLayout
+            category="Logs"
+            sideHeader={
+                <>
+                    <Button
+                        outlined={!showWalletLogs}
+                        color="white"
+                        className="flex transition-colors"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setShowWalletLogs(!showWalletLogs);
+                        }}
                     >
-                        <Chevron className="rotate-90" />
-                    </Link>
+                        <Checkbox
+                            style="rounded-fill"
+                            checked={showWalletLogs}
+                            label={"Show Wallet logs"}
+                        />
+                    </Button>
 
-                    <div className="flex flex-col items-start gap-1">
-                        <Text.h1 size="32" weight="bold" taller>
-                            Settings
-                        </Text.h1>
-                        <Text.h2 color="purple-text" size="18" weight="bold" taller>
-                            Logs
-                        </Text.h2>
-                    </div>
+                    <Button
+                        outlined
+                        color="white"
+                        className="transition-colors"
+                        onClick={() => onClearLogs()}
+                    >
+                        Clear Logs
+                    </Button>
+                </>
+            }
+        >
+            <div className="grow grid grid-cols-[auto,1fr]">
+                <DappsList currentDapp={currentDapp} dapps={dapps} onDappClick={setCurrentDapp} />
 
-                    <div className="flex ml-auto self-center space-x-5">
-                        <Button
-                            outlined={!showWalletLogs}
-                            color="white"
-                            className="flex transition-colors"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setShowWalletLogs(!showWalletLogs);
-                            }}
-                        >
-                            <Checkbox
-                                style="rounded-fill"
-                                checked={showWalletLogs}
-                                label={"Show Wallet logs"}
-                            />
-                        </Button>
-
-                        <Button
-                            outlined
-                            color="white"
-                            className="transition-colors"
-                            onClick={() => onClearLogs()}
-                        >
-                            Clear Logs
-                        </Button>
-                    </div>
-                </div>
-                <div className="h-[1px] bg-purple mt-6 shrink-0" />
-                <div className="grow grid grid-cols-[auto,1fr]">
-                    <DappsList
-                        currentDapp={currentDapp}
-                        dapps={dapps}
-                        onDappClick={setCurrentDapp}
-                    />
-
-                    <LogsList logs={filteredLogs} logsPerPage={LOGS_PER_PAGE} />
-                </div>
-            </Container>
-        </ViewContainer>
+                <LogsList logs={filteredLogs} logsPerPage={LOGS_PER_PAGE} />
+            </div>
+        </BaseLayout>
     );
 }

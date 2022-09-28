@@ -12,6 +12,7 @@ import Text from "@/components/interface/typography/Text";
 import { AppRoute } from "@/consts";
 import DappsList from "@/components/permissions/DappsList";
 import PermissionsList from "@/components/permissions/PermissionsList";
+import { BaseLayout } from "@/components/interface/layout/settingsLayout";
 
 export type PermissionDescription = {
     dangerous: boolean;
@@ -95,48 +96,23 @@ export default function Permissions({ dappsPermissions, updatePermissions }: Per
     }
 
     return (
-        <ViewContainer>
-            <Container className="px-6 pt-8 grow">
-                <div className="flex shrink-0">
-                    <Link
-                        to={AppRoute.Settings}
-                        className={classes(
-                            "w-8 h-8 mr-4",
-                            "rounded-full",
-                            "bg-purple-dark text-purple-light",
-                            "flex items-center justify-center",
-                        )}
-                    >
-                        <Chevron className="rotate-90" />
-                    </Link>
+        <BaseLayout category="Permissions">
+            <div className="grow grid grid-cols-[auto,1fr]">
+                {dappsPermissions && (
+                    <DappsList
+                        currentDapp={currentDapp}
+                        dapps={[...dappsPermissions.entries()].map(([dapp, _]) => dapp)}
+                        onDappClick={setCurrentDapp}
+                    />
+                )}
 
-                    <div className="flex flex-col items-start gap-1">
-                        <Text.h1 size="32" weight="bold" taller>
-                            Settings
-                        </Text.h1>
-                        <Text.h2 color="purple-text" size="18" weight="bold" taller>
-                            Permissions
-                        </Text.h2>
-                    </div>
-                </div>
-                <div className="h-[1px] bg-purple mt-6 shrink-0" />
-                <div className="grow grid grid-cols-[auto,1fr]">
-                    {dappsPermissions && (
-                        <DappsList
-                            currentDapp={currentDapp}
-                            dapps={[...dappsPermissions.entries()].map(([dapp, _]) => dapp)}
-                            onDappClick={setCurrentDapp}
-                        />
-                    )}
-
-                    {currentDapp && (
-                        <PermissionsList
-                            permissions={dappsPermissions?.get(currentDapp) || []}
-                            onRevokeClick={onRevokeClick}
-                        />
-                    )}
-                </div>
-            </Container>
-        </ViewContainer>
+                {currentDapp && (
+                    <PermissionsList
+                        permissions={dappsPermissions?.get(currentDapp) || []}
+                        onRevokeClick={onRevokeClick}
+                    />
+                )}
+            </div>
+        </BaseLayout>
     );
 }
