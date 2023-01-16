@@ -62,7 +62,7 @@ export async function getSecret(): Promise<Uint8Array> {
     const deriveArweaveAddress = await getBIP44AddressKeyDeriver(arweaveNode);
 
     const addressKey = await deriveArweaveAddress(addressIndex);
-    const secret = addressKey.privateKeyBuffer;
+    const secret = addressKey.privateKeyBytes;
 
     if (!secret) {
         throw new Error("Could not access secret.");

@@ -133,8 +133,15 @@ export const getWalletNames: WithState<RpcMethods["get_wallet_names"]> = async (
     return walletNames;
 };
 
-export const signBytes: WithState<RpcMethods["sign_bytes"]> = async (state, data, saltLength) => {
-    data = new Uint8Array(Object.values(data));
+export const signBytes: WithState<RpcMethods["sign_bytes"]> = async (
+    state,
+    rawData,
+    saltLength,
+) => {
+    // NOTE: As everything sent to and from Metamask has to be serialized to JSON and as
+    // Uint8Array isn't serializable, we have to pass the bytes as an array of numbers instead and
+    // convert it back to Uint8Array.
+    const data = new Uint8Array(rawData);
 
     const wallet = getOrThrow(state.wallets, state.activeWallet);
 
