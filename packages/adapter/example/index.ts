@@ -105,9 +105,8 @@ signMsgButton.addEventListener("click", async () => {
         // to sign anything, even transaction. Although for transactions, the Adapter includes a
         // specific helper function that accepts a transaction as a parameter sign it itself
         // internally using `signBytes`.
-        const signedMessage = await adapter.signBytes(
-            new TextEncoder().encode(msgToSignInput.value),
-            0,
+        const signedMessage = new Uint8Array(
+            await adapter.signBytes(Array.from(new TextEncoder().encode(msgToSignInput.value)), 0),
         );
 
         console.log("Signed bytes:", signedMessage);

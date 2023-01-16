@@ -92,14 +92,18 @@ export const getWalletNames: RpcMethods["get_wallet_names"] = (...params) => {
 };
 
 /**
+ * Sign bytes with the currently active wallet.
+ *
  * @requires "SIGN"
  */
 export const signBytes: RpcMethods["sign_bytes"] = async (...params) => {
-    // NOTE: As everything that is sent back from MetaMask is serialized, the object coming from
-    // ArSnap is not an actual Uint8Array but a serialized version of it so we need to convert it
-    // back.
-    const bytes = (await requestSnap("sign_bytes", params)) as { [k: number]: number };
-    return new Uint8Array(Object.values(bytes));
+    // NOTE: As everything sent to and from Metamask has to be serialized to JSON and as
+    // Uint8Array isn't serializable, we have to pass the bytes as an array of numbers instead and
+    // convert it back to Uint8Array.
+    return requestSnap("sign_bytes", [
+        Array.from(params[0]) as unknown as Uint8Array,
+        params[1],
+    ]).then((bytes) => new Uint8Array(bytes));
 };
 
 /**
