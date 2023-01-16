@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@pianity/arsnap-adapter": "workspace:*",
-        "arweave": "1.11.6",
+        "arweave": "1.12.2",
         "autoprefixer": "10.4.8",
         "graphql": "15.8.0",
         "graphql-request": "4.3.0",
@@ -43,11 +43,11 @@
         "@pianity/prettier-config": "0.0.1",
         "@types/react": "18.0.17",
         "@types/react-dom": "18.0.6",
-        "@vitejs/plugin-react": "2.0.1",
+        "@vitejs/plugin-react": "3.0.1",
         "eslint": "8.22.0",
         "prettier": "2.7.1",
-        "typescript": "4.7.4",
-        "vite": "3.0.9",
-        "vite-tsconfig-paths": "3.5.0"
+        "typescript": "4.9.4",
+        "vite": "4.0.4",
+        "vite-tsconfig-paths": "4.0.3"
     }
 }

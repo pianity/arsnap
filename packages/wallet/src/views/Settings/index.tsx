@@ -5,8 +5,6 @@ import Text from "@/components/interface/typography/Text";
 import { classes } from "@/utils/tailwind";
 import Chevron from "@/components/interface/svg/Chevron";
 import { BaseLayout } from "@/components/interface/layout/settingsLayout";
-import Button from "@/components/interface/form/Button";
-import Checkbox from "@/components/interface/form/Checkbox";
 
 export default function Settings() {
     return (

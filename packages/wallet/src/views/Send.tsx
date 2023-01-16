@@ -59,6 +59,7 @@ async function postTx(
         setTxStatus({ status: "success" });
         await updateBalance(gateway, activeAddress, dispatchBalance);
     } catch (e) {
+        console.log("ERROR", e);
         setTxStatus({
             status: "error",
             // TODO: Reason shouldn't directly include `e`.
@@ -309,9 +310,8 @@ export default function Send({
                                 </div>
                                 <Input
                                     light
-                                    name="recipient"
-                                    register={register}
-                                    registerOptions={{
+                                    className={errors.recipient ? " border-red-dark" : ""}
+                                    {...register("recipient", {
                                         required: {
                                             value: true,
                                             message: "This field is required",
@@ -320,8 +320,7 @@ export default function Send({
                                             value: ARWEAVE_ADDRESS_PATTERN,
                                             message: "This field must be a valid AR address",
                                         },
-                                    }}
-                                    className={errors.recipient ? " border-red-dark" : ""}
+                                    })}
                                 />
                             </div>
 
@@ -333,7 +332,7 @@ export default function Send({
                                 >
                                     Message <Text.span color="purple-text">(optional)</Text.span>
                                 </Label>
-                                <Input light name="note" register={register} />
+                                <Input light {...register("note")} />
                             </div>
                         </div>
 

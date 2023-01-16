@@ -1,7 +1,5 @@
 import { RpcPermission } from "@pianity/arsnap-adapter";
 
-import { Currency, GatewayInfo, GatewayName } from "@/state/config";
-
 export const REQUIRED_PERMISSIONS: RpcPermission[] = [
     "GET_ACTIVE_ADDRESS",
     "SET_ACTIVE_ADDRESS",
@@ -29,11 +27,3 @@ export enum AppRoute {
     Permissions = "/settings/permissions",
     Logs = "/settings/logs",
 }
-
-export const DEFAULT_CURRENCY: Currency = "USD";
-export const DEFAULT_GATEWAY: GatewayName = "testnet";
-
-export const GATEWAYS: Record<GatewayName, GatewayInfo> = {
-    arweave: { protocol: "https", host: "arweave.net", port: 443 },
-    testnet: { protocol: "https", host: "testnet.redstone.tools", port: 443 },
-};

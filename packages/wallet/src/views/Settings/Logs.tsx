@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import { LogEntry } from "@pianity/arsnap-adapter";
 
 import { DappsLogs } from "@/state";
-import ViewContainer from "@/components/interface/layout/ViewContainer";
-import Container from "@/components/interface/layout/Container";
-import { classes } from "@/utils/tailwind";
-import Chevron from "@/components/interface/svg/Chevron";
-import Text from "@/components/interface/typography/Text";
-import { AppRoute } from "@/consts";
 import Button from "@/components/interface/form/Button";
 import DappsList from "@/components/permissions/DappsList";
 import Checkbox from "@/components/interface/form/Checkbox";
@@ -77,6 +70,7 @@ export default function Logs({ logs: allLogs, onClearLogs }: LogsProps) {
                         }}
                     >
                         <Checkbox
+                            readOnly
                             style="rounded-fill"
                             checked={showWalletLogs}
                             label={"Show Wallet logs"}

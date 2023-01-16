@@ -23,26 +23,40 @@ is here to fill this role but it also serves other purposes:
 
 ## Caution
 
-The ArSnap project having not reached a stable state yet, the Wallet should only be used for
-testing purposes. It is currently advised **not** to use it with existing wallets that currently
-hold actual ARs. **The default gateway used by the wallet is the testnet at
-<https://testnet.redstone.tools>.** However, if you feel adventurous, you can change the gateway to
-<https://arweave.net> in the general settings page.
+The Arsnap project having not reached a stable state yet, the Wallet should only be used for
+testing purposes. Please make sure to have backups of every wallet that holds actual ARs if you use
+them in Arsnap.
 
-## Testing
+## Testing with ArLocal
 
-The testnet's gateway (which is enabled by default for now) allows users to mint new ARs straight
-into their wallet in order to test making transactions and interacting with the testnet. In order
-to give yourself some fake ARs, visit this URL:
+You can try sending ARs with Arsnap without actually needing to have some by setting up a local
+testnet. This is fortunately easy to do thanks to ArLocal, keep reading this section if you want
+to know how.
+
+To start a local Arweave testnet make sure NodeJS is installed on your machine then run the
+command in a terminal:
+
+```sh
+npx arlocal
+```
+
+If it is the first time you run this command you'll be prompted whether you approve the
+installation of the package, press enter to continue. You will know the testnet is correctly
+running when the message "arlocal started on port 1984" is printed. Now, in order to use your local
+testnet, head over to the general settings page and select the `localhost` gateway.
+
+ArLocal allows users to mint new ARs straight into their wallet in order to test making
+transactions and interacting with the testnet. In order to give yourself some fake ARs, visit this
+URL:
 
 ```
-https://testnet.redstone.tools/mint/<your-wallet-address>/<amount-of-winston>
+https://localhost:1984/mint/<your-wallet-address>/<amount-of-winston>
 ```
 
 So for example:
 
 ```
-https://testnet.redstone.tools/mint/u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg/1000000000000000
+https://localhost:1984/mint/u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg/1000000000000000
 ```
 
 Will send 1000 AR to `u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg`.

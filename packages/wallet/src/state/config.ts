@@ -1,32 +1,37 @@
 import { Reducer, useReducer } from "react";
 
 import { exhaustive } from "@/utils";
-import { DEFAULT_CURRENCY, DEFAULT_GATEWAY } from "@/consts";
 
-export type Currency = "USD" | "EUR" | "GBP";
-export const GATEWAY_NAMES = ["arweave", "testnet"] as const;
-export type GatewayName = typeof GATEWAY_NAMES[number];
+export const DEFAULT_CURRENCY: Currency = "USD";
+export const DEFAULT_GATEWAY: GatewayName = "arweave.net";
+export const DEFAULT_TESTNET = false;
 
-enum ConfigKeys {
-    Currency = "currency",
-    Gateway = "gateway",
-}
-
-export type Config = {
-    [ConfigKeys.Currency]: Currency;
-    [ConfigKeys.Gateway]: GatewayName;
-};
-
+export const GATEWAYS = {
+    "arweave.net": { protocol: "https", host: "arweave.net", port: 443 },
+    localhost: { protocol: "http", host: "localhost", port: 1984 },
+} as const satisfies Record<string, GatewayInfo>;
+export type GatewayName = keyof typeof GATEWAYS;
 export type GatewayInfo = { protocol: string; host: string; port: number };
 
-function getLocalStorageItem<T extends ConfigKeys>(key: T): Config[T] | null {
-    const storageItem = window.localStorage.getItem(key) as any;
+export type Currency = "USD" | "EUR" | "GBP";
 
-    return storageItem;
+export type Config = {
+    currency: Currency;
+    gateway: GatewayName;
+};
+export type ConfigKey = keyof Config;
+
+function getLocalStorageItem<T extends ConfigKey>(key: T): Config[T] | null {
+    const storageItem = window.localStorage.getItem(key);
+    try {
+        return storageItem ? JSON.parse(storageItem) : null;
+    } catch {
+        return null;
+    }
 }
 
-function setLocalStorageItem<T extends ConfigKeys>(key: T, value: Config[T]) {
-    window.localStorage.setItem(key, value);
+function setLocalStorageItem<T extends ConfigKey>(key: T, value: Config[T]) {
+    window.localStorage.setItem(key, JSON.stringify(value));
 }
 
 export type SetCurreny = {
@@ -44,14 +49,14 @@ export type ConfigAction = SetCurreny | SetGateway;
 const reducer: Reducer<Config, ConfigAction> = (state, action): Config => {
     switch (action.type) {
         case "setCurrency":
-            setLocalStorageItem(ConfigKeys.Currency, action.currency);
+            setLocalStorageItem("currency", action.currency);
             return {
                 ...state,
                 currency: action.currency,
             };
 
         case "setGateway":
-            setLocalStorageItem(ConfigKeys.Gateway, action.gateway);
+            setLocalStorageItem("gateway", action.gateway);
             return {
                 ...state,
                 gateway: action.gateway,
@@ -64,8 +69,8 @@ const reducer: Reducer<Config, ConfigAction> = (state, action): Config => {
 
 export function useConfigReducer() {
     const config: Config = {
-        currency: getLocalStorageItem(ConfigKeys.Currency) || DEFAULT_CURRENCY,
-        gateway: getLocalStorageItem(ConfigKeys.Gateway) || DEFAULT_GATEWAY,
+        currency: getLocalStorageItem("currency") || DEFAULT_CURRENCY,
+        gateway: getLocalStorageItem("gateway") || DEFAULT_GATEWAY,
     };
 
     return useReducer(reducer, config);

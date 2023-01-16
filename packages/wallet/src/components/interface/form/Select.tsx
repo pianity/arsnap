@@ -1,9 +1,9 @@
-import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
+import { forwardRef, HTMLProps, ForwardedRef } from "react";
 
+import Text from "@/components/interface/typography/Text";
 import { classes } from "@/utils/tailwind";
 
-/** Props for {@link Select} */
-type SelectProps<T, U extends string> = {
+type SelectExtraProps = {
     /**
      * Placeholder for select.
      *
@@ -12,77 +12,65 @@ type SelectProps<T, U extends string> = {
      */
     placeholder?: string;
     /** List of [value, label] pairs */
-    options: [string, U][];
+    options: [string, string][];
     /** Extra classes for the component */
     className?: string;
-} & (
-    | {
-          /** RHF: Name of the form property */
-          name: Path<T>;
-          /** RHF: Form register method */
-          register: UseFormRegister<T>;
-          /** RHF: Form register method properties */
-          registerOptions?: RegisterOptions;
-          value?: never;
-          onChange?: never;
-      }
-    | {
-          name?: UseFormRegister<T>;
-          register?: never;
-          registerOptions?: never;
-          /** Selected value */
-          value?: U | undefined;
-          /** Called with the new selected value */
-          onChange?: (value: U) => void;
-      }
-);
+    label?: string;
+};
+type SelectProps = SelectExtraProps &
+    Omit<HTMLProps<HTMLSelectElement>, keyof SelectExtraProps | "type">;
 
 /**
  * ArSnap default select.
  */
-export default function Select<T, U extends string>({
-    placeholder,
-    value,
-    options,
-    name,
-    onChange,
-    register,
-    registerOptions,
-    className,
-}: SelectProps<T, U>) {
-    return (
-        <div
-            className={classes(
-                "w-full h-12 px-4",
-                "text-[14px] leading-none",
-                "flex items-center",
-                "bg-transparent focus:outline-none",
-                "rounded-md border box-border border-purple-text",
-                className,
-            )}
-        >
-            <select
-                value={register ? undefined : value ?? "never"}
+const Select = forwardRef(
+    (
+        // { label, placeholder, value, options, name, onChange, className, ...selectProps}: SelectProps<T>,
+        { label, placeholder, options, className, ...selectProps }: SelectProps,
+        ref: ForwardedRef<HTMLSelectElement>,
+    ) => {
+        return (
+            <div
                 className={classes(
-                    "w-full h-full",
+                    "w-full h-10 px-4",
+                    "text-[14px] leading-none",
+                    "flex items-center gap-2",
                     "bg-transparent focus:outline-none",
-                    "text-[14px] leading-[140%]",
+                    "rounded-md border box-border border-purple-text",
                     "hover:cursor-pointer",
+                    className,
                 )}
-                onChange={(e) => onChange?.(e.target.value as U)}
-                {...register?.(name, registerOptions)}
             >
-                {placeholder && (
-                    <option value="never" disabled>
-                        {placeholder}
-                    </option>
-                )}
-                {options.map(([value, label]) => (
-                    <option key={value} value={value} className="text-purple">
+                {label && (
+                    <Text.span size="14" className="font-bold">
                         {label}
-                    </option>
-                ))}
-            </select>
-        </div>
-    );
-}
+                    </Text.span>
+                )}
+
+                <select
+                    className={classes(
+                        "w-full h-full",
+                        "bg-transparent focus:outline-none",
+                        "text-[14px] leading-[140%]",
+                        "hover:cursor-pointer",
+                    )}
+                    {...selectProps}
+                    ref={ref}
+                >
+                    {placeholder && (
+                        <option value="never" disabled>
+                            {placeholder}
+                        </option>
+                    )}
+
+                    {options.map(([value, label]) => (
+                        <option key={value} value={value}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        );
+    },
+);
+export default Select;
