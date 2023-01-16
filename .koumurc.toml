@@ -1,0 +1,48 @@
+mergeKind = ":twisted_rightwards_arrows:"
+
+maxCommitLength = 72
+
+# Leave the following commented to disable scopes
+[scopes]
+meta = "Anything about the repo in general"
+adapter = "Anything about the adapter package"
+wallet = "Anything about the wallet package"
+compat = "Anything about the compat package"
+arsnap = "Anything about the arsnap package"
+
+[kinds]
+":sparkles:" = "implement a new feature"
+":zap:" = "update existing feature"
+
+":recycle:" = "refactor code"
+":racehorse:" = "improve performance"
+":wastebasket:" = "deprecate code that needs to be cleaned up"
+
+":bug:" = "fix a bug"
+":rotating_light:" = "critical hotfix"
+":warning:" = "fix compiler / linter warnings"
+
+":books:" = "add or update documentation"
+":bulb:" = "add or update comments in source code"
+":loud_sound:" = "add or update logs"
+":mute:" = "remove logs"
+
+":floppy_disk:" = "update ressources"
+
+":lipstick:" = "add or update the ui and style files"
+
+":file_cabinet:" = "perform database related changes"
+
+":white_check_mark:" = "add, update, or pass tests"
+
+":triangular_flag_on_post:" = "add, update, or remove feature flags"
+":chart_with_upwards_trend:" = "add or update analytics or track code"
+
+":speech_balloon:" = "add or update text and literals"
+
+":rewind:" = "revert changes"
+":twisted_rightwards_arrows:" = "merge branches"
+
+":bookmark:" = "prepare a new release version"
+":package:" = "update dependencies"
+":wrench:" = "update dev workspace"
