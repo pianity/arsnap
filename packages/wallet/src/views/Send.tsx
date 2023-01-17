@@ -63,7 +63,7 @@ async function postTx(
         setTxStatus({
             status: "error",
             // TODO: Reason shouldn't directly include `e`.
-            reason: `${e}`,
+            reason: `${JSON.stringify(e, null, 2)}`,
         });
     }
 }
