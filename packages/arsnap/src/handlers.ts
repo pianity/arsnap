@@ -145,7 +145,7 @@ export const signBytes: WithState<RpcMethods["sign_bytes"]> = async (
 
     const wallet = getOrThrow(state.wallets, state.activeWallet);
 
-    return await signWithJwk(wallet.key, data, saltLength);
+    return Array.from(await signWithJwk(wallet.key, data, saltLength)) as unknown as Uint8Array;
 };
 
 export const setActiveAddress: WithState<RpcMethods["set_active_address"]> = async (
