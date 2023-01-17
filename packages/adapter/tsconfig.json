@@ -19,9 +19,5 @@
             "@/*": ["*"],
             "package.json": ["../package.json"]
         }
-    },
-    "ts-node": {
-        "transpileOnly": true,
-        "require": ["tsconfig-paths/register"]
     }
 }

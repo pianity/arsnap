@@ -21,9 +21,5 @@
             "adapter-package.json": ["../packages/adapter/package.json"],
             "compat-package.json": ["../packages/compat/package.json"]
         }
-    },
-    "ts-node": {
-        "transpileOnly": true,
-        "require": ["tsconfig-paths/register"]
     }
 }

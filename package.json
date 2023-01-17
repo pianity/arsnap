@@ -12,8 +12,8 @@
         "lint": "yarn workspaces foreach --exclude root -vip run lint",
         "lint-errors": "yarn workspaces foreach --exclude root -vip run lint --quiet",
         "lint-fix": "yarn workspaces foreach --exclude root -vip run lint:fix",
-        "check-versions": "yarn ts-node scripts/check-versions.ts",
-        "create-release": "yarn ts-node scripts/create-release.ts"
+        "check-versions": "yarn tsx scripts/check-versions.ts",
+        "create-release": "yarn tsx scripts/create-release.ts"
     },
     "dependencies": {
         "@pianity/eslint-config": "0.0.2",
@@ -23,7 +23,7 @@
         "eslint": "8.32.0",
         "nodemon": "2.0.20",
         "prettier": "2.8.3",
-        "ts-node": "10.9.1",
+        "tsx": "^3.12.2",
         "typescript": "4.9.4"
     },
     "packageManager": "yarn@3.2.0",

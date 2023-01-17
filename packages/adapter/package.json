@@ -15,7 +15,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc -p tsconfig.build.json && yarn post-build",
-        "post-build": "tsc-alias -p tsconfig.build.json && ts-node scripts/postBuild.ts",
+        "post-build": "tsc-alias -p tsconfig.build.json && tsx scripts/postBuild.ts",
         "build-dev": "NODE_ENV=development yarn build",
         "dev": "nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
         "clean": "rm -r dist/",
@@ -28,7 +28,8 @@
     "dependencies": {
         "arweave": "1.12.2",
         "js-base64": "3.7.4",
-        "replace-in-file": "6.3.5"
+        "replace-in-file": "6.3.5",
+        "tsx": "^3.12.2"
     },
     "devDependencies": {
         "@pianity/eslint-config": "0.0.2",
@@ -36,7 +37,6 @@
         "eslint": "8.32.0",
         "nodemon": "2.0.20",
         "prettier": "2.8.3",
-        "ts-node": "10.9.1",
         "tsc-alias": "1.8.2",
         "tsconfig-paths": "4.1.2",
         "typedoc": "0.23.24",
