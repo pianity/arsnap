@@ -7,7 +7,9 @@ declare global {
     interface Window {
         ethereum: {
             isMetaMask: boolean;
-            request: (request: unknown | { method: string; params?: any[] }) => Promise<any>;
+            request: (
+                request: unknown | { method: string; params?: Record<string, unknown>[] },
+            ) => Promise<any>;
             on: (eventName: unknown, callback: unknown) => unknown;
             isConnected: () => Promise<boolean>;
             /**
@@ -20,7 +22,7 @@ declare global {
     }
 }
 
-function request(method: string, params: unknown[]): Promise<any> {
+function request(method: string, params: Record<string, unknown>): Promise<any> {
     if (!window.ethereum || !window.ethereum.isMetaMask) {
         throw new Error("MetaMask is not installed");
     }
@@ -46,12 +48,21 @@ export function isUnlocked(timeout = 5): Promise<boolean | "timeout"> {
 }
 
 export async function connect() {
-    await request("wallet_enable", [{ wallet_snap: { [SNAP_ID]: {} } }]);
+    await request("wallet_requestSnaps", { [SNAP_ID]: {} });
 }
 
 export function requestSnap<T extends keyof RpcMethods>(
     method: T,
     params: Parameters<RpcMethods[T]>,
 ): ReturnType<RpcMethods[T]> {
-    return request("wallet_invokeSnap", [SNAP_ID, { method, params }]) as ReturnType<RpcMethods[T]>;
+    if (params) {
+        return request("wallet_invokeSnap", {
+            snapId: SNAP_ID,
+            request: { method, params },
+        }) as ReturnType<RpcMethods[T]>;
+    } else {
+        return request("wallet_invokeSnap", { snapId: SNAP_ID, request: { method } }) as ReturnType<
+            RpcMethods[T]
+        >;
+    }
 }

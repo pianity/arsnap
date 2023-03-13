@@ -29,7 +29,7 @@
         "arweave": "1.12.2",
         "js-base64": "3.7.4",
         "replace-in-file": "6.3.5",
-        "tsx": "^3.12.2"
+        "tsx": "^3.12.5"
     },
     "devDependencies": {
         "@pianity/eslint-config": "0.0.2",
