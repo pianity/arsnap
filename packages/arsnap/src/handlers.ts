@@ -192,11 +192,14 @@ export const exportWallet: WithState<WithOrigin<RpcMethods["export_wallet"]>> = 
         throw new Error(`Wallet not found for address: ${address}`);
     }
 
-    const granted = await confirmPopup("Wallet Export Request", [
-        "**Attention!** A dApp is trying to **export one of your wallets**, proceed carefully.",
-        `The dApp at **${origin}** is requesting the exportation of your wallet: ` +
-            `**${wallet.metadata.name}** (**${wallet.metadata.address}**). ` +
-            "If the request doesn't originate from you, please decline.",
+    const granted = await confirmPopup("Wallet Exportation Request", [
+        "**A DApp is trying to export one of your wallets.**",
+        "",
+        `The dApp at **${origin}** is requesting the EXPORTATION of the following wallet:`,
+        `-> **${wallet.metadata.name}**`,
+        `-> **${truncateStringCenter(wallet.metadata.address)}**`,
+        "",
+        "If the request doesn't originate from you, please decline.",
     ]);
 
     if (!granted) {
