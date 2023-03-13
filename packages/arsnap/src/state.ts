@@ -70,9 +70,9 @@ export async function getStateRaw(): Promise<
 > {
     const releaseState = await stateMutex.acquire();
 
-    const state = (await window.wallet.request({
+    const state = (await snap.request({
         method: "snap_manageState",
-        params: ["get"],
+        params: { operation: "get" },
     })) as SerializableState;
 
     return [state, releaseState];
@@ -106,5 +106,8 @@ export async function replaceState(state: State) {
         logs: Array.from(state.logs.entries()),
     };
 
-    await window.wallet.request({ method: "snap_manageState", params: ["update", serialState] });
+    await snap.request({
+        method: "snap_manageState",
+        params: { operation: "update", newState: serialState },
+    });
 }

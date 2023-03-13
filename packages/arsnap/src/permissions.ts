@@ -50,13 +50,14 @@ export async function requestPermissions(
         return { granted: true, permissions: currentPermissions };
     }
 
-    const newPermissionsString = newPermissions.map((permission) => `• ${permission}`).join("\n");
+    const newPermissionsStrings = newPermissions.map((permission) => `• **${permission}**`);
 
-    const granted = await confirmPopup(
-        "Permissions Request",
+    const granted = await confirmPopup("Permissions Request", [
         "Do you want to grant the following permissions?",
-        `The dApp at ${origin} is requesting the following permissions:\n${newPermissionsString}`,
-    );
+        "",
+        `The dApp at **${origin}** is requesting the following permissions:`,
+        ...newPermissionsStrings,
+    ]);
 
     if (granted) {
         return { granted: true, permissions: currentPermissions.concat(...newPermissions) };

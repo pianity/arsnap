@@ -1,4 +1,5 @@
 import { getBIP44AddressKeyDeriver, JsonBIP44CoinTypeNode } from "@metamask/key-tree";
+import { divider, heading, panel, text } from "@metamask/snaps-ui";
 
 import { RpcParam, RpcResponse } from "@pianity/arsnap-adapter";
 
@@ -7,43 +8,27 @@ export type RpcMessageHandler = (args: {
     request: RpcParam;
 }) => Promise<RpcResponse>;
 
-interface MetamaskWallet {
-    request(options: { method: string; params?: unknown[] }): Promise<unknown>;
-}
-
-declare global {
-    interface Window {
-        wallet: MetamaskWallet;
-    }
-}
-
-export function confirmPopup(
-    prompt: string,
-    description: string,
-    textAreaContent: string,
-): Promise<boolean> {
-    return window.wallet.request({
-        method: "snap_confirm",
-        params: [
-            {
-                prompt,
-                description,
-                textAreaContent,
-            },
-        ],
+export function confirmPopup(title: string, lines: string[]): Promise<boolean> {
+    return snap.request({
+        method: "snap_dialog",
+        params: {
+            type: "Confirmation" as "confirmation",
+            content: panel([
+                heading(title),
+                ...lines.map((line) => (line === "" ? divider() : text(line))),
+            ]),
+        },
     }) as Promise<boolean>;
 }
 
-export function notify(message: string, type = "native"): Promise<void> {
-    return window.wallet.request({
+export async function notify(message: string, type: "native" | "inApp" = "native"): Promise<void> {
+    await snap.request({
         method: "snap_notify",
-        params: [
-            {
-                type,
-                message,
-            },
-        ],
-    }) as Promise<void>;
+        params: {
+            type: type,
+            message,
+        },
+    });
 }
 
 export async function getSecret(): Promise<Uint8Array> {
@@ -55,8 +40,9 @@ export async function getSecret(): Promise<Uint8Array> {
     const addressIndex = 0;
     const bip44Code = 472;
 
-    const arweaveNode = (await window.wallet.request({
-        method: `snap_getBip44Entropy_${bip44Code}`,
+    const arweaveNode = (await snap.request({
+        method: `snap_getBip44Entropy`,
+        params: { coinType: bip44Code },
     })) as JsonBIP44CoinTypeNode;
 
     const deriveArweaveAddress = await getBIP44AddressKeyDeriver(arweaveNode);

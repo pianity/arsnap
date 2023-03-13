@@ -22,9 +22,10 @@
         "node": ">=12.11.0"
     },
     "scripts": {
-        "build": "yarn clean && yarn build-esbuild && yarn build-snap",
-        "build-snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
+        "build": "yarn clean && yarn build-esbuild && yarn build-fix-snap && yarn build-snap",
         "build-esbuild": "esbuild --bundle --format=cjs --outdir=build src/index.ts",
+        "build-fix-snap": "tsx scripts/fixSnapBuild.ts",
+        "build-snap": "mm-snap build --stripComments --src build/index.js --outfileName bundle.js --dist dist",
         "dev": "nodemon --watch src/ --ext ts --exec 'yarn build && yarn serve'",
         "clean": "rm -rf dist/ build/",
         "serve": "mm-snap serve --port 4000",
@@ -33,19 +34,22 @@
         "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/"
     },
     "dependencies": {
-        "@metamask/key-tree": "6.0.0",
+        "@metamask/key-tree": "6.2.1",
+        "@metamask/snaps-ui": "^0.30.0",
         "@pianity/arsnap-adapter": "workspace:*",
         "async-mutex": "0.3.2",
         "js-base64": "3.7.4"
     },
     "devDependencies": {
-        "@metamask/snaps-cli": "0.23.0",
+        "@metamask/snaps-cli": "0.27.1",
+        "@metamask/snaps-types": "0.30.0",
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
         "esbuild": "0.15.18",
         "eslint": "8.32.0",
         "nodemon": "2.0.20",
         "prettier": "2.8.3",
+        "tsx": "^3.12.5",
         "typescript": "4.9.4"
     }
 }

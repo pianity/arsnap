@@ -1,3 +1,5 @@
+import type * as _ from "@metamask/snaps-types";
+
 import {
     LogEntry,
     RpcLogInfo,

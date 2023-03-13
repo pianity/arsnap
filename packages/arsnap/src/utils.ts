@@ -57,3 +57,22 @@ export async function ownerToAddress(ownerB64Url: string): Promise<string> {
 
     return address;
 }
+
+/**
+ * Truncates a string in the middle
+ *
+ * @param str - string to truncate
+ * @param strLen  -length of the string including separator (default 30)
+ * @param separator - string used to replace the truncated part (default "...")
+ * @returns string truncated in the middle
+ */
+export function truncateStringCenter(str: string, strLen = 30, separator = "...") {
+    if (!str || str.length < strLen) return str;
+
+    const sepLen = separator.length;
+    const charsToShow = strLen - sepLen;
+    const frontChars = Math.ceil(charsToShow / 2);
+    const backChars = Math.floor(charsToShow / 2);
+
+    return str.substring(0, frontChars) + separator + str.substring(str.length - backChars);
+}
