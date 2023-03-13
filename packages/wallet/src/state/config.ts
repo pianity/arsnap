@@ -6,12 +6,12 @@ export const DEFAULT_CURRENCY: Currency = "USD";
 export const DEFAULT_GATEWAY: GatewayName = "arweave.net";
 export const DEFAULT_TESTNET = false;
 
+export type GatewayInfo = { protocol: string; host: string; port: number };
 export const GATEWAYS = {
     "arweave.net": { protocol: "https", host: "arweave.net", port: 443 },
     localhost: { protocol: "http", host: "localhost", port: 1984 },
 } as const satisfies Record<string, GatewayInfo>;
 export type GatewayName = keyof typeof GATEWAYS;
-export type GatewayInfo = { protocol: string; host: string; port: number };
 
 export type Currency = "USD" | "EUR" | "GBP";
 

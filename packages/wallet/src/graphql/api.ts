@@ -2,8 +2,7 @@ import { GraphQLClient } from "graphql-request";
 
 import * as Arweave from "@/graphql/arweave";
 import { sleep } from "@/utils";
-import { GatewayName } from "@/state/config";
-import { GATEWAYS } from "@/state/config";
+import { GatewayName, GATEWAYS } from "@/state/config";
 
 const retryWrapper = (maxProtectedTries: number, waitSeconds = 5): Arweave.SdkFunctionWrapper => {
     return async <T>(action: () => Promise<T>): Promise<T> => {

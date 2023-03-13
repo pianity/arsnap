@@ -1,12 +1,12 @@
 import { Dispatch, useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { match } from "ts-pattern";
 
 import * as adapter from "@pianity/arsnap-adapter";
 
 import { version } from "package.json";
 import { AppRoute, REQUIRED_PERMISSIONS } from "@/consts";
-import { downloadFile, exhaustive, sleep } from "@/utils";
+import { downloadFile, exhaustive } from "@/utils";
 import { getMissingPermissions } from "@/utils/arsnap";
 import githubIconUrl from "@/assets/icons/github.svg";
 import permawebSeal from "@/assets/permaweb-seal.svg";
@@ -85,18 +85,30 @@ export default function App() {
     const [state, dispatchState] = useArsnapReducer();
     const [config, dispatchConfig] = useConfigReducer();
 
+    const [_updateDataInterval, setUpdateDataInterval] = useState<
+        undefined | ReturnType<typeof setInterval>
+    >();
+    const location = useLocation();
+
     useEffect(() => {
         getArsnapStatus().then(setArsnapStatus);
 
-        const updateInterval = setInterval(
+        const newUpdateDataInterval = setInterval(
             () => updateWalletData(config.gateway, state.activeWallet, dispatchState),
             2 * 60 * 1000,
         );
 
+        setUpdateDataInterval((updateDataInterval) => {
+            if (updateDataInterval) {
+                clearInterval(updateDataInterval);
+            }
+            return newUpdateDataInterval;
+        });
+
         return () => {
-            clearInterval(updateInterval);
+            clearInterval(newUpdateDataInterval);
         };
-    }, []);
+    }, [location.pathname, config.gateway, state.activeWallet, dispatchState]);
 
     useEffect(() => {
         let detectUnlock: undefined | ReturnType<typeof setInterval>;
@@ -121,11 +133,11 @@ export default function App() {
             .then(setAppStatus);
 
         return () => clearInterval(detectUnlock);
-    }, [arsnapStatus]);
+    }, [arsnapStatus, dispatchState]);
 
     useEffect(() => {
         updateWalletData(config.gateway, state.activeWallet, dispatchState);
-    }, [state.activeWallet, config.gateway]);
+    }, [state.activeWallet, config.gateway, dispatchState]);
 
     async function onWalletMenuEvent(e: WalletMenuEvent): Promise<WalletMenuEventResponse> {
         switch (e.event) {

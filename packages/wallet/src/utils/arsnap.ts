@@ -5,6 +5,7 @@ import { CustomError } from "@/utils/types";
 import { REQUIRED_PERMISSIONS } from "@/consts";
 
 export async function getMissingPermissions(permissions: RpcPermission[]) {
+    console.log("getting missing permissions");
     const currentPermissions = await getPermissions();
 
     const missigPermissions = permissions.filter(

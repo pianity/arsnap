@@ -1,7 +1,20 @@
 {
-    "extends": "@pianity/eslint-config",
+    "extends": [
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "@pianity/eslint-config"
+    ],
     "env": {
         "browser": true
     },
-    "ignorePatterns": ["src/graphql/arweave.ts"]
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "ignorePatterns": ["src/graphql/arweave.ts"],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/display-name": "off"
+    }
 }
