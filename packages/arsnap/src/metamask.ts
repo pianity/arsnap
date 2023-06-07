@@ -12,7 +12,7 @@ export function confirmPopup(title: string, lines: string[]): Promise<boolean> {
     return snap.request({
         method: "snap_dialog",
         params: {
-            type: "Confirmation" as "confirmation",
+            type: "confirmation",
             content: panel([
                 heading(title),
                 ...lines.map((line) => (line === "" ? divider() : text(line))),
