@@ -43,7 +43,7 @@ export async function getSecret(): Promise<Uint8Array> {
     const arweaveNode = (await snap.request({
         method: `snap_getBip44Entropy`,
         params: { coinType: bip44Code },
-    })) as JsonBIP44CoinTypeNode;
+    }));
 
     const deriveArweaveAddress = await getBIP44AddressKeyDeriver(arweaveNode);
 

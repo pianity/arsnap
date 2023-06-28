@@ -1,3 +1,5 @@
+import init, { keygen } from "arsnap-keygen";
+
 import { getSecret } from "@/metamask";
 import { Wallet, WalletMetadata } from "@/state";
 import { b64ToBin, binToB64 } from "@/utils";
@@ -39,6 +41,65 @@ export type JWKInterface = JWKPublicInterface & {
     dq?: string;
     qi?: string;
 };
+
+/**
+ * Convert the pem string to a binary representation
+ */
+function pemToBin(pem: string) {
+    let encoded = "";
+    const lines = pem.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].indexOf("-----") < 0) {
+            encoded += lines[i];
+        }
+    }
+    const byteStr = Buffer.from(encoded, "base64");
+    const bytes = new Uint8Array(byteStr.length);
+    for (let i = 0; i < byteStr.length; i++) {
+        bytes[i] = byteStr[i];
+    }
+    return bytes.buffer;
+}
+
+/**
+ * Convert the pem key to the official arweave key format
+ */
+async function pemToJwk(pem: string): Promise<JWKInterface> {
+    const cryptoKey = await crypto.subtle.importKey(
+        "pkcs8",
+        pemToBin(pem),
+        {
+            name: "RSA-PSS",
+            hash: { name: "SHA-256" },
+        },
+        true,
+        ["sign"],
+    );
+
+    const jwk = (await crypto.subtle.exportKey("jwk", cryptoKey)) as JWKInterface;
+
+    return {
+        kty: jwk.kty,
+        n: jwk.n,
+        e: jwk.e,
+        d: jwk.d,
+        p: jwk.p,
+        q: jwk.q,
+        dp: jwk.dp,
+        dq: jwk.dq,
+        qi: jwk.qi,
+    };
+}
+
+export async function generateDeterministicJWK(): Promise<JWKInterface> {
+    await init();
+
+    const secret = await getSecret();
+    const pem = keygen(secret);
+    const jwk = pemToJwk(pem);
+
+    return jwk;
+}
 
 export async function generateJWK(): Promise<JWKInterface> {
     const cryptoKey = await crypto.subtle.generateKey(

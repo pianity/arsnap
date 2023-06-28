@@ -1,28 +1,29 @@
 import { State, Wallet } from "@/state";
 import { ownerToAddress } from "@/utils";
-import { generateJWK, JWKInterface } from "@/crypto";
+import { generateDeterministicJWK, generateJWK, JWKInterface } from "@/crypto";
+
+export async function generateDefaultWallet(): Promise<Wallet> {
+    const jwk = await generateDeterministicJWK();
+    const wallet = await jwkToWallet([], jwk, "Default Wallet", true);
+
+    return wallet;
+}
 
 export async function generateWallet(
     existingWalletsNames: string[],
     name?: string,
 ): Promise<Wallet> {
-    const wallet = await generateJWK();
-    const address = await ownerToAddress(wallet.n);
+    const jwk = await generateJWK();
+    const wallet = await jwkToWallet(existingWalletsNames, jwk, name);
 
-    return {
-        key: wallet,
-        metadata: {
-            name: getProperWalletName(existingWalletsNames, address, name),
-            address,
-            keyOwnerField: wallet.n,
-        },
-    };
+    return wallet;
 }
 
 export async function jwkToWallet(
     existingWalletsNames: string[],
     jwk: JWKInterface,
     name?: string,
+    isProtected = false,
 ): Promise<Wallet> {
     const address = await ownerToAddress(jwk.n);
     name = getProperWalletName(existingWalletsNames, address, name);
@@ -30,6 +31,7 @@ export async function jwkToWallet(
     const wallet = {
         key: jwk,
         metadata: {
+            isProtected,
             name,
             address,
             keyOwnerField: jwk.n,

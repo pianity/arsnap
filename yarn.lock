@@ -4250,12 +4250,14 @@ __metadata:
     "@pianity/arsnap-adapter": "workspace:*"
     "@pianity/eslint-config": 0.0.2
     "@pianity/prettier-config": 0.0.1
+    arsnap-keygen: "file:../../../arsnap-keygen/arsnap-keygen/pkg"
     async-mutex: 0.3.2
     esbuild: 0.15.18
     eslint: 8.32.0
     js-base64: 3.7.4
     nodemon: 2.0.20
     prettier: 2.8.3
+    replace-in-file: ^6.3.5
     tsx: ^3.12.5
     typescript: 4.9.4
   languageName: unknown
@@ -5320,6 +5322,13 @@ __metadata:
     es-shim-unscopables: ^1.0.0
     get-intrinsic: ^1.1.3
   checksum: 7923324a67e70a2fc0a6e40237405d92395e45ebd76f5cb89c2a5cf1e66b47aca6baacd0cd628ffd88830b90d47fff268071493d09c9ae123645613dac2c2ca3
+  languageName: node
+  linkType: hard
+
+"arsnap-keygen@file:../../../arsnap-keygen/arsnap-keygen/pkg::locator=%40pianity%2Farsnap%40workspace%3Apackages%2Farsnap":
+  version: 0.1.0
+  resolution: "arsnap-keygen@file:../../../arsnap-keygen/arsnap-keygen/pkg#../../../arsnap-keygen/arsnap-keygen/pkg::hash=6be39a&locator=%40pianity%2Farsnap%40workspace%3Apackages%2Farsnap"
+  checksum: dbe7b79366d198f1bd23e9c039c257bcf139a37d3b0d17694eb746339b97cec1eb63e47586a27eec3e0e29f3270873ff5eb749caec47e127f912b5352f9897d3
   languageName: node
   linkType: hard
 
@@ -12045,7 +12054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"replace-in-file@npm:6.3.5":
+"replace-in-file@npm:6.3.5, replace-in-file@npm:^6.3.5":
   version: 6.3.5
   resolution: "replace-in-file@npm:6.3.5"
   dependencies:
