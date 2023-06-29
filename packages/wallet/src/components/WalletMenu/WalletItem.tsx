@@ -131,23 +131,23 @@ export default function WalletItem({
             </div>
 
             {/* MARK: Action buttons */}
-            <div className="hidden group-hover:flex items-center ml-3 shrink-0">
-                {/* MARK: Delete button */}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onDeleteWallet({ name, address });
-                    }}
-                    className={classes(
-                        "w-7 h-7 ml-2",
-                        "flex items-center justify-center",
-                        "rounded-full border border-purple-dark box-border",
-                        "text-purple-dark",
-                    )}
-                >
-                    <img src={closeIconUrl} width={8} height={8} alt="Delete wallet" />
-                </button>
-            </div>
+            {/* <div className="hidden group-hover:flex items-center ml-3 shrink-0"> */}
+            {/* MARK: Delete button */}
+            {/*     <button */}
+            {/*         onClick={(e) => { */}
+            {/*             e.stopPropagation(); */}
+            {/*             onDeleteWallet({ name, address }); */}
+            {/*         }} */}
+            {/*         className={classes( */}
+            {/*             "w-7 h-7 ml-2", */}
+            {/*             "flex items-center justify-center", */}
+            {/*             "rounded-full border border-purple-dark box-border", */}
+            {/*             "text-purple-dark", */}
+            {/*         )} */}
+            {/*     > */}
+            {/*         <img src={closeIconUrl} width={8} height={8} alt="Delete wallet" /> */}
+            {/*     </button> */}
+            {/* </div> */}
         </div>
     );
 }
