@@ -94,7 +94,7 @@ export default function WalletItem({
                             size="18"
                             taller
                             weight="semibold"
-                            className="truncate text-left"
+                            className="truncate text-left cursor-default"
                         >
                             {name}
                         </Text>
