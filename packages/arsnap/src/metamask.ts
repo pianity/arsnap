@@ -1,4 +1,3 @@
-import { getBIP44AddressKeyDeriver, JsonBIP44CoinTypeNode } from "@metamask/key-tree";
 import { divider, heading, panel, text } from "@metamask/snaps-ui";
 
 import { RpcParam, RpcResponse } from "@pianity/arsnap-adapter";
@@ -31,28 +30,31 @@ export async function notify(message: string, type: "native" | "inApp" = "native
     });
 }
 
-export async function getSecret(): Promise<Uint8Array> {
-    // m / purpose' / coin_type' / account' / change / address_index
-    // m / 44' / 472' / 0' / 0 / 0
-    // const [, , coinType, account, change, addressIndex] = derivationPath.split('/');
-    const account = 0;
-    const change = 0;
-    const addressIndex = 0;
+function hexToUint8Array(hex: string): Uint8Array {
+    const chunks = [];
+    for (let i = 0; i < hex.length; i += 2) {
+        chunks.push(hex.slice(i, i + 2));
+    }
+
+    return new Uint8Array(chunks.map((chunk) => parseInt(chunk, 16)));
+}
+
+export async function getSecret(account = 0): Promise<Uint8Array> {
     const bip44Code = 472;
 
-    const arweaveNode = (await snap.request({
-        method: `snap_getBip44Entropy`,
-        params: { coinType: bip44Code },
-    }));
+    const arweaveNode = await snap.request({
+        method: `snap_getBip32Entropy`,
+        params: {
+            path: ["m", "44'", `${bip44Code}'`, `${account}'`],
+            curve: "ed25519",
+        },
+    });
 
-    const deriveArweaveAddress = await getBIP44AddressKeyDeriver(arweaveNode);
-
-    const addressKey = await deriveArweaveAddress(addressIndex);
-    const secret = addressKey.privateKeyBytes;
-
-    if (!secret) {
+    if (!arweaveNode.privateKey) {
         throw new Error("Could not access secret.");
     }
+
+    const secret = hexToUint8Array(arweaveNode.privateKey.slice(2));
 
     return secret;
 }

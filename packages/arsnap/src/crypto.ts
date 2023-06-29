@@ -42,23 +42,26 @@ export type JWKInterface = JWKPublicInterface & {
     qi?: string;
 };
 
+function base64ToUint8Array(base64String: string) {
+    var binaryString = window.atob(base64String);
+    var len = binaryString.length;
+    var bytes = new Uint8Array(len);
+
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    return bytes;
+}
+
 /**
  * Convert the pem string to a binary representation
  */
 function pemToBin(pem: string) {
-    let encoded = "";
-    const lines = pem.split("\n");
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].indexOf("-----") < 0) {
-            encoded += lines[i];
-        }
-    }
-    const byteStr = Buffer.from(encoded, "base64");
-    const bytes = new Uint8Array(byteStr.length);
-    for (let i = 0; i < byteStr.length; i++) {
-        bytes[i] = byteStr[i];
-    }
-    return bytes.buffer;
+    const encoded = pem
+        .split("\n")
+        .reduce((lines, line) => (line.indexOf("-----") < 0 ? lines + line : lines), "");
+    return base64ToUint8Array(encoded);
 }
 
 /**
