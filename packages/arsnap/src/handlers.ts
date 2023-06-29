@@ -220,10 +220,6 @@ export const renameWallet: WithState<RpcMethods["rename_wallet"]> = async (
 ) => {
     const wallet = getOrThrow(state.wallets, address);
 
-    if (wallet.metadata.isProtected) {
-        throw new Error("Cannot rename default wallet");
-    }
-
     wallet.metadata.name = name;
 
     return null;

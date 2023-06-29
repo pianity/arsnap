@@ -12,8 +12,8 @@ export type WalletMetadata = {
     address: string;
     name: string;
     /**
-     * A protected wallet cannot be renamed nor deleted. Right now, only the default wallet
-     * derive from the user's Ethereum key is protected.
+     * A protected wallet cannot be deleted. Right now, only the default wallet derived from the
+     * user's Ethereum key is protected.
      */
     isProtected: boolean;
 };
