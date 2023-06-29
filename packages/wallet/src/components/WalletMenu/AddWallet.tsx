@@ -3,7 +3,7 @@ import { useRef } from "react";
 import Button from "@/components/interface/form/Button";
 import Text from "@/components/interface/typography/Text";
 
-export type NewWalletChoice = "importExisting" | "createNew" | "cancel";
+export type NewWalletChoice = "importExisting" | "cancel";
 
 export type NewWalletProps = {
     onChoice: (choice: NewWalletChoice, walletFile?: FileList) => Promise<void>;
@@ -36,20 +36,8 @@ export default function AddWallet({ onChoice }: NewWalletProps) {
                 onClick={() => {
                     inputFile.current?.click();
                 }}
-                className="mb-4"
             >
                 Import existing wallet
-            </Button>
-
-            {/* MARK: New wallet */}
-            <Button
-                color="purple"
-                large
-                onClick={() => {
-                    onChoice("createNew");
-                }}
-            >
-                Create new wallet
             </Button>
 
             {/* MARK: Cancel */}

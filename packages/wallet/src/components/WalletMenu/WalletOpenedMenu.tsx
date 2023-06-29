@@ -53,23 +53,6 @@ export default function WalletOpenedMenu({
                 break;
             }
 
-            case "createNew": {
-                const jwk = await arweave(gateway).wallets.generate();
-
-                const response = await onEvent({
-                    event: "importWallet",
-                    jwk,
-                });
-                if (response) {
-                    setWallet(response.wallet);
-                } else {
-                    // TODO: do something
-                }
-
-                setView("created");
-                break;
-            }
-
             case "cancel":
                 setView("walletsList");
                 break;
