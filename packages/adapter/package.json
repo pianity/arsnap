@@ -28,8 +28,7 @@
     "dependencies": {
         "arweave": "1.12.2",
         "js-base64": "3.7.4",
-        "replace-in-file": "6.3.5",
-        "tsx": "^3.12.5"
+        "replace-in-file": "6.3.5"
     },
     "devDependencies": {
         "@pianity/eslint-config": "0.0.2",
@@ -39,6 +38,7 @@
         "prettier": "2.8.3",
         "tsc-alias": "1.8.2",
         "tsconfig-paths": "4.1.2",
+        "tsx": "3.12.5",
         "typedoc": "0.23.24",
         "typedoc-plugin-markdown": "3.14.0",
         "typescript": "4.9.4",
