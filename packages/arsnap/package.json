@@ -39,7 +39,7 @@
         "@pianity/arsnap-adapter": "workspace:*",
         "@pianity/arsnap-keygen": "0.1.0",
         "async-mutex": "0.4.0",
-        "js-base64": "3.7.4"
+        "js-base64": "3.7.5"
     },
     "devDependencies": {
         "@metamask/snaps-cli": "0.32.2",
@@ -47,11 +47,11 @@
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
         "esbuild": "0.15.18",
-        "eslint": "8.32.0",
+        "eslint": "8.43.0",
         "nodemon": "2.0.22",
-        "prettier": "2.8.3",
+        "prettier": "2.8.8",
         "replace-in-file": "6.3.5",
         "tsx": "3.12.7",
-        "typescript": "4.9.4"
+        "typescript": "4.9.5"
     }
 }
