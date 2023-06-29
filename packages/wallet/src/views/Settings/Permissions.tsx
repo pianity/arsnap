@@ -55,10 +55,6 @@ export const PERMISSIONS_DESCRIPTIONS: Record<RpcPermission, PermissionDescripti
         dangerous: false,
         description: "Import a wallet",
     },
-    EXPORT_WALLET: {
-        dangerous: true,
-        description: "Export a wallet",
-    },
     RENAME_WALLET: {
         dangerous: false,
         description: "Rename a wallet",

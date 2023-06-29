@@ -157,16 +157,6 @@ export default function App() {
                 return { wallet };
             }
 
-            case "exportWallet": {
-                const wallet = await adapter.exportWallet(e.address);
-
-                // TODO: Make sure that `wallet.metadata.name` contains only safe characters (this
-                // should also be enforced in ArSnap).
-                downloadFile(JSON.stringify(wallet.jwk), "application/json", `${wallet.name}.json`);
-
-                return {};
-            }
-
             case "deleteWallet":
                 await adapter.deleteWallet(e.address);
                 await updateWallets(dispatchState);

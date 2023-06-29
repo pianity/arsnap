@@ -121,13 +121,6 @@ export const importWallet: RpcMethods["import_wallet"] = (...params) => {
 };
 
 /**
- * @requires "EXPORT_WALLET"
- */
-export const exportWallet: RpcMethods["export_wallet"] = (...params) => {
-    return requestSnap("export_wallet", params);
-};
-
-/**
  * @requires "RENAME_WALLET"
  */
 export const renameWallet: RpcMethods["rename_wallet"] = (...params) => {

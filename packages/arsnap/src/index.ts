@@ -46,9 +46,6 @@ async function getLogInfo(request: RpcParam): Promise<RpcLogInfo> {
         case "import_wallet":
             return { method, address: await ownerToAddress(params[0].n), name: params[1] ?? "" };
 
-        case "export_wallet":
-            return { method, address: params[0] };
-
         case "rename_wallet":
             return { method, address: params[0], name: params[1] };
 
@@ -171,10 +168,6 @@ async function handleRequest(
         case "import_wallet":
             await guard(origin, permissions, "IMPORT_WALLET");
             return await handlers.importWallet(state, ...params);
-
-        case "export_wallet":
-            await guard(origin, permissions, "EXPORT_WALLET");
-            return await handlers.exportWallet(state, origin, ...params);
 
         case "rename_wallet":
             await guard(origin, permissions, "RENAME_WALLET");

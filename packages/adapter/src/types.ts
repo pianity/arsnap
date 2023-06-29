@@ -27,9 +27,6 @@ export type RpcMethods = {
         wallet: JWKInterface,
         name?: string,
     ) => Promise<{ name: string; address: string }>;
-    export_wallet: (
-        address: string,
-    ) => Promise<{ jwk: JWKInterface; name: string; address: string }>;
     rename_wallet: (address: string, name: string) => Promise<null>;
     delete_wallet: (address: string) => Promise<null>;
 
@@ -57,7 +54,6 @@ export type RpcLogInfo = {
 
         set_active_address: { address: string };
         import_wallet: { address: string; name: string };
-        export_wallet: { address: string };
         rename_wallet: { address: string; name: string };
         delete_wallet: { address: string };
 
@@ -85,7 +81,6 @@ export const RPC_PERMISSIONS = {
 
     set_active_address: "SET_ACTIVE_ADDRESS",
     import_wallet: "IMPORT_WALLET",
-    export_wallet: "EXPORT_WALLET",
     rename_wallet: "RENAME_WALLET",
     delete_wallet: "DELETE_WALLET",
 
@@ -95,7 +90,7 @@ export const RPC_PERMISSIONS = {
 
 export type RpcPermission = Exclude<
     {
-        [K in keyof RpcMethods]: typeof RPC_PERMISSIONS[K];
+        [K in keyof RpcMethods]: (typeof RPC_PERMISSIONS)[K];
     }[keyof typeof RPC_PERMISSIONS],
     null
 >;

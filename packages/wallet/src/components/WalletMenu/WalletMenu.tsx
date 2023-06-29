@@ -24,11 +24,6 @@ export type ImportWallet = {
     jwk: JWKInterface;
 };
 
-export type ExportWallet = {
-    event: "exportWallet";
-    address: string;
-};
-
 export type DeleteWallet = {
     event: "deleteWallet";
     address: string;
@@ -38,13 +33,7 @@ export type Logout = {
     event: "logout";
 };
 
-export type WalletMenuEvent =
-    | SelectWallet
-    | RenameWallet
-    | ImportWallet
-    | ExportWallet
-    | DeleteWallet
-    | Logout;
+export type WalletMenuEvent = SelectWallet | RenameWallet | ImportWallet | DeleteWallet | Logout;
 
 export type WalletMenuEventResponse = {
     wallet?: NamedAddress;

@@ -181,38 +181,6 @@ export const importWallet: WithState<RpcMethods["import_wallet"]> = async (state
     return { name: wallet.metadata.name, address: wallet.metadata.address };
 };
 
-export const exportWallet: WithState<WithOrigin<RpcMethods["export_wallet"]>> = async (
-    state,
-    origin,
-    address,
-) => {
-    const wallet = state.wallets.get(address);
-
-    if (!wallet) {
-        throw new Error(`Wallet not found for address: ${address}`);
-    }
-
-    const granted = await confirmPopup("Wallet Exportation Request", [
-        "**A DApp is trying to export one of your wallets.**",
-        "",
-        `The dApp at **${origin}** is requesting the EXPORTATION of the following wallet:`,
-        `-> **${wallet.metadata.name}**`,
-        `-> **${truncateStringCenter(wallet.metadata.address)}**`,
-        "",
-        "If the request doesn't originate from you, please decline.",
-    ]);
-
-    if (!granted) {
-        throw new Error("Wallet exportation declined by user");
-    }
-
-    return {
-        jwk: wallet.key,
-        address: wallet.metadata.address,
-        name: wallet.metadata.name,
-    };
-};
-
 export const renameWallet: WithState<RpcMethods["rename_wallet"]> = async (
     state,
     address,

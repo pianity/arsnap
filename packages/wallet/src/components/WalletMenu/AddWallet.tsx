@@ -38,7 +38,7 @@ export default function AddWallet({ onChoice }: NewWalletProps) {
                 }}
                 className="mb-4"
             >
-                Load existing wallet
+                Import existing wallet
             </Button>
 
             {/* MARK: New wallet */}

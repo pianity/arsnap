@@ -1,5 +1,5 @@
 import Button from "@/components/interface/form/Button";
-import { ExportWallet, OnWalletMenuEvent, RenameWallet } from "@/components/WalletMenu/WalletMenu";
+import { OnWalletMenuEvent, RenameWallet } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import Text from "@/components/interface/typography/Text";
 import Label from "@/components/interface/form/Label";
@@ -9,7 +9,7 @@ type NewWalletProps = {
     origin: "imported" | "created";
     wallet: NamedAddress;
     onGoBack: () => void;
-    onEvent: OnWalletMenuEvent<RenameWallet | ExportWallet>;
+    onEvent: OnWalletMenuEvent<RenameWallet>;
 };
 
 export default function NewWallet({ origin, wallet, onGoBack, onEvent }: NewWalletProps) {
@@ -57,16 +57,6 @@ export default function NewWallet({ origin, wallet, onGoBack, onEvent }: NewWall
 
                 {/* MARK: Buttons */}
                 <div className="flex mt-6 mb-2">
-                    {origin === "created" && (
-                        <Button
-                            onClick={() => {
-                                onEvent({ event: "exportWallet", address: wallet.address });
-                            }}
-                            className="mr-3"
-                        >
-                            Download Wallet
-                        </Button>
-                    )}
                     <Button
                         outlined={origin === "created"}
                         onClick={() => {

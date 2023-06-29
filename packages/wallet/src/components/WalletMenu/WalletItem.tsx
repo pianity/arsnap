@@ -5,12 +5,7 @@ import exportButtonUrl from "@/assets/icons/export-button.svg";
 import closeIconUrl from "@/assets/icons/close.svg";
 import editIconUrl from "@/assets/icons/edit.svg";
 import Text from "@/components/interface/typography/Text";
-import {
-    ExportWallet,
-    OnWalletMenuEvent,
-    RenameWallet,
-    SelectWallet,
-} from "@/components/WalletMenu/WalletMenu";
+import { OnWalletMenuEvent, RenameWallet, SelectWallet } from "@/components/WalletMenu/WalletMenu";
 import { NamedAddress } from "@/utils/types";
 import { truncateStringCenter, triggerFocus } from "@/utils";
 import CopiableText from "@/components/interface/typography/CopiableText";
@@ -20,7 +15,7 @@ export type WalletItemProps = {
     active?: boolean;
     name: string;
     address: string;
-    onEvent: OnWalletMenuEvent<RenameWallet | SelectWallet | ExportWallet>;
+    onEvent: OnWalletMenuEvent<RenameWallet | SelectWallet>;
     onDeleteWallet: (address: NamedAddress) => void;
 };
 export default function WalletItem({
@@ -137,16 +132,6 @@ export default function WalletItem({
 
             {/* MARK: Action buttons */}
             <div className="hidden group-hover:flex items-center ml-3 shrink-0">
-                {/* MARK: Export button */}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onEvent({ event: "exportWallet", address });
-                    }}
-                >
-                    <img src={exportButtonUrl} width={28} height={28} alt="Export wallet" />
-                </button>
-
                 {/* MARK: Delete button */}
                 <button
                     onClick={(e) => {
