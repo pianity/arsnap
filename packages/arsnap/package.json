@@ -37,7 +37,7 @@
         "@metamask/key-tree": "6.2.1",
         "@metamask/snaps-ui": "0.32.2",
         "@pianity/arsnap-adapter": "workspace:*",
-        "arsnap-keygen": "file:../../../arsnap-keygen/arsnap-keygen/pkg",
+        "@pianity/arsnap-keygen": "0.1.0",
         "async-mutex": "0.3.2",
         "js-base64": "3.7.4"
     },

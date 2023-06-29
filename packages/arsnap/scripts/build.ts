@@ -101,7 +101,7 @@ export default wasmBinary;
         bundle: true,
         format: "cjs",
         outdir: "build",
-        plugins: [await wasmPlugin("arsnap-keygen")],
+        plugins: [await wasmPlugin("@pianity/arsnap-keygen")],
     });
 
     // NOTE: This is a hack to avoid a crash when building using `mm-snap`. The crash occurs

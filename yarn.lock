@@ -4201,6 +4201,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@pianity/arsnap-keygen@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@pianity/arsnap-keygen@npm:0.1.0"
+  checksum: ceb2ae61b6d69187763d9ea2cc827269ad7f80a2a0699e557ca7ce7d95644fb4142907f1f9a7dd3a378370943142a93c74bbc35635cd07da1b5e9ddee55070cd
+  languageName: node
+  linkType: hard
+
 "@pianity/arsnap-wallet@workspace:packages/wallet":
   version: 0.0.0-use.local
   resolution: "@pianity/arsnap-wallet@workspace:packages/wallet"
@@ -4248,9 +4255,9 @@ __metadata:
     "@metamask/snaps-types": 0.32.2
     "@metamask/snaps-ui": 0.32.2
     "@pianity/arsnap-adapter": "workspace:*"
+    "@pianity/arsnap-keygen": 0.1.0
     "@pianity/eslint-config": 0.0.2
     "@pianity/prettier-config": 0.0.1
-    arsnap-keygen: "file:../../../arsnap-keygen/arsnap-keygen/pkg"
     async-mutex: 0.3.2
     esbuild: 0.15.18
     eslint: 8.32.0
@@ -5322,13 +5329,6 @@ __metadata:
     es-shim-unscopables: ^1.0.0
     get-intrinsic: ^1.1.3
   checksum: 7923324a67e70a2fc0a6e40237405d92395e45ebd76f5cb89c2a5cf1e66b47aca6baacd0cd628ffd88830b90d47fff268071493d09c9ae123645613dac2c2ca3
-  languageName: node
-  linkType: hard
-
-"arsnap-keygen@file:../../../arsnap-keygen/arsnap-keygen/pkg::locator=%40pianity%2Farsnap%40workspace%3Apackages%2Farsnap":
-  version: 0.1.0
-  resolution: "arsnap-keygen@file:../../../arsnap-keygen/arsnap-keygen/pkg#../../../arsnap-keygen/arsnap-keygen/pkg::hash=6be39a&locator=%40pianity%2Farsnap%40workspace%3Apackages%2Farsnap"
-  checksum: dbe7b79366d198f1bd23e9c039c257bcf139a37d3b0d17694eb746339b97cec1eb63e47586a27eec3e0e29f3270873ff5eb749caec47e127f912b5352f9897d3
   languageName: node
   linkType: hard
 

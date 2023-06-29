@@ -1,4 +1,4 @@
-import init, { keygen } from "arsnap-keygen";
+import init, { keygen } from "@pianity/arsnap-keygen";
 
 import { getSecret } from "@/metamask";
 import { Wallet, WalletMetadata } from "@/state";
