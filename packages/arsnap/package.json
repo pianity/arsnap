@@ -22,6 +22,7 @@
         "node": ">=12.11.0"
     },
     "scripts": {
+        "test": "vitest --run",
         "build": "yarn clean && yarn build-esbuild && yarn build-snap && yarn tsx ./scripts/postBuild.ts && yarn mm-snap manifest --fix",
         "build-esbuild": "tsx scripts/build.ts",
         "build-fix-snap": "tsx scripts/fixSnapBuild.ts",
