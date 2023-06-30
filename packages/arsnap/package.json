@@ -39,7 +39,9 @@
         "@pianity/arsnap-adapter": "workspace:*",
         "@pianity/arsnap-keygen": "0.1.0",
         "async-mutex": "0.4.0",
-        "js-base64": "3.7.5"
+        "js-base64": "3.7.5",
+        "vite-tsconfig-paths": "^4.2.0",
+        "vitest": "^0.32.2"
     },
     "devDependencies": {
         "@metamask/snaps-cli": "0.32.2",

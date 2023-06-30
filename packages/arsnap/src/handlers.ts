@@ -202,7 +202,7 @@ export const deleteWallet: WithState<WithOrigin<RpcMethods["delete_wallet"]>> = 
     const wallet = getOrThrow(state.wallets, address);
 
     if (wallet.metadata.isProtected) {
-        throw new Error("Cannot rename default wallet");
+        throw new Error("Cannot delete protected wallet");
     }
 
     const granted = await confirmPopup("Wallet Deletion Request", [
