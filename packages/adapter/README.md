@@ -4,9 +4,9 @@
 
 ---
 
-The Adapter defines ArSnap's API and also exposes them. If you want to integrate ArSnap into your
-dApp without thinking about compatibility with the existing ArConnect's API, you'll only need this
-package.
+The Adapter defines ArSnap's API and also exposes them through simple functions. If you want to
+integrate ArSnap into your dApp without thinking about compatibility with the existing ArConnect's
+API, you'll only need this package.
 
 ## Getting Started
 

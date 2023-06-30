@@ -4,28 +4,37 @@
 
 ## Table of contents
 
-### Type aliases
+### Type Aliases
 
-- [Permission](modules.md#permission)
-- [RpcApi](modules.md#rpcapi)
-- [RpcRequest](modules.md#rpcrequest)
+- [LogEntry](modules.md#logentry)
+- [RpcLogInfo](modules.md#rpcloginfo)
+- [RpcMethods](modules.md#rpcmethods)
+- [RpcParam](modules.md#rpcparam)
+- [RpcPermission](modules.md#rpcpermission)
 - [RpcResponse](modules.md#rpcresponse)
+
+### Variables
+
+- [RPC\_PERMISSIONS](modules.md#rpc_permissions)
 
 ### Functions
 
+- [clearLogs](modules.md#clearlogs)
 - [connect](modules.md#connect)
 - [deleteWallet](modules.md#deletewallet)
-- [exportWallet](modules.md#exportwallet)
 - [getActiveAddress](modules.md#getactiveaddress)
 - [getActivePublicKey](modules.md#getactivepublickey)
 - [getAllAddresses](modules.md#getalladdresses)
 - [getDappsPermissions](modules.md#getdappspermissions)
+- [getLogs](modules.md#getlogs)
 - [getPermissions](modules.md#getpermissions)
 - [getWalletNames](modules.md#getwalletnames)
 - [importWallet](modules.md#importwallet)
 - [isEnabled](modules.md#isenabled)
+- [isUnlocked](modules.md#isunlocked)
 - [renameWallet](modules.md#renamewallet)
 - [requestPermissions](modules.md#requestpermissions)
+- [revokeAllPermissions](modules.md#revokeallpermissions)
 - [revokeDappPermission](modules.md#revokedapppermission)
 - [revokePermission](modules.md#revokepermission)
 - [sendWinstonTo](modules.md#sendwinstonto)
@@ -33,68 +42,149 @@
 - [signBytes](modules.md#signbytes)
 - [signTx](modules.md#signtx)
 
-## Type aliases
+## Type Aliases
 
-### Permission
+### LogEntry
 
-Ƭ **Permission**: ``"GET_ACTIVE_ADDRESS"`` \| ``"SET_ACTIVE_ADDRESS"`` \| ``"GET_ACTIVE_PUBLIC_KEY"`` \| ``"GET_ALL_ADDRESSES"`` \| ``"SIGN"`` \| ``"ENCRYPT"`` \| ``"DECRYPT"`` \| ``"GET_DAPPS_PERMISSIONS"`` \| ``"REVOKE_DAPP_PERMISSIONS"`` \| ``"IMPORT_WALLET"`` \| ``"EXPORT_WALLET"`` \| ``"RENAME_WALLET"`` \| ``"DELETE_WALLET"``
-
-#### Defined in
-
-[types.ts:3](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/types.ts#L3)
-
-___
-
-### RpcApi
-
-Ƭ **RpcApi**: `Object`
+Ƭ **LogEntry**: `Object`
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
+| `info` | [`RpcLogInfo`](modules.md#rpcloginfo) |
+| `origin` | `string` |
+| `timestamp` | `number` |
+
+#### Defined in
+
+[types.ts:3](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L3)
+
+___
+
+### RpcLogInfo
+
+Ƭ **RpcLogInfo**: { [K in keyof RpcMethods]: Object[K] & { [K in keyof RpcMethods]: Object }[K] }[keyof [`RpcMethods`](modules.md#rpcmethods)]
+
+#### Defined in
+
+[types.ts:38](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L38)
+
+___
+
+### RpcMethods
+
+Ƭ **RpcMethods**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `clear_logs` | () => `Promise`<``null``\> |
 | `delete_wallet` | (`address`: `string`) => `Promise`<``null``\> |
-| `export_wallet` | (`address`: `string`) => `Promise`<{ `address`: `string` ; `jwk`: `JWKInterface` ; `name`: `string`  }\> |
 | `get_active_address` | () => `Promise`<`string`\> |
 | `get_active_public_key` | () => `Promise`<`string`\> |
 | `get_all_addresses` | () => `Promise`<`string`[]\> |
-| `get_dapps_permissions` | () => `Promise`<[dappOrigin: string, permissions: Permission[]][]\> |
-| `get_permissions` | () => `Promise`<[`Permission`](modules.md#permission)[]\> |
+| `get_dapps_permissions` | () => `Promise`<[dappOrigin: string, permissions: RpcPermission[]][]\> |
+| `get_logs` | () => `Promise`<[dappOrigin: string, logs: LogEntry[]][]\> |
+| `get_permissions` | () => `Promise`<[`RpcPermission`](modules.md#rpcpermission)[]\> |
 | `get_wallet_names` | () => `Promise`<[address: string, name: string][]\> |
 | `import_wallet` | (`wallet`: `JWKInterface`, `name?`: `string`) => `Promise`<{ `address`: `string` ; `name`: `string`  }\> |
 | `is_enabled` | () => `Promise`<`boolean`\> |
 | `rename_wallet` | (`address`: `string`, `name`: `string`) => `Promise`<``null``\> |
-| `request_permissions` | (`permissions`: [`Permission`](modules.md#permission)[]) => `Promise`<`boolean`\> |
-| `revoke_dapp_permissions` | (`dapp`: `string`, `permissions`: [`Permission`](modules.md#permission)[]) => `Promise`<``null``\> |
-| `revoke_permissions` | (`permissions`: [`Permission`](modules.md#permission)[]) => `Promise`<``null``\> |
+| `request_permissions` | (`permissions`: [`RpcPermission`](modules.md#rpcpermission)[]) => `Promise`<`boolean`\> |
+| `revoke_all_permissions` | () => `Promise`<``null``\> |
+| `revoke_dapp_permissions` | (`dappOrigin`: `string`, `permissions`: [`RpcPermission`](modules.md#rpcpermission)[]) => `Promise`<``null``\> |
+| `revoke_permissions` | (`permissions`: [`RpcPermission`](modules.md#rpcpermission)[]) => `Promise`<``null``\> |
 | `set_active_address` | (`address`: `string`) => `Promise`<``null``\> |
 | `sign_bytes` | (`bytes`: `Uint8Array`, `saltLength`: `number`) => `Promise`<`Uint8Array`\> |
 
 #### Defined in
 
-[types.ts:21](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/types.ts#L21)
+[types.ts:9](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L9)
 
 ___
 
-### RpcRequest
+### RpcParam
 
-Ƭ **RpcRequest**: { [K in keyof RpcApi]: Object }[keyof [`RpcApi`](modules.md#rpcapi)]
+Ƭ **RpcParam**: { [K in keyof RpcMethods]: Object }[keyof [`RpcMethods`](modules.md#rpcmethods)]
 
 #### Defined in
 
-[types.ts:48](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/types.ts#L48)
+[types.ts:98](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L98)
+
+___
+
+### RpcPermission
+
+Ƭ **RpcPermission**: `Exclude`<{ [K in keyof RpcMethods]: typeof RPC\_PERMISSIONS[K] }[keyof typeof [`RPC_PERMISSIONS`](modules.md#rpc_permissions)], ``null``\>
+
+#### Defined in
+
+[types.ts:91](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L91)
 
 ___
 
 ### RpcResponse
 
-Ƭ **RpcResponse**: { [K in keyof RpcApi]: ReturnType<RpcApi[K]\> }[keyof [`RpcApi`](modules.md#rpcapi)]
+Ƭ **RpcResponse**: { [K in keyof RpcMethods]: ReturnType<RpcMethods[K]\> }[keyof [`RpcMethods`](modules.md#rpcmethods)]
 
 #### Defined in
 
-[types.ts:52](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/types.ts#L52)
+[types.ts:102](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L102)
+
+## Variables
+
+### RPC\_PERMISSIONS
+
+• `Const` **RPC\_PERMISSIONS**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `clear_logs` | ``"CLEAR_LOGS"`` |
+| `delete_wallet` | ``"DELETE_WALLET"`` |
+| `get_active_address` | ``"GET_ACTIVE_ADDRESS"`` |
+| `get_active_public_key` | ``"GET_ACTIVE_PUBLIC_KEY"`` |
+| `get_all_addresses` | ``"GET_ALL_ADDRESSES"`` |
+| `get_dapps_permissions` | ``"GET_DAPPS_PERMISSIONS"`` |
+| `get_logs` | ``"GET_LOGS"`` |
+| `get_permissions` | ``null`` |
+| `get_wallet_names` | ``"GET_ALL_ADDRESSES"`` |
+| `import_wallet` | ``"IMPORT_WALLET"`` |
+| `is_enabled` | ``null`` |
+| `rename_wallet` | ``"RENAME_WALLET"`` |
+| `request_permissions` | ``null`` |
+| `revoke_all_permissions` | ``null`` |
+| `revoke_dapp_permissions` | ``"REVOKE_DAPP_PERMISSIONS"`` |
+| `revoke_permissions` | ``null`` |
+| `set_active_address` | ``"SET_ACTIVE_ADDRESS"`` |
+| `sign_bytes` | ``"SIGN"`` |
+
+#### Defined in
+
+[types.ts:66](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L66)
 
 ## Functions
+
+### clearLogs
+
+▸ **clearLogs**(): `Promise`<``null``\>
+
+**`Requires`**
+
+"CLEAR_LOGS"
+
+#### Returns
+
+`Promise`<``null``\>
+
+#### Defined in
+
+[types.ts:34](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L34)
+
+___
 
 ### connect
 
@@ -106,7 +196,7 @@ ___
 
 #### Defined in
 
-[metamask.ts:27](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/metamask.ts#L27)
+[metamask.ts:50](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/metamask.ts#L50)
 
 ___
 
@@ -114,7 +204,9 @@ ___
 
 ▸ **deleteWallet**(`address`): `Promise`<``null``\>
 
-**`requires`** "DELETE_WALLET"
+**`Requires`**
+
+"DELETE_WALLET"
 
 #### Parameters
 
@@ -128,29 +220,7 @@ ___
 
 #### Defined in
 
-[api.ts:122](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L122)
-
-___
-
-### exportWallet
-
-▸ **exportWallet**(`address`): `Promise`<{ `address`: `string` ; `jwk`: `JWKInterface` ; `name`: `string`  }\>
-
-**`requires`** "EXPORT_WALLET"
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `address` | `string` |
-
-#### Returns
-
-`Promise`<{ `address`: `string` ; `jwk`: `JWKInterface` ; `name`: `string`  }\>
-
-#### Defined in
-
-[api.ts:115](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L115)
+[types.ts:31](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L31)
 
 ___
 
@@ -160,7 +230,9 @@ ___
 
 Get the address of the currently active wallet.
 
-**`requires`** "GET_ACTIVE_ADDRESS"
+**`Requires`**
+
+"GET_ACTIVE_ADDRESS"
 
 #### Returns
 
@@ -168,7 +240,7 @@ Get the address of the currently active wallet.
 
 #### Defined in
 
-[api.ts:56](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L56)
+[types.ts:19](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L19)
 
 ___
 
@@ -178,7 +250,9 @@ ___
 
 Get the public key of the currently active wallet.
 
-**`requires`** "GET_ACTIVE_PUBLIC_KEY"
+**`Requires`**
+
+"GET_ACTIVE_PUBLIC_KEY"
 
 #### Returns
 
@@ -186,7 +260,7 @@ Get the public key of the currently active wallet.
 
 #### Defined in
 
-[api.ts:65](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L65)
+[types.ts:20](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L20)
 
 ___
 
@@ -196,7 +270,9 @@ ___
 
 Get addresses for all the stored wallets.
 
-**`requires`** "GET_ALL_ADDRESSES"
+**`Requires`**
+
+"GET_ALL_ADDRESSES"
 
 #### Returns
 
@@ -204,41 +280,61 @@ Get addresses for all the stored wallets.
 
 #### Defined in
 
-[api.ts:74](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L74)
+[types.ts:21](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L21)
 
 ___
 
 ### getDappsPermissions
 
-▸ **getDappsPermissions**(): `Promise`<[dappOrigin: string, permissions: Permission[]][]\>
+▸ **getDappsPermissions**(): `Promise`<[dappOrigin: string, permissions: RpcPermission[]][]\>
 
 Get permisssions granted for all dApps.
 
-**`requires`** "GET_DAPPS_PERMISSIONS"
+**`Requires`**
+
+"GET_DAPPS_PERMISSIONS"
 
 #### Returns
 
-`Promise`<[dappOrigin: string, permissions: Permission[]][]\>
+`Promise`<[dappOrigin: string, permissions: RpcPermission[]][]\>
 
 #### Defined in
 
-[api.ts:39](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L39)
+[types.ts:16](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L16)
+
+___
+
+### getLogs
+
+▸ **getLogs**(): `Promise`<[dappOrigin: string, logs: LogEntry[]][]\>
+
+**`Requires`**
+
+"GET_LOGS"
+
+#### Returns
+
+`Promise`<[dappOrigin: string, logs: LogEntry[]][]\>
+
+#### Defined in
+
+[types.ts:33](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L33)
 
 ___
 
 ### getPermissions
 
-▸ **getPermissions**(): `Promise`<[`Permission`](modules.md#permission)[]\>
+▸ **getPermissions**(): `Promise`<[`RpcPermission`](modules.md#rpcpermission)[]\>
 
 Get the permissions granted to current dApp.
 
 #### Returns
 
-`Promise`<[`Permission`](modules.md#permission)[]\>
+`Promise`<[`RpcPermission`](modules.md#rpcpermission)[]\>
 
 #### Defined in
 
-[api.ts:16](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L16)
+[types.ts:12](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L12)
 
 ___
 
@@ -248,7 +344,9 @@ ___
 
 Get all the addresses and their names.
 
-**`requires`** "GET_ALL_ADDRESSES"
+**`Requires`**
+
+"GET_ALL_ADDRESSES"
 
 #### Returns
 
@@ -256,7 +354,7 @@ Get all the addresses and their names.
 
 #### Defined in
 
-[api.ts:83](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L83)
+[types.ts:22](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L22)
 
 ___
 
@@ -264,7 +362,9 @@ ___
 
 ▸ **importWallet**(`wallet`, `name?`): `Promise`<{ `address`: `string` ; `name`: `string`  }\>
 
-**`requires`** "IMPORT_WALLET"
+**`Requires`**
+
+"IMPORT_WALLET"
 
 #### Parameters
 
@@ -279,7 +379,7 @@ ___
 
 #### Defined in
 
-[api.ts:108](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L108)
+[types.ts:26](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L26)
 
 ___
 
@@ -293,7 +393,29 @@ ___
 
 #### Defined in
 
-[api.ts:5](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L5)
+[types.ts:10](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L10)
+
+___
+
+### isUnlocked
+
+▸ **isUnlocked**(`timeout?`): `Promise`<`boolean` \| ``"timeout"``\>
+
+WARNING: This function relies on an experimental Metamask API.
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `timeout` | `number` | `5` |
+
+#### Returns
+
+`Promise`<`boolean` \| ``"timeout"``\>
+
+#### Defined in
+
+[metamask.ts:39](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/metamask.ts#L39)
 
 ___
 
@@ -301,7 +423,9 @@ ___
 
 ▸ **renameWallet**(`address`, `name`): `Promise`<``null``\>
 
-**`requires`** "RENAME_WALLET"
+**`Requires`**
+
+"RENAME_WALLET"
 
 #### Parameters
 
@@ -316,7 +440,7 @@ ___
 
 #### Defined in
 
-[api.ts:129](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L129)
+[types.ts:30](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L30)
 
 ___
 
@@ -330,7 +454,7 @@ Request permissions for the current dApp.
 
 | Name | Type |
 | :------ | :------ |
-| `permissions` | [`Permission`](modules.md#permission)[] |
+| `permissions` | [`RpcPermission`](modules.md#rpcpermission)[] |
 
 #### Returns
 
@@ -338,24 +462,15 @@ Request permissions for the current dApp.
 
 #### Defined in
 
-[api.ts:23](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L23)
+[types.ts:13](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L13)
 
 ___
 
-### revokeDappPermission
+### revokeAllPermissions
 
-▸ **revokeDappPermission**(`dapp`, `permissions`): `Promise`<``null``\>
+▸ **revokeAllPermissions**(): `Promise`<``null``\>
 
-Revoke permissions for the specified dApp.
-
-**`requires`** "REVOKE_DAPP_PERMISSIONS"
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `dapp` | `string` |
-| `permissions` | [`Permission`](modules.md#permission)[] |
+Revoke all the granted permissions for the current dApp.
 
 #### Returns
 
@@ -363,7 +478,34 @@ Revoke permissions for the specified dApp.
 
 #### Defined in
 
-[api.ts:47](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L47)
+[types.ts:15](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L15)
+
+___
+
+### revokeDappPermission
+
+▸ **revokeDappPermission**(`dappOrigin`, `permissions`): `Promise`<``null``\>
+
+Revoke permissions for the specified dApp.
+
+**`Requires`**
+
+"REVOKE_DAPP_PERMISSIONS"
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `dappOrigin` | `string` |
+| `permissions` | [`RpcPermission`](modules.md#rpcpermission)[] |
+
+#### Returns
+
+`Promise`<``null``\>
+
+#### Defined in
+
+[types.ts:17](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L17)
 
 ___
 
@@ -377,7 +519,7 @@ Revoke permissions for the current dApp.
 
 | Name | Type |
 | :------ | :------ |
-| `permissions` | [`Permission`](modules.md#permission)[] |
+| `permissions` | [`RpcPermission`](modules.md#rpcpermission)[] |
 
 #### Returns
 
@@ -385,7 +527,7 @@ Revoke permissions for the current dApp.
 
 #### Defined in
 
-[api.ts:30](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L30)
+[types.ts:14](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L14)
 
 ___
 
@@ -394,6 +536,10 @@ ___
 ▸ **sendWinstonTo**(`arweave`, `winston`, `recipient`): `Promise`<`void`\>
 
 Send `winston` winstons using the current active wallet.
+
+**`Requires`**
+
+- ["GET_ACTIVE_PUBLIC_KEY", "SIGN"]
 
 #### Parameters
 
@@ -409,7 +555,7 @@ Send `winston` winstons using the current active wallet.
 
 #### Defined in
 
-[helpers.ts:46](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/helpers.ts#L46)
+[helpers.ts:50](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/helpers.ts#L50)
 
 ___
 
@@ -417,7 +563,9 @@ ___
 
 ▸ **setActiveAddress**(`address`): `Promise`<``null``\>
 
-**`requires`** "SET_ACTIVE_ADDRESS"
+**`Requires`**
+
+"SET_ACTIVE_ADDRESS"
 
 #### Parameters
 
@@ -431,7 +579,7 @@ ___
 
 #### Defined in
 
-[api.ts:101](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L101)
+[types.ts:25](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L25)
 
 ___
 
@@ -439,7 +587,11 @@ ___
 
 ▸ **signBytes**(`bytes`, `saltLength`): `Promise`<`Uint8Array`\>
 
-**`requires`** "SIGN"
+Sign bytes with the currently active wallet.
+
+**`Requires`**
+
+"SIGN"
 
 #### Parameters
 
@@ -454,7 +606,7 @@ ___
 
 #### Defined in
 
-[api.ts:90](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/api.ts#L90)
+[types.ts:23](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/types.ts#L23)
 
 ___
 
@@ -463,6 +615,10 @@ ___
 ▸ **signTx**(`tx`): `Promise`<`void`\>
 
 Sign a transaction with the current active wallet.
+
+**`Requires`**
+
+- ["GET_ACTIVE_PUBLIC_KEY", "SIGN"]
 
 #### Parameters
 
@@ -476,4 +632,4 @@ Sign a transaction with the current active wallet.
 
 #### Defined in
 
-[helpers.ts:19](https://github.com/pianity/arsnap/blob/5da4bd4/packages/adapter/src/helpers.ts#L19)
+[helpers.ts:21](https://github.com/pianity/arsnap/blob/a1d55dc/packages/adapter/src/helpers.ts#L21)
