@@ -54,7 +54,7 @@ async function getReleaseTag(sinceTag: string): Promise<string> {
     };
 
     const opts = new Command()
-        .name("check-version")
+        .name("create-release")
         .option("--commit <commit>")
         .option("--push", undefined, false)
         .parse()
