@@ -7,7 +7,7 @@
     "url": "https://github.com/pianity/arsnap.git"
   },
   "source": {
-    "shasum": "lh9Yp7fLTUGVOq9EtDqiRtac27qI50iaTUONJN/2z+E=",
+    "shasum": "M2oeOPKqhtdHPNG6nOKGxkEqoVqebAn76WbGWOUE05U=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -20,6 +20,7 @@
   "initialPermissions": {
     "snap_manageState": {},
     "snap_dialog": {},
+    "snap_notify": {},
     "snap_getBip32Entropy": [
       {
         "path": [

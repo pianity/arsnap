@@ -12,7 +12,7 @@ import * as handlers from "@/handlers";
 import { getState, initializeState, replaceState, State } from "@/state";
 import { exhaustive, ownerToAddress } from "@/utils";
 import { guard } from "@/permissions";
-import { RpcMessageHandler } from "@/metamask";
+import { notify, RpcMessageHandler } from "@/metamask";
 
 async function getLogInfo(request: RpcParam): Promise<RpcLogInfo> {
     const { method, params } = request;
@@ -84,7 +84,15 @@ async function registerLog(state: State, origin: string, request: RpcParam) {
 const handler: RpcMessageHandler = async ({ origin, request }): Promise<RpcResponse> => {
     const [maybeState, releaseState] = await getState();
 
+    if (!maybeState) {
+        await notify("Initializing Arsnap, please allow up to 2 mins...");
+    }
+
     const state = maybeState || (await initializeState());
+
+    if (!maybeState) {
+        await notify("Arsnap is ready.");
+    }
 
     let response;
 
