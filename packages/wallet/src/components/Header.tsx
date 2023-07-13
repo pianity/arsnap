@@ -48,7 +48,7 @@ export default function Header({
     onInitialized,
 }: HeaderProps) {
     async function onMetamaskClick() {
-        if (await initializeArsnap()) {
+        if ((await initializeArsnap()) === "success") {
             onInitialized();
         }
     }

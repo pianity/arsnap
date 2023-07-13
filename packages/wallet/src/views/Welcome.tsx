@@ -1,5 +1,5 @@
 import arweaveLogo from "@/assets/arweave.svg";
-import { InitializationError, initializeArsnap } from "@/utils/arsnap";
+import { initializeArsnap } from "@/utils/arsnap";
 import MetamaskButton from "@/components/interface/MetamaskButton";
 import Text from "@/components/interface/typography/Text";
 import ViewContainer from "@/components/interface/layout/ViewContainer";
@@ -14,15 +14,12 @@ export default function Welcome({ onInitialized }: WelcomeProps) {
         if (!window.ethereum) {
             window.open("https://metamask.io/flask/", "_blank");
         } else {
-            try {
-                await initializeArsnap();
+            const initResult = await initializeArsnap();
+
+            if (initResult === "success") {
                 onInitialized();
-            } catch (e) {
-                if (e instanceof InitializationError) {
-                    if (e.kind === "WrongMetamaskVersion") {
-                        window.open("https://metamask.io/flask/", "_blank");
-                    }
-                }
+            } else if (initResult === "wrongMetamaskVersion") {
+                window.open("https://metamask.io/flask/", "_blank");
             }
         }
     }

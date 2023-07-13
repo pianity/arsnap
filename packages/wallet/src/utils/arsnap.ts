@@ -1,7 +1,6 @@
 import * as adapter from "@pianity/arsnap-adapter";
 
 import { getPermissions, RpcPermission } from "@pianity/arsnap-adapter";
-import { CustomError } from "@/utils/types";
 import { REQUIRED_PERMISSIONS } from "@/consts";
 
 export async function getMissingPermissions(permissions: RpcPermission[]) {
@@ -14,20 +13,14 @@ export async function getMissingPermissions(permissions: RpcPermission[]) {
     return missigPermissions;
 }
 
-export type InitializationErrorKind =
-    | "WrongMetamaskVersion"
-    | "InstallationDeclined"
-    | "PermissionsDeclined";
-export class InitializationError extends CustomError<InitializationErrorKind> {}
-
 export async function initializeArsnap() {
     try {
         await adapter.connect();
     } catch (e) {
         if ((e as any)?.code === -32601) {
-            throw new InitializationError("WrongMetamaskVersion");
+            return "wrongMetamaskVersion";
         }
-        throw new InitializationError("InstallationDeclined");
+        return "installationDeclined";
     }
 
     const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
@@ -35,9 +28,9 @@ export async function initializeArsnap() {
     if (missingPermissions.length > 0) {
         const granted = await adapter.requestPermissions(missingPermissions);
         if (!granted) {
-            throw new InitializationError("PermissionsDeclined");
+            return "permissionsDeclined";
         }
     }
 
-    return true;
+    return "success";
 }
