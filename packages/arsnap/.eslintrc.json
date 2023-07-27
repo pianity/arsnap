@@ -1,9 +1,9 @@
 {
+    "globals": {
+        "snap": true
+    },
     "env": {
-        "browser": true,
-        "globals": {
-            "ethereum": true
-        }
+        "browser": true
     },
     "extends": "@pianity/eslint-config",
     "rules": {

@@ -24,7 +24,7 @@ export async function notify(message: string, type: "native" | "inApp" = "native
     await snap.request({
         method: "snap_notify",
         params: {
-            type: type,
+            type,
             message,
         },
     });

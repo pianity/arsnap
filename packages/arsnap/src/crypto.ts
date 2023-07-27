@@ -43,11 +43,11 @@ export type JWKInterface = JWKPublicInterface & {
 };
 
 function base64ToUint8Array(base64String: string) {
-    var binaryString = window.atob(base64String);
-    var len = binaryString.length;
-    var bytes = new Uint8Array(len);
+    const binaryString = window.atob(base64String);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
 
-    for (var i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
     }
 
