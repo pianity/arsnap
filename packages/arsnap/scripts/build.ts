@@ -71,7 +71,7 @@ export default async function initB64() {
                     contents: `
 const wasmBase64 = ${JSON.stringify(wasmBase64)};
 const wasmBinary = new Uint8Array(
-    atob(wasmBase64)
+    window.atob(wasmBase64)
         .split("")
         .map((char) => char.charCodeAt(0)),
 );

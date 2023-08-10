@@ -15,12 +15,13 @@ export function getOrThrow<T>(map: Map<string, T>, key: string): T {
 }
 
 export function binToB64(data: Uint8Array): string {
-    return btoa(String.fromCharCode.apply(null, [...data]));
+    return window.btoa(String.fromCharCode.apply(null, [...data]));
 }
 
 export function b64ToBin(data: string): Uint8Array {
     return new Uint8Array(
-        atob(data)
+        window
+            .atob(data)
             .split("")
             .map((char) => char.charCodeAt(0)),
     );
