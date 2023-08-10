@@ -46,8 +46,6 @@ export type State = {
 
     /**
      * Maximum number of individual request logs per dapp that will be stored.
-     *
-     * TODO: Make this configurable.
      */
     logsStorageLimit: number;
 };
@@ -66,7 +64,7 @@ export async function initializeState(): Promise<State> {
         activeWallet: defaultWallet.metadata.address,
         permissions: new Map(),
         logs: new Map(),
-        logsStorageLimit: 100,
+        logsStorageLimit: 1000,
     };
 }
 
