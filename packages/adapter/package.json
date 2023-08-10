@@ -34,7 +34,7 @@
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
         "eslint": "8.43.0",
-        "nodemon": "2.0.22",
+        "nodemon": "3.0.1",
         "prettier": "2.8.8",
         "tsc-alias": "1.8.6",
         "tsconfig-paths": "4.2.0",
