@@ -53,7 +53,7 @@ async function getLogInfo(request: RpcParam): Promise<RpcLogInfo> {
             return { method, address: params[0] };
 
         default:
-            return exhaustive(method);
+            return exhaustive(method, `Unknown method: "${method as string}"`);
     }
 }
 
@@ -195,7 +195,7 @@ async function handleRequest(
             return null;
 
         default:
-            return exhaustive(method);
+            return exhaustive(method, `Unknown method: "${method as string}"`);
     }
 }
 

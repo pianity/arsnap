@@ -1,7 +1,7 @@
 import { Base64 } from "js-base64";
 
-export function exhaustive(_: never): never {
-    throw new Error("Check wasn't exhaustive");
+export function exhaustive(_: never, errorMessage: string): never {
+    throw new Error(errorMessage);
 }
 
 export function getOrThrow<T>(map: Map<string, T>, key: string): T {
