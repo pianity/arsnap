@@ -10,7 +10,9 @@ export type RpcMethods = {
     is_enabled: () => Promise<boolean>;
 
     get_permissions: () => Promise<RpcPermission[]>;
-    request_permissions: (permissions: RpcPermission[]) => Promise<boolean>;
+    request_permissions: (
+        permissions: RpcPermission[],
+    ) => Promise<"granted" | "already_granted" | "declined">;
     revoke_permissions: (permissions: RpcPermission[]) => Promise<null>;
     revoke_all_permissions: () => Promise<null>;
     get_dapps_permissions: () => Promise<[dappOrigin: string, permissions: RpcPermission[]][]>;

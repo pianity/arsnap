@@ -35,17 +35,17 @@ export const requestPermissions: WithState<WithOrigin<RpcMethods["request_permis
 ) => {
     const currentPermissions = state.permissions.get(origin) || [];
 
-    const { granted, permissions: newPermissions } = await permissions.requestPermissions(
+    const { status, permissions: newPermissions } = await permissions.requestPermissions(
         origin,
         currentPermissions,
         requestedPermissions,
     );
 
-    if (granted) {
+    if (status === "granted") {
         state.permissions.set(origin, newPermissions);
     }
 
-    return granted;
+    return status;
 };
 
 export const revokePermissions: WithState<WithOrigin<RpcMethods["revoke_permissions"]>> = async (
@@ -193,7 +193,6 @@ export const renameWallet: WithState<RpcMethods["rename_wallet"]> = async (
     return null;
 };
 
-// TODO: prevent from deleting last wallet
 export const deleteWallet: WithState<WithOrigin<RpcMethods["delete_wallet"]>> = async (
     state,
     origin,

@@ -20,7 +20,7 @@ export async function guard(
 }
 
 type RequestPermissionsResult = {
-    granted: boolean;
+    status: "granted" | "already_granted" | "declined";
     /**
      * Full new set of permission. If the user declined the request, the old unchanged
      * `currentPermissions` is returned.
@@ -47,7 +47,7 @@ export async function requestPermissions(
         : requestedPermissions;
 
     if (newPermissions.length === 0) {
-        return { granted: true, permissions: currentPermissions };
+        return { status: "already_granted", permissions: currentPermissions };
     }
 
     const newPermissionsStrings = newPermissions.map((permission) => `• **${permission}**`);
@@ -60,9 +60,9 @@ export async function requestPermissions(
     ]);
 
     if (granted) {
-        return { granted: true, permissions: currentPermissions.concat(...newPermissions) };
+        return { status: "granted", permissions: currentPermissions.concat(...newPermissions) };
     } else {
-        return { granted: false, permissions: currentPermissions };
+        return { status: "declined", permissions: currentPermissions };
     }
 }
 

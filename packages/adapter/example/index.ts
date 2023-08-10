@@ -58,9 +58,9 @@ requestPermsButton.addEventListener("click", async () => {
     try {
         // Request the permissions that we'll need for our dApp. We should get a boolean in return,
         // letting us know whether the user granted us the permissions or not.
-        const granted = await adapter.requestPermissions(PERMISSIONS);
+        const reqStatus = await adapter.requestPermissions(PERMISSIONS);
 
-        if (granted) {
+        if (reqStatus === "granted" || reqStatus === "already_granted") {
             status.innerText = "Permissions granted. You can try to sign a message now!";
         } else {
             status.innerText = "Permissions declined.";

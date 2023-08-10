@@ -26,8 +26,8 @@ export async function initializeArsnap() {
     const missingPermissions = await getMissingPermissions(REQUIRED_PERMISSIONS);
 
     if (missingPermissions.length > 0) {
-        const granted = await adapter.requestPermissions(missingPermissions);
-        if (!granted) {
+        const status = await adapter.requestPermissions(missingPermissions);
+        if (status === "declined") {
             return "permissionsDeclined";
         }
     }
