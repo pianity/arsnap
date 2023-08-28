@@ -1,41 +1,37 @@
 {
-  "version": "0.0.18",
-  "description": "A MetaMask Snap allowing interaction with Arweave dapps.",
-  "proposedName": "ArSnap",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pianity/arsnap.git"
-  },
-  "source": {
-    "shasum": "M2oeOPKqhtdHPNG6nOKGxkEqoVqebAn76WbGWOUE05U=",
-    "location": {
-      "npm": {
-        "filePath": "dist/bundle.js",
-        "iconPath": "images/icon.svg",
-        "packageName": "@pianity/arsnap",
-        "registry": "https://registry.npmjs.org/"
-      }
-    }
-  },
-  "initialPermissions": {
-    "snap_manageState": {},
-    "snap_dialog": {},
-    "snap_notify": {},
-    "snap_getBip32Entropy": [
-      {
-        "path": [
-          "m",
-          "44'",
-          "472'"
+    "version": "0.2.0",
+    "description": "A MetaMask Snap allowing interaction with Arweave dapps.",
+    "proposedName": "Arweave Wallet",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pianity/arsnap.git"
+    },
+    "source": {
+        "shasum": "twOowMkxiRnUHVF4YjGF9Q5w8F19Vl9mu5ULAgZHo2Y=",
+        "location": {
+            "npm": {
+                "filePath": "dist/bundle.js",
+                "iconPath": "images/icon.svg",
+                "packageName": "@pianity/arsnap",
+                "registry": "https://registry.npmjs.org/"
+            }
+        }
+    },
+    "initialPermissions": {
+        "snap_manageState": {},
+        "snap_dialog": {},
+        "snap_notify": {},
+        "snap_getBip32Entropy": [
+            {
+                "path": ["m", "44'", "472'"],
+                "curve": "ed25519"
+            }
         ],
-        "curve": "ed25519"
-      }
-    ],
-    "endowment:webassembly": {},
-    "endowment:rpc": {
-      "dapps": true,
-      "snaps": false
-    }
-  },
-  "manifestVersion": "0.1"
+        "endowment:webassembly": {},
+        "endowment:rpc": {
+            "dapps": true,
+            "snaps": false
+        }
+    },
+    "manifestVersion": "0.1"
 }
