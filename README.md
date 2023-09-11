@@ -1,4 +1,4 @@
-# ArSnap Project
+# Arweave Wallet for MetaMask (ArSnap)
 
 *Empowering users and developers to integrate Arweave into their favorite wallet and dApps.*
 
@@ -12,7 +12,7 @@ about Snaps, head over to <https://docs.metamask.io/guide/snaps.html>.
 
 ## The Project
 
-In the packages directory you'll find the 4 key pieces composing the ArSnap Project, making
+In the packages directory you'll find the 4 key pieces composing the Arweave Wallet, making
 possible the use of MetaMask for existing and new Arweave dApps. Below is a quick summary of each
 of them, describing their relations and their purpose. If you want to quickly start playing with
 ArSnap's API you can take a look at [this simple example](/packages/adapter/example). Also, be sure
