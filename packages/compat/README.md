@@ -4,10 +4,10 @@
 [![compat npm package](https://img.shields.io/npm/v/%40pianity%2Farsnap-compat?logo=npm&label=%40pianity%2Farsnap-compat)](https://www.npmjs.com/package/@pianity/arsnap-compat)
 
 If you already built a dApp that makes use of ArConnect's API, you might not be willing to add an
-extra layer of complexity into your code to also support ArSnap users. Well rest assured, we got
-you covered! The goal of this package is to allow you to continue using the same API you were using
-to support ArConnect while also supporting ArSnap through a thin compatibility layer. It'll
-effectively Expose ArSnap functionnalities through ArConnect's API.
+extra layer of complexity into your code to also support Arweave Wallet users. Well rest assured,
+we got you covered! The goal of this package is to allow you to continue using the same API you
+were using to support ArConnect while also supporting Arweave Wallet through a thin compatibility
+layer. It'll effectively Expose Arweave Wallet functionnalities through ArConnect's API.
 
 ## Try it
 
@@ -17,12 +17,13 @@ At the moment using this solution simply revolves around:
 2. importing it into your dApp's page with `import "@pianity/arsnap-compat"`.
 
 What this will do for now is override the `arweaveWallet` object injected into the page by
-ArConnect, filling its functions with calls to ArSnap.
+ArConnect, filling its functions with calls to Arweave Wallet.
 
 ## Caution
 
 This compatibility layer is very much a PoC as of now. It currently only serves as a demonstration
-that ArSnap can be 100% compatible with dApps developped with ArConnect in mind. However, as you
-may have guessed, in its current form it will effectively prevent ArConnect users from using your
-dApp. This obviously isn't a desirable behavior. We're looking for ways to allow either you or your
-user to easily switch between ArSnap and ArConnect depending on what they want to use on your dApp.
+that Arweave Wallet can be 100% compatible with dApps developped with ArConnect in mind. However,
+as you may have guessed, in its current form it will effectively prevent ArConnect users from using
+your dApp. This obviously isn't a desirable behavior. We're looking for ways to allow either you or
+your user to easily switch between Arweave Wallet and ArConnect depending on what they want to use
+on your dApp.
