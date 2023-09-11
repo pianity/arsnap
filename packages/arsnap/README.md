@@ -1,21 +1,19 @@
-# ArSnap
+# Arweave Wallet (ArSnap)
 
-*The project's core*
+[![discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FhkHgXEKa%3Fwith_counts%3Dtrue&query=%24.approximate_presence_count&logo=discord&logoColor=white&label=discord&color=green)](https://discord.gg/NW5RqQP338)
+[![arsnap npm package](https://img.shields.io/npm/v/%40pianity%2Farsnap?logo=npm&label=%40pianity%2Farsnap)](https://www.npmjs.com/package/@pianity/arsnap)
 
----
-
-ArSnap, as its name suggests, is a Snap (Metamask's name for a plugin). It can be seen as an
-Arweave wallet manager, securely living inside of Metamask. It has an encrypted internal state
-(managed through the [Snaps'
+ArSnap, or Arweave Wallet, is a Snap for MetaMask. It can be seen as an Arweave wallet manager,
+securely living inside of Metamask. It has an encrypted internal state (managed through the [Snaps'
 API](https://docs.metamask.io/guide/snaps-rpc-api.html#snap-managestate)) that it uses to hold
 wallets, and exposes an API to allow dApps to organize and interact with those wallets. To know
 more about Arsnap's API and learn how to build with it, head over to [the adapter's
 doc](/packages/adapter/README.md).
 
-# Wallet Derivation
+## Wallet Derivation
 
-Arsnap will by default generate an Arweave called "Default Wallet", that is derivated from user's
-Metamask account. This is achieved by using the Snaps function
+Arsnap will by default generate an Arweave Wallet called "Default Wallet", that is derivated from
+user's Metamask account. This is achieved by using the Snaps function
 [snap_getbip32entropy](https://docs.metamask.io/snaps/reference/rpc-api/#snap_getbip32entropy) to
 obtain a secret that will be used to seed the wallet generation.
 
@@ -43,3 +41,4 @@ recoverable though, as they will be always derivated from the user's Metamask ac
 above. Note that it's currently not possible to ask Arsnap to derivate more Arweave wallets, other
 than the default one that it generates during its initialization. This will be added as a later
 feature: users will be able to derivate as many wallets as they want.
+

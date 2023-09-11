@@ -1,4 +1,4 @@
-# Simple Example Using The Adapter
+# dApp Example Using the Adapter
 
 This is a simple commented example demonstrating how to:
 
@@ -7,17 +7,16 @@ This is a simple commented example demonstrating how to:
 - Display the user's active wallet's address
 - Sign a message with the user's active wallet
 
-## Test It Yourself
+## Run the Example
 
-Run the following commands in your terminal:
+See [Getting Started](/README.md#getting-started) if you haven't built `arsnap` and `adapter` yet.
 
-1. `git clone https://github.com/pianity/arsnap`
-2. `cd arsnap`
-3. `yarn install`
-4. `cd packages/adapter`
-5. `yarn example`
+Run the following command to start the development server of the example:
 
-You should now be able to head over to <http://localhost:3000/> and start playing with the example!
-You can edit its code in [index.ts](/packages/adapter/example/index.ts) and the page will update
-automatically, allowing you to easily start trying out [the
-API](/packages/adapter/docs/modules.md).
+```bash
+yarn example
+```
+
+You can now open the URL printed by the command in your browser to try the example. You can also
+edit [`index.ts`](/packages/adapter/example/index.ts) while the server is running, it will be
+automatically reloaded.

@@ -1,8 +1,9 @@
-# ArSnap Wallet
+# ArSnap Wallet dApp
 
-*ArSnap's official wallet.*
+[![discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FhkHgXEKa%3Fwith_counts%3Dtrue&query=%24.approximate_presence_count&logo=discord&logoColor=white&label=discord&color=green)](https://discord.gg/NW5RqQP338)
 
----
+The dApp of reference to control every aspects of Arweave Wallet. Select your active wallet,
+generate new ones, transfer ARs, manage your dApps permissions, and more!
 
 ## Purpose
 
@@ -21,11 +22,14 @@ is here to fill this role but it also serves other purposes:
    dApp with ArSnap. So if you're eager to see how a dApp should integrate with ArSnap, the Wallet
    also serves as a complete example!
 
-## Caution
+## Hosted On The Permaweb
 
-The Arsnap project having not reached a stable state yet, the Wallet should only be used for
-testing purposes. Please make sure to have backups of every wallet that holds actual ARs if you use
-them in Arsnap.
+Thanks to the power of Arweave, every new versions of ArSnap Wallet will be uploaded to the
+Permaweb, allowing you to rest assured that it will forever be available. The domain
+<https://arsnap.org> will always redirect to the latest uploaded version.
+
+[![permanent on
+Arweave](https://miro.medium.com/v2/resize:fit:316/0*OoKujZzU0ZmdVvt5)](https://arsnap.org)
 
 ## Testing with ArLocal
 
@@ -60,9 +64,3 @@ https://localhost:1984/mint/u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg/10000000
 ```
 
 Will send 1000 AR to `u50tnPYCJK0Kuh6bL8u_EB3V6kjrytij2jkby83EMMg`.
-
-## Hosted On The Permaweb
-
-Thanks to the power of Arweave, every new versions of ArSnap Wallet will be uploaded to the
-Permaweb, allowing you to rest assured that it will forever be available. The domain
-<https://arsnap.org> will always redirect to the latest uploaded version.

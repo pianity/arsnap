@@ -1,41 +1,62 @@
 # Arweave Wallet for MetaMask (ArSnap)
 
-*Empowering users and developers to integrate Arweave into their favorite wallet and dApps.*
+[![discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FhkHgXEKa%3Fwith_counts%3Dtrue&query=%24.approximate_presence_count&logo=discord&logoColor=white&label=discord&color=green)](https://discord.gg/NW5RqQP338)
+[![arsnap npm package](https://img.shields.io/npm/v/%40pianity%2Farsnap?logo=npm&label=%40pianity%2Farsnap)](https://www.npmjs.com/package/@pianity/arsnap)
+[![adapter npm package](https://img.shields.io/npm/v/%40pianity%2Farsnap-adapter?logo=npm&label=%40pianity%2Farsnap-adapter)](https://www.npmjs.com/package/@pianity/arsnap-adapter)
+[![compat npm package](https://img.shields.io/npm/v/%40pianity%2Farsnap-compat?logo=npm&label=%40pianity%2Farsnap-compat)](https://www.npmjs.com/package/@pianity/arsnap-compat)
 
----
+Arweave Wallet enables everyone to use MetaMask, the ubiquitous Ethereum wallet, to access the
+Arweave ecosystem. It is made possible by the [MetaMask Snaps](https://metamask.io/snaps) feature
+which is basically a plugin system for MetaMask. It enables developers to write JS code that will
+run inside MetaMask while benefiting from its API in order to expand its capabilities.
 
-This repository is home to multiple packages allowing developers to access Arweave through
-MetaMask. It is made possible by MetaMask's Flask experimental *Snaps* feature which is basically a
-plugin system implemented into MetaMask. It enables developers to write JS code that will run
-inside MetaMask while benefiting from its API in order to expand its capabilities. To learn more
-about Snaps, head over to <https://docs.metamask.io/guide/snaps.html>.
+## The Arweave Wallet Project
 
-## The Project
+This repository is home to four packages:
 
-In the packages directory you'll find the 4 key pieces composing the Arweave Wallet, making
-possible the use of MetaMask for existing and new Arweave dApps. Below is a quick summary of each
-of them, describing their relations and their purpose. If you want to quickly start playing with
-ArSnap's API you can take a look at [this simple example](/packages/adapter/example). Also, be sure
-to take a look at its [documentation here](/packages/adapter/docs).
+- [arsnap](/packages/arsnap): Also known as Arweave Wallet, is the Snap that runs inside MetaMask.
 
-### [ArSnap](/packages/arsnap)
+- [adapter](/packages/adapter): The Adapter defines the various functions that Arweave Wallet
+implements, and exposes them to developers so they can easily interact with it. It also contains
+helper functions to make some tasks - like signing transactions - more convenient.
 
-ArSnap is the core of the project, it's the code that will ultimately run inside MetaMask.
+- [wallet](/packages/wallet): The Wallet dApp allows end users to control every aspects of Arweave
+Wallet, through a slick and intuitive interface: select what wallet to use when interacting with
+other dApps, creating new wallets, sending ARs, and more in the future. Every new versions of the
+Wallet dApp is uploaded to Arweave and accessible at <https://arsnap.org>.
 
-### [Adapter](/packages/adapter)
+- [compat](/packages/compat): An experimental compatibility layer, allowing developpers that
+already integrate with ArConnect to be automatically compatible with Arweave Wallet.
 
-If you're building a new dApp or want to integrate with ArSnap specifically, this is what you'll be
-using. It defines ArSnap's API and exposes its many methods in a simple and clean way.
+## Getting Started
 
-### [Compat](/packages/compat)
+The easiest way to start experimenting with Arweave Wallet as a dApp developper is to build the
+project and start fiddling with the example included in the Adapter's.
 
-What if you've already built a dApp that integrates with the existing Arweave wallet ArConnect?
-Thanks to this package you'll be able to give your users the possibility to benefit from ArSnap
-without any extra work on your part. It basically allows you to use the exact same API that you
-were already using with ArConnect, to communicate with ArSnap.
+Start by setting up the project dependencies:
 
-### [Wallet](/packages/wallet)
+```bash
+yarn install
+```
 
-All of this wouldn't be very useful if users weren't able to interact with it. ArSnap's Wallet is
-the reference Wallet for ArSnap, exposing all of its functionalities to users. To put it simply:
-it's to Arweave what MetaMask is to Ethereum.
+Then build the Adapter in development mode and start its example:
+
+```bash
+# in packages/adapter
+yarn build-dev
+yarn example
+```
+
+And finally, build the Snap and start its development server:
+
+```bash
+# in packages/arsnap
+yarn build-dev
+yarn dev
+```
+
+You should now be able to go to <http://localhost:5173> (or the URL provided when running `yarn
+example`) to try out the example. While the Adapter's example dev server is running you can go in
+[packages/adapter/example](/packages/adapter/example) and edit
+[`index.ts`](/packages/adapter/example/index.ts) to play with the API; the example's page will
+automatically reload with your changes.
