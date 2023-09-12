@@ -1,6 +1,6 @@
 {
     "name": "@pianity/arsnap-wallet",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Arsnap's Official Wallet",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
