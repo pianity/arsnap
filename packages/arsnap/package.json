@@ -1,6 +1,6 @@
 {
     "name": "@pianity/arsnap",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "Access Arweave through Metamask",
     "author": "Eyal Chojnowski <eyal@pianity.com>",
     "license": "MIT",
