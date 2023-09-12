@@ -12,14 +12,14 @@ export type WelcomeProps = {
 export default function Welcome({ onInitialized }: WelcomeProps) {
     async function onMetamaskClick() {
         if (!window.ethereum) {
-            window.open("https://metamask.io/flask/", "_blank");
+            window.open("https://metamask.io/download/", "_blank");
         } else {
             const initResult = await initializeArsnap();
 
             if (initResult === "success") {
                 onInitialized();
             } else if (initResult === "wrongMetamaskVersion") {
-                window.open("https://metamask.io/flask/", "_blank");
+                window.open("https://metamask.io/download/", "_blank");
             }
         }
     }

@@ -219,18 +219,17 @@ export default function App() {
                             align="center"
                             taller
                         >
-                            Make sure you have{" "}
+                            Make sure you have installed{" "}
                             <span className="text-purple hover:text-purple-text font-semibold">
                                 <a
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href="https://metamask.io/flask"
+                                    href="https://metamask.io/download/"
                                 >
-                                    MetaMask Flask
+                                    MetaMask
                                 </a>
                             </span>{" "}
-                            <span className="font-semibold">(and only MetaMask Flask)</span>{" "}
-                            installed and refresh the page.
+                            and refresh the page.
                         </Text>
                     </ViewContainer>
                 ))
