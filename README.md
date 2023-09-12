@@ -51,7 +51,6 @@ And finally, build the Snap and start its development server:
 
 ```bash
 # in packages/arsnap
-yarn build-dev
 yarn dev
 ```
 
