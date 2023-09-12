@@ -85,7 +85,7 @@ const handler: RpcMessageHandler = async ({ origin, request }): Promise<RpcRespo
     const [maybeState, releaseState] = await getState();
 
     if (!maybeState) {
-        await notify("Initializing Arweave Wallet, please allow up to 2 mins...");
+        await notify("Initializing Arweave Wallet, allow up to 2 mins..");
     }
 
     const state = maybeState || (await initializeState());

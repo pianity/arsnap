@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "@metamask/key-tree": "6.2.1",
-        "@metamask/snaps-ui": "0.32.2",
+        "@metamask/snaps-ui": "1.0.2",
         "@pianity/arsnap-adapter": "workspace:*",
         "@pianity/arsnap-keygen": "0.1.0",
         "async-mutex": "0.4.0",
@@ -45,8 +45,8 @@
         "vitest": "^0.32.2"
     },
     "devDependencies": {
-        "@metamask/snaps-cli": "0.32.2",
-        "@metamask/snaps-types": "0.32.2",
+        "@metamask/snaps-cli": "1.0.2",
+        "@metamask/snaps-types": "1.0.2",
         "@pianity/eslint-config": "0.0.2",
         "@pianity/prettier-config": "0.0.1",
         "esbuild": "0.15.18",
