@@ -30,7 +30,7 @@
         "endowment:webassembly": {},
         "endowment:rpc": {
             "dapps": true,
-            "snaps": false
+            "snaps": true
         }
     },
     "manifestVersion": "0.1"
