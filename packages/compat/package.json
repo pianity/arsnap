@@ -1,37 +1,37 @@
 {
-    "name": "@pianity/arsnap-compat",
-    "version": "0.1.1",
-    "description": "Make ArSnap 100% compatible with dApps developped for ArConnect by mimicking its API",
-    "author": "Eyal Chojnowski <eyal@pianity.com>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/pianity/arsnap.git"
-    },
-    "files": [
-        "dist/"
-    ],
-    "main": "dist/index.js",
-    "scripts": {
-        "build": "esbuild src/index.ts --bundle --outdir=dist",
-        "clean": "rm -r dist/",
-        "typecheck": "tsc --emitDeclarationOnly false --noEmit",
-        "lint": "prettier --loglevel warn --check src/ ; eslint src/",
-        "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
-        "example": "vite ./example"
-    },
-    "dependencies": {
-        "@pianity/arsnap-adapter": "workspace:*",
-        "arconnect": "0.4.2",
-        "arweave": "1.12.2"
-    },
-    "devDependencies": {
-        "@pianity/eslint-config": "0.0.2",
-        "@pianity/prettier-config": "0.0.1",
-        "esbuild": "0.15.18",
-        "eslint": "8.43.0",
-        "prettier": "2.8.8",
-        "typescript": "4.9.5",
-        "vite": "4.3.9"
-    }
+  "name": "@pianity/arsnap-compat",
+  "version": "0.1.2",
+  "description": "Make ArSnap 100% compatible with dApps developped for ArConnect by mimicking its API",
+  "author": "Eyal Chojnowski <eyal@pianity.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pianity/arsnap.git"
+  },
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --outdir=dist",
+    "clean": "rm -r dist/",
+    "typecheck": "tsc --emitDeclarationOnly false --noEmit",
+    "lint": "prettier --loglevel warn --check src/ ; eslint src/",
+    "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
+    "example": "vite ./example"
+  },
+  "dependencies": {
+    "@pianity/arsnap-adapter": "workspace:*",
+    "arconnect": "0.4.2",
+    "arweave": "1.12.2"
+  },
+  "devDependencies": {
+    "@pianity/eslint-config": "0.0.2",
+    "@pianity/prettier-config": "0.0.1",
+    "esbuild": "0.15.18",
+    "eslint": "8.43.0",
+    "prettier": "2.8.8",
+    "typescript": "4.9.5",
+    "vite": "4.3.9"
+  }
 }

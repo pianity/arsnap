@@ -1,47 +1,47 @@
 {
-    "name": "@pianity/arsnap-adapter",
-    "version": "0.2.0",
-    "description": "Easily access ArSnap capabilities through a clean API",
-    "author": "Eyal Chojnowski <eyal@pianity.com>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/pianity/arsnap.git"
-    },
-    "files": [
-        "dist/"
-    ],
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc -p tsconfig.build.json && yarn post-build",
-        "post-build": "tsc-alias -p tsconfig.build.json && tsx scripts/postBuild.ts",
-        "build-dev": "NODE_ENV=development yarn build",
-        "dev": "nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
-        "clean": "rm -r dist/",
-        "typecheck": "tsc --noEmit",
-        "generate-doc": "yarn typedoc",
-        "lint": "prettier --loglevel warn --check src/ ; eslint src/",
-        "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
-        "example": "vite ./example"
-    },
-    "dependencies": {
-        "arweave": "1.12.2",
-        "js-base64": "3.7.5",
-        "replace-in-file": "6.3.5"
-    },
-    "devDependencies": {
-        "@pianity/eslint-config": "0.0.2",
-        "@pianity/prettier-config": "0.0.1",
-        "eslint": "8.43.0",
-        "nodemon": "3.0.1",
-        "prettier": "2.8.8",
-        "tsc-alias": "1.8.6",
-        "tsconfig-paths": "4.2.0",
-        "tsx": "3.12.7",
-        "typedoc": "0.25.1",
-        "typedoc-plugin-markdown": "3.16.0",
-        "typescript": "4.9.5",
-        "vite": "4.3.9"
-    }
+  "name": "@pianity/arsnap-adapter",
+  "version": "0.2.1",
+  "description": "Easily access ArSnap capabilities through a clean API",
+  "author": "Eyal Chojnowski <eyal@pianity.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pianity/arsnap.git"
+  },
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && yarn post-build",
+    "post-build": "tsc-alias -p tsconfig.build.json && tsx scripts/postBuild.ts",
+    "build-dev": "NODE_ENV=development yarn build",
+    "dev": "nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
+    "clean": "rm -r dist/",
+    "typecheck": "tsc --noEmit",
+    "generate-doc": "yarn typedoc",
+    "lint": "prettier --loglevel warn --check src/ ; eslint src/",
+    "lint-fix": "prettier --loglevel warn --write src/ ; eslint --fix src/",
+    "example": "vite ./example"
+  },
+  "dependencies": {
+    "arweave": "1.12.2",
+    "js-base64": "3.7.5",
+    "replace-in-file": "6.3.5"
+  },
+  "devDependencies": {
+    "@pianity/eslint-config": "0.0.2",
+    "@pianity/prettier-config": "0.0.1",
+    "eslint": "8.43.0",
+    "nodemon": "3.0.1",
+    "prettier": "2.8.8",
+    "tsc-alias": "1.8.6",
+    "tsconfig-paths": "4.2.0",
+    "tsx": "3.12.7",
+    "typedoc": "0.25.1",
+    "typedoc-plugin-markdown": "3.16.0",
+    "typescript": "4.9.5",
+    "vite": "4.3.9"
+  }
 }
