@@ -14,19 +14,19 @@ run inside MetaMask while benefiting from its API in order to expand its capabil
 
 This repository is home to four packages:
 
-- [arsnap](/packages/arsnap): Also known as Arweave Wallet, is the Snap that runs inside MetaMask.
+-   [arsnap](/packages/arsnap): Also known as Arweave Wallet, is the Snap that runs inside MetaMask.
 
-- [adapter](/packages/adapter): The Adapter defines the various functions that Arweave Wallet
-implements, and exposes them to developers so they can easily interact with it. It also contains
-helper functions to make some tasks - like signing transactions - more convenient.
+-   [adapter](/packages/adapter): The Adapter defines the various functions that Arweave Wallet
+    implements, and exposes them to developers so they can easily interact with it. It also contains
+    helper functions to make some tasks - like signing transactions - more convenient.
 
-- [wallet](/packages/wallet): The Wallet dApp allows end users to control every aspects of Arweave
-Wallet, through a slick and intuitive interface: select what wallet to use when interacting with
-other dApps, creating new wallets, sending ARs, and more in the future. Every new versions of the
-Wallet dApp is uploaded to Arweave and accessible at <https://arsnap.org>.
+-   [wallet](/packages/wallet): The Wallet dApp allows end users to control every aspects of Arweave
+    Wallet, through a slick and intuitive interface: select what wallet to use when interacting with
+    other dApps, creating new wallets, sending ARs, and more in the future. Every new versions of the
+    Wallet dApp is uploaded to Arweave and accessible at <https://arsnap.org>.
 
-- [compat](/packages/compat): An experimental compatibility layer, allowing developpers that
-already integrate with ArConnect to be automatically compatible with Arweave Wallet.
+-   [compat](/packages/compat): An experimental compatibility layer, allowing developpers that
+    already integrate with ArConnect to be automatically compatible with Arweave Wallet.
 
 ## Getting Started
 

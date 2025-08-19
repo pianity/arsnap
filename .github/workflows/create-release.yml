@@ -2,30 +2,29 @@ name: "Create Release"
 
 on: ["workflow_dispatch"]
 
-
 jobs:
-  create-release:
-    runs-on: "ubuntu-latest"
-    steps:
-      - uses: "actions/checkout@v3"
-        with:
-          fetch-depth: 0
-      - uses: "actions/setup-node@v3"
-        with:
-          cache: "yarn"
-          node-version: "16.x"
+    create-release:
+        runs-on: "ubuntu-latest"
+        steps:
+            - uses: "actions/checkout@v3"
+              with:
+                  fetch-depth: 0
+            - uses: "actions/setup-node@v3"
+              with:
+                  cache: "yarn"
+                  node-version: "16.x"
 
-      - name: "Install dependencies"
-        run: "yarn install --immutable"
+            - name: "Install dependencies"
+              run: "yarn install --immutable"
 
-      - name: "Run the typechecker"
-        run: "yarn typecheck"
+            - name: "Run the typechecker"
+              run: "yarn typecheck"
 
-      - name: "Run the linters"
-        run: "yarn lint-errors"
+            - name: "Run the linters"
+              run: "yarn lint-errors"
 
-      - name: "Check versions"
-        run: "yarn check-versions"
+            - name: "Check versions"
+              run: "yarn check-versions"
 
-      - name: "Ceate release"
-        run: "yarn create-release"
+            - name: "Ceate release"
+              run: "yarn create-release"
