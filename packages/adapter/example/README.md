@@ -2,10 +2,10 @@
 
 This is a simple commented example demonstrating how to:
 
-- Connect to ArSnap
-- Manage the permissions of a dApp
-- Display the user's active wallet's address
-- Sign a message with the user's active wallet
+-   Connect to ArSnap
+-   Manage the permissions of a dApp
+-   Display the user's active wallet's address
+-   Sign a message with the user's active wallet
 
 ## Run the Example
 
